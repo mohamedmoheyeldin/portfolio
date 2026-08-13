@@ -4,6 +4,8 @@
     "name": "Mohamed Moheyeldin",
     "location": "Reston, VA",
     "headline": "Senior SDET | Test Automation Lead | Quality Engineering",
+    "heroTitle": "Engineering confidence into every release.",
+    "summary": "Hands-on Software Development Engineer in Test and quality engineering leader with 10+ years of experience designing scalable UI and API automation, building reliable test frameworks, and integrating quality signals into delivery pipelines across federal, e-commerce, and banking environments.",
     "links": [
       { "label": "Email", "href": "mailto:mohamedmoheyeldin.jobs@gmail.com" },
       { "label": "LinkedIn", "href": "https://www.linkedin.com/in/moheyeldin/" },
@@ -17,27 +19,66 @@
       "Risk-Based Testing",
       "Team Leadership and Mentoring"
     ],
+    "skillGroups": [
+      {
+        "label": "Automation",
+        "items": ["Playwright", "Cypress", "Selenium WebDriver", "Cucumber BDD", "Applitools"]
+      },
+      {
+        "label": "Engineering",
+        "items": ["TypeScript", "JavaScript", "Java", "SQL", "REST Assured", "Postman"]
+      },
+      {
+        "label": "Delivery",
+        "items": ["GitHub Actions", "Azure DevOps", "Jenkins", "Bamboo", "AWS"]
+      },
+      {
+        "label": "Data & insight",
+        "items": ["Oracle", "SQL Server", "MongoDB", "JMeter", "Datadog", "Allure"]
+      }
+    ],
     "experience": [
       {
         "employer": "Booz Allen Hamilton",
         "title": "QA Test Engineer",
+        "professionalTitle": "Senior SDET / Test Automation Lead",
         "location": "Washington, DC",
         "start": "2020-12",
-        "end": null
+        "end": null,
+        "summary": "Hands-on automation engineering and technical leadership in federal delivery environments, guiding framework direction while improving the quality signals teams use to make release decisions.",
+        "highlights": [
+          "Led a team of five automation engineers, establishing scalable test strategies, resource planning, and automation standards.",
+          "Designed Cypress and Playwright frameworks for UI and API testing with resilient asynchronous handling, retry logic, and robust assertions.",
+          "Built CI/CD pipelines with GitHub Actions and Cypress Dashboard, including artifact management and parallel execution."
+        ]
       },
       {
         "employer": "Chick-fil-A Corporate",
         "title": "Software Engineer in Test",
+        "professionalTitle": null,
         "location": "Atlanta, GA",
         "start": "2018-11",
-        "end": "2020-12"
+        "end": "2020-12",
+        "summary": "Moved quality feedback earlier in the delivery lifecycle by connecting browser, API, visual, authentication, cloud-environment, and CI concerns into maintainable test systems.",
+        "highlights": [
+          "Architected GitHub Actions pipelines integrating Cypress Dashboard and AWS for automated execution and rapid feedback.",
+          "Designed modular smoke and regression suites with JavaScript, Cypress, and Mocha, including flaky-test mitigation.",
+          "Integrated visual regression testing across multiple resolutions, devices, and browsers."
+        ]
       },
       {
         "employer": "Ally Bank",
         "title": "Software QA Engineer",
+        "professionalTitle": null,
         "location": "Sandy, UT",
         "start": "2015-09",
-        "end": "2018-11"
+        "end": "2018-11",
+        "summary": "Built a foundation in risk-based testing, cross-browser investigation, clear defect communication, and release validation across complex banking experiences.",
+        "highlights": [
+          "Performed exploratory, functional, and regression testing of web applications across multiple platforms.",
+          "Created test plans, test cases, and acceptance criteria aligned with business and functional requirements.",
+          "Executed cross-browser and responsive UI testing on Chrome, Firefox, Safari, and Edge."
+        ]
       }
     ],
     "education": [
@@ -46,6 +87,20 @@
         "credential": "Bachelor's degree",
         "field": "Computer Science",
         "end": "2014-05"
+      }
+    ],
+    "projects": [
+      {
+        "name": "Portfolio & Career Content System",
+        "description": "A schema-driven Astro platform that keeps the website portfolio, browser resume, and future PDF and DOCX outputs aligned through one validated professional data source.",
+        "repository": "https://github.com/mohamedmoheyeldin/portfolio",
+        "technologies": ["Astro 7", "TypeScript", "Native CSS", "Playwright", "Cypress", "GitHub Actions", "Cloudflare"],
+        "highlights": [
+          "Designed one structured content architecture for every career presentation channel.",
+          "Built accessible, responsive pages with zero client-framework runtime.",
+          "Added strict diagnostics, browser journeys, automated accessibility analysis, and continuous deployment.",
+          "Prepared separate PDF and DOCX presentation contracts without duplicating career facts."
+        ]
       }
     ],
     "provenance": {

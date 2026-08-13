@@ -4,23 +4,34 @@ import { formatCareerDate } from '@/lib/career';
 interface Experience {
   employer: string;
   title: string;
+  professionalTitle: string | null;
   location: string;
   start: string;
   end: string | null;
+  summary: string;
+  highlights: string[];
 }
 
 interface Props { experience: Experience[] }
 const { experience } = Astro.props;
 ---
 
-<dl class="records">
+<div class="timeline">
   {experience.map((role) => (
-    <div class="record">
-      <dt>{formatCareerDate(role.start)} – {formatCareerDate(role.end)}</dt>
-      <dd>
-        <h3>{role.title}</h3>
-        <p>{role.employer} · {role.location}</p>
-      </dd>
-    </div>
+    <article class="timeline__item">
+      <div class="timeline__meta">
+        <span>{formatCareerDate(role.start)} – {formatCareerDate(role.end)}</span>
+        <span>{role.location}</span>
+      </div>
+      <div class="timeline__content">
+        <p class="eyebrow">{role.employer}</p>
+        <h3>{role.professionalTitle ?? role.title}</h3>
+        {role.professionalTitle && <p class="role-title">Official title: {role.title}</p>}
+        <p>{role.summary}</p>
+        <ul class="feature-list">
+          {role.highlights.map((highlight) => <li>{highlight}</li>)}
+        </ul>
+      </div>
+    </article>
   ))}
-</dl>
+</div>

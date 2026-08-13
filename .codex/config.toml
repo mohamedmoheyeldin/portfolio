@@ -1,0 +1,5 @@
+# Project-scoped development reference for trusted Codex clients.
+# This server is development tooling and is not part of the portfolio runtime.
+[mcp_servers.astro-docs]
+command = "npx"
+args = ["-y", "mcp-remote", "https://mcp.docs.astro.build/mcp"]

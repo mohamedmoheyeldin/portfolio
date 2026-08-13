@@ -1,15 +1,14 @@
-/* Neutral, provisional tokens shared by screen and document presentations.
-   Replace values after the visual direction is approved; keep semantic names stable. */
 :root {
-  --font-brand: ui-sans-serif, system-ui, sans-serif;
-  --font-body: ui-sans-serif, system-ui, sans-serif;
+  --font-brand: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-document: Arial, sans-serif;
 
-  --step--1: clamp(0.82rem, 0.79rem + 0.12vw, 0.9rem);
-  --step-0: clamp(1rem, 0.96rem + 0.18vw, 1.1rem);
-  --step-1: clamp(1.25rem, 1.12rem + 0.62vw, 1.6rem);
-  --step-2: clamp(1.65rem, 1.34rem + 1.4vw, 2.4rem);
-  --step-3: clamp(2.25rem, 1.7rem + 2.5vw, 3.7rem);
+  --step--1: clamp(0.78rem, 0.75rem + 0.12vw, 0.86rem);
+  --step-0: clamp(1rem, 0.96rem + 0.18vw, 1.12rem);
+  --step-1: clamp(1.28rem, 1.15rem + 0.52vw, 1.62rem);
+  --step-2: clamp(1.8rem, 1.48rem + 1.28vw, 2.7rem);
+  --step-3: clamp(2.6rem, 1.84rem + 3.1vw, 5rem);
+  --step-4: clamp(3.5rem, 2.3rem + 5vw, 7.4rem);
 
   --space-1: 0.35rem;
   --space-2: 0.65rem;
@@ -17,18 +16,29 @@
   --space-4: 1.5rem;
   --space-5: 2.25rem;
   --space-6: 3.5rem;
-  --space-7: 5rem;
+  --space-7: 5.5rem;
+  --space-8: 8rem;
 
-  --page-inline: clamp(1rem, 4vw, 3rem);
-  --measure: 70ch;
-  --content-width: 72rem;
+  --page-inline: clamp(1.25rem, 4vw, 4rem);
+  --measure: 68ch;
+  --content-width: 76rem;
 
-  --surface: Canvas;
-  --surface-raised: Canvas;
-  --text: CanvasText;
-  --text-muted: color-mix(in srgb, CanvasText 68%, Canvas);
-  --accent: LinkText;
-  --border: color-mix(in srgb, CanvasText 22%, Canvas);
-  --focus: Highlight;
-  --radius: 0.35rem;
+  --ink: #0b1020;
+  --ink-soft: #4d5568;
+  --surface: #ffffff;
+  --surface-muted: #f4f6fa;
+  --surface-dark: #070b14;
+  --surface-dark-raised: #101726;
+  --line: #dfe3eb;
+  --line-dark: rgba(255, 255, 255, 0.13);
+  --blue: #1267e8;
+  --blue-bright: #4da4ff;
+  --violet: #7259ff;
+  --cyan: #3bd9ff;
+  --focus: #1267e8;
+  --radius-sm: 0.75rem;
+  --radius-md: 1.5rem;
+  --radius-lg: 2.25rem;
+  --shadow-sm: 0 12px 35px rgba(15, 25, 45, 0.08);
+  --shadow-lg: 0 32px 90px rgba(11, 26, 56, 0.17);
 }

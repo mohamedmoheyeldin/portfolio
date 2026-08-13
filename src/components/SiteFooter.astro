@@ -1,0 +1,30 @@
+---
+interface Props { name: string }
+const { name } = Astro.props;
+const root = `${import.meta.env.BASE_URL.replace(/\/?$/, '')}/`;
+---
+
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <div>
+      <p class="footer-mark">MM</p>
+      <p>{name}<br />Engineering quality. Building confidence.</p>
+    </div>
+    <div>
+      <p class="footer-label">Explore</p>
+      <a href={`${root}work/`}>Work</a>
+      <a href={`${root}about/`}>About</a>
+      <a href={`${root}resume/`}>Resume</a>
+    </div>
+    <div>
+      <p class="footer-label">Connect</p>
+      <a href="mailto:mohamedmoheyeldin.jobs@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/moheyeldin/">LinkedIn</a>
+      <a href="https://github.com/mohamedmoheyeldin">GitHub</a>
+    </div>
+  </div>
+  <div class="shell footer-bottom">
+    <span>© {new Date().getFullYear()} {name}</span>
+    <span>Built for clarity, speed, and access.</span>
+  </div>
+</footer>

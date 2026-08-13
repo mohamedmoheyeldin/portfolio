@@ -13,6 +13,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "build:cloudflare": "astro check && SITE_URL=https://mohamedmoheyeldin.com astro build",
+    "build:sites": "astro check && SITE_URL=https://mohamedmoheyeldin.com astro build && node scripts/stage-sites.mjs",
     "deploy:cloudflare": "pnpm build:cloudflare && wrangler deploy",
     "preview": "astro preview",
     "preview:cloudflare": "pnpm build:cloudflare && wrangler dev",

@@ -3,30 +3,41 @@
 .resume {
   width: min(100% - (2 * var(--page-inline)), 8.5in);
   margin-inline: auto;
+  padding-block: var(--space-5) var(--space-7);
   font-family: var(--font-document);
 }
 
-.resume header {
-  padding-block-end: var(--space-4);
-  border-block-end: 1px solid var(--border);
-}
+.resume-actions { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-block-end: var(--space-6); }
+.resume > header { padding: clamp(1.5rem, 4vw, 3rem); color: white; background: linear-gradient(145deg, #070b14, #193a6c); border-radius: var(--radius-md); }
+.resume > header h1 { margin-block-end: .4rem; font-size: clamp(2.4rem, 7vw, 4.5rem); }
+.resume > header p { color: #c5d1e3; }
+.resume-kicker { color: #75bcff !important; font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.contact-list { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin: var(--space-3) 0 0; padding: 0; list-style: none; font-size: .85rem; }
+.contact-list a { color: white; }
+.resume > section { padding-block: var(--space-5); border-block-end: 1px solid var(--line); }
+.resume > section > h2 { margin-block-end: var(--space-4); font-size: var(--step-2); }
+.resume .timeline__item { grid-template-columns: 1.8in 1fr; gap: var(--space-4); padding-block: var(--space-4); }
+.resume .timeline__content h3 { font-size: var(--step-1); }
+.resume .timeline__content p,
+.resume .feature-list { font-size: .92rem; }
 
-.resume section { padding-block: var(--space-4); }
-
-@page {
-  size: letter;
-  margin: 0.6in;
-}
+@page { size: letter; margin: 0.55in; }
 
 @media print {
   :root { color-scheme: light; }
-
-  .resume {
-    width: auto;
-    font-size: 10pt;
-    color: #000;
-    background: #fff;
-  }
-
-  .no-print { display: none; }
+  body { background: white; font-size: 9.5pt; line-height: 1.35; }
+  .resume { width: auto; padding: 0; color: #000; background: #fff; }
+  .resume > header { padding: 0 0 12pt; color: #000; background: none; border-block-end: 1.5pt solid #000; border-radius: 0; }
+  .resume > header h1 { margin: 0; font-size: 24pt; }
+  .resume > header p, .resume-kicker { color: #222 !important; }
+  .contact-list a { color: #000; }
+  .resume > section { padding-block: 10pt; break-inside: avoid; }
+  .resume > section > h2 { margin-block-end: 7pt; font-size: 14pt; }
+  .resume .timeline__item { grid-template-columns: 1.25in 1fr; gap: 10pt; padding-block: 8pt; break-inside: avoid; }
+  .resume .timeline__content h3 { font-size: 12pt; }
+  .resume .timeline__content p, .resume .feature-list { font-size: 8.8pt; }
+  .resume .eyebrow { margin-block-end: 3pt; color: #000; font-size: 7.5pt; }
+  .resume .feature-list { gap: 3pt; margin-block-start: 6pt; }
+  .resume .feature-list li::before { background: #000; }
+  .no-print { display: none !important; }
 }
