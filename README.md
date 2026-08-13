@@ -40,6 +40,6 @@ pnpm quality            # Complete local gate
 
 ## Deployment
 
-Pushes to `main` validate and deploy the static build through GitHub Actions. Until the custom domain is connected, the project URL is `https://mohamedmoheyeldin.github.io/portfolio/`.
+Pushes to `main` validate and deploy a fallback build through GitHub Actions at `https://mohamedmoheyeldin.github.io/portfolio/`.
 
-When DNS and GitHub Pages are ready for the personal domain, set the repository variable `SITE_URL` to `https://mohamedmoheyeldin.com` and add the matching `public/CNAME` file.
+Cloudflare Workers Static Assets is the intended host for the custom domain. Use `pnpm run build:cloudflare` and `pnpm exec wrangler deploy` in Cloudflare's Git build settings. See [Cloudflare deployment](docs/CLOUDFLARE.md).
