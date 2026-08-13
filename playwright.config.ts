@@ -7,7 +7,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? [['html', { open: 'never' }], ['github']] : 'list',
   use: {
-    baseURL: 'http://127.0.0.1:4321/portfolio',
+    baseURL: 'http://127.0.0.1:4321',
     trace: 'on-first-retry',
   },
   projects: [
@@ -16,7 +16,7 @@ export default defineConfig({
   ],
   webServer: {
     command: 'pnpm preview:test',
-    url: 'http://127.0.0.1:4321/portfolio',
+    url: 'http://127.0.0.1:4321',
     reuseExistingServer: !process.env.CI,
   },
 });

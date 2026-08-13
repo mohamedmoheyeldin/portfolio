@@ -9,7 +9,7 @@ The portfolio is a static Astro site deployed through Workers Static Assets. It 
 - Deploy command: `pnpm exec wrangler deploy`
 - Root directory: `/`
 
-The Cloudflare build uses `https://mohamedmoheyeldin.com` as Astro's canonical site URL and produces root-relative links. The existing GitHub Pages workflow continues to build for `/portfolio` as a fallback deployment.
+The Cloudflare build uses `https://mohamedmoheyeldin.com` as Astro's canonical site URL and produces root-relative links. The Worker remains available at its generated `workers.dev` address while the custom domain is being activated.
 
 ## Local validation
 

@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
 test('publishes a semantic, accessible portfolio experience', async ({ page }) => {
-  await page.goto('/portfolio/');
+  await page.goto('/');
 
   await expect(page.getByRole('heading', { level: 1, name: 'Engineering confidence into every release.' })).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Primary navigation' })).toBeVisible();
@@ -13,17 +13,17 @@ test('publishes a semantic, accessible portfolio experience', async ({ page }) =
 });
 
 test('provides complete work and about routes', async ({ page }) => {
-  await page.goto('/portfolio/work/');
+  await page.goto('/work/');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('confidence repeatable');
   await expect(page.getByText('Booz Allen Hamilton')).toBeVisible();
 
-  await page.goto('/portfolio/about/');
+  await page.goto('/about/');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('clearer, not slower');
   await expect(page.getByRole('heading', { name: 'Trust before volume.' })).toBeVisible();
 });
 
 test('shares career content with the print resume route', async ({ page }) => {
-  await page.goto('/portfolio/resume/');
+  await page.goto('/resume/');
 
   await expect(page.getByRole('heading', { level: 1, name: 'Mohamed Moheyeldin' })).toBeVisible();
   await expect(page.getByText('Booz Allen Hamilton')).toBeVisible();

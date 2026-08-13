@@ -13,7 +13,7 @@ All channels must consume the same schema-validated career record. They can sele
 ## Baseline boundaries
 
 - Astro 7.x, strictest TypeScript, semantic HTML, native modern CSS.
-- Static output for GitHub Pages and a future custom-domain switch through `SITE_URL`.
+- Static output for Cloudflare Workers Static Assets and the custom domain.
 - No component framework and no runtime client dependency.
 - Playwright owns primary journeys, responsive checks, and automated accessibility analysis.
 - Cypress is complementary and currently checks progressive-enhancement behavior only.

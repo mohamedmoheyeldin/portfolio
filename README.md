@@ -4,7 +4,7 @@ A clean Astro 7 foundation for a unified personal brand across a website portfol
 
 ## Status
 
-This is a complete, multi-route portfolio experience with a premium editorial design, validated factual content, a print-ready resume, automated quality gates, and independent GitHub Pages, Cloudflare Workers, and Sites delivery targets.
+This is a complete, multi-route portfolio experience with a premium editorial design, validated factual content, a print-ready resume, automated quality gates, and Cloudflare Workers hosting.
 
 ## Local setup
 
@@ -42,8 +42,6 @@ pnpm quality            # Complete local gate
 
 ## Deployment
 
-Pushes to `main` validate and deploy a fallback build through GitHub Actions at `https://mohamedmoheyeldin.github.io/portfolio/`.
-
-Cloudflare Workers Static Assets is the intended host for the custom domain. Use `pnpm run build:cloudflare` and `pnpm exec wrangler deploy` in Cloudflare's Git build settings. See [Cloudflare deployment](docs/CLOUDFLARE.md).
+Cloudflare Workers Static Assets is the production host. Pushes to `main` are built through Cloudflare's Git integration. Use `pnpm run build:cloudflare` and `pnpm exec wrangler deploy` in Cloudflare's build settings. See [Cloudflare deployment](docs/CLOUDFLARE.md).
 
 The Sites plugin deployment uses `pnpm run build:sites` to package the same static Astro output behind a minimal Cloudflare-compatible asset worker.

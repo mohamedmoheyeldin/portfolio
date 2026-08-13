@@ -17,11 +17,11 @@
     "deploy:cloudflare": "pnpm build:cloudflare && wrangler deploy",
     "preview": "astro preview",
     "preview:cloudflare": "pnpm build:cloudflare && wrangler dev",
-    "preview:test": "astro preview stop >/dev/null 2>&1 || true; astro preview --host 127.0.0.1 --background && trap 'astro preview stop' EXIT INT TERM; astro preview logs --follow",
+    "preview:test": "astro preview --host 127.0.0.1",
     "check": "astro check",
     "test": "pnpm check && pnpm build",
     "test:e2e": "playwright test",
-    "test:e2e:cypress": "start-server-and-test preview:test http://127.0.0.1:4321/portfolio 'cypress run'",
+    "test:e2e:cypress": "start-server-and-test preview:test http://127.0.0.1:4321 'cypress run'",
     "quality": "pnpm test && pnpm test:e2e && pnpm test:e2e:cypress"
   },
   "dependencies": {
