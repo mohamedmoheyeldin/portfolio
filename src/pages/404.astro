@@ -10,9 +10,9 @@ const root = `${import.meta.env.BASE_URL.replace(/\/?$/, '')}/`;
 
 <BaseLayout title={`Page not found — ${profile.name}`} description="The requested page could not be found.">
   <SiteHeader name={profile.name} />
-  <main id="main-content" class="not-found shell">
+  <main id="main-content" class="page-hero not-found shell">
     <p class="eyebrow">404 · Signal lost</p>
-    <h1>This path didn’t pass.</h1>
+    <h1>This path <span class="gradient-text">didn’t pass.</span></h1>
     <p>The page may have moved, but the portfolio is still in excellent health.</p>
     <a class="button" href={root}>Return home</a>
   </main>

@@ -27,9 +27,6 @@ importers:
       cypress:
         specifier: 15.20.1
         version: 15.20.1
-      sharp:
-        specifier: ^0.35.3
-        version: 0.35.3(@types/node@22.20.1)
       start-server-and-test:
         specifier: 2.1.2
         version: 2.1.2(supports-color@8.1.1)
@@ -5143,6 +5140,7 @@ snapshots:
       '@img/sharp-win32-ia32': 0.35.3
       '@img/sharp-win32-x64': 0.35.3
       '@types/node': 22.20.1
+    optional: true
 
   shebang-command@2.0.0:
     dependencies:
