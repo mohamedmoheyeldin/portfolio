@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 
 const projectUrl = 'https://mohamedmoheyeldin.github.io/portfolio';
-const site = process.env.SITE_URL ?? projectUrl;
+const site = process.env.SITE_URL?.trim() || projectUrl;
 const base = site === projectUrl ? '/portfolio' : undefined;
 
 export default defineConfig({
