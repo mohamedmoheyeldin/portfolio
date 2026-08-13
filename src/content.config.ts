@@ -15,6 +15,7 @@ const career = defineCollection({
     headline: z.string(),
     heroTitle: z.string(),
     summary: z.string(),
+    detailedSummary: z.array(z.string()),
     links: z.array(linkSchema),
     competencies: z.array(z.string()),
     skillGroups: z.array(
@@ -43,6 +44,12 @@ const career = defineCollection({
         end: z.string(),
       }),
     ),
+    credentials: z.array(z.string()),
+    aiPractice: z.object({
+      title: z.string(),
+      summary: z.string(),
+      highlights: z.array(z.string()),
+    }),
     projects: z.array(
       z.object({
         name: z.string(),

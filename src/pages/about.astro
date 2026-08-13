@@ -21,7 +21,7 @@ if (!education) throw new Error('Education content is required.');
     <section class="section shell" aria-labelledby="principles-title">
       <div class="section-heading">
         <p class="eyebrow">Working principles</p>
-        <h2 id="principles-title">How I think about the work.</h2>
+        <h2 id="principles-title">How I think about <span class="gradient-text">the work.</span></h2>
       </div>
       <div class="principle-grid">
         <article><span>01</span><h3>Trust before volume.</h3><p>A smaller set of reliable, explainable tests creates more value than a large suite nobody trusts.</p></article>
@@ -35,7 +35,7 @@ if (!education) throw new Error('Education content is required.');
       <div class="shell">
         <div class="section-heading">
           <p class="eyebrow">Technical toolkit</p>
-          <h2 id="toolkit-title">Deep where it matters. Flexible everywhere else.</h2>
+          <h2 id="toolkit-title">Deep where it matters. <span class="gradient-text">Flexible everywhere else.</span></h2>
         </div>
         <div class="skill-grid">
           {profile.skillGroups.map((group) => (
@@ -51,7 +51,7 @@ if (!education) throw new Error('Education content is required.');
     <section class="section shell education-block" aria-labelledby="education-title">
       <div>
         <p class="eyebrow">Education</p>
-        <h2 id="education-title">A computer science foundation.</h2>
+        <h2 id="education-title">A computer science <span class="gradient-text">foundation.</span></h2>
       </div>
       <div>
         <h3>{education.credential} in {education.field}</h3>

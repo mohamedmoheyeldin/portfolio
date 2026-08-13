@@ -5,7 +5,12 @@
     "location": "Reston, VA",
     "headline": "Senior SDET | Test Automation Lead | Quality Engineering",
     "heroTitle": "Engineering confidence into every release.",
-    "summary": "Hands-on Software Development Engineer in Test and quality engineering leader with 10+ years of experience designing scalable UI and API automation, building reliable test frameworks, and integrating quality signals into delivery pipelines across federal, e-commerce, and banking environments.",
+    "summary": "Hands-on Software Development Engineer in Test and quality engineering leader with 10+ years of experience designing scalable UI and API automation, building reliable test frameworks, integrating quality signals into delivery pipelines, and applying local and cloud AI across federal, e-commerce, and banking environments.",
+    "detailedSummary": [
+      "Senior Software Development Engineer in Test and Test Automation Lead with 10+ years of experience delivering scalable, reliable software across federal, banking, e-commerce, and enterprise environments. Specialized in UI, API, integration, and end-to-end automation using Playwright, Cypress, Selenium WebDriver, TypeScript, JavaScript, Java, Cucumber BDD, REST Assured, and Postman.",
+      "Combines hands-on framework engineering with technical leadership: defining test strategy, automation roadmaps, framework standards, risk-based testing, release-readiness criteria, and quality engineering practices while remaining active in development, debugging, code review, test implementation, and failure analysis.",
+      "Uses ChatGPT, Codex, GitHub Copilot, Microsoft Copilot, and local language models for development, test design, debugging, documentation, code review, and daily engineering tasks, with human verification and automated quality gates protecting the final result."
+    ],
     "links": [
       { "label": "Email", "href": "mailto:mohamedmoheyeldin.jobs@gmail.com" },
       { "label": "LinkedIn", "href": "https://www.linkedin.com/in/moheyeldin/" },
@@ -17,7 +22,10 @@
       "CI/CD Quality Gates",
       "Manual and Exploratory Testing",
       "Risk-Based Testing",
-      "Team Leadership and Mentoring"
+      "Team Leadership and Mentoring",
+      "AI-Assisted Software Engineering",
+      "Multi-Agent Orchestration",
+      "Local AI and Retrieval-Augmented Generation"
     ],
     "skillGroups": [
       {
@@ -25,16 +33,28 @@
         "items": ["Playwright", "Cypress", "Selenium WebDriver", "Cucumber BDD", "Applitools"]
       },
       {
-        "label": "Engineering",
-        "items": ["TypeScript", "JavaScript", "Java", "SQL", "REST Assured", "Postman"]
+        "label": "Programming & API",
+        "items": ["TypeScript", "JavaScript", "Java", "SQL", "Playwright API", "REST Assured", "Postman", "Contract Testing", "Schema Validation", "Network Mocking"]
       },
       {
         "label": "Delivery",
-        "items": ["GitHub Actions", "Azure DevOps", "Jenkins", "Bamboo", "AWS"]
+        "items": ["GitHub Actions", "Azure DevOps", "Jenkins", "Bamboo", "Cypress Dashboard", "AWS", "EC2", "S3", "Aurora DB"]
       },
       {
         "label": "Data & insight",
-        "items": ["Oracle", "SQL Server", "MongoDB", "JMeter", "Datadog", "Allure"]
+        "items": ["Oracle", "SQL Server", "MongoDB", "JMeter", "Datadog", "Allure", "Elastic Stack", "Extent Reports"]
+      },
+      {
+        "label": "Test frameworks",
+        "items": ["TestNG", "JUnit", "Mocha", "Chai", "Jest", "Selenium Grid", "Applitools Eyes"]
+      },
+      {
+        "label": "AI engineering",
+        "items": ["ChatGPT", "OpenAI Codex", "GitHub Copilot", "Microsoft Copilot", "Local LLMs", "Multi-Agent Orchestration", "Retrieval-Augmented Generation", "Prompt and Context Engineering"]
+      },
+      {
+        "label": "Local AI & optimization",
+        "items": ["Ollama", "llama.cpp", "GGUF", "Model Quantization", "ONNX Runtime", "OpenVINO", "Qdrant", "FastEmbed", "LangGraph", "Semantic Kernel"]
       }
     ],
     "experience": [
@@ -49,7 +69,13 @@
         "highlights": [
           "Led a team of five automation engineers, establishing scalable test strategies, resource planning, and automation standards.",
           "Designed Cypress and Playwright frameworks for UI and API testing with resilient asynchronous handling, retry logic, and robust assertions.",
-          "Built CI/CD pipelines with GitHub Actions and Cypress Dashboard, including artifact management and parallel execution."
+          "Built GitHub Actions pipelines that distributed Cypress Dashboard and Playwright workloads across multiple virtual machines, managed artifacts, and provisioned environments dynamically for faster, diagnosable feedback.",
+          "Used AWS EC2, Aurora DB, and S3 to support on-demand test environments and scalable test execution.",
+          "Implemented automated defect triage through Jira API integration and risk-based failure prioritization.",
+          "Created test dashboards with Allure and Elastic Stack for trend analysis, failure-pattern recognition, and anomaly detection.",
+          "Balanced parallel workloads using suite composition and observed execution time, then tracked worker timing, retries, failure categories, artifact completeness, and environment health.",
+          "Developed data-provisioning utilities using JSON, Excel with Apache POI, and SQL-driven injection for mock responses and contract testing.",
+          "Configured Selenium Grid for parallel cross-browser testing and JMeter performance benchmarks."
         ]
       },
       {
@@ -63,7 +89,12 @@
         "highlights": [
           "Architected GitHub Actions pipelines integrating Cypress Dashboard and AWS for automated execution and rapid feedback.",
           "Designed modular smoke and regression suites with JavaScript, Cypress, and Mocha, including flaky-test mitigation.",
-          "Integrated visual regression testing across multiple resolutions, devices, and browsers."
+          "Integrated Applitools Eyes visual regression testing across multiple resolutions, devices, and browsers.",
+          "Developed Cypress and Postman API suites with contract testing, schema validation, and dynamic data-driven assertions.",
+          "Implemented OIDC and Okta MFA automation in Cypress for SSO-based applications.",
+          "Managed AWS EC2, Aurora DB, and S3 resources with AWS CLI to support scalable test environments.",
+          "Applied parallel execution, network stubbing, and headless testing to reduce test run time while maintaining accuracy.",
+          "Used Cypress Dashboard duration, failure, retry, video, and screenshot evidence to diagnose bottlenecks and tune parallel execution."
         ]
       },
       {
@@ -77,7 +108,11 @@
         "highlights": [
           "Performed exploratory, functional, and regression testing of web applications across multiple platforms.",
           "Created test plans, test cases, and acceptance criteria aligned with business and functional requirements.",
-          "Executed cross-browser and responsive UI testing on Chrome, Firefox, Safari, and Edge."
+          "Executed cross-browser and responsive UI testing on Chrome, Firefox, Safari, and Edge.",
+          "Turned defects into decision-ready evidence in Jira by documenting reproduction paths, business impact, environment details, and verified fixes.",
+          "Ran smoke, regression, and sanity testing across development, QA, UAT, and staging environments.",
+          "Connected UI behavior, SQL data checks, pre- and post-deployment validation, hotfix verification, and production monitoring across the customer path.",
+          "Built traceable coverage across business requirements, platforms, browsers, environments, and high-risk customer scenarios."
         ]
       }
     ],
@@ -89,10 +124,29 @@
         "end": "2014-05"
       }
     ],
+    "credentials": [
+      "Cucumber BDD Automation Framework",
+      "Implementing SAFe Course (5.1) · Scaled Agile, Inc. · 2021",
+      "Leading SAFe 4.0 Course · Scaled Agile, Inc. · 2016"
+    ],
+    "aiPractice": {
+      "title": "Local-First AI Engineering Orchestrator",
+      "summary": "An active local-first AI engineering system that decomposes complex work into specialized subtasks, routes each subtask to the model best suited to the problem and available hardware, runs independent work in parallel, and synthesizes the results into one verified response.",
+      "highlights": [
+        "Designed an orchestration layer that classifies requests, decomposes complex work, routes subtasks by capability and hardware cost, and merges parallel agent results into one traceable answer.",
+        "Built a Git-aware repository indexer that detects working-tree and remote-branch changes, incrementally refreshes affected files, and preserves project knowledge between AI sessions.",
+        "Created a retrieval-augmented context layer combining semantic embeddings, keyword recall, file metadata, symbols, dependencies, tests, and change history.",
+        "Prepared compact, source-linked context packets locally before selective escalation to ChatGPT, Codex, GitHub Copilot, Microsoft Copilot, or another cloud service.",
+        "Applied AI across frontend development, automation framework design, test generation, debugging, code review, documentation, failure analysis, and daily engineering workflows.",
+        "Designed local-first fallbacks so routine work can continue without usage quotas while sensitive repository context remains on the workstation unless a deliberate cloud handoff is required.",
+        "Experimented with GGUF model packaging, quantization, llama.cpp, Ollama, ONNX Runtime, and OpenVINO to balance memory use, throughput, latency, and response quality.",
+        "Added verification stages that compare agent conclusions with source files, tests, and command output before synthesized results are accepted."
+      ]
+    },
     "projects": [
       {
         "name": "Portfolio & Career Content System",
-        "description": "A schema-driven Astro platform that keeps the website portfolio, browser resume, and future PDF and DOCX outputs aligned through one validated professional data source.",
+        "description": "A schema-driven Astro platform that keeps the website portfolio, browser resume, and generated PDF and DOCX outputs aligned through one validated professional data source.",
         "repository": "https://github.com/mohamedmoheyeldin/portfolio",
         "technologies": ["Astro 7", "TypeScript", "Native CSS", "Playwright", "Cypress", "GitHub Actions", "Cloudflare"],
         "highlights": [

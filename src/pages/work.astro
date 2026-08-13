@@ -22,7 +22,7 @@ if (!project) throw new Error('A featured project is required.');
     <section class="section shell" aria-labelledby="career-title">
       <div class="section-heading">
         <p class="eyebrow">Career record</p>
-        <h2 id="career-title">A decade of quality engineering.</h2>
+        <h2 id="career-title">A decade of <span class="gradient-text">quality engineering.</span></h2>
       </div>
       <ExperienceList experience={profile.experience} />
     </section>
@@ -31,7 +31,7 @@ if (!project) throw new Error('A featured project is required.');
       <div class="shell">
         <div class="section-heading">
           <p class="eyebrow">Featured build</p>
-          <h2 id="project-title">{project.name}</h2>
+          <h2 id="project-title">Portfolio & career <span class="gradient-text">content system.</span></h2>
           <p>{project.description}</p>
         </div>
         <div class="project-detail-grid">

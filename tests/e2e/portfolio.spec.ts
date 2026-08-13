@@ -22,10 +22,11 @@ test('provides complete work and about routes', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Trust before volume.' })).toBeVisible();
 });
 
-test('shares career content with the print resume route', async ({ page }) => {
+test('offers one-page and detailed resume formats', async ({ page }) => {
   await page.goto('/resume/');
 
-  await expect(page.getByRole('heading', { level: 1, name: 'Mohamed Moheyeldin' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Two resumes. One verified career story.' })).toBeVisible();
   await expect(page.getByText('Booz Allen Hamilton')).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Print or save as PDF' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Download PDF' })).toHaveCount(2);
+  await expect(page.getByRole('link', { name: 'Download Word' })).toHaveCount(2);
 });

@@ -36,23 +36,17 @@ const description = `${profile.name} — ${profile.headline}`;
     <section class="section shell" aria-labelledby="systems-title">
       <div class="section-heading">
         <p class="eyebrow">What I build</p>
-        <h2 id="systems-title">Quality systems that make delivery feel clear.</h2>
+        <h2 id="systems-title">Quality systems that make <span class="gradient-text">delivery feel clear.</span></h2>
         <p>From the first testable requirement to the final release signal, I connect engineering decisions into a system teams can understand and trust.</p>
       </div>
       <div class="bento-grid">
-        <article class="feature-card feature-card--wide feature-card--dark">
+        <article class="feature-card feature-card--wide">
           <div>
             <p class="eyebrow">Automation architecture</p>
-            <h3>Frameworks designed for change.</h3>
+            <h3>Frameworks designed <span class="gradient-text">for change.</span></h3>
             <p>Maintainable UI and API automation with resilient assertions, purposeful abstractions, useful diagnostics, and fast feedback.</p>
           </div>
-          <div class="code-window" aria-hidden="true">
-            <span><i class="dot dot--red"></i><i class="dot dot--amber"></i><i class="dot dot--green"></i></span>
-            <code><em>test</em>(<b>'release confidence'</b>, async context =&gt; {'{'}</code>
-            <code>&nbsp;&nbsp;await signals.verify();</code>
-            <code>&nbsp;&nbsp;expect(risk).toBeVisible();</code>
-            <code>{'}'});</code>
-          </div>
+          <img class="framework-visual" src="/images/quality-engineering-system.webp" width="1680" height="945" loading="lazy" decoding="async" alt="Illustration of code flowing through browser and API tests, parallel CI workers, diagnostics, and a release signal" />
         </article>
         <article class="feature-card feature-card--blue">
           <p class="eyebrow">Delivery signals</p>
@@ -74,7 +68,7 @@ const description = `${profile.name} — ${profile.headline}`;
         <div class="section-heading section-heading--split">
           <div>
             <p class="eyebrow">Selected work</p>
-            <h2 id="work-title">Built for evidence, not theater.</h2>
+            <h2 id="work-title">Built for evidence, <span class="gradient-text">not theater.</span></h2>
           </div>
           <a class="text-link" href={`${root}work/`}>See all experience <span aria-hidden="true">→</span></a>
         </div>
@@ -99,7 +93,7 @@ const description = `${profile.name} — ${profile.headline}`;
 
     <section class="cta-section shell" aria-labelledby="cta-title">
       <p class="eyebrow">Let’s build confidence</p>
-      <h2 id="cta-title">Ready for a better release signal?</h2>
+      <h2 id="cta-title">Ready for a better <span class="gradient-text">release signal?</span></h2>
       <p>Let’s talk about automation strategy, quality architecture, or the next system your team needs to trust.</p>
       <a class="button" href="mailto:mohamedmoheyeldin.jobs@gmail.com">Start a conversation</a>
     </section>

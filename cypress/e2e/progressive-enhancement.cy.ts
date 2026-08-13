@@ -5,6 +5,6 @@ describe('complementary browser coverage', () => {
     cy.contains('h1', 'Engineering confidence').should('be.visible');
     cy.contains('a', 'Resume').click();
     cy.url().should('include', '/resume/');
-    cy.contains('h2', 'Core expertise').should('be.visible');
+    cy.contains('h2', 'A broader quality engineering toolkit').should('be.visible');
   });
 });
