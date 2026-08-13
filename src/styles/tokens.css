@@ -1,0 +1,34 @@
+/* Neutral, provisional tokens shared by screen and document presentations.
+   Replace values after the visual direction is approved; keep semantic names stable. */
+:root {
+  --font-brand: ui-sans-serif, system-ui, sans-serif;
+  --font-body: ui-sans-serif, system-ui, sans-serif;
+  --font-document: Arial, sans-serif;
+
+  --step--1: clamp(0.82rem, 0.79rem + 0.12vw, 0.9rem);
+  --step-0: clamp(1rem, 0.96rem + 0.18vw, 1.1rem);
+  --step-1: clamp(1.25rem, 1.12rem + 0.62vw, 1.6rem);
+  --step-2: clamp(1.65rem, 1.34rem + 1.4vw, 2.4rem);
+  --step-3: clamp(2.25rem, 1.7rem + 2.5vw, 3.7rem);
+
+  --space-1: 0.35rem;
+  --space-2: 0.65rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.25rem;
+  --space-6: 3.5rem;
+  --space-7: 5rem;
+
+  --page-inline: clamp(1rem, 4vw, 3rem);
+  --measure: 70ch;
+  --content-width: 72rem;
+
+  --surface: Canvas;
+  --surface-raised: Canvas;
+  --text: CanvasText;
+  --text-muted: color-mix(in srgb, CanvasText 68%, Canvas);
+  --accent: LinkText;
+  --border: color-mix(in srgb, CanvasText 22%, Canvas);
+  --focus: Highlight;
+  --radius: 0.35rem;
+}

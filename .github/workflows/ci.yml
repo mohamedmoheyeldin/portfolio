@@ -1,0 +1,33 @@
+name: Quality gates
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.21.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm quality
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-test-artifacts
+          path: |
+            playwright-report/
+            test-results/
+            cypress/screenshots/
+          if-no-files-found: ignore

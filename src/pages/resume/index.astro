@@ -1,0 +1,37 @@
+---
+import ExperienceList from '@/components/ExperienceList.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCareerProfile } from '@/lib/career';
+import '@/styles/resume.css';
+
+const profile = await getCareerProfile();
+const root = `${import.meta.env.BASE_URL.replace(/\/?$/, '')}/`;
+---
+
+<BaseLayout title={`${profile.name} — Resume`} description={`${profile.name}'s resume`}>
+  <main id="main-content" class="resume">
+    <p class="no-print"><a href={root}>← Portfolio</a> · <button type="button" onclick="window.print()">Print or save as PDF</button></p>
+    <header>
+      <h1>{profile.name}</h1>
+      <p>{profile.headline}</p>
+      <ul class="contact-list">
+        <li>{profile.location}</li>
+        {profile.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+      </ul>
+    </header>
+    <section aria-labelledby="resume-experience">
+      <h2 id="resume-experience">Experience</h2>
+      <ExperienceList experience={profile.experience} />
+    </section>
+    <section aria-labelledby="resume-expertise">
+      <h2 id="resume-expertise">Core expertise</h2>
+      <ul>{profile.competencies.map((competency) => <li>{competency}</li>)}</ul>
+    </section>
+    <section aria-labelledby="resume-education">
+      <h2 id="resume-education">Education</h2>
+      {profile.education.map((item) => (
+        <p><strong>{item.credential}, {item.field}</strong><br />{item.institution} · {item.end}</p>
+      ))}
+    </section>
+  </main>
+</BaseLayout>

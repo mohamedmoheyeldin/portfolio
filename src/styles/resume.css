@@ -1,0 +1,32 @@
+@import './tokens.css';
+
+.resume {
+  width: min(100% - (2 * var(--page-inline)), 8.5in);
+  margin-inline: auto;
+  font-family: var(--font-document);
+}
+
+.resume header {
+  padding-block-end: var(--space-4);
+  border-block-end: 1px solid var(--border);
+}
+
+.resume section { padding-block: var(--space-4); }
+
+@page {
+  size: letter;
+  margin: 0.6in;
+}
+
+@media print {
+  :root { color-scheme: light; }
+
+  .resume {
+    width: auto;
+    font-size: 10pt;
+    color: #000;
+    background: #fff;
+  }
+
+  .no-print { display: none; }
+}

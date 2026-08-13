@@ -1,0 +1,26 @@
+---
+import { formatCareerDate } from '@/lib/career';
+
+interface Experience {
+  employer: string;
+  title: string;
+  location: string;
+  start: string;
+  end: string | null;
+}
+
+interface Props { experience: Experience[] }
+const { experience } = Astro.props;
+---
+
+<dl class="records">
+  {experience.map((role) => (
+    <div class="record">
+      <dt>{formatCareerDate(role.start)} – {formatCareerDate(role.end)}</dt>
+      <dd>
+        <h3>{role.title}</h3>
+        <p>{role.employer} · {role.location}</p>
+      </dd>
+    </div>
+  ))}
+</dl>

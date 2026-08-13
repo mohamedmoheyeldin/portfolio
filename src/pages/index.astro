@@ -1,0 +1,48 @@
+---
+import ExperienceList from '@/components/ExperienceList.astro';
+import SiteHeader from '@/components/SiteHeader.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCareerProfile } from '@/lib/career';
+
+const profile = await getCareerProfile();
+const description = `${profile.name} — ${profile.headline}`;
+---
+
+<BaseLayout title={description} description={description}>
+  <SiteHeader name={profile.name} />
+  <main id="main-content" class="shell">
+    <section class="hero" aria-labelledby="intro-title">
+      <p class="eyebrow">Portfolio foundation · design in progress</p>
+      <h1 id="intro-title">{profile.name}</h1>
+      <p class="lede">{profile.headline}</p>
+      <ul class="contact-list" aria-label="Contact links">
+        {profile.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+      </ul>
+    </section>
+
+    <section id="experience" class="section" aria-labelledby="experience-title">
+      <p class="eyebrow">Verified factual baseline</p>
+      <h2 id="experience-title">Experience</h2>
+      <ExperienceList experience={profile.experience} />
+    </section>
+
+    <section id="expertise" class="section" aria-labelledby="expertise-title">
+      <p class="eyebrow">Shared content hierarchy</p>
+      <h2 id="expertise-title">Expertise</h2>
+      <ul class="tag-list">
+        {profile.competencies.map((competency) => <li>{competency}</li>)}
+      </ul>
+    </section>
+
+    <aside class="notice" aria-label="Project status">
+      <strong>Design intentionally open.</strong>
+      This baseline validates the content and delivery architecture. Typography, color, imagery, and final composition will be chosen in the next design phase.
+    </aside>
+  </main>
+  <footer class="site-footer">
+    <div class="site-footer__inner shell">
+      <span>{profile.name}</span>
+      <span>Web · PDF · Word</span>
+    </div>
+  </footer>
+</BaseLayout>

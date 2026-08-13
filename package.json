@@ -1,0 +1,35 @@
+{
+  "name": "portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Mohamed Moheyeldin's unified portfolio and resume platform.",
+  "packageManager": "pnpm@11.21.0",
+  "engines": {
+    "node": ">=22.22.0",
+    "pnpm": ">=11.0.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "preview:test": "astro preview stop >/dev/null 2>&1 || true; astro preview --host 127.0.0.1 --background && trap 'astro preview stop' EXIT INT TERM; astro preview logs --follow",
+    "check": "astro check",
+    "test": "pnpm check && pnpm build",
+    "test:e2e": "playwright test",
+    "test:e2e:cypress": "start-server-and-test preview:test http://127.0.0.1:4321/portfolio 'cypress run'",
+    "quality": "pnpm test && pnpm test:e2e && pnpm test:e2e:cypress"
+  },
+  "dependencies": {
+    "astro": "7.2.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.62.1",
+    "@types/node": "22.20.1",
+    "cypress": "15.20.1",
+    "start-server-and-test": "2.1.2",
+    "typescript": "5.9.3"
+  }
+}

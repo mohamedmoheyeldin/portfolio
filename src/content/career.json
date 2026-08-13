@@ -1,0 +1,59 @@
+[
+  {
+    "id": "profile",
+    "name": "Mohamed Moheyeldin",
+    "location": "Reston, VA",
+    "headline": "Senior SDET | Test Automation Lead | Quality Engineering",
+    "links": [
+      { "label": "Email", "href": "mailto:mohamedmoheyeldin.jobs@gmail.com" },
+      { "label": "LinkedIn", "href": "https://www.linkedin.com/in/moheyeldin/" },
+      { "label": "GitHub", "href": "https://github.com/mohamedmoheyeldin" }
+    ],
+    "competencies": [
+      "Test Automation Architecture",
+      "UI and API Testing",
+      "CI/CD Quality Gates",
+      "Manual and Exploratory Testing",
+      "Risk-Based Testing",
+      "Team Leadership and Mentoring"
+    ],
+    "experience": [
+      {
+        "employer": "Booz Allen Hamilton",
+        "title": "QA Test Engineer",
+        "location": "Washington, DC",
+        "start": "2020-12",
+        "end": null
+      },
+      {
+        "employer": "Chick-fil-A Corporate",
+        "title": "Software Engineer in Test",
+        "location": "Atlanta, GA",
+        "start": "2018-11",
+        "end": "2020-12"
+      },
+      {
+        "employer": "Ally Bank",
+        "title": "Software QA Engineer",
+        "location": "Sandy, UT",
+        "start": "2015-09",
+        "end": "2018-11"
+      }
+    ],
+    "education": [
+      {
+        "institution": "American College of Commerce and Technology",
+        "credential": "Bachelor's degree",
+        "field": "Computer Science",
+        "end": "2014-05"
+      }
+    ],
+    "provenance": {
+      "status": "draft",
+      "referenceRepository": "https://github.com/mohamedmoheyeldin/mohamedmoheyeldin.github.io",
+      "sourceSnapshotDate": "2025-10-13",
+      "importedOn": "2026-08-13",
+      "policy": "Factual fields only. Verify every item with Mohamed before final publication."
+    }
+  }
+]

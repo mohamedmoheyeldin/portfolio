@@ -1,0 +1,18 @@
+---
+interface Props { name: string }
+const { name } = Astro.props;
+const root = `${import.meta.env.BASE_URL.replace(/\/?$/, '')}/`;
+---
+
+<header class="site-header">
+  <div class="site-header__inner shell">
+    <a href={root} aria-label={`${name}, home`}>{name}</a>
+    <nav aria-label="Primary navigation">
+      <ul>
+        <li><a href={`${root}#experience`}>Experience</a></li>
+        <li><a href={`${root}#expertise`}>Expertise</a></li>
+        <li><a href={`${root}resume/`}>Resume</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
