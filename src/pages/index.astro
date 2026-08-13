@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import SiteFooter from '@/components/SiteFooter.astro';
 import SiteHeader from '@/components/SiteHeader.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCareerProfile } from '@/lib/career';
+import qualitySystemHero from '@/assets/quality-system-hero.png';
 
 const profile = await getCareerProfile();
 const project = profile.projects[0];
@@ -25,18 +27,18 @@ const description = `${profile.name} — ${profile.headline}`;
         </div>
       </div>
 
-      <div class="signal-stage" aria-label="Quality signal visualization">
-        <div class="signal-orbit signal-orbit--one"></div>
-        <div class="signal-orbit signal-orbit--two"></div>
-        <div class="signal-core">
-          <span class="signal-core__label">Release confidence</span>
-          <strong>99.9%</strong>
-          <span class="signal-core__status"><i></i> All signals healthy</span>
-        </div>
-        <div class="signal-card signal-card--top"><span>UI</span><strong>Playwright</strong></div>
-        <div class="signal-card signal-card--right"><span>API</span><strong>Contract verified</strong></div>
-        <div class="signal-card signal-card--bottom"><span>CI/CD</span><strong>Quality gate passed</strong></div>
-      </div>
+      <figure class="hero-visual">
+        <Image
+          src={qualitySystemHero}
+          alt="Layered glass pathways and connected signal nodes converging around a precise blue core."
+          widths={[480, 720, 960]}
+          sizes="(max-width: 62rem) 90vw, 46vw"
+          format="webp"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <figcaption><span aria-hidden="true"></span>Quality systems, aligned.</figcaption>
+      </figure>
     </section>
 
     <section class="proof-strip" aria-label="Career highlights">
