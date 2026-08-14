@@ -29,11 +29,11 @@ input,
 textarea { font: inherit; }
 
 h1, h2, h3, p, ul { margin-block-start: 0; }
-h1, h2, h3 { font-family: var(--font-brand); line-height: 1.02; letter-spacing: -0.045em; text-wrap: balance; }
+h1, h2, h3 { color: var(--ink); font-family: var(--font-brand); line-height: 1.04; letter-spacing: -0.04em; text-wrap: balance; }
 h1 { font-size: var(--step-4); }
 h2 { font-size: var(--step-3); }
 h3 { font-size: var(--step-2); }
-p { color: var(--ink-soft); }
+p { color: var(--ink-soft); text-wrap: pretty; }
 
 .shell { width: min(100% - (2 * var(--page-inline)), var(--content-width)); margin-inline: auto; }
 .skip-link { position: fixed; inset: var(--space-3) auto auto var(--space-3); z-index: 100; padding: var(--space-2) var(--space-3); color: white; background: var(--blue); border-radius: 999px; transform: translateY(-200%); }
@@ -68,7 +68,7 @@ p { color: var(--ink-soft); }
 
 .eyebrow { margin: 0 0 var(--space-3); color: var(--blue); font-size: var(--step--1); font-weight: 750; letter-spacing: 0.09em; text-transform: uppercase; }
 .proof-strip { color: var(--ink); background: var(--surface); border-block: 1px solid var(--line); }
-.proof-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.proof-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
 .proof-grid > div { padding: 2.25rem; border-inline-start: 1px solid var(--line); }
 .proof-grid > div:last-child { border-inline-end: 1px solid var(--line); }
 .proof-grid strong, .proof-grid span { display: block; }
@@ -129,7 +129,16 @@ p { color: var(--ink-soft); }
 .page-hero h1 { width: 100%; max-width: 15ch; margin-block-end: var(--space-4); font-size: var(--hero-heading-size); }
 .page-hero > p:last-of-type { max-width: 48rem; margin-inline: auto; font-size: var(--step-1); }
 .page-hero .button-row { justify-content: center; margin-block-start: var(--space-3); }
-.gradient-text { color: var(--blue); background: linear-gradient(90deg, var(--blue), var(--violet), #c13ee9); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+h1:has(.gradient-text),
+h2:has(.gradient-text),
+h3:has(.gradient-text) {
+  color: transparent;
+  background: linear-gradient(100deg, var(--ink) 0%, var(--ink) 34%, #152f61 48%, var(--blue) 67%, var(--violet) 85%, #b43ee2 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.gradient-text { display: contents; color: inherit; background: none; -webkit-text-fill-color: inherit; }
 .not-found h1 { margin-block-end: var(--space-3); }
 .not-found p:not(.eyebrow) { max-width: 34rem; font-size: var(--step-1); }
 
