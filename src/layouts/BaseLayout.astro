@@ -4,10 +4,40 @@ import '@/styles/global.css';
 interface Props {
   title: string;
   description: string;
+  socialImage?: string | null;
 }
 
-const { title, description } = Astro.props;
+const { title, description, socialImage = 'default' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const root = `${import.meta.env.BASE_URL.replace(/\/?$/, '')}/`;
+const resolvedSocialImage = socialImage === 'default'
+  ? new URL(`${root}og.png`, Astro.site)
+  : socialImage
+    ? new URL(socialImage, Astro.site)
+    : null;
+const isHome = Astro.url.pathname === root;
+const profileSchema = isHome ? {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  url: canonical.href,
+  name: title,
+  description,
+  mainEntity: {
+    '@type': 'Person',
+    name: 'Mohamed Moheyeldin',
+    jobTitle: 'Senior SDET and Test Automation Lead',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Reston',
+      addressRegion: 'VA',
+      addressCountry: 'US',
+    },
+    sameAs: [
+      'https://www.linkedin.com/in/moheyeldin/',
+      'https://github.com/mohamedmoheyeldin',
+    ],
+  },
+} : null;
 ---
 
 <!doctype html>
@@ -18,13 +48,24 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={description} />
     <meta name="theme-color" content="#ffffff" />
     <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" sizes="32x32" href={`${root}favicon-32.png`} />
+    <link rel="apple-touch-icon" sizes="180x180" href={`${root}apple-touch-icon.png`} />
+    <link rel="manifest" href={`${root}site.webmanifest`} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mohamed Moheyeldin" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    {resolvedSocialImage && <meta property="og:image" content={resolvedSocialImage} />}
+    {resolvedSocialImage && <meta property="og:image:width" content="1536" />}
+    {resolvedSocialImage && <meta property="og:image:height" content="1024" />}
+    {resolvedSocialImage && <meta property="og:image:alt" content="Mohamed Moheyeldin — engineering confidence into every release" />}
+    <meta name="twitter:card" content={resolvedSocialImage ? 'summary_large_image' : 'summary'} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    {resolvedSocialImage && <meta name="twitter:image" content={resolvedSocialImage} />}
+    {profileSchema && <script is:inline type="application/ld+json" set:html={JSON.stringify(profileSchema)} />}
     <title>{title}</title>
   </head>
   <body>

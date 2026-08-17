@@ -3,8 +3,11 @@ describe('complementary browser coverage', () => {
     cy.visit('/');
 
     cy.contains('h1', 'Engineering confidence').should('be.visible');
-    cy.contains('a', 'Resume').click();
-    cy.url().should('include', '/resume/');
-    cy.contains('h2', 'A broader quality engineering toolkit').should('be.visible');
+    cy.contains('a', 'Explore my work').click();
+    cy.url().should('include', '/work/');
+    cy.contains('h2', 'Real delivery problems').should('be.visible');
+    cy.contains('a', 'Federal Quality Delivery System').click();
+    cy.url().should('include', '/work/federal-quality-delivery-system/');
+    cy.contains('h2', 'How I shaped the system').should('be.visible');
   });
 });

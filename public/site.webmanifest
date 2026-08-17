@@ -1,0 +1,16 @@
+{
+  "name": "Mohamed Moheyeldin — Quality Engineering",
+  "short_name": "Mohamed M.",
+  "description": "Senior SDET and Test Automation Lead portfolio.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1267e8",
+  "icons": [
+    {
+      "src": "app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -7,14 +7,15 @@ import { getCareerProfile } from '@/lib/career';
 import '@/styles/resume.css';
 
 const profile = await getCareerProfile();
+const root = `${import.meta.env.BASE_URL.replace(/\/?$/, '')}/`;
 const downloads = {
   onePage: {
-    pdf: '/resume/mohamed-moheyeldin-resume-one-page.pdf',
-    word: '/resume/mohamed-moheyeldin-resume-one-page.docx',
+    pdf: `${root}resume/mohamed-moheyeldin-resume-one-page.pdf`,
+    word: `${root}resume/mohamed-moheyeldin-resume-one-page.docx`,
   },
   detailed: {
-    pdf: '/resume/mohamed-moheyeldin-resume-detailed.pdf',
-    word: '/resume/mohamed-moheyeldin-resume-detailed.docx',
+    pdf: `${root}resume/mohamed-moheyeldin-resume-detailed.pdf`,
+    word: `${root}resume/mohamed-moheyeldin-resume-detailed.docx`,
   },
 };
 ---
@@ -24,7 +25,7 @@ const downloads = {
   <main id="main-content">
     <section class="page-hero resume-hero shell" aria-labelledby="resume-title">
       <p class="eyebrow">Resume library</p>
-      <h1 id="resume-title">Two resumes. One <span class="gradient-text">verified career story.</span></h1>
+      <h1 id="resume-title">Two resumes. One <span class="gradient-text">consistent career story.</span></h1>
       <p>Choose a concise one-page overview or a detailed technical record. Both use the same factual source as this portfolio and share its typography, spacing, and color system.</p>
     </section>
 

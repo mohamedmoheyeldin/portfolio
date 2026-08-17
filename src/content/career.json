@@ -145,8 +145,96 @@
     },
     "projects": [
       {
+        "slug": "federal-quality-delivery-system",
+        "kind": "career",
+        "context": "Federal delivery environment",
+        "role": "Senior SDET / Test Automation Lead",
+        "period": "2020–Present",
+        "name": "Federal Quality Delivery System",
+        "description": "A connected UI, API, CI/CD, cloud-environment, and diagnostics strategy for complex federal software delivery.",
+        "challenge": "Teams needed automation that could scale across application layers and environments while producing release evidence engineers could diagnose and trust.",
+        "approach": [
+          "Led five automation engineers and established shared framework standards, test strategy, and resource planning.",
+          "Designed Cypress and Playwright frameworks spanning UI and API coverage with resilient asynchronous handling and actionable assertions.",
+          "Distributed execution across multiple virtual machines while preserving artifacts, worker timing, retries, failure categories, and environment-health signals.",
+          "Connected AWS-backed test environments, data provisioning, automated Jira triage, Allure reporting, and Elastic Stack analysis into the delivery workflow."
+        ],
+        "outcome": "Created a clearer release signal that connected coverage, execution health, diagnostics, and risk-based triage instead of treating test results as an isolated pass-or-fail gate.",
+        "repository": null,
+        "technologies": ["Playwright", "Cypress", "GitHub Actions", "AWS", "Allure", "Elastic Stack", "Jira API"],
+        "highlights": [
+          "Multi-layer UI and API automation architecture",
+          "Parallel CI execution with complete diagnostic artifacts",
+          "Risk-based failure prioritization and automated defect triage",
+          "Technical leadership for a five-engineer automation team"
+        ]
+      },
+      {
+        "slug": "ecommerce-feedback-platform",
+        "kind": "career",
+        "context": "Enterprise e-commerce environment",
+        "role": "Software Engineer in Test",
+        "period": "2018–2020",
+        "name": "E-commerce Quality Feedback Platform",
+        "description": "A maintainable feedback system joining browser automation, API validation, visual testing, authentication, cloud environments, and CI.",
+        "challenge": "Quality feedback crossed browsers, APIs, visual behavior, SSO authentication, and cloud-hosted environments, making isolated test suites difficult to operate as one reliable system.",
+        "approach": [
+          "Designed modular Cypress smoke and regression suites with parallel execution, network stubbing, and flaky-test mitigation.",
+          "Built API coverage with Postman and Cypress using contract tests, schema validation, and dynamic data assertions.",
+          "Integrated Applitools Eyes across resolutions, devices, and browsers and automated OIDC and Okta MFA flows.",
+          "Connected GitHub Actions, Cypress Dashboard evidence, and AWS resources for repeatable execution and investigation."
+        ],
+        "outcome": "Moved useful feedback earlier in delivery while keeping browser, API, visual, authentication, and environment evidence available for investigation and release decisions.",
+        "repository": null,
+        "technologies": ["Cypress", "JavaScript", "Postman", "Applitools", "GitHub Actions", "AWS", "Okta"],
+        "highlights": [
+          "Modular smoke and regression automation",
+          "API contract and schema validation",
+          "Cross-browser visual regression coverage",
+          "Automated enterprise authentication workflows"
+        ]
+      },
+      {
+        "slug": "banking-risk-validation",
+        "kind": "career",
+        "context": "Consumer banking environment",
+        "role": "Software QA Engineer",
+        "period": "2015–2018",
+        "name": "Banking Risk-Based Validation System",
+        "description": "A traceable validation practice connecting requirements, exploratory testing, browsers, data checks, environments, and production readiness.",
+        "challenge": "Complex customer journeys required clear coverage across business requirements, platforms, browsers, deployment environments, and high-risk scenarios.",
+        "approach": [
+          "Created test plans, acceptance criteria, and traceable coverage aligned with business and functional requirements.",
+          "Combined exploratory, functional, regression, cross-browser, and responsive testing across the delivery lifecycle.",
+          "Connected UI behavior with SQL data checks, pre- and post-deployment validation, hotfix verification, and production monitoring.",
+          "Documented defects with reproduction paths, business impact, environment details, and verified fixes."
+        ],
+        "outcome": "Turned testing activity into decision-ready evidence across customer risk, technical behavior, deployment readiness, and production follow-through.",
+        "repository": null,
+        "technologies": ["Exploratory Testing", "SQL", "Jira", "Cross-browser Testing", "Risk-Based Testing", "Release Validation"],
+        "highlights": [
+          "Risk-aligned test planning and acceptance coverage",
+          "Cross-browser and responsive customer-journey validation",
+          "UI-to-database verification",
+          "Pre-deployment, hotfix, and production follow-through"
+        ]
+      },
+      {
+        "slug": "portfolio-career-content-system",
+        "kind": "independent",
+        "context": "Independent platform",
+        "role": "Designer and engineer",
+        "period": "2026",
         "name": "Portfolio & Career Content System",
         "description": "A schema-driven Astro platform that keeps the website portfolio, browser resume, and generated PDF and DOCX outputs aligned through one validated professional data source.",
+        "challenge": "Career facts had to remain consistent across a public website, browser resume, concise application resume, and detailed technical resume without duplicating content or weakening presentation quality.",
+        "approach": [
+          "Designed a schema-validated career record consumed by every presentation channel.",
+          "Built accessible, responsive Astro pages with zero client-framework runtime.",
+          "Generated separate PDF and DOCX formats from the same factual source while preserving channel-appropriate layout.",
+          "Added strict diagnostics, browser journeys, accessibility analysis, and continuous deployment."
+        ],
+        "outcome": "Established one maintainable publishing workflow for the portfolio and resume library while keeping web, PDF, and Word presentations aligned.",
         "repository": "https://github.com/mohamedmoheyeldin/portfolio",
         "technologies": ["Astro 7", "TypeScript", "Native CSS", "Playwright", "Cypress", "GitHub Actions", "Cloudflare"],
         "highlights": [

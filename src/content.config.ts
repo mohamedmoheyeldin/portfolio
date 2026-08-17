@@ -52,9 +52,17 @@ const career = defineCollection({
     }),
     projects: z.array(
       z.object({
+        slug: z.string(),
+        kind: z.enum(['career', 'independent']),
+        context: z.string(),
+        role: z.string(),
+        period: z.string(),
         name: z.string(),
         description: z.string(),
-        repository: z.url(),
+        challenge: z.string(),
+        approach: z.array(z.string()),
+        outcome: z.string(),
+        repository: z.url().nullable(),
         technologies: z.array(z.string()),
         highlights: z.array(z.string()),
       }),

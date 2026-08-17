@@ -4,7 +4,7 @@ A clean Astro 7 foundation for a unified personal brand across a website portfol
 
 ## Status
 
-This is a complete, multi-route portfolio experience with a premium editorial design, validated factual content, a print-ready resume, automated quality gates, and Cloudflare Workers hosting.
+This is a complete, multi-route portfolio experience with a premium editorial design, schema-validated career content, project-first case studies, a print-ready resume library, automated quality gates, and Cloudflare Workers hosting.
 
 ## Local setup
 
@@ -22,10 +22,12 @@ pnpm dev
 - `src/content.config.ts` — schema validation
 - `src/styles/tokens.css` — provisional cross-format design decisions
 - `src/pages/index.astro` — premium portfolio home experience
-- `src/pages/work.astro` — career record and featured project
+- `src/pages/work.astro` — project-first case-study index and supporting career record
+- `src/pages/work/[slug].astro` — source-grounded project detail pages
 - `src/pages/about.astro` — principles, toolkit, and education
 - `src/pages/resume/index.astro` — browser and print/PDF resume baseline
 - `src/lib/presentations.ts` — shared web/PDF/DOCX presentation contract
+- `src/layouts/BaseLayout.astro` — canonical, social, icon, and structured metadata
 - `docs/` — architecture, provenance, and open design brief
 
 See [Architecture](docs/ARCHITECTURE.md), [Content provenance](docs/CONTENT_PROVENANCE.md), and [Design brief](docs/DESIGN_BRIEF.md).
@@ -37,8 +39,11 @@ pnpm check              # Astro and strict TypeScript diagnostics
 pnpm build              # Static production output
 pnpm test:e2e           # Primary Playwright journeys and accessibility
 pnpm test:e2e:cypress   # Complementary progressive-enhancement check
+pnpm test:pages         # GitHub Pages subpath packaging check
 pnpm quality            # Complete local gate
 ```
+
+The quality gate checks every major route for automated accessibility issues, validates case-study journeys and resume downloads, and confirms search/social metadata plus sitemap and robots output.
 
 ## Deployment
 

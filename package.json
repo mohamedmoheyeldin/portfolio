@@ -13,6 +13,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "build:cloudflare": "astro check && SITE_URL=https://mohamedmoheyeldin.com astro build",
+    "build:pages": "astro check && SITE_URL=https://mohamedmoheyeldin.github.io BASE_PATH=/portfolio astro build",
     "build:sites": "astro check && SITE_URL=https://mohamedmoheyeldin.com astro build && node scripts/stage-sites.mjs",
     "deploy:cloudflare": "pnpm build:cloudflare && wrangler deploy",
     "preview": "test -f dist/index.html || pnpm build; astro preview",
@@ -22,7 +23,8 @@
     "test": "pnpm check && pnpm build",
     "test:e2e": "playwright test",
     "test:e2e:cypress": "start-server-and-test preview:test http://127.0.0.1:4321 'cypress run'",
-    "quality": "pnpm test && pnpm test:e2e && pnpm test:e2e:cypress"
+    "test:pages": "pnpm build:pages && node scripts/check-pages-build.mjs",
+    "quality": "pnpm test && pnpm test:e2e && pnpm test:e2e:cypress && pnpm test:pages"
   },
   "dependencies": {
     "astro": "7.2.1"
