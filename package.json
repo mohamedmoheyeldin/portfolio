@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "description": "Mohamed Moheyeldin's unified portfolio and resume platform.",
-  "packageManager": "pnpm@11.21.0",
+  "packageManager": "pnpm@11.22.0+sha512.1ff870c4c6133dfd88fb2afc46dd13d47f09c9794b438c6fdb47ca98caf3bc16381ee0be93a091b8e3824cf01f889f46d7d9e20910fb0be1ab0fb5baa80dd621",
   "engines": {
     "node": ">=22.22.0",
-    "pnpm": ">=11.0.0"
+    "pnpm": ">=11.22.0"
   },
   "scripts": {
     "dev": "astro dev",
@@ -18,25 +18,26 @@
     "deploy:cloudflare": "pnpm build:cloudflare && wrangler deploy",
     "preview": "test -f dist/index.html || pnpm build; astro preview",
     "preview:cloudflare": "pnpm build:cloudflare && wrangler dev",
-    "preview:test": "test -f dist/index.html || pnpm build; astro preview --host 127.0.0.1",
+    "preview:test": "test -f dist/index.html || pnpm build; ASTRO_PREVIEW_BACKGROUND=0 astro preview --host 127.0.0.1",
     "check": "astro check",
     "test": "pnpm check && pnpm build",
     "test:e2e": "playwright test",
     "test:e2e:cypress": "start-server-and-test preview:test http://127.0.0.1:4321 'cypress run'",
     "test:pages": "pnpm build:pages && node scripts/check-pages-build.mjs",
-    "quality": "pnpm test && pnpm test:e2e && pnpm test:e2e:cypress && pnpm test:pages"
+    "quality": "pnpm test && pnpm test:e2e && pnpm test:e2e:cypress && pnpm test:pages",
+    "verify": "pnpm quality"
   },
   "dependencies": {
-    "astro": "7.2.1"
+    "astro": "7.2.4"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
     "@axe-core/playwright": "4.13.0",
     "@playwright/test": "1.62.1",
-    "@types/node": "22.20.1",
-    "cypress": "15.20.1",
-    "start-server-and-test": "2.1.2",
-    "typescript": "5.9.3",
-    "wrangler": "4.123.0"
+    "@types/node": "24.13.3",
+    "cypress": "15.21.0",
+    "start-server-and-test": "3.0.12",
+    "typescript": "6.0.3",
+    "wrangler": "4.124.0"
   }
 }

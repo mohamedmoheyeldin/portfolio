@@ -3,9 +3,8 @@
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist", "playwright-report", "test-results", "cypress/screenshots", "cypress/videos"],
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
     "noUncheckedIndexedAccess": true
   }

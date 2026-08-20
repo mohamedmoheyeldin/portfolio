@@ -12,7 +12,7 @@ This is a complete, multi-route portfolio experience with a premium editorial de
 corepack enable
 pnpm install
 pnpm exec playwright install chromium
-pnpm quality
+pnpm verify
 pnpm dev
 ```
 
@@ -40,10 +40,12 @@ pnpm build              # Static production output
 pnpm test:e2e           # Primary Playwright journeys and accessibility
 pnpm test:e2e:cypress   # Complementary progressive-enhancement check
 pnpm test:pages         # GitHub Pages subpath packaging check
-pnpm quality            # Complete local gate
+pnpm verify             # Complete local gate (alias for pnpm quality)
 ```
 
 The quality gate checks every major route for automated accessibility issues, validates case-study journeys and resume downloads, and confirms search/social metadata plus sitemap and robots output.
+
+See [Development](docs/DEVELOPMENT.md) and [Testing](docs/TESTING.md) for contributor workflow and test-layer details.
 
 ## Deployment
 
