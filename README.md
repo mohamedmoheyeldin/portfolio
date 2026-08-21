@@ -26,6 +26,9 @@ pnpm dev
 - `src/pages/work/[slug].astro` — source-grounded project detail pages
 - `src/pages/about.astro` — principles, toolkit, and education
 - `src/pages/resume/index.astro` — browser and print/PDF resume baseline
+- `src/pages/assistant.astro` — public-safe application workflow dashboard
+- `services/job-assistant/` — localhost Gmail, AI, resume, and approval fallback
+- `workers/job-assistant/` — Access-protected Cloudflare Worker, D1 migration, and R2/PDF workflow
 - `src/lib/presentations.ts` — shared web/PDF/DOCX presentation contract
 - `src/layouts/BaseLayout.astro` — canonical, social, icon, and structured metadata
 - `docs/` — architecture, provenance, and open design brief
@@ -46,6 +49,10 @@ pnpm verify             # Complete local gate (alias for pnpm quality)
 The quality gate checks every major route for automated accessibility issues, validates case-study journeys and resume downloads, and confirms search/social metadata plus sitemap and robots output.
 
 See [Development](docs/DEVELOPMENT.md) and [Testing](docs/TESTING.md) for contributor workflow and test-layer details.
+
+## Autonomous Application System
+
+The public `/assistant/` route demonstrates how Gmail, Cloudflare, and AI form an autonomous job-application workflow. Production uses a separate Worker with a public sanitized-status endpoint plus Access-protected setup and private records. D1, private R2, Browser Rendering, AI Gateway, scheduled triggers, and encrypted Worker secrets remain outside the static site; `pnpm assistant` is the localhost development fallback. See [Autonomous Application System](docs/JOB_ASSISTANT.md) for runtime setup and [Secure integrations](docs/SECURE_INTEGRATIONS.md) for credential, Gmail, OpenAI, and Google Drive guidance.
 
 ## Deployment
 

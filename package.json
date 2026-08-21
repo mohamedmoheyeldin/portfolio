@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Mohamed Moheyeldin's unified portfolio and resume platform.",
+  "description": "Mohamed Moheyeldin's Portfolio.",
   "packageManager": "pnpm@11.22.0+sha512.1ff870c4c6133dfd88fb2afc46dd13d47f09c9794b438c6fdb47ca98caf3bc16381ee0be93a091b8e3824cf01f889f46d7d9e20910fb0be1ab0fb5baa80dd621",
   "engines": {
     "node": ">=22.22.0",
@@ -19,16 +19,22 @@
     "preview": "test -f dist/index.html || pnpm build; astro preview",
     "preview:cloudflare": "pnpm build:cloudflare && wrangler dev",
     "preview:test": "test -f dist/index.html || pnpm build; ASTRO_PREVIEW_BACKGROUND=0 astro preview --host 127.0.0.1",
+    "assistant": "node --env-file-if-exists=.env services/job-assistant/server.mjs",
+    "assistant:demo": "JOB_ASSISTANT_DEMO=true node --env-file-if-exists=.env services/job-assistant/server.mjs",
+    "assistant:cloud:dev": "wrangler dev --config wrangler.job-assistant.jsonc --test-scheduled",
+    "assistant:cloud:dry-run": "wrangler deploy --config wrangler.job-assistant.jsonc --dry-run",
     "check": "astro check",
     "test": "pnpm check && pnpm build",
     "test:e2e": "playwright test",
     "test:e2e:cypress": "start-server-and-test preview:test http://127.0.0.1:4321 'cypress run'",
     "test:pages": "pnpm build:pages && node scripts/check-pages-build.mjs",
-    "quality": "pnpm test && pnpm test:e2e && pnpm test:e2e:cypress && pnpm test:pages",
+    "test:assistant": "node --test tests/job-assistant/*.test.mjs tests/job-assistant-cloud/*.test.mjs",
+    "quality": "pnpm test && pnpm test:assistant && pnpm test:e2e && pnpm test:e2e:cypress && pnpm test:pages",
     "verify": "pnpm quality"
   },
   "dependencies": {
-    "astro": "7.2.4"
+    "astro": "7.2.4",
+    "prop-for-that": "0.7.12"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",

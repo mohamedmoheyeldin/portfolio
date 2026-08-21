@@ -12,3 +12,6 @@ cypress/videos/
 .wrangler/
 .dev.vars*
 !.dev.vars.example
+.local/job-assistant/
+.local/job-assistant-tests/
+private/job-assistant/

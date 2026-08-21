@@ -8,6 +8,7 @@ const representativeRoutes = [
   '/work/ecommerce-feedback-platform/',
   '/about/',
   '/resume/',
+  '/assistant/',
 ];
 
 for (const route of representativeRoutes) {
@@ -20,6 +21,39 @@ for (const route of representativeRoutes) {
     expect(results.violations).toEqual([]);
   });
 }
+
+test('presents an animated quality-system story without widening the page', async ({ page }) => {
+  await page.goto('/');
+
+  await expect(page.locator('html')).toHaveClass(/has-live-props/);
+  await expect(page.locator('.quality-signal')).toBeVisible();
+  await expect(page.locator('.quality-signal__bar')).toContainText('Quality signal model');
+  await expect(page.locator('.quality-signal__footer')).toContainText('UI + API checks');
+
+  const feature = page.locator('.feature-card--wide');
+  await feature.scrollIntoViewIfNeeded();
+  await expect(feature).toHaveCSS('opacity', '1');
+
+  const dimensions = await page.evaluate(() => ({
+    viewport: window.innerWidth,
+    document: document.documentElement.scrollWidth,
+  }));
+  expect(dimensions.document).toBe(dimensions.viewport);
+});
+
+test('uses centered, restrained page headers across routes', async ({ page }) => {
+  for (const route of ['/', '/work/', '/about/', '/resume/', '/assistant/', '/work/federal-quality-delivery-system/']) {
+    await page.goto(route);
+    const heading = page.getByRole('heading', { level: 1 });
+    await expect(heading).toBeVisible();
+    const presentation = await heading.evaluate((element) => ({
+      alignment: getComputedStyle(element).textAlign,
+      fontSize: Number.parseFloat(getComputedStyle(element).fontSize),
+    }));
+    expect(presentation.alignment).toBe('center');
+    expect(presentation.fontSize).toBeLessThanOrEqual(74);
+  }
+});
 
 test('presents project-first work and complete case studies', async ({ page }) => {
   await page.goto('/work/');
@@ -36,6 +70,57 @@ test('presents project-first work and complete case studies', async ({ page }) =
   await expect(page.getByRole('heading', { name: 'The delivery problem.' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'How I shaped the system.' })).toBeVisible();
   await expect(page.getByText('Client-sensitive details are intentionally generalized')).toBeVisible();
+});
+
+test('shows a privacy-safe, data-driven autonomous application-system case study', async ({ page }) => {
+  await page.goto('/assistant/');
+
+  await expect(page.getByRole('heading', { level: 1, name: /My inbox works like an AI application agent/ })).toBeVisible();
+  await expect(page.getByText('Runtime contract', { exact: true })).toBeVisible();
+  await expect(page.locator('.pipeline-observatory')).toBeVisible();
+  await expect(page.locator('[data-flow-stage]')).toHaveCount(6);
+  await expect(page.getByText('Gmail intake', { exact: true })).toBeVisible();
+  await expect(page.getByText('Policy + classify', { exact: true })).toBeVisible();
+  await expect(page.getByText('Resume generation', { exact: true })).toBeVisible();
+  await expect(page.getByText('Gmail delivery', { exact: true })).toBeVisible();
+  await expect(page.getByText('Thread completion', { exact: true })).toBeVisible();
+  await expect(page.getByText('No production values are simulated in local preview.')).toBeVisible();
+  await expect(page.locator('[data-flow-value="reviewed"]')).toHaveText('—');
+  await expect(page.getByLabel('Pipeline summary').getByText('Inbox cleared', { exact: true })).toBeVisible();
+  await expect(page.getByLabel('Pipeline summary').getByText('Needs attention', { exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Recent automation' })).toHaveCount(0);
+  await expect(page.getByText('Automation loop', { exact: true })).toHaveCount(0);
+  await expect(page.getByText('Deterministic safety gate', { exact: true })).toBeVisible();
+  await expect(page.getByText('Governed Drive evidence', { exact: true })).toBeVisible();
+  await expect(page.getByText('Identity-data firewall', { exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Connect Gmail' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Sync inbox' })).toHaveCount(0);
+  await expect(page.getByText(/final approval gate/i)).toHaveCount(0);
+
+  await expect(page.getByRole('button', { name: 'Remote', exact: true })).toHaveCount(0);
+});
+
+test('binds pipeline visuals to the sanitized live snapshot', async ({ page }) => {
+  await page.route('**/api/public-snapshot', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        mode: 'live',
+        lastSyncAt: 'System updated Aug 21, 2026 at 2:15 AM',
+        stats: { reviewed: 17, opportunities: 6, remote: 4, resumes: 5, replies: 3, archived: 2, attention: 1 },
+      }),
+    });
+  });
+  await page.goto('/assistant/');
+
+  await expect(page.getByText('Live sanitized telemetry', { exact: true })).toBeVisible();
+  await expect(page.locator('[data-flow-value="reviewed"]')).toHaveText('17');
+  await expect(page.locator('[data-flow-value="opportunities"]')).toHaveText('6');
+  await expect(page.locator('[data-flow-value="resumes"]')).toHaveText('5');
+  await expect(page.locator('[data-flow-value="replies"]')).toHaveText('3');
+  await expect(page.locator('[data-flow-value="archived"]')).toHaveText('2');
+  await expect(page.locator('[data-flow-value="attention"]')).toHaveText('1');
+  await expect(page.getByLabel('Pipeline summary').locator('[data-stat="remote"]')).toHaveText('4');
 });
 
 test('publishes complete root metadata and route-specific case-study metadata', async ({ page }) => {

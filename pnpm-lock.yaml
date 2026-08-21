@@ -11,6 +11,9 @@ importers:
       astro:
         specifier: 7.2.4
         version: 7.2.4(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@24.13.3)(yaml@2.9.0)
+      prop-for-that:
+        specifier: 0.7.12
+        version: 0.7.12
     devDependencies:
       '@astrojs/check':
         specifier: 0.9.10
@@ -2234,6 +2237,9 @@ packages:
   process@0.11.10:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
     engines: {node: '>= 0.6.0'}
+
+  prop-for-that@0.7.12:
+    resolution: {integrity: sha512-GKe09lG8pDH6F9znK7MaAIfpTyiyj7MYv9S7apNBv6722v4vdI0ouCPBI9ncWyyqaEzCIG1nQfpcMmsHqQyQxw==}
 
   property-information@7.2.0:
     resolution: {integrity: sha512-IAtzIB6sUiWaJYrX9smp3V46pBGbBeLFRGdh25kg1334VcBlD8HzhPeNIWQH9zhGmo2itIe25EHt9dQP7G5hmg==}
@@ -4906,6 +4912,8 @@ snapshots:
   process-ancestry@0.1.0: {}
 
   process@0.11.10: {}
+
+  prop-for-that@0.7.12: {}
 
   property-information@7.2.0: {}
 

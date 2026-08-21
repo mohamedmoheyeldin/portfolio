@@ -1,0 +1,15 @@
+# Local Cloudflare Worker development only. Copy to .dev.vars; never commit real values.
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+AI_GATEWAY_TOKEN=
+TOKEN_ENCRYPTION_KEY=
+CLOUDFLARE_BROWSER_RENDERING_TOKEN=
+
+# Allows local requests to bypass Cloudflare Access during Wrangler development only.
+LOCAL_ACCESS_EMAIL=owner@example.com
+
+# Safe operational defaults. Change through Worker configuration, never client-side code.
+AUTOMATION_MODE=AUTOMATION_OFF
+NEEDS_ATTENTION_LABEL=AI-Career/Needs-Attention
+GMAIL_MAX_MESSAGE_BYTES=512000
+AUTOMATION_SENDER_DOMAINS=

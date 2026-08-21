@@ -16,21 +16,37 @@ const description = 'Senior SDET and Test Automation Lead designing scalable UI 
   <SiteHeader name={profile.name} />
   <main id="main-content">
     <section class="page-hero page-hero--home shell" aria-labelledby="intro-title">
-      <p class="eyebrow">Senior SDET · Quality Engineering</p>
-      <h1 id="intro-title">Engineering confidence into <span class="gradient-text">every release.</span></h1>
-      <p>I design the automation, delivery signals, and quality systems that help teams move fast without losing trust.</p>
-      <p class="hero-meta">Reston, Virginia · Senior SDET · Test Automation Lead</p>
-      <div class="button-row">
-        <a class="button" href={`${root}work/`}>Explore my work</a>
-        <a class="text-link" href={`${root}resume/`}>View resume <span aria-hidden="true">→</span></a>
+      <div class="hero-copy" data-props-for="visibility">
+        <p class="eyebrow">Senior SDET · Quality Engineering</p>
+        <h1 id="intro-title">Engineering confidence into <span class="gradient-text">every release.</span></h1>
+        <p>I design the automation, delivery signals, and quality systems that help teams move fast without losing trust.</p>
+        <p class="hero-meta">Reston, Virginia · Senior SDET · Test Automation Lead</p>
+        <div class="button-row">
+          <a class="button" href={`${root}work/`}>Explore my work</a>
+          <a class="text-link" href={`${root}resume/`}>View resume <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="quality-signal" data-props-for="pointer-local visibility" aria-hidden="true">
+        <div class="quality-signal__bar"><span><i></i> Quality signal model</span><b>ACTIVE</b></div>
+        <div class="quality-signal__field">
+          <span class="signal-orbit signal-orbit--one"></span>
+          <span class="signal-orbit signal-orbit--two"></span>
+          <span class="signal-beam"></span>
+          <div class="signal-core"><small>RELEASE</small><strong>READY</strong><span>confidence signal</span></div>
+          <i class="signal-node signal-node--ui">UI</i>
+          <i class="signal-node signal-node--api">API</i>
+          <i class="signal-node signal-node--ci">CI</i>
+          <i class="signal-node signal-node--obs">OBS</i>
+        </div>
+        <div class="quality-signal__footer"><span><i></i> UI + API checks</span><span><i></i> Release gates</span><span>Actionable feedback</span></div>
       </div>
     </section>
 
     <section class="proof-strip" aria-label="Career highlights">
       <div class="shell proof-grid">
-        <div><strong>10+</strong><span>years engineering quality</span></div>
-        <div><strong>5</strong><span>automation engineers led</span></div>
-        <div><strong>UI + API</strong><span>one quality strategy</span></div>
+        <div data-props-for="visibility"><strong>10+</strong><span>years engineering quality</span></div>
+        <div data-props-for="visibility"><strong>5</strong><span>automation engineers led</span></div>
+        <div data-props-for="visibility"><strong>UI + API</strong><span>one quality strategy</span></div>
       </div>
     </section>
 
@@ -41,7 +57,7 @@ const description = 'Senior SDET and Test Automation Lead designing scalable UI 
         <p>From the first testable requirement to the final release signal, I connect engineering decisions into a system teams can understand and trust.</p>
       </div>
       <div class="bento-grid">
-        <article class="feature-card feature-card--wide">
+        <article class="feature-card feature-card--wide" data-props-for="pointer-local visibility">
           <div>
             <p class="eyebrow">Automation architecture</p>
             <h3>Frameworks designed <span class="gradient-text">for change.</span></h3>
@@ -49,13 +65,13 @@ const description = 'Senior SDET and Test Automation Lead designing scalable UI 
           </div>
           <img class="framework-visual" src={`${root}images/quality-engineering-system.webp`} width="1680" height="945" loading="lazy" decoding="async" alt="Illustration of code flowing through browser and API tests, parallel CI workers, diagnostics, and a release signal" />
         </article>
-        <article class="feature-card feature-card--blue">
+        <article class="feature-card feature-card--blue" data-props-for="pointer-local visibility">
           <p class="eyebrow">Delivery signals</p>
           <h3>Quality gates, not roadblocks.</h3>
           <p>CI/CD checks that surface the right risk at the right moment.</p>
           <div class="mini-chart" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
         </article>
-        <article class="feature-card">
+        <article class="feature-card" data-props-for="pointer-local visibility">
           <p class="eyebrow">Technical leadership</p>
           <h3>Standards teams can actually use.</h3>
           <p>Practical strategy, mentoring, code review, and shared ownership that turns quality into an engineering capability.</p>
@@ -75,7 +91,7 @@ const description = 'Senior SDET and Test Automation Lead designing scalable UI 
         </div>
         <div class="project-card-grid">
           {featuredProjects.map((project, index) => (
-            <article class:list={["project-card", { "project-card--featured": index === 0 }]}>
+            <article class:list={["project-card", { "project-card--featured": index === 0 }]} data-props-for="pointer-local visibility">
               <div class="project-card__number" aria-hidden="true">0{index + 1}</div>
               <div>
                 <p class="eyebrow">{project.context} · {project.period}</p>
@@ -92,7 +108,7 @@ const description = 'Senior SDET and Test Automation Lead designing scalable UI 
       </div>
     </section>
 
-    <section class="cta-section shell" aria-labelledby="cta-title">
+    <section class="cta-section shell" aria-labelledby="cta-title" data-props-for="visibility">
       <p class="eyebrow">Let’s build confidence</p>
       <h2 id="cta-title">Ready for a better <span class="gradient-text">release signal?</span></h2>
       <p>Let’s talk about automation strategy, quality architecture, or the next system your team needs to trust.</p>

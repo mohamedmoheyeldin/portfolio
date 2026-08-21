@@ -1,0 +1,140 @@
+---
+import SiteFooter from '@/components/SiteFooter.astro';
+import SiteHeader from '@/components/SiteHeader.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCareerProfile } from '@/lib/career';
+import { unavailableAssistantSnapshot } from '@/lib/job-assistant';
+
+const profile = await getCareerProfile();
+const title = `Autonomous Application System — ${profile.name}`;
+const description = 'A public, privacy-safe view of an autonomous Gmail, Cloudflare, and AI workflow that classifies job mail, tailors resumes, and replies.';
+const serviceUrl = import.meta.env.DEV
+  ? 'http://127.0.0.1:8787'
+  : new URL('/api/assistant', Astro.site).href.replace(/\/$/, '');
+---
+
+<BaseLayout title={title} description={description} socialImage={null}>
+  <SiteHeader name={profile.name} />
+  <main id="main-content" class="assistant-page" data-assistant-root data-service-url={serviceUrl}>
+    <section class="assistant-hero shell" aria-labelledby="assistant-title">
+      <div>
+        <p class="eyebrow">Autonomous application engineering</p>
+        <h1 id="assistant-title">My inbox works like an <span class="gradient-text">AI application agent.</span></h1>
+        <p>Gmail signals enter a Cloudflare workflow that classifies each opportunity, builds a fact-grounded resume, and sends a relevant AI-written reply—without exposing private mail on this site.</p>
+      </div>
+      <aside class="runtime-contract" aria-label="Production system contract">
+        <div class="runtime-contract__top"><span>Runtime contract</span><strong data-runtime-mode>Telemetry pending</strong></div>
+        <dl>
+          <div><dt>Execution</dt><dd>Cloudflare Workers</dd></div>
+          <div><dt>Intelligence</dt><dd>AI Gateway</dd></div>
+          <div><dt>Mail transport</dt><dd>Gmail API</dd></div>
+          <div><dt>Public data</dt><dd>Sanitized aggregates only</dd></div>
+        </dl>
+        <p data-runtime-updated>Waiting for the first privacy-safe snapshot.</p>
+      </aside>
+    </section>
+
+    <section class="assistant-system shell" aria-labelledby="system-title">
+      <div class="assistant-system__heading">
+        <div><p class="assistant-kicker">How it works</p><h2 id="system-title">One event-driven application pipeline</h2></div>
+        <p>Every stage runs at the edge, records a sanitized audit event, and keeps credentials and message content out of the public portfolio.</p>
+      </div>
+      <div class="pipeline-observatory" data-flow-map data-telemetry-mode="demo">
+        <header class="pipeline-observatory__header">
+          <div>
+            <span class="telemetry-state"><i aria-hidden="true"></i><strong data-telemetry-label>Waiting for live telemetry</strong></span>
+            <p data-flow-updated>No production values are simulated in local preview.</p>
+          </div>
+          <div class="pipeline-services" aria-label="Runtime services">
+            <span>Gmail API</span><span>Cloudflare Worker</span><span>AI Gateway</span><span>D1 + R2</span>
+          </div>
+        </header>
+
+        <div class="pipeline-topology" aria-label="Application processing topology with privacy-safe runtime totals">
+          <ol class="pipeline-stages">
+            <li data-flow-stage="reviewed">
+              <div class="pipeline-stage__head"><span>01</span><i aria-hidden="true">IN</i></div>
+              <p>Gmail intake</p><strong data-flow-value="reviewed">—</strong><small>emails analyzed</small>
+              <footer>Gmail API · durable discovery</footer>
+            </li>
+            <li data-flow-stage="opportunities">
+              <div class="pipeline-stage__head"><span>02</span><i aria-hidden="true">AI</i></div>
+              <p>Policy + classify</p><strong data-flow-value="opportunities">—</strong><small>opportunities found</small>
+              <footer>AI Gateway · structured output</footer>
+            </li>
+            <li data-flow-stage="resumes">
+              <div class="pipeline-stage__head"><span>03</span><i aria-hidden="true">CV</i></div>
+              <p>Resume generation</p><strong data-flow-value="resumes">—</strong><small>resumes created</small>
+              <footer>Career facts · private R2</footer>
+            </li>
+            <li data-flow-stage="replies">
+              <div class="pipeline-stage__head"><span>04</span><i aria-hidden="true">↗</i></div>
+              <p>Gmail delivery</p><strong data-flow-value="replies">—</strong><small>replies delivered</small>
+              <footer>Stable message ID · dedupe</footer>
+            </li>
+            <li data-flow-stage="archived">
+              <div class="pipeline-stage__head"><span>05</span><i aria-hidden="true">✓</i></div>
+              <p>Thread completion</p><strong data-flow-value="archived">—</strong><small>threads archived</small>
+              <footer>D1 audit · Gmail labels</footer>
+            </li>
+          </ol>
+          <aside class="review-branch" data-flow-stage="attention">
+            <span>Safety branch</span>
+            <div><i aria-hidden="true">!</i><p><strong data-flow-value="attention">—</strong><small>need attention</small></p></div>
+            <footer>High-impact messages stay in the inbox</footer>
+          </aside>
+        </div>
+
+        <footer class="pipeline-observatory__footer">
+          <span><i aria-hidden="true"></i> Counts come from the sanitized Worker snapshot</span>
+          <span>Refresh interval: 30 seconds</span>
+          <span>Motion occurs only when values change</span>
+        </footer>
+      </div>
+    </section>
+
+    <section class="assistant-dashboard shell" aria-label="Autonomous application system dashboard">
+      <div class="assistant-toolbar">
+        <div>
+          <p class="assistant-kicker" data-sync-label>Live architecture · privacy-safe data</p>
+          <h2>Application system status</h2>
+        </div>
+        <span class="dashboard-provenance" data-dashboard-provenance>Telemetry unavailable</span>
+      </div>
+
+      <div class="assistant-stats" aria-label="Pipeline summary">
+        <article><span>Emails analyzed</span><strong data-stat="reviewed">—</strong><small>Recruiting signals processed</small></article>
+        <article><span>Opportunities found</span><strong data-stat="opportunities">—</strong><small>AI-classified job mail</small></article>
+        <article><span>Remote roles</span><strong data-stat="remote">—</strong><small>Location intelligence</small></article>
+        <article><span>Resumes tailored</span><strong data-stat="resumes">—</strong><small>Verified career evidence</small></article>
+        <article><span>Replies delivered</span><strong data-stat="replies">—</strong><small>Automated Gmail threads</small></article>
+        <article><span>Inbox cleared</span><strong data-stat="archived">—</strong><small>Source messages archived</small></article>
+        <article><span>Needs attention</span><strong data-stat="attention">—</strong><small>High-impact mail held safely</small></article>
+      </div>
+
+      <div class="assistant-architecture">
+        <aside class="assistant-guardrails" aria-labelledby="architecture-title">
+          <p class="assistant-kicker">Built for production</p>
+          <h2 id="architecture-title">Autonomous outside. Controlled inside.</h2>
+          <ol>
+            <li><span>01</span><div><strong>Isolated mailboxes</strong><p>Every monitored inbox has encrypted credentials and an independent processing history.</p></div></li>
+            <li><span>02</span><div><strong>Fact-grounded generation</strong><p>AI can select from the canonical career record but cannot invent employers, dates, credentials, or outcomes.</p></div></li>
+            <li><span>03</span><div><strong>Governed Drive evidence</strong><p>Only explicitly allowlisted, non-sensitive files can enter resume or reply generation.</p></div></li>
+            <li><span>04</span><div><strong>Cloudflare orchestration</strong><p>Workers, scheduled triggers, D1, private R2, Browser Rendering, and AI Gateway form the runtime.</p></div></li>
+            <li><span>05</span><div><strong>Identity-data firewall</strong><p>Licenses, passports, and government identifiers never enter AI or automatic email.</p></div></li>
+            <li><span>06</span><div><strong>Retry-safe orchestration</strong><p>D1 leases, stable reply IDs, Sent-mail reconciliation, and bounded backoff keep scheduled runs resumable.</p></div></li>
+            <li><span>07</span><div><strong>Deterministic safety gate</strong><p>Interviews, offers, onboarding, sensitive requests, uncertain senders, and exhausted retries stay in Gmail under a private needs-attention label.</p></div></li>
+          </ol>
+          <div class="privacy-note"><strong>What visitors see</strong><span>Only totals, system health, generalized event types, and work modes. Email addresses, companies, subjects, bodies, tokens, and resume files remain private.</span></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <SiteFooter name={profile.name} />
+  <script is:inline define:vars={{ unavailableAssistantSnapshot }}>
+    window.__ASSISTANT_FALLBACK__ = unavailableAssistantSnapshot;
+  </script>
+  <script>
+    import '@/scripts/job-assistant-dashboard';
+  </script>
+</BaseLayout>
