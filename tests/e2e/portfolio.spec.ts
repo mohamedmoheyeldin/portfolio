@@ -51,14 +51,44 @@ test('uses centered, restrained page headers across routes', async ({ page }) =>
       alignment: getComputedStyle(element).textAlign,
       backgroundImage: getComputedStyle(element).backgroundImage,
       fontSize: Number.parseFloat(getComputedStyle(element).fontSize),
+      lineHeight: Number.parseFloat(getComputedStyle(element).lineHeight),
       top: element.getBoundingClientRect().top,
     }));
     expect(presentation.alignment).toBe('center');
     expect(presentation.backgroundImage).toContain('linear-gradient');
-    expect(presentation.fontSize).toBeLessThanOrEqual(74);
+    expect(presentation.fontSize).toBeLessThanOrEqual(68);
+    expect(presentation.lineHeight / presentation.fontSize).toBeGreaterThanOrEqual(1.1);
     headingTops.push(presentation.top);
   }
   expect(Math.max(...headingTops) - Math.min(...headingTops)).toBeLessThanOrEqual(24);
+});
+
+test('uses the pipeline heading scale for section headings site-wide', async ({ page }) => {
+  const headings = [
+    ['/about/', '#principles-title'],
+    ['/work/', '#projects-title'],
+    ['/resume/', '#profile-title'],
+    ['/assistant/', '#system-title'],
+    ['/assistant/', '.assistant-toolbar h2'],
+    ['/assistant/', '#architecture-title'],
+    ['/work/federal-quality-delivery-system/', '#challenge-title'],
+  ] as const;
+  const fontSizes: number[] = [];
+
+  for (const [route, selector] of headings) {
+    await page.goto(route);
+    const heading = page.locator(selector);
+    await heading.scrollIntoViewIfNeeded();
+    await expect(heading).toBeVisible();
+    fontSizes.push(await heading.evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize)));
+  }
+
+  expect(Math.max(...fontSizes) - Math.min(...fontSizes)).toBeLessThanOrEqual(0.1);
+
+  await page.goto('/assistant/');
+  const supportingCopy = page.locator('.assistant-system__heading > p');
+  await expect(supportingCopy).toBeVisible();
+  expect(await supportingCopy.evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize))).toBeGreaterThanOrEqual(16);
 });
 
 test('uses one shared interactive card surface across portfolio sections', async ({ page }) => {

@@ -9,7 +9,9 @@
   --step-2: clamp(1.6rem, 1.36rem + 1vw, 2.3rem);
   --step-3: clamp(2.25rem, 1.7rem + 2.3vw, 4rem);
   --step-4: clamp(3rem, 2.08rem + 3.8vw, 6rem);
-  --hero-heading-size: clamp(2.7rem, 2rem + 2.8vw, 4.9rem);
+  --page-heading-size: clamp(2.35rem, 1.8rem + 2.35vw, 4.2rem);
+  --section-heading-size: var(--step-3);
+  --supporting-copy-size: clamp(1rem, 0.96rem + 0.18vw, 1.12rem);
 
   --space-1: 0.35rem;
   --space-2: 0.65rem;
