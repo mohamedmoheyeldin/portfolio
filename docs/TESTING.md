@@ -15,7 +15,9 @@ This aliases the complete `pnpm quality` gate.
 - `pnpm test:e2e` runs desktop and mobile Chromium Playwright journeys and accessibility checks against a local preview.
 - `pnpm test:e2e:cypress` runs the complementary Cypress progressive-enhancement check.
 - `pnpm test:assistant` verifies local and Cloudflare Gmail parsing, token encryption, fact allowlisting, MIME construction, public-data redaction, and tailored-resume generation contracts.
-- `pnpm test:pages` builds with `/portfolio/` as the base path and validates the packaged GitHub Pages output.
+- `pnpm test:pages` builds with `/portfolio/` as the base path, validates the packaged GitHub Pages output, and confirms the served assistant route and stylesheet both return successfully.
+
+For manual Pages inspection, run `pnpm preview:pages` and open the reported `/portfolio/` URL. The preview commands rebuild intentionally so root and Pages base-path configurations cannot reuse an incompatible `dist/` directory.
 
 ## Change guidance
 

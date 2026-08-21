@@ -19,6 +19,8 @@ pnpm verify
 
 For fast feedback, run `pnpm check` while editing. Use `pnpm verify` before handoff because it exercises every local quality gate and the GitHub Pages subpath build.
 
+Use `pnpm preview` for a production-style root-site preview at `/`. Use `pnpm preview:pages` when validating the GitHub Pages package at `/portfolio/`. Each preview command rebuilds with its matching base path so a previous build cannot leave incompatible routes or asset URLs in `dist/`.
+
 The application system can run as a local development process with `pnpm assistant` or as an isolated Cloudflare Worker defined by `wrangler.job-assistant.jsonc`. The public page requires no credentials and falls back to sanitized demonstration data. Gmail, OpenAI, and AI Gateway credentials belong only in ignored local files or Cloudflare Worker secrets; see [Autonomous Application System](JOB_ASSISTANT.md). Astro must remain buildable without those credentials.
 
 ## Source boundaries
