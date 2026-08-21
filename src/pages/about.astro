@@ -39,7 +39,7 @@ if (!education) throw new Error('Education content is required.');
         </div>
         <div class="skill-grid">
           {profile.skillGroups.map((group) => (
-            <article data-props-for="visibility">
+            <article data-props-for="pointer-local visibility">
               <h3>{group.label}</h3>
               <ul>{group.items.map((item) => <li>{item}</li>)}</ul>
             </article>

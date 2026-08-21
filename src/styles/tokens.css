@@ -30,6 +30,7 @@
   --surface-muted: #f4f6fa;
   --surface-dark: #070b14;
   --surface-dark-raised: #101726;
+  --surface-card: #ffffff;
   --line: #dfe3eb;
   --line-dark: rgba(255, 255, 255, 0.13);
   --blue: #1267e8;
@@ -42,8 +43,13 @@
   --radius-lg: 2.25rem;
   --shadow-sm: 0 12px 35px rgba(15, 25, 45, 0.08);
   --shadow-lg: 0 32px 90px rgba(11, 26, 56, 0.17);
+  --card-shadow: 0 12px 35px rgba(15, 25, 45, 0.08);
+  --card-shadow-hover: 0 24px 60px rgba(15, 37, 80, 0.12);
   --glass: color-mix(in oklch, white 84%, transparent);
   --brand-gradient: linear-gradient(115deg, var(--blue), var(--violet) 62%, #b43ee2);
+  --heading-gradient: linear-gradient(100deg, var(--ink) 0%, var(--ink) 34%, #152f61 48%, var(--blue) 67%, var(--violet) 85%, #b43ee2 100%);
+  --hero-space-start: clamp(2.5rem, 4vw, 3.5rem);
+  --hero-space-end: clamp(4rem, 6vw, 5.5rem);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --motion-fast: 180ms;
   --motion-base: 520ms;

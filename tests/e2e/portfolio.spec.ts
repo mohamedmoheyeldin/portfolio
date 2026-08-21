@@ -42,16 +42,50 @@ test('presents an animated quality-system story without widening the page', asyn
 });
 
 test('uses centered, restrained page headers across routes', async ({ page }) => {
+  const headingTops: number[] = [];
   for (const route of ['/', '/work/', '/about/', '/resume/', '/assistant/', '/work/federal-quality-delivery-system/']) {
     await page.goto(route);
     const heading = page.getByRole('heading', { level: 1 });
     await expect(heading).toBeVisible();
     const presentation = await heading.evaluate((element) => ({
       alignment: getComputedStyle(element).textAlign,
+      backgroundImage: getComputedStyle(element).backgroundImage,
       fontSize: Number.parseFloat(getComputedStyle(element).fontSize),
+      top: element.getBoundingClientRect().top,
     }));
     expect(presentation.alignment).toBe('center');
+    expect(presentation.backgroundImage).toContain('linear-gradient');
     expect(presentation.fontSize).toBeLessThanOrEqual(74);
+    headingTops.push(presentation.top);
+  }
+  expect(Math.max(...headingTops) - Math.min(...headingTops)).toBeLessThanOrEqual(24);
+});
+
+test('uses one shared interactive card surface across portfolio sections', async ({ page }) => {
+  const cards = [
+    ['/about/', '.principle-grid article'],
+    ['/work/', '.project-card'],
+    ['/resume/', '.resume-choice'],
+    ['/assistant/', '.pipeline-stages li'],
+  ] as const;
+  const presentations = [];
+
+  for (const [route, selector] of cards) {
+    await page.goto(route);
+    const card = page.locator(selector).first();
+    await card.scrollIntoViewIfNeeded();
+    await expect(card).toBeVisible();
+    presentations.push(await card.evaluate((element) => ({
+      backgroundImage: getComputedStyle(element).backgroundImage,
+      borderRadius: getComputedStyle(element).borderRadius,
+      boxShadow: getComputedStyle(element).boxShadow,
+    })));
+  }
+
+  expect(new Set(presentations.map(({ borderRadius }) => borderRadius)).size).toBe(1);
+  for (const presentation of presentations) {
+    expect(presentation.backgroundImage).toContain('radial-gradient');
+    expect(presentation.boxShadow).not.toBe('none');
   }
 });
 

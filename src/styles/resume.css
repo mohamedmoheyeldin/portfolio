@@ -1,7 +1,5 @@
 @import './tokens.css';
 
-.resume-hero { min-height: min(48rem, calc(100svh - 4.25rem)); }
-
 .resume-choices {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -16,11 +14,14 @@
   justify-content: space-between;
   gap: var(--space-5);
   padding: clamp(1.75rem, 4vw, 3.25rem);
-  background: white;
+  background: radial-gradient(circle at calc(var(--live-local-pointer-x-ratio, .5) * 100%) calc(var(--live-local-pointer-y-ratio, .5) * 100%), rgba(62, 116, 255, .08), transparent 14rem), var(--surface-card);
   border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-md);
+  box-shadow: var(--card-shadow);
+  transition: border-color var(--motion-base) ease, box-shadow var(--motion-base) var(--ease-out);
 }
+
+.resume-choice:hover { border-color: color-mix(in oklch, var(--blue) 34%, var(--line)); box-shadow: var(--card-shadow-hover); }
 
 .resume-choice h2 { margin-block-end: var(--space-3); }
 .resume-choice ul { display: grid; gap: .75rem; margin: 0; padding-inline-start: 1.2rem; color: var(--ink-soft); }
@@ -30,13 +31,15 @@
 .resume-profile-grid { columns: 2; column-gap: var(--space-6); }
 .resume-profile-grid p { break-inside: avoid; font-size: var(--step-1); }
 
-.resume-skill-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 var(--space-5); border-block-start: 1px solid var(--line); }
-.resume-skill-grid article { padding-block: var(--space-4); border-block-end: 1px solid var(--line); }
+.resume-skill-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
+.resume-skill-grid article { padding: var(--space-4); background: radial-gradient(circle at calc(var(--live-local-pointer-x-ratio, .5) * 100%) calc(var(--live-local-pointer-y-ratio, .5) * 100%), rgba(62, 116, 255, .08), transparent 12rem), var(--surface-card); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--card-shadow); transition: border-color var(--motion-base) ease, box-shadow var(--motion-base) var(--ease-out); }
+.resume-skill-grid article:hover { border-color: color-mix(in oklch, var(--blue) 34%, var(--line)); box-shadow: var(--card-shadow-hover); }
 .resume-skill-grid h3 { font-size: var(--step-1); letter-spacing: -.025em; }
 .resume-skill-grid ul { display: flex; flex-wrap: wrap; gap: .45rem; margin: 0; padding: 0; list-style: none; }
 .resume-skill-grid li { padding: .35rem .62rem; color: var(--ink-soft); border: 1px solid var(--line); border-radius: 999px; font-size: .78rem; }
 
-.ai-practice { padding-block: var(--space-5); border-block: 1px solid var(--line); }
+.ai-practice { padding: var(--space-5); background: radial-gradient(circle at calc(var(--live-local-pointer-x-ratio, .5) * 100%) calc(var(--live-local-pointer-y-ratio, .5) * 100%), rgba(62, 116, 255, .08), transparent 14rem), var(--surface-card); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--card-shadow); transition: border-color var(--motion-base) ease, box-shadow var(--motion-base) var(--ease-out); }
+.ai-practice:hover { border-color: color-mix(in oklch, var(--blue) 34%, var(--line)); box-shadow: var(--card-shadow-hover); }
 .ai-practice h3 { max-width: 22ch; }
 .ai-practice .feature-list { grid-template-columns: repeat(2, 1fr); gap: 1rem var(--space-5); }
 

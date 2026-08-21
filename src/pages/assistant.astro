@@ -22,7 +22,7 @@ const serviceUrl = import.meta.env.DEV
         <h1 id="assistant-title">My inbox works like an <span class="gradient-text">AI application agent.</span></h1>
         <p>Gmail signals enter a Cloudflare workflow that classifies each opportunity, builds a fact-grounded resume, and sends a relevant AI-written reply—without exposing private mail on this site.</p>
       </div>
-      <aside class="runtime-contract" aria-label="Production system contract">
+      <aside class="runtime-contract" aria-label="Production system contract" data-props-for="pointer-local visibility">
         <div class="runtime-contract__top"><span>Runtime contract</span><strong data-runtime-mode>Telemetry pending</strong></div>
         <dl>
           <div><dt>Execution</dt><dd>Cloudflare Workers</dd></div>
@@ -36,7 +36,7 @@ const serviceUrl = import.meta.env.DEV
 
     <section class="assistant-system shell" aria-labelledby="system-title">
       <div class="assistant-system__heading">
-        <div><p class="assistant-kicker">How it works</p><h2 id="system-title">One event-driven application pipeline</h2></div>
+        <div><p class="assistant-kicker">How it works</p><h2 id="system-title" class="heading-gradient">One event-driven application pipeline</h2></div>
         <p>Every stage runs at the edge, records a sanitized audit event, and keeps credentials and message content out of the public portfolio.</p>
       </div>
       <div class="pipeline-observatory" data-flow-map data-telemetry-mode="demo">
@@ -52,33 +52,33 @@ const serviceUrl = import.meta.env.DEV
 
         <div class="pipeline-topology" aria-label="Application processing topology with privacy-safe runtime totals">
           <ol class="pipeline-stages">
-            <li data-flow-stage="reviewed">
+            <li data-flow-stage="reviewed" data-props-for="pointer-local visibility">
               <div class="pipeline-stage__head"><span>01</span><i aria-hidden="true">IN</i></div>
               <p>Gmail intake</p><strong data-flow-value="reviewed">—</strong><small>emails analyzed</small>
               <footer>Gmail API · durable discovery</footer>
             </li>
-            <li data-flow-stage="opportunities">
+            <li data-flow-stage="opportunities" data-props-for="pointer-local visibility">
               <div class="pipeline-stage__head"><span>02</span><i aria-hidden="true">AI</i></div>
               <p>Policy + classify</p><strong data-flow-value="opportunities">—</strong><small>opportunities found</small>
               <footer>AI Gateway · structured output</footer>
             </li>
-            <li data-flow-stage="resumes">
+            <li data-flow-stage="resumes" data-props-for="pointer-local visibility">
               <div class="pipeline-stage__head"><span>03</span><i aria-hidden="true">CV</i></div>
               <p>Resume generation</p><strong data-flow-value="resumes">—</strong><small>resumes created</small>
               <footer>Career facts · private R2</footer>
             </li>
-            <li data-flow-stage="replies">
+            <li data-flow-stage="replies" data-props-for="pointer-local visibility">
               <div class="pipeline-stage__head"><span>04</span><i aria-hidden="true">↗</i></div>
               <p>Gmail delivery</p><strong data-flow-value="replies">—</strong><small>replies delivered</small>
               <footer>Stable message ID · dedupe</footer>
             </li>
-            <li data-flow-stage="archived">
+            <li data-flow-stage="archived" data-props-for="pointer-local visibility">
               <div class="pipeline-stage__head"><span>05</span><i aria-hidden="true">✓</i></div>
               <p>Thread completion</p><strong data-flow-value="archived">—</strong><small>threads archived</small>
               <footer>D1 audit · Gmail labels</footer>
             </li>
           </ol>
-          <aside class="review-branch" data-flow-stage="attention">
+          <aside class="review-branch" data-flow-stage="attention" data-props-for="pointer-local visibility">
             <span>Safety branch</span>
             <div><i aria-hidden="true">!</i><p><strong data-flow-value="attention">—</strong><small>need attention</small></p></div>
             <footer>High-impact messages stay in the inbox</footer>
@@ -97,7 +97,7 @@ const serviceUrl = import.meta.env.DEV
       <div class="assistant-toolbar">
         <div>
           <p class="assistant-kicker" data-sync-label>Live architecture · privacy-safe data</p>
-          <h2>Application system status</h2>
+          <h2 class="heading-gradient">Application system status</h2>
         </div>
         <span class="dashboard-provenance" data-dashboard-provenance>Telemetry unavailable</span>
       </div>
@@ -115,7 +115,7 @@ const serviceUrl = import.meta.env.DEV
       <div class="assistant-architecture">
         <aside class="assistant-guardrails" aria-labelledby="architecture-title">
           <p class="assistant-kicker">Built for production</p>
-          <h2 id="architecture-title">Autonomous outside. Controlled inside.</h2>
+          <h2 id="architecture-title" class="heading-gradient">Autonomous outside. Controlled inside.</h2>
           <ol>
             <li><span>01</span><div><strong>Isolated mailboxes</strong><p>Every monitored inbox has encrypted credentials and an independent processing history.</p></div></li>
             <li><span>02</span><div><strong>Fact-grounded generation</strong><p>AI can select from the canonical career record but cannot invent employers, dates, credentials, or outcomes.</p></div></li>
