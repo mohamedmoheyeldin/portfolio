@@ -30,29 +30,13 @@
 .resume-profile-grid { columns: 2; column-gap: var(--space-6); }
 .resume-profile-grid p { break-inside: avoid; font-size: var(--step-1); }
 
-.resume-skill-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 var(--space-5); border-block-start: 1px solid var(--line); }
-.resume-skill-grid article { padding-block: var(--space-4); border-block-end: 1px solid var(--line); }
-.resume-skill-grid h3 { font-size: var(--step-1); letter-spacing: -.025em; }
-.resume-skill-grid ul { display: flex; flex-wrap: wrap; gap: .45rem; margin: 0; padding: 0; list-style: none; }
-.resume-skill-grid li { padding: .35rem .62rem; color: var(--ink-soft); border: 1px solid var(--line); border-radius: 999px; font-size: .78rem; }
-
-.ai-practice { padding-block: var(--space-5); border-block: 1px solid var(--line); }
-.ai-practice h3 { max-width: 22ch; }
-.ai-practice .feature-list { grid-template-columns: repeat(2, 1fr); gap: 1rem var(--space-5); }
-
 .resume-foundation { display: grid; grid-template-columns: .9fr 1.1fr; gap: var(--space-7); border-block-start: 1px solid var(--line); }
 .resume-foundation ul { display: grid; gap: .65rem; padding-inline-start: 1.2rem; color: var(--ink-soft); }
 .resume-foundation li::marker { color: var(--blue); }
 
-@media (max-width: 62rem) {
-  .resume-skill-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
 @media (max-width: 44rem) {
   .resume-choices,
-  .resume-skill-grid,
   .resume-foundation { grid-template-columns: 1fr; }
   .resume-choice { min-height: auto; }
   .resume-profile-grid { columns: 1; }
-  .ai-practice .feature-list { grid-template-columns: 1fr; }
 }

@@ -9,12 +9,13 @@ This is a complete, multi-route portfolio experience with a premium editorial de
 ## Local setup
 
 ```bash
-corepack enable
-pnpm install
+pnpm install --frozen-lockfile
 pnpm exec playwright install chromium
 pnpm verify
 pnpm dev
 ```
+
+Use Node.js 24 (see `.nvmrc`) and pnpm 11.22.0. The same commands work in Windows PowerShell and POSIX shells.
 
 ## Architecture
 

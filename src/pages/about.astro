@@ -1,6 +1,7 @@
 ---
 import SiteFooter from '@/components/SiteFooter.astro';
 import SiteHeader from '@/components/SiteHeader.astro';
+import SkillGrid from '@/components/SkillGrid.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCareerProfile } from '@/lib/career';
 
@@ -24,27 +25,20 @@ if (!education) throw new Error('Education content is required.');
         <h2 id="principles-title">How I think about <span class="gradient-text">the work.</span></h2>
       </div>
       <div class="principle-grid">
-        <article><span>01</span><h3>Trust before volume.</h3><p>A smaller set of reliable, explainable tests creates more value than a large suite nobody trusts.</p></article>
-        <article><span>02</span><h3>Risk shapes coverage.</h3><p>Testing depth should follow product risk, user impact, and the cost of a failure—not a generic checklist.</p></article>
-        <article><span>03</span><h3>Diagnostics are a feature.</h3><p>Automation should shorten investigation with useful traces, artifacts, and failure messages.</p></article>
-        <article><span>04</span><h3>Quality is shared.</h3><p>The strongest systems bring developers, product, DevOps, and quality engineers into one delivery conversation.</p></article>
+        <article><span>1</span><h3>Trust before volume.</h3><p>A smaller set of reliable, explainable tests creates more value than a large suite nobody trusts.</p></article>
+        <article><span>2</span><h3>Risk shapes coverage.</h3><p>Testing depth should follow product risk, user impact, and the cost of a failure—not a generic checklist.</p></article>
+        <article><span>3</span><h3>Diagnostics are a feature.</h3><p>Automation should shorten investigation with useful traces, artifacts, and failure messages.</p></article>
+        <article><span>4</span><h3>Quality is shared.</h3><p>The strongest systems bring developers, product, DevOps, and quality engineers into one delivery conversation.</p></article>
       </div>
     </section>
 
     <section class="section section--dark" aria-labelledby="toolkit-title">
       <div class="shell">
         <div class="section-heading">
-          <p class="eyebrow">Technical toolkit</p>
+          <p class="eyebrow">Core expertise</p>
           <h2 id="toolkit-title">Deep where it matters. <span class="gradient-text">Flexible everywhere else.</span></h2>
         </div>
-        <div class="skill-grid">
-          {profile.skillGroups.map((group) => (
-            <article>
-              <h3>{group.label}</h3>
-              <ul>{group.items.map((item) => <li>{item}</li>)}</ul>
-            </article>
-          ))}
-        </div>
+        <SkillGrid groups={profile.skillGroups} />
       </div>
     </section>
 

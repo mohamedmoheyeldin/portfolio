@@ -38,6 +38,26 @@ test('presents project-first work and complete case studies', async ({ page }) =
   await expect(page.getByText('Client-sensitive details are intentionally generalized')).toBeVisible();
 });
 
+test('keeps typography, project cards, and expertise presentation consistent', async ({ page }) => {
+  await page.goto('/work/');
+
+  const projectCards = page.locator('.project-card');
+  const cardColors = await projectCards.evaluateAll((cards) => cards.map((card) => getComputedStyle(card).backgroundColor));
+  expect(new Set(cardColors).size).toBe(1);
+  await expect(page.locator('.project-card__number')).toHaveText(['1', '2', '3', '4']);
+  await expect(page.getByText('Official title:', { exact: false })).toHaveCount(0);
+
+  await page.goto('/about/');
+  const aboutSkills = await page.locator('.skill-grid h3').allTextContents();
+  await expect(page.getByText('Core expertise', { exact: true })).toBeVisible();
+  await expect(page.getByText(/Local and cloud AI|Local-First AI|Local AI/i)).toHaveCount(0);
+
+  await page.goto('/resume/');
+  const resumeSkills = await page.locator('.skill-grid h3').allTextContents();
+  expect(resumeSkills).toEqual(aboutSkills);
+  await expect(page.getByText(/Local and cloud AI|Local-First AI|Local AI/i)).toHaveCount(0);
+});
+
 test('publishes complete root metadata and route-specific case-study metadata', async ({ page }) => {
   await page.goto('/');
 

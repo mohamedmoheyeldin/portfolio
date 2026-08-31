@@ -2,6 +2,7 @@
 import ExperienceList from '@/components/ExperienceList.astro';
 import SiteFooter from '@/components/SiteFooter.astro';
 import SiteHeader from '@/components/SiteHeader.astro';
+import SkillGrid from '@/components/SkillGrid.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCareerProfile } from '@/lib/career';
 import '@/styles/resume.css';
@@ -39,7 +40,7 @@ const downloads = {
         <ul>
           <li>Professional summary and strongest capabilities</li>
           <li>Condensed experience across all three roles</li>
-          <li>Core automation, CI/CD, cloud, and AI toolkit</li>
+          <li>Core automation, API, CI/CD, and cloud toolkit</li>
         </ul>
         <div class="resume-downloads">
           <a class="button" href={downloads.onePage.pdf} download>Download PDF</a>
@@ -55,7 +56,7 @@ const downloads = {
         <ul>
           <li>Expanded responsibilities, delivery context, and tooling</li>
           <li>Complete skill groups across engineering and quality</li>
-          <li>AI-assisted, local-first, cloud, and CI/CD practices</li>
+          <li>Automation, API, cloud, and CI/CD practices</li>
         </ul>
         <div class="resume-downloads">
           <a class="button" href={downloads.detailed.pdf} download>Download PDF</a>
@@ -78,28 +79,9 @@ const downloads = {
       <div class="section-heading">
         <p class="eyebrow">Core expertise</p>
         <h2 id="expertise-title">A broader quality <span class="gradient-text">engineering toolkit.</span></h2>
-        <p>Automation is the foundation, supported by delivery systems, cloud infrastructure, data validation, observability, performance testing, and practical AI engineering.</p>
+        <p>Automation is the foundation, supported by delivery systems, cloud infrastructure, data validation, observability, and performance testing.</p>
       </div>
-      <div class="resume-skill-grid">
-        {profile.skillGroups.map((group) => (
-          <article>
-            <h3>{group.label}</h3>
-            <ul>{group.items.map((item) => <li>{item}</li>)}</ul>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <section class="section shell" aria-labelledby="ai-title">
-      <div class="section-heading">
-        <p class="eyebrow">Local and cloud AI</p>
-        <h2 id="ai-title">AI workflows built around <span class="gradient-text">evidence and control.</span></h2>
-        <p>{profile.aiPractice.summary}</p>
-      </div>
-      <div class="ai-practice">
-        <h3>{profile.aiPractice.title}</h3>
-        <ul class="feature-list">{profile.aiPractice.highlights.map((highlight) => <li>{highlight}</li>)}</ul>
-      </div>
+      <SkillGrid groups={profile.skillGroups} />
     </section>
 
     <section class="section shell" aria-labelledby="experience-title">

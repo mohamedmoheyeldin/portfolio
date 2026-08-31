@@ -1,0 +1,18 @@
+---
+interface SkillGroup {
+  label: string;
+  items: string[];
+}
+
+interface Props { groups: SkillGroup[] }
+const { groups } = Astro.props;
+---
+
+<div class="skill-grid">
+  {groups.map((group) => (
+    <article>
+      <h3>{group.label}</h3>
+      <ul>{group.items.map((item) => <li>{item}</li>)}</ul>
+    </article>
+  ))}
+</div>

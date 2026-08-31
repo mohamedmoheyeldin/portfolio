@@ -45,11 +45,6 @@ const career = defineCollection({
       }),
     ),
     credentials: z.array(z.string()),
-    aiPractice: z.object({
-      title: z.string(),
-      summary: z.string(),
-      highlights: z.array(z.string()),
-    }),
     projects: z.array(
       z.object({
         slug: z.string(),

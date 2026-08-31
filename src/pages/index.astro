@@ -76,7 +76,7 @@ const description = 'Senior SDET and Test Automation Lead designing scalable UI 
         <div class="project-card-grid">
           {featuredProjects.map((project, index) => (
             <article class:list={["project-card", { "project-card--featured": index === 0 }]}>
-              <div class="project-card__number" aria-hidden="true">0{index + 1}</div>
+              <div class="project-card__number" aria-hidden="true">{index + 1}</div>
               <div>
                 <p class="eyebrow">{project.context} · {project.period}</p>
                 <h3><a href={`${root}work/${project.slug}/`}>{project.name}</a></h3>

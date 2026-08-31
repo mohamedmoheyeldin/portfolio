@@ -160,8 +160,7 @@ def build_docx(profile: dict, output: Path, compact: bool):
         for role, limit in zip(profile["experience"], limits):
             add_role(doc, role, True, role["highlights"][:limit])
         add_section_heading(doc, "Technical", "toolkit", compact)
-        selected = profile["skillGroups"][:4] + profile["skillGroups"][-2:]
-        for group in selected:
+        for group in profile["skillGroups"]:
             add_body(doc, f'{group["label"]}: {", ".join(group["items"][:7])}', True)
         add_section_heading(doc, "Education &", "development", compact)
         education = profile["education"][0]
@@ -173,17 +172,9 @@ def build_docx(profile: dict, output: Path, compact: bool):
             p.paragraph_format.space_after = Pt(3)
             style_run(p.add_run(f'{group["label"]}: '), 9.1, INK, True)
             style_run(p.add_run(", ".join(group["items"])), 9.1, MUTED)
-        doc.add_page_break()
         add_section_heading(doc, "Professional", "experience", False)
-        for index, role in enumerate(profile["experience"]):
+        for role in profile["experience"]:
             add_role(doc, role, False, role["highlights"])
-            if index == 0:
-                doc.add_page_break()
-        doc.add_page_break()
-        add_section_heading(doc, "AI engineering", "practice", False)
-        add_body(doc, profile["aiPractice"]["summary"], False)
-        for item in profile["aiPractice"]["highlights"]:
-            add_bullet(doc, item, False)
         add_section_heading(doc, "Portfolio", "system", False)
         project = profile["projects"][0]
         add_body(doc, project["description"], False)
@@ -249,7 +240,7 @@ def build_pdf(profile: dict, output: Path, compact: bool):
         for role, limit in zip(profile["experience"], [2, 2, 1]):
             role_pdf(story, styles, role, True, role["highlights"][:limit])
         section_pdf(story, styles, "Technical", "toolkit")
-        for group in profile["skillGroups"][:4] + profile["skillGroups"][-2:]:
+        for group in profile["skillGroups"]:
             story.append(Paragraph(f'<b>{group["label"]}:</b> {", ".join(group["items"][:7])}', styles["body"]))
         section_pdf(story, styles, "Education &", "development")
         education = profile["education"][0]
@@ -258,17 +249,9 @@ def build_pdf(profile: dict, output: Path, compact: bool):
         section_pdf(story, styles, "Technical", "skills")
         for group in profile["skillGroups"]:
             story.append(Paragraph(f'<b>{group["label"]}:</b> {", ".join(group["items"])}', styles["body"]))
-        story.append(PageBreak())
         section_pdf(story, styles, "Professional", "experience")
-        for index, role in enumerate(profile["experience"]):
+        for role in profile["experience"]:
             role_pdf(story, styles, role, False, role["highlights"])
-            if index == 0:
-                story.append(PageBreak())
-        story.append(PageBreak())
-        section_pdf(story, styles, "AI engineering", "practice")
-        story.append(Paragraph(profile["aiPractice"]["summary"], styles["body"]))
-        for item in profile["aiPractice"]["highlights"]:
-            story.append(Paragraph("&bull; " + item, styles["bullet"]))
         section_pdf(story, styles, "Portfolio", "system")
         project = profile["projects"][0]
         story.append(Paragraph(project["description"], styles["body"]))

@@ -26,7 +26,6 @@ const { experience } = Astro.props;
       <div class="timeline__content">
         <p class="eyebrow">{role.employer}</p>
         <h3>{role.professionalTitle ?? role.title}</h3>
-        {role.professionalTitle && <p class="role-title">Official title: {role.title}</p>}
         <p>{role.summary}</p>
         <ul class="feature-list">
           {role.highlights.map((highlight) => <li>{highlight}</li>)}

@@ -3,12 +3,11 @@
 ## Setup
 
 ```bash
-corepack enable
-corepack pnpm install --frozen-lockfile
+pnpm install --frozen-lockfile
 pnpm exec playwright install chromium
 ```
 
-Use Node.js 24 and the pnpm version declared in `package.json` to match CI.
+Use Node.js 24 (see `.nvmrc`) and the pnpm version declared in `package.json` to match CI. The project scripts support native Windows PowerShell and POSIX shells.
 
 ## Daily workflow
 
