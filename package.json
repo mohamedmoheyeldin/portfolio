@@ -28,7 +28,7 @@
     "verify": "pnpm quality"
   },
   "dependencies": {
-    "astro": "7.2.4"
+    "astro": "7.2.8"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
