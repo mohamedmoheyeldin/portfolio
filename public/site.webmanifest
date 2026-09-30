@@ -1,16 +1,10 @@
 {
-  "name": "Mohamed Moheyeldin — Quality Engineering",
-  "short_name": "Mohamed M.",
-  "description": "Senior SDET and Test Automation Lead portfolio.",
+  "name": "Mohamed Moheyeldin — Forward Deployed Engineer",
+  "short_name": "Mohamed Moheyeldin",
+  "description": "Forward Deployed Engineer portfolio: practical software, APIs, integrations, and delivery systems.",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#1267e8",
-  "icons": [
-    {
-      "src": "app-icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+  "theme_color": "#155dfb",
+  "icons": []
 }

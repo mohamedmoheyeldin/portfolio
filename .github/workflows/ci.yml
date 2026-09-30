@@ -20,14 +20,4 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm quality
-      - if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: browser-test-artifacts
-          path: |
-            playwright-report/
-            test-results/
-            cypress/screenshots/
-          if-no-files-found: ignore

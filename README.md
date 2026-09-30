@@ -1,16 +1,15 @@
 # Mohamed Moheyeldin — Portfolio Platform
 
-A clean Astro 7 foundation for a unified personal brand across a website portfolio, PDF resume, and editable Word resume.
+A Vite 8 portfolio with React 19, free Untitled UI components, Tailwind CSS v4, and a shared career record for the website and resume library.
 
 ## Status
 
-This is a complete, multi-route portfolio experience with a premium editorial design, schema-validated career content, project-first case studies, a print-ready resume library, automated quality gates, and Cloudflare Workers hosting.
+The `untitledui` redesign includes a new home page, searchable project explorer, four case studies, about page, and resume library. The portfolio itself is featured as an independent engineering project. Production deployment is separate from local review.
 
 ## Local setup
 
 ```bash
 pnpm install --frozen-lockfile
-pnpm exec playwright install chromium
 pnpm verify
 pnpm dev
 ```
@@ -20,36 +19,32 @@ Use Node.js 24 (see `.nvmrc`) and pnpm 11.22.0. The same commands work in Window
 ## Architecture
 
 - `src/content/career.json` — canonical draft career facts
-- `src/content.config.ts` — schema validation
-- `src/styles/tokens.css` — provisional cross-format design decisions
-- `src/pages/index.astro` — premium portfolio home experience
-- `src/pages/work.astro` — project-first case-study index and supporting career record
-- `src/pages/work/[slug].astro` — source-grounded project detail pages
-- `src/pages/about.astro` — principles, toolkit, and education
-- `src/pages/resume/index.astro` — browser and print/PDF resume baseline
-- `src/lib/presentations.ts` — shared web/PDF/DOCX presentation contract
-- `src/layouts/BaseLayout.astro` — canonical, social, icon, and structured metadata
+- `scripts/validate-content.mjs` — schema validation
+- `src/styles/theme.css` — upstream Untitled UI theme
+- `src/styles/global.css` — responsive portfolio layouts and typography
+- `src/components/Portfolio.tsx` — React page composition and interactive work explorer
+- `src/components/base/` — free Untitled UI source components
+
+- `scripts/build.mjs` — canonical, social, icon, and structured metadata
 - `docs/` — architecture, provenance, and open design brief
 
 See [Architecture](docs/ARCHITECTURE.md), [Content provenance](docs/CONTENT_PROVENANCE.md), and [Design brief](docs/DESIGN_BRIEF.md).
 
+See [Untitled UI integration](docs/UNTITLED-UI.md) for upstream attribution and local adaptations.
+
 ## Quality gates
 
 ```bash
-pnpm check              # Astro and strict TypeScript diagnostics
+pnpm check              # strict TypeScript diagnostics and content schema validation
 pnpm build              # Static production output
-pnpm test:e2e           # Primary Playwright journeys and accessibility
-pnpm test:e2e:cypress   # Complementary progressive-enhancement check
 pnpm test:pages         # GitHub Pages subpath packaging check
 pnpm verify             # Complete local gate (alias for pnpm quality)
 ```
 
-The quality gate checks every major route for automated accessibility issues, validates case-study journeys and resume downloads, and confirms search/social metadata plus sitemap and robots output.
+The quality gate validates TypeScript and content schemas, builds the site, and checks GitHub Pages subpath packaging. Browser test dependencies and suites have been removed. Navigation, filtering, downloads, responsive layouts, and accessibility require separate browser review.
 
 See [Development](docs/DEVELOPMENT.md) and [Testing](docs/TESTING.md) for contributor workflow and test-layer details.
 
 ## Deployment
 
-Cloudflare Workers Static Assets is the production host. Pushes to `main` are built through Cloudflare's Git integration. Use `pnpm run build:cloudflare` and `pnpm exec wrangler deploy` in Cloudflare's build settings. See [Cloudflare deployment](docs/CLOUDFLARE.md).
-
-The Sites plugin deployment uses `pnpm run build:sites` to package the same static Astro output behind a minimal Cloudflare-compatible asset worker.
+Cloudflare Workers Static Assets is the production host. Pushes to `main` are built through Cloudflare's Git integration. Use `pnpm run build:cloudflare` and `pnpm dlx wrangler@4.144.0 deploy` in Cloudflare's build settings. See [Cloudflare deployment](docs/CLOUDFLARE.md).

@@ -1,13 +1,8 @@
-import { getEntry } from 'astro:content';
+import records from '../content/career.json';
+export const profile = records[0]!;
 
 export async function getCareerProfile() {
-  const profile = await getEntry('career', 'profile');
-
-  if (!profile) {
-    throw new Error('The canonical career profile is missing.');
-  }
-
-  return profile.data;
+  return profile;
 }
 
 export function formatCareerDate(value: string | null): string {

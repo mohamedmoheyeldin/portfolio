@@ -1,10 +1,6 @@
 node_modules/
 .astro/
 dist/
-playwright-report/
-test-results/
-cypress/screenshots/
-cypress/videos/
 .DS_Store
 .env
 .env.*

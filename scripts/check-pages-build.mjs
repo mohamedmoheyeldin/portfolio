@@ -9,7 +9,7 @@ const [home, resume, sitemap, robots] = await Promise.all([
 
 const expectations = [
   [home, 'href="/portfolio/work/"'],
-  [home, 'src="/portfolio/images/quality-engineering-system.webp"'],
+  [home, 'href="/portfolio/work/portfolio-career-content-system/"'],
   [home, 'href="/portfolio/site.webmanifest"'],
   [resume, 'href="/portfolio/resume/mohamed-moheyeldin-resume-one-page.pdf"'],
   [sitemap, 'https://mohamedmoheyeldin.github.io/portfolio/work/'],

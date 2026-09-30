@@ -5,27 +5,66 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
+import re
 from pathlib import Path
 
 from docx import Document
-from docx.enum.section import WD_SECTION
-from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK, WD_LINE_SPACING
-from docx.oxml import OxmlElement
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
 from reportlab.lib.colors import HexColor
-from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
-from reportlab.platypus import KeepTogether, PageBreak, Paragraph, SimpleDocTemplate, Spacer
+from reportlab.platypus import Paragraph, SimpleDocTemplate
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 
-INK = "0B1020"
-MUTED = "4D5568"
-BLUE = "1267E8"
-VIOLET = "7259FF"
-LINE = "DFE3EB"
-FONT = "Arial"
+ROOT = Path(__file__).resolve().parents[1]
+FONT = "Inter"
+
+
+def theme_color(name: str) -> str:
+    """Resolve the site's light Untitled UI tokens; convert OKLCH to sRGB for print."""
+    upstream = (ROOT / "node_modules/tailwindcss/theme.css").read_text(encoding="utf-8")
+    theme = (ROOT / "src/styles/theme.css").read_text(encoding="utf-8").split(".dark-mode")[0]
+    tokens = {}
+    for source in (upstream, theme):
+        # First occurrence is the light theme; later dark overrides are excluded.
+        local = {}
+        for key, value in re.findall(r"(--[\w-]+):\s*([^;]+);", source):
+            local.setdefault(key, value.strip())
+        tokens.update(local)
+    value = tokens[name]
+    visited = {name}
+    while value.startswith("var("):
+        key = value[4:-1]
+        if key in visited:
+            raise ValueError(f"Cyclic theme token: {key}")
+        visited.add(key)
+        value = tokens[key]
+    if value.startswith("rgb("):
+        channels = [round(float(v)) for v in value[4:-1].split()]
+    elif value.startswith("oklch("):
+        light, chroma, hue = value[6:-1].split()
+        light, chroma, hue = float(light.rstrip("%")) / 100, float(chroma), math.radians(float(hue) if hue != "none" else 0)
+        a, b = chroma * math.cos(hue), chroma * math.sin(hue)
+        l, m, s = (light + .3963377774*a + .2158037573*b)**3, (light - .1055613458*a - .0638541728*b)**3, (light - .0894841775*a - 1.291485548*b)**3
+        linear = [4.0767416621*l - 3.3077115913*m + .2309699292*s, -1.2684380046*l + 2.6097574011*m - .3413193965*s, -.0041960863*l - .7034186147*m + 1.707614701*s]
+        channels = [round(255 * max(0, min(1, 12.92*c if c <= .0031308 else 1.055*c**(1/2.4)-.055))) for c in linear]
+    else:
+        raise ValueError(f"Unsupported print color: {value}")
+    return "".join(f"{c:02X}" for c in channels)
+
+
+INK = theme_color("--color-text-primary")
+MUTED = theme_color("--color-text-tertiary")
+BLUE = theme_color("--color-text-brand-secondary")
+for face, filename in [("Inter", "Inter-Regular.ttf"), ("Inter-SemiBold", "Inter-SemiBold.ttf")]:
+    pdfmetrics.registerFont(TTFont(face, str(ROOT / "assets/fonts" / filename)))
+pdfmetrics.registerFontFamily("Inter", normal="Inter", bold="Inter-SemiBold", italic="Inter", boldItalic="Inter-SemiBold")
 
 
 def load_profile(source: Path) -> dict:
@@ -33,20 +72,6 @@ def load_profile(source: Path) -> dict:
     if not records or records[0].get("id") != "profile":
         raise ValueError("career.json must contain the canonical profile record")
     return records[0]
-
-
-def set_cell_border(paragraph, color=LINE, size="6"):
-    p_pr = paragraph._p.get_or_add_pPr()
-    borders = p_pr.find(qn("w:pBdr"))
-    if borders is None:
-        borders = OxmlElement("w:pBdr")
-        p_pr.append(borders)
-    bottom = OxmlElement("w:bottom")
-    bottom.set(qn("w:val"), "single")
-    bottom.set(qn("w:sz"), size)
-    bottom.set(qn("w:space"), "3")
-    bottom.set(qn("w:color"), color)
-    borders.append(bottom)
 
 
 def style_run(run, size=9, color=INK, bold=False, italic=False):
@@ -62,7 +87,9 @@ def style_run(run, size=9, color=INK, bold=False, italic=False):
 
 def configure_doc(document: Document, compact: bool):
     section = document.sections[0]
-    margin = 0.42 if compact else 0.62
+    section.page_width = Inches(8.5)
+    section.page_height = Inches(11)
+    margin = 0.62
     section.top_margin = Inches(margin)
     section.bottom_margin = Inches(margin)
     section.left_margin = Inches(margin)
@@ -74,7 +101,7 @@ def configure_doc(document: Document, compact: bool):
     normal.font.name = FONT
     normal._element.rPr.rFonts.set(qn("w:ascii"), FONT)
     normal._element.rPr.rFonts.set(qn("w:hAnsi"), FONT)
-    normal.font.size = Pt(8.1 if compact else 9.4)
+    normal.font.size = Pt(10 if compact else 9.4)
     normal.font.color.rgb = RGBColor.from_string(INK)
     normal.paragraph_format.space_after = Pt(2.4 if compact else 4.5)
     normal.paragraph_format.line_spacing = 1.04 if compact else 1.12
@@ -82,19 +109,18 @@ def configure_doc(document: Document, compact: bool):
 
 def add_header(document: Document, profile: dict, compact: bool):
     p = document.add_paragraph()
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
     p.paragraph_format.space_after = Pt(1)
-    style_run(p.add_run(profile["name"]), 18 if compact else 23, INK, True)
+    style_run(p.add_run(profile["name"]), 24 if compact else 23, INK, True)
     p = document.add_paragraph()
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
     p.paragraph_format.space_after = Pt(3 if compact else 5)
     style_run(p.add_run(profile["headline"]), 9 if compact else 11, BLUE, True)
     contact = f'{profile["location"]}  |  mohamedmoheyeldin.com  |  mohamedmoheyeldin.jobs@gmail.com  |  linkedin.com/in/moheyeldin  |  github.com/mohamedmoheyeldin'
     p = document.add_paragraph()
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
     p.paragraph_format.space_after = Pt(4 if compact else 8)
-    style_run(p.add_run(contact), 6.8 if compact else 8, MUTED)
-    set_cell_border(p)
+    style_run(p.add_run(contact), 8 if compact else 8, MUTED)
 
 
 def add_section_heading(document: Document, black: str, accent: str, compact: bool):
@@ -102,16 +128,14 @@ def add_section_heading(document: Document, black: str, accent: str, compact: bo
     p.paragraph_format.space_before = Pt(4 if compact else 10)
     p.paragraph_format.space_after = Pt(2 if compact else 4)
     p.paragraph_format.keep_with_next = True
-    style_run(p.add_run(black.upper() + " "), 8.4 if compact else 10.2, INK, True)
-    style_run(p.add_run(accent.upper()), 8.4 if compact else 10.2, BLUE, True)
-    set_cell_border(p, color=LINE, size="4")
+    style_run(p.add_run(black + " " + accent), 11 if compact else 12, BLUE, True)
 
 
 def add_body(document: Document, text: str, compact: bool, italic=False):
     p = document.add_paragraph()
     p.paragraph_format.space_after = Pt(2.2 if compact else 5)
     p.paragraph_format.line_spacing = 1.02 if compact else 1.12
-    style_run(p.add_run(text), 7.7 if compact else 9.2, MUTED if italic else INK, italic=italic)
+    style_run(p.add_run(text), 9.5 if compact else 9.2, MUTED if italic else INK, italic=italic)
 
 
 def add_bullet(document: Document, text: str, compact: bool):
@@ -120,7 +144,7 @@ def add_bullet(document: Document, text: str, compact: bool):
     p.paragraph_format.first_line_indent = Inches(-0.12)
     p.paragraph_format.space_after = Pt(1.2 if compact else 3.2)
     p.paragraph_format.line_spacing = 1.0 if compact else 1.08
-    style_run(p.add_run(text), 7.4 if compact else 9)
+    style_run(p.add_run(text), 9.2 if compact else 9)
 
 
 def add_role(document: Document, role: dict, compact: bool, highlights: list[str]):
@@ -129,7 +153,7 @@ def add_role(document: Document, role: dict, compact: bool, highlights: list[str
     p.paragraph_format.space_after = Pt(0)
     p.paragraph_format.keep_with_next = True
     title = role.get("professionalTitle") or role["title"]
-    style_run(p.add_run(f'{title} | {role["employer"]}'), 8.1 if compact else 10, INK, True)
+    style_run(p.add_run(f'{title} | {role["employer"]}'), 10 if compact else 10, INK, True)
     date_end = "Present" if role["end"] is None else role["end"]
     style_run(p.add_run(f'  |  {role["start"]} - {date_end}'), 7 if compact else 8.3, MUTED)
     if not compact:
@@ -141,7 +165,7 @@ def add_role(document: Document, role: dict, compact: bool, highlights: list[str
 def add_footer(document: Document, label: str):
     for section in document.sections:
         p = section.footer.paragraphs[0]
-        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p.alignment = WD_ALIGN_PARAGRAPH.LEFT
         style_run(p.add_run(f"{label} | mohamedmoheyeldin.com"), 7.2, MUTED)
 
 
@@ -176,7 +200,7 @@ def build_docx(profile: dict, output: Path, compact: bool):
         for role in profile["experience"]:
             add_role(doc, role, False, role["highlights"])
         add_section_heading(doc, "Portfolio", "system", False)
-        project = profile["projects"][0]
+        project = next(p for p in profile["projects"] if p["slug"] == "portfolio-career-content-system")
         add_body(doc, project["description"], False)
         for item in project["highlights"]:
             add_bullet(doc, item, False)
@@ -188,27 +212,28 @@ def build_docx(profile: dict, output: Path, compact: bool):
     add_footer(doc, "One-page resume" if compact else "Detailed resume")
     doc.core_properties.title = f'{profile["name"]} - {"One-page" if compact else "Detailed"} Resume'
     doc.core_properties.subject = profile["headline"]
+    doc.core_properties.comments = ""
     doc.core_properties.author = profile["name"]
     doc.save(output)
 
 
 def pdf_styles(compact: bool):
     base = getSampleStyleSheet()
-    body_size = 7.4 if compact else 9.1
+    body_size = 9.2 if compact else 9.1
     return {
-        "name": ParagraphStyle("Name", parent=base["Normal"], fontName="Helvetica-Bold", fontSize=18 if compact else 23, leading=20 if compact else 26, textColor=HexColor("#" + INK), alignment=TA_CENTER, spaceAfter=2),
-        "title": ParagraphStyle("Title", parent=base["Normal"], fontName="Helvetica-Bold", fontSize=9 if compact else 11, leading=11 if compact else 13, textColor=HexColor("#" + BLUE), alignment=TA_CENTER, spaceAfter=3),
-        "contact": ParagraphStyle("Contact", parent=base["Normal"], fontName="Helvetica", fontSize=6.7 if compact else 7.8, leading=8 if compact else 10, textColor=HexColor("#" + MUTED), alignment=TA_CENTER, spaceAfter=5),
-        "section": ParagraphStyle("Section", parent=base["Normal"], fontName="Helvetica-Bold", fontSize=8.5 if compact else 10.4, leading=10 if compact else 13, textColor=HexColor("#" + INK), spaceBefore=4 if compact else 10, spaceAfter=2 if compact else 4, borderColor=HexColor("#" + LINE), borderWidth=0, borderPadding=1),
-        "body": ParagraphStyle("Body", parent=base["Normal"], fontName="Helvetica", fontSize=body_size, leading=8.6 if compact else 11.2, textColor=HexColor("#" + INK), spaceAfter=2 if compact else 4),
-        "muted": ParagraphStyle("Muted", parent=base["Normal"], fontName="Helvetica-Oblique", fontSize=body_size, leading=8.6 if compact else 11.2, textColor=HexColor("#" + MUTED), spaceAfter=2 if compact else 4),
-        "role": ParagraphStyle("Role", parent=base["Normal"], fontName="Helvetica-Bold", fontSize=8.1 if compact else 10, leading=9.2 if compact else 12, textColor=HexColor("#" + INK), spaceBefore=2 if compact else 7, spaceAfter=1),
-        "bullet": ParagraphStyle("Bullet", parent=base["Normal"], fontName="Helvetica", fontSize=7.1 if compact else 8.8, leading=8.2 if compact else 10.7, textColor=HexColor("#" + INK), leftIndent=9 if compact else 13, firstLineIndent=-7, spaceAfter=1 if compact else 3, bulletIndent=1),
+        "name": ParagraphStyle("Name", parent=base["Normal"], fontName="Inter-SemiBold", fontSize=24 if compact else 23, leading=29 if compact else 26, textColor=HexColor("#" + INK), alignment=TA_LEFT, spaceAfter=2),
+        "title": ParagraphStyle("Title", parent=base["Normal"], fontName="Inter-SemiBold", fontSize=9 if compact else 11, leading=11 if compact else 13, textColor=HexColor("#" + BLUE), alignment=TA_LEFT, spaceAfter=3),
+        "contact": ParagraphStyle("Contact", parent=base["Normal"], fontName="Inter", fontSize=8, leading=10, textColor=HexColor("#" + MUTED), alignment=TA_LEFT, spaceAfter=5),
+        "section": ParagraphStyle("Section", parent=base["Normal"], fontName="Inter-SemiBold", fontSize=11 if compact else 12, leading=14 if compact else 15, textColor=HexColor("#" + INK), spaceBefore=10 if compact else 10, spaceAfter=2 if compact else 4),
+        "body": ParagraphStyle("Body", parent=base["Normal"], fontName="Inter", fontSize=body_size, leading=12.5 if compact else 11.2, textColor=HexColor("#" + INK), spaceAfter=2 if compact else 4),
+        "muted": ParagraphStyle("Muted", parent=base["Normal"], fontName="Inter", fontSize=body_size, leading=12.5 if compact else 11.2, textColor=HexColor("#" + MUTED), spaceAfter=2 if compact else 4),
+        "role": ParagraphStyle("Role", parent=base["Normal"], fontName="Inter-SemiBold", fontSize=10 if compact else 10, leading=12, textColor=HexColor("#" + INK), spaceBefore=2 if compact else 7, spaceAfter=1),
+        "bullet": ParagraphStyle("Bullet", parent=base["Normal"], fontName="Inter", fontSize=9.2 if compact else 8.8, leading=12 if compact else 10.7, textColor=HexColor("#" + INK), leftIndent=9 if compact else 13, firstLineIndent=-7, spaceAfter=1 if compact else 3, bulletIndent=1),
     }
 
 
 def section_pdf(story, styles, black, accent):
-    story.append(Paragraph(f'{black.upper()} <font color="#{BLUE}">{accent.upper()}</font>', styles["section"]))
+    story.append(Paragraph(f'<font color="#{BLUE}">{black} {accent}</font>', styles["section"]))
 
 
 def role_pdf(story, styles, role, compact, highlights):
@@ -222,7 +247,7 @@ def role_pdf(story, styles, role, compact, highlights):
 
 
 def build_pdf(profile: dict, output: Path, compact: bool):
-    margin = 0.42 * inch if compact else 0.62 * inch
+    margin = 0.62 * inch
     document = SimpleDocTemplate(str(output), pagesize=letter, rightMargin=margin, leftMargin=margin, topMargin=margin, bottomMargin=margin, title=f'{profile["name"]} Resume', author=profile["name"])
     styles = pdf_styles(compact)
     story = [
@@ -253,7 +278,7 @@ def build_pdf(profile: dict, output: Path, compact: bool):
         for role in profile["experience"]:
             role_pdf(story, styles, role, False, role["highlights"])
         section_pdf(story, styles, "Portfolio", "system")
-        project = profile["projects"][0]
+        project = next(p for p in profile["projects"] if p["slug"] == "portfolio-career-content-system")
         story.append(Paragraph(project["description"], styles["body"]))
         for item in project["highlights"]:
             story.append(Paragraph("&bull; " + item, styles["bullet"]))

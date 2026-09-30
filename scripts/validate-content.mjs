@@ -1,0 +1,12 @@
+import {readFile} from 'node:fs/promises';
+const records = JSON.parse(await readFile(new URL('../src/content/career.json', import.meta.url), 'utf8'));
+const url = value => { try {new URL(value); return typeof value === 'string';} catch {return false;} };
+const text = value => typeof value === 'string';
+const nullable = check => value => value === null || check(value);
+const array = check => value => Array.isArray(value) && value.every(check);
+const object = fields => value => value !== null && typeof value === 'object' && Object.entries(fields).every(([key,check]) => check(value[key]));
+const texts = array(text);
+const schema = object({id:v=>v==='profile',name:text,location:text,headline:text,heroTitle:text,summary:text,detailedSummary:texts,links:array(object({label:text,href:url})),competencies:texts,skillGroups:array(object({label:text,items:texts})),experience:array(object({employer:text,title:text,professionalTitle:nullable(text),location:text,start:text,end:nullable(text),summary:text,highlights:texts})),education:array(object({institution:text,credential:text,field:text,end:text})),credentials:texts,projects:array(object({slug:v=>text(v)&&/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(v),kind:v=>['career','independent'].includes(v),context:text,role:text,period:text,name:text,description:text,challenge:text,approach:texts,outcome:text,repository:nullable(url),technologies:texts,highlights:texts})),provenance:object({status:v=>v==='draft',referenceRepository:url,sourceSnapshotDate:text,importedOn:text,policy:text})});
+if (!Array.isArray(records) || records.length !== 1 || !schema(records[0])) throw Error('Career content does not match the required public profile schema.');
+if (new Set(records[0].projects.map(p=>p.slug)).size !== records[0].projects.length) throw Error('Duplicate project slugs.');
+console.log('Career content schema validated.');

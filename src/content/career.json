@@ -2,13 +2,13 @@
   {
     "id": "profile",
     "name": "Mohamed Moheyeldin",
-    "location": "Reston, VA",
-    "headline": "Senior SDET | Test Automation Lead | Quality Engineering",
-    "heroTitle": "Engineering confidence into every release.",
-    "summary": "Hands-on Software Development Engineer in Test and quality engineering leader with 10+ years of experience designing scalable UI and API automation, building reliable test frameworks, and integrating quality signals into delivery pipelines across federal, e-commerce, and banking environments.",
+    "location": "Reston, VA 20191",
+    "headline": "Forward Deployed Engineer",
+    "heroTitle": "From complex problems to working software.",
+    "summary": "Engineer focused on forward deployed work, with 10+ years of experience building automation, API integrations, cloud environments, and delivery systems across federal, e-commerce, and banking organizations. I turn complex requirements into practical software, connect systems, and help teams troubleshoot and deliver reliable solutions.",
     "detailedSummary": [
-      "Senior Software Development Engineer in Test and Test Automation Lead with 10+ years of experience delivering scalable, reliable software across federal, banking, e-commerce, and enterprise environments. Specialized in UI, API, integration, and end-to-end automation using Playwright, Cypress, Selenium WebDriver, TypeScript, JavaScript, Java, Cucumber BDD, REST Assured, and Postman.",
-      "Combines hands-on framework engineering with technical leadership: defining test strategy, automation roadmaps, framework standards, risk-based testing, release-readiness criteria, and quality engineering practices while remaining active in development, debugging, code review, test implementation, and failure analysis."
+      "Engineer focused on forward deployed work, bringing 10+ years of hands-on experience across federal, e-commerce, and banking environments. My background spans TypeScript, JavaScript, Java, SQL, API integration, automation architecture, and cloud delivery.",
+      "I build tools and workflows that connect APIs, data, and infrastructure: Jira integrations, data-provisioning utilities, GitHub Actions pipelines, and AWS environments. I combine implementation and debugging with technical leadership, code review, and mentoring, including experience leading five automation engineers."
     ],
     "links": [
       { "label": "Email", "href": "mailto:mohamedmoheyeldin.jobs@gmail.com" },
@@ -16,12 +16,12 @@
       { "label": "GitHub", "href": "https://github.com/mohamedmoheyeldin" }
     ],
     "competencies": [
-      "Test Automation Architecture",
-      "UI and API Testing",
-      "CI/CD Quality Gates",
-      "Manual and Exploratory Testing",
-      "Risk-Based Testing",
-      "Team Leadership and Mentoring"
+      "API Integration & Automation",
+      "Cloud Environments & CI/CD",
+      "Requirements to Implementation",
+      "Debugging & Diagnostics",
+      "Data Provisioning & Validation",
+      "Technical Leadership & Mentoring"
     ],
     "skillGroups": [
       {
@@ -200,21 +200,21 @@
         "role": "Designer and engineer",
         "period": "2026",
         "name": "Portfolio & Career Content System",
-        "description": "A schema-driven Astro platform that keeps the website portfolio, browser resume, and generated PDF and DOCX outputs aligned through one validated professional data source.",
+        "description": "A schema-validated React and Vite platform that keeps the website portfolio, browser resume, and generated PDF and DOCX outputs aligned through one validated professional data source.",
         "challenge": "Career facts had to remain consistent across a public website, browser resume, concise application resume, and detailed technical resume without duplicating content or weakening presentation quality.",
         "approach": [
           "Designed a schema-validated career record consumed by every presentation channel.",
-          "Built accessible, responsive Astro pages with zero client-framework runtime.",
+          "Rebuilt the portfolio on the official Untitled UI React and Vite stack, preserving static pages, content validation, and resume downloads.",
           "Generated separate PDF and DOCX formats from the same factual source while preserving channel-appropriate layout.",
-          "Added strict diagnostics, browser journeys, accessibility analysis, and continuous deployment."
+          "Added strict diagnostics, production builds, subpath packaging checks, and continuous deployment."
         ],
         "outcome": "Established one maintainable publishing workflow for the portfolio and resume library while keeping web, PDF, and Word presentations aligned.",
         "repository": "https://github.com/mohamedmoheyeldin/portfolio",
-        "technologies": ["Astro 7", "TypeScript", "Native CSS", "Playwright", "Cypress", "GitHub Actions", "Cloudflare"],
+        "technologies": ["Vite", "React", "Untitled UI", "Tailwind CSS", "TypeScript", "GitHub Actions", "Cloudflare"],
         "highlights": [
           "Designed one structured content architecture for every career presentation channel.",
-          "Built accessible, responsive pages with zero client-framework runtime.",
-          "Added strict diagnostics, browser journeys, automated accessibility analysis, and continuous deployment.",
+          "Redesigned the website with free Untitled UI React components while preserving static content and accessible navigation.",
+          "Added strict diagnostics, production builds, subpath packaging checks, and continuous deployment.",
           "Prepared separate PDF and DOCX presentation contracts without duplicating career facts."
         ]
       }
