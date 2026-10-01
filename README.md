@@ -34,6 +34,10 @@ See [Architecture](docs/ARCHITECTURE.md), [Content provenance](docs/CONTENT_PROV
 
 See [Untitled UI integration](docs/UNTITLED-UI.md) for upstream attribution and local adaptations.
 
+## Application Studio development
+
+This branch contains the [Application Studio plan](docs/APPLICATION-STUDIO-PLAN.md): public document tools and sample workflows, automatic capped free AI routing, broad owner-provider support, MFA, and private job-search integrations. Studio is planned and is not yet implemented. Keep it on `application-studio` until a separate release request; Cloudflare excludes this branch from automatic portfolio uploads.
+
 ## Quality gates
 
 ```bash
