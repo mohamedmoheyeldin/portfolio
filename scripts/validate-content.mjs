@@ -6,7 +6,34 @@ const nullable = check => value => value === null || check(value);
 const array = check => value => Array.isArray(value) && value.every(check);
 const object = fields => value => value !== null && typeof value === 'object' && Object.entries(fields).every(([key,check]) => check(value[key]));
 const texts = array(text);
-const schema = object({id:v=>v==='profile',name:text,location:text,headline:text,heroTitle:text,summary:text,detailedSummary:texts,links:array(object({label:text,href:url})),competencies:texts,skillGroups:array(object({label:text,items:texts})),experience:array(object({employer:text,title:text,professionalTitle:nullable(text),location:text,start:text,end:nullable(text),summary:text,highlights:texts})),education:array(object({institution:text,credential:text,field:text,end:text})),credentials:texts,projects:array(object({slug:v=>text(v)&&/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(v),kind:v=>['career','independent'].includes(v),context:text,role:text,period:text,name:text,description:text,challenge:text,approach:texts,outcome:text,repository:nullable(url),technologies:texts,highlights:texts})),provenance:object({status:v=>v==='draft',referenceRepository:url,sourceSnapshotDate:text,importedOn:text,policy:text})});
+const schema = object({id:v=>v==='profile',name:text,location:text,headline:text,heroTitle:text,heroSummary:text,summary:text,detailedSummary:texts,links:array(object({label:text,href:url})),competencies:texts,skillGroups:array(object({label:text,items:texts})),experience:array(object({id:text,employer:text,title:text,professionalTitle:nullable(text),location:text,start:text,end:nullable(text),summary:text,highlights:texts,compactHighlights:texts,customer:nullable(text)})),education:array(object({institution:text,credential:text,field:text,end:text})),credentials:texts,projects:array(object({slug:v=>text(v)&&/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(v),kind:v=>['career','independent'].includes(v),experienceId:nullable(text),context:text,role:text,period:text,name:text,description:text,challenge:text,audience:text,systems:texts,decisions:texts,relevance:text,evidence:array(object({label:text,detail:text,href:nullable(url)})),approach:texts,outcome:text,repository:nullable(url),repositoryVisibility:v=>['public','private','unavailable'].includes(v),relatedProjects:array(object({slug:text,label:text})),technologies:texts,highlights:texts})),provenance:object({status:v=>v==='draft',referenceRepository:url,sourceSnapshotDate:text,importedOn:text,policy:text})});
 if (!Array.isArray(records) || records.length !== 1 || !schema(records[0])) throw Error('Career content does not match the required public profile schema.');
 if (new Set(records[0].projects.map(p=>p.slug)).size !== records[0].projects.length) throw Error('Duplicate project slugs.');
 console.log('Career content schema validated.');
+
+// Use a dated snapshot so server-rendered and client content agree.
+const profile = records[0];
+const firstStart = profile.experience.map(role => role.start).sort()[0];
+const [startYear, startMonth] = firstStart.split('-').map(Number);
+if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(profile.experienceAsOf)) throw Error('Experience snapshot month is required.');
+const [asOfYear, asOfMonth] = profile.experienceAsOf.split('-').map(Number);
+const completedYears = asOfYear - startYear - (asOfMonth < startMonth ? 1 : 0);
+if (profile.experienceYears !== completedYears) throw Error('Experience years must match the first employment start and snapshot month.');
+for (const summary of [profile.summary, ...profile.detailedSummary]) {
+  for (const match of summary.matchAll(/\b(\d+) years\b/g)) {
+    if (Number(match[1]) !== completedYears) throw Error('Summary experience count differs from the career timeline.');
+  }
+}
+
+if (!text(records[0].projects.find(p => p.slug === 'portfolio-career-content-system')?.resumeSummary)) throw Error('Portfolio resume summary is required.');
+
+for (const project of records[0].projects) {
+  if (project.relatedProjects.some(link => !records[0].projects.some(p => p.slug === link.slug))) throw Error("Unknown related project.");
+}
+
+const experienceIds = new Set(records[0].experience.map(role => role.id));
+if (experienceIds.size !== records[0].experience.length) throw Error("Duplicate experience IDs.");
+for (const project of records[0].projects) {
+  if (project.kind === "career" && !experienceIds.has(project.experienceId)) throw Error("Work project must reference an existing resume role.");
+  if (project.kind === "independent" && project.experienceId !== null) throw Error("Independent projects must not claim an employment association.");
+}

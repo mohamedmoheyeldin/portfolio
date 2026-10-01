@@ -39,6 +39,8 @@ Local verification does not authorize deployment. Cloudflare and GitHub Pages ea
 
 ## Resume generation
 
+Resume content uses `compactHighlights` and `highlights` in the shared career record. Keep the VA customer line in both formats. The detailed document starts earlier employment on page two; inspect pagination after content changes. Portable Markdown and plain-text copies are under `public/resume/`; reconcile them when changing the career record. The website offers the plain-text version for job-board forms.
+
 Install Python 3.10+ and the document-only requirements with `python -m pip install -r scripts/requirements-resume.txt`. Run `pnpm install --frozen-lockfile`, then `pnpm resume:generate`. The generator reads the current Untitled UI light-theme tokens, Inter fonts, and career JSON and replaces the four files under `public/resume`. Run `pnpm build:cloudflare` afterward so local downloads serve the new files.
 
 Visually inspect both PDFs and render the DOCX files with an available document renderer before claiming Word pagination is verified. Python document packages are separate from the website dependencies.

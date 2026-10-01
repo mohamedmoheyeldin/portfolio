@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ButtonGroup, ButtonGroupItem } from "@/components/base/button-group/button-group";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -9,22 +10,22 @@ import {
   GitBranch01,
   Download01,
   Mail01,
-  SearchLg,
   File06,
+  BookOpen01,
+  Award01,
   ShieldTick,
 } from "@untitledui/icons";
 import { Button } from "@/components/base/buttons/button";
 import { Badge } from "@/components/base/badges/badges";
-import { Input } from "@/components/base/input/input";
-import { ButtonGroup, ButtonGroupItem } from "@/components/base/button-group/button-group";
 import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
 import { NavItemBase } from "@/components/application/app-navigation/base-components/nav-item";
-import { EmptyState } from "@/components/application/empty-state/empty-state";
 import type { getCareerProfile } from "@/lib/career";
+import { profile as careerProfile, veteransAffairsName } from "@/lib/career";
 
 type Profile = Awaited<ReturnType<typeof getCareerProfile>>;
 type Project = Profile["projects"][number];
-const email = "mailto:mohamedmoheyeldin.jobs@gmail.com";
+const emailAddress = "mohamedmoheyeldin.jobs@gmail.com";
+const email = `mailto:${emailAddress}`;
 const root = `${import.meta.env.BASE_URL.replace(/\/?$/, "")}/`;
 const href = (path = "") => `${root}${path}`;
 const date = (value: string | null) =>
@@ -36,41 +37,39 @@ const date = (value: string | null) =>
       }).format(new Date(`${value}-01T00:00:00Z`))
     : "Present";
 
-function CompanyLogo({ company }: { company: string }) {
-  const logos: Record<string, string> = {
-    "Booz Allen Hamilton": "booz-allen-hamilton",
-    "Chick-fil-A": "chick-fil-a",
-    "Chick-fil-A Corporate": "chick-fil-a",
-    "Ally Bank": "ally-bank",
-  };
-  const logo = logos[company];
-  if (!logo) return null;
-  return <span className={`company-logo company-logo--${logo}`}><img src={href(`images/companies/${logo}.png`)} alt={`${company} logo`} loading="lazy" /></span>;
-}
-
 export function Header({ name, location, path }: { name: string; location: string; path: string }) {
+  const headerRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+    const updateHeight = () => document.documentElement.style.setProperty("--site-header-height", `${header.getBoundingClientRect().height}px`);
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(header);
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.removeProperty("--site-header-height");
+    };
+  }, []);
   return (
-    <header className="site-header">
+    <header className="site-header" ref={headerRef}>
       <div className="shell header-inner">
         <div className="header-brand">
           <Button color="link-gray" size="lg" href={root} aria-label={`${name}, home`}>
             {name}
           </Button>
-          <span className="wordmark-caption">Forward Deployed Engineer</span>
-          <span className="header-location">Location: {location}</span>
+          <span className="wordmark-caption">Bridging customer needs and technical solutions.</span>
+          <span className="header-location">{location}</span>
         </div>
         <nav aria-label="Primary navigation">
-          <NavItemBase type="link"
-            href={href("work/")}
-            current={path.includes("/work")}
-          >
-            Work
+          <NavItemBase type="link" href={root} current={path === "/"}>
+            Home
           </NavItemBase>
           <NavItemBase type="link"
-            href={href("about/")}
-            current={path.includes("/about")}
+            href={href("experience/")}
+            current={path.includes("/experience")}
           >
-            About
+            Experience
           </NavItemBase>
           <NavItemBase type="link"
             href={href("resume/")}
@@ -84,9 +83,9 @@ export function Header({ name, location, path }: { name: string; location: strin
             href={email}
             color="secondary"
             size="sm"
-            iconTrailing={ArrowUpRight}
+            iconLeading={Mail01}
           >
-            Let’s talk
+            Get in touch
           </Button>
         </div>
       </div>
@@ -102,25 +101,51 @@ export function Footer({ name }: { name: string }) {
           <Button color="link-gray" size="lg" href={root}>
             {name}
           </Button>
-          <p>Thoughtful systems. Dependable software.</p>
+          <p>Bridging customer needs and technical solutions.</p>
         </div>
-        <div className="footer-links">
-          <Button color="link-gray" href={href("work/")}>Work</Button>
-          <Button color="link-gray" href={href("about/")}>About</Button>
+        <nav className="footer-links" aria-label="Footer navigation">
+          <Button color="link-gray" href={root}>Home</Button>
+          <Button color="link-gray" href={href("experience/")}>Experience</Button>
           <Button color="link-gray" href={href("resume/")}>Resume</Button>
           <Button color="link-gray" href="https://www.linkedin.com/in/moheyeldin/" iconTrailing={ArrowUpRight}>LinkedIn</Button>
           <Button color="link-gray" href="https://github.com/mohamedmoheyeldin" iconTrailing={ArrowUpRight}>GitHub</Button>
-        </div>
+        </nav>
       </div>
       <div className="shell footer-bottom">
         <span>
           © {new Date().getFullYear()} {name}
         </span>
-        <Button color="link-gray" href={href("work/portfolio-career-content-system/")} iconTrailing={ArrowUpRight}>
-          Designed & developed by me
+        <Button className="max-w-full whitespace-normal text-left" color="link-gray" href={href("experience/portfolio-career-content-system/")} iconTrailing={ArrowUpRight}>
+          Designed & developed by Mohamed Moheyeldin
         </Button>
       </div>
-      <p className="shell trademark-notice">Company names and logos are the property of their respective owners and are used only to identify my professional experience. This personal portfolio is not sponsored or endorsed by these organizations. Views expressed are my own and do not represent those of any employer or client.</p>
+      <div className="shell trademark-notice" role="note" aria-label="Professional references and intellectual property notice">
+        <p>
+          References to employers, clients, customers, government agencies, projects,
+          products, and services—including names, logos, trademarks, and other
+          identifiers—are used solely to identify and describe my professional
+          experience, contributions, and the tools I have used. All third-party
+          trademarks, logos, and other intellectual property remain the property
+          of their respective owners. Their inclusion does not imply sponsorship,
+          endorsement, approval, partnership, or authorization of this website.
+        </p>
+        <p>
+          This is my personal portfolio. Statements and views are my own and do
+          not represent any employer, client, customer, or government agency.
+          Descriptions focus on my individual contributions within broader team
+          efforts and do not claim ownership of an organization’s projects,
+          systems, or intellectual property. Project headings may be descriptive
+          portfolio labels rather than official project or product names.
+          Client-sensitive details are intentionally generalized.
+        </p>
+        <p>
+          Nothing on this website grants rights to third-party materials or
+          changes any applicable confidentiality, contractual, or intellectual
+          property obligations. For concerns about a reference or attribution,
+          please <Button className="text-xs" color="link-gray" size="xs" href={email}>contact me</Button> for review and appropriate correction
+          or removal.
+        </p>
+      </div>
     </footer>
   );
 }
@@ -137,10 +162,28 @@ function Tags({ items }: { items: string[] }) {
   );
 }
 
+function EndCustomer({ customer }: { customer: string }) {
+  return customer === veteransAffairsName ? (
+    <Button color="link-color" className="whitespace-normal text-left" href="https://en.wikipedia.org/wiki/United_States_Department_of_Veterans_Affairs">
+      {veteransAffairsName}
+    </Button>
+  ) : <>{customer}</>;
+}
+
+function ResumeConnection({ project }: { project: Project }) {
+  const role = careerProfile.experience.find((item) => item.id === project.experienceId);
+  if (!role) return <dl className="project-resume-link project-affiliation">
+    <div><dt>Independent project</dt><dd><Button color="link-color" className="whitespace-normal text-left" href={href(`experience/#project-${project.slug}`)}>Designed and developed by {careerProfile.name}</Button></dd></div>
+  </dl>;
+  return <dl className="project-resume-link project-affiliation">
+    <div><dt>Employer</dt><dd><Button color="link-color" className="whitespace-normal" href={href(`experience/#project-${project.slug}`)}>{role.employer}</Button></dd></div>
+    {role.customer && <div><dt>End customer</dt><dd><EndCustomer customer={role.customer} /></dd></div>}
+  </dl>;
+}
+
 function ProjectCard({ project }: { project: Project }) {
   return (
     <article className="project-card">
-      <FeaturedIcon icon={project.kind === "independent" ? Code02 : LayersTwo01} color="brand" theme="light" size="lg" />
       <div className="project-card-body">
         <div className="card-kicker">
           <span>
@@ -151,13 +194,16 @@ function ProjectCard({ project }: { project: Project }) {
           <span>{project.period}</span>
         </div>
         <h3>
-          <Button color="link-gray" className="w-full justify-between text-left text-xl whitespace-normal" href={href(`work/${project.slug}/`)} iconTrailing={ArrowUpRight}>
+          <Button color="link-gray" className="w-full justify-between text-left text-xl whitespace-normal" href={href(`experience/#project-${project.slug}`)} iconTrailing={ArrowUpRight}>
             {project.name}
           </Button>
         </h3>
         <p>{project.description}</p>
         <Tags items={project.technologies.slice(0, 4)} />
       </div>
+      <aside className="project-card-connection" aria-label={`${project.name} experience`}>
+        <ResumeConnection project={project} />
+      </aside>
     </article>
   );
 }
@@ -175,14 +221,13 @@ export function Home({ profile }: { profile: Profile }) {
       <section className="shell home-hero">
         <div className="hero-copy">
           <h1>
-            From complex problems to <span>working software.</span>
+            Practical software. <span>Connected systems.</span>
           </h1>
           <p>
-            I’m Mohamed. I build practical software, connect APIs and systems,
-            and turn complex requirements into solutions teams can use.
+            {profile.heroSummary}
           </p>
           <div className="hero-buttons">
-            <Button href={href("work/")} size="xl" iconTrailing={ArrowRight}>
+            <Button href={href("experience/")} size="xl" iconTrailing={ArrowRight}>
               Explore my work
             </Button>
             <Button
@@ -196,38 +241,18 @@ export function Home({ profile }: { profile: Profile }) {
           </div>
         </div>
       </section>
-      <section className="experience-strip">
-        <div className="shell">
-          <span>
-            Experience across
-            <br />
-            <strong>complex delivery environments</strong>
-          </span>
-          <CompanyLogo company="Booz Allen Hamilton" />
-          <CompanyLogo company="Chick-fil-A" />
-          <CompanyLogo company="Ally Bank" />
-        </div>
+      <section className="section shell home-profile profile-centered" id="professional-profile" aria-label="Professional introduction">
+        <p className="resume-summary">{profile.summary}</p>
       </section>
       <section className="section shell">
-        <div className="section-heading-row">
-          <div>
-            <p className="eyebrow">Selected work</p>
+        <header className="section-heading-centered">
             <h2>Real problems. Thoughtful solutions.</h2>
             <p>
               A look at the systems I’ve built and the decisions behind them.
             </p>
-          </div>
-          <Button
-            href={href("work/")}
-            color="secondary"
-            iconTrailing={ArrowRight}
-          >
-            View all work
-          </Button>
-        </div>
+        </header>
         <div className="project-grid">
           {orderedProjects(profile.projects)
-            .slice(0, 2)
             .map((p) => (
               <ProjectCard key={p.slug} project={p} />
             ))}
@@ -235,12 +260,14 @@ export function Home({ profile }: { profile: Profile }) {
       </section>
       <section className="expertise-section">
         <div className="section shell">
+          <header className="section-heading-centered">
           <p className="eyebrow">What I bring</p>
           <h2>Build it. Connect it. Make it work.</h2>
           <p className="section-intro">
             I bring implementation, integration, and troubleshooting together
             to solve problems across software and delivery environments.
           </p>
+          </header>
           <div className="expertise-grid">
             {[
               {
@@ -256,7 +283,7 @@ export function Home({ profile }: { profile: Profile }) {
               {
                 icon: LayersTwo01,
                 title: "Hands-on technical leadership",
-                text: "Practical standards, thoughtful code review, and mentoring grounded in experience leading five automation engineers.",
+                text: "Stakeholder discovery, demonstrations, and practical documentation that help teams adopt and maintain useful tools.",
               },
             ].map(({ icon: Icon, title, text }) => (
               <article key={title}>
@@ -268,255 +295,339 @@ export function Home({ profile }: { profile: Profile }) {
           </div>
         </div>
       </section>
-      <section className="section shell about-teaser">
-        <div>
+      <EngineeringToolkit profile={profile} />
+      <section className="section shell profile-centered" aria-labelledby="how-i-work-heading">
+        <header>
           <p className="eyebrow">How I work</p>
-          <h2>
-            An engineer who cares
-            <br />
-            about the whole experience.
-          </h2>
-        </div>
-        <div>
+          <h2 id="how-i-work-heading">From customer discovery to practical delivery.</h2>
+        </header>
+        <div className="resume-summary">
           <p>
-            Over 10 years in federal, e-commerce, and banking environments have
-            shaped how I approach software: understand the problem, build a
-            clear system, and make the result easy to trust.
+            I work with stakeholders to understand their workflows, clarify
+            requirements, and turn technical constraints into practical decisions.
+            My work spans application features, integrations, and internal tools,
+            followed by demonstrations, feedback, and ongoing support.
           </p>
           <p>
-            This portfolio follows the same idea. I designed and developed it as
-            a working example of my approach to engineering.
+            I bring {profile.experienceYears} years
+            of development and quality engineering experience across federal,
+            e-commerce, and banking environments. My focus is connecting customer
+            needs with products, services, and systems people can adopt and rely on.
           </p>
+          <div className="mt-5">
           <Button
-            href={href("about/")}
+            href={href("experience/")}
             color="link-color"
             iconTrailing={ArrowRight}
           >
-            More about me
+            Explore my experience
           </Button>
+          </div>
         </div>
       </section>
       <Contact />
     </>
   );
+}
+
+function ProjectExplorer({ profile, showExperience = false }: { profile: Profile; showExperience?: boolean }) {
+  const projects = showExperience ? profile.projects : orderedProjects(profile.projects);
+  const [selected, setSelected] = useState(projects[0]!.slug);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    const sync = () => {
+      const slug = window.location.hash.replace(/^#project-/, "");
+      setSelected(projects.find((project) => project.slug === slug)?.slug ?? projects[0]!.slug);
+    };
+    sync();
+    setReady(true);
+    window.addEventListener("hashchange", sync);
+    window.addEventListener("popstate", sync);
+    return () => {
+      window.removeEventListener("hashchange", sync);
+      window.removeEventListener("popstate", sync);
+    };
+  }, [profile, showExperience]);
+  const selectProject = (slug: string) => {
+    if (!projects.some((project) => project.slug === slug)) return;
+    setSelected(slug);
+    window.history.pushState(null, "", `#project-${slug}`);
+  };
+  const project = projects.find((item) => item.slug === selected) ?? projects[0]!;
+  return <section className="work-explorer" aria-label="Project explorer">
+      <nav className="project-selector" aria-label="Choose a project">
+        <p className="project-menu-label">Projects &amp; employment</p>
+        {projects.map((item) => <Button key={item.slug} id={`project-${item.slug}`} href={href(`experience/${item.slug}/`)}
+          color="tertiary"
+          className={`h-full items-start justify-start px-3 py-3 whitespace-normal text-left ${item.slug === selected ? "bg-brand-50 text-brand-secondary ring-1 ring-brand-200 hover:bg-brand-50" : ""}`} aria-current={item.slug === selected ? "true" : undefined}
+          onClick={(event) => {
+            if (!ready || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+            event.preventDefault();
+            selectProject(item.slug);
+          }}>
+            <span className="flex flex-col gap-1">
+              <span>{projectDisplayName(item)}</span>
+              <span className="text-xs font-normal">
+                {profile.experience.find((role) => role.id === item.experienceId)?.employer ?? "Independent project"}
+              </span>
+            </span>
+          </Button>)}
+      </nav>
+      <p className="sr-only" aria-live="polite">Selected project: {project.name}</p>
+      <CaseStudy key={project.slug} project={project} embedded interactive={ready} onSelectProject={selectProject} />
+    </section>;
+}
+
+function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; detailed?: boolean }) {
+  const [selectedCategory, setSelectedCategory] = useState(0);
+  const [interactive, setInteractive] = useState(false);
+  const icons: Record<string, typeof Code02> = {
+    "Customer discovery & delivery": LayersTwo01,
+    "Application development": Code02,
+    "Data and integration": GitBranch01,
+    "Delivery and quality": ShieldTick,
+    "AI-assisted engineering": Code02,
+    "Internal tools & file workflows": File06,
+    "Web platforms & deployment": GitBranch01,
+    "Troubleshooting & team enablement": LayersTwo01,
+  };
+  const descriptions: Record<string, string> = {
+    "Application development": "Build interfaces and reusable application features around the problem a team needs solved.",
+    "Data and integration": "Connect workflows, validate API behavior, and investigate the data behind application results.",
+    "Delivery and quality": "Make changes repeatable and give teams useful feedback before release.",
+    "AI-assisted engineering": "Use coding assistants to explore approaches, develop features, debug, and refactor—with review and validation.",
+  };
+  const groups = [
+    {
+      label: "Customer discovery & delivery",
+      description: "Work directly with stakeholders from the first requirements conversation through demonstrations and adoption.",
+      items: [...profile.competencies, "Requirements & acceptance criteria", "Technical constraints", "Product demonstrations", "User feedback"],
+    },
+    ...profile.skillGroups.map(group => ({
+      ...group,
+      description: descriptions[group.label],
+      items: group.label === "AI-assisted engineering" ? [...group.items, "Codex", "Code review", "Debugging & refactoring"] : group.items,
+    })),
+    {
+      label: "Internal tools & file workflows",
+      description: "Turn recurring manual work into a desktop tool that teammates can use and maintain.",
+      items: ["Electron", "Test data generation", "JSON editing", "gzip packaging", "SFTP", "WinSCP", "Upload status", "Retry handling"],
+    },
+    {
+      label: "Web platforms & deployment",
+      description: "Build and maintain this portfolio with shared content, accessible components, and portable static builds.",
+      items: ["Vite", "Untitled UI", "Tailwind CSS", "React Aria", "pnpm", "Cloudflare deployment configuration", "GitHub Pages", "Static prerendering"],
+    },
+    {
+      label: "Troubleshooting & team enablement",
+      description: "Trace issues across interfaces, data, and delivery workflows, then help the team put the fix to use.",
+      items: ["Frontend & backend investigation", "Database checks", "Defect diagnosis", "API validation", "Technical documentation", "Workflow walkthroughs", "Ongoing tool support"],
+    },
+  ];
+  const additionalSkills: Record<string, string[]> = {
+    "Customer discovery & delivery": ["Healthcare claims workflow mapping", "Stakeholder demonstrations", "Feedback-driven improvements", "Operational constraints"],
+    "Application development": ["Frontend feature implementation", "Workflow and status interfaces", "Responsive behavior", "Cross-browser validation"],
+    "Data and integration": ["DataGrip", "API schema validation", "Service contract checks", "Application-to-database reconciliation", "Referral-data uploads", "Network stubbing"],
+    "Delivery and quality": ["Reusable smoke & regression frameworks", "Parallel and headless execution", "Cypress Dashboard", "Sorry Cypress", "Applitools Eyes", "Diagnostic artifacts"],
+    "AI-assisted engineering": ["Implementation exploration", "Test creation", "Review and validation of generated changes"],
+    "Troubleshooting & team enablement": ["Reproducible defect reports", "Screenshots and execution evidence", "Developer coordination", "Single and bulk upload guidance"],
+  };
+  const businessGroups = [
+    {
+      label: "Business requirements & delivery coordination",
+      description: "Translate business workflows into clear acceptance criteria and keep stakeholders informed about blockers, dependencies, and operational impact.",
+      items: ["Jira", "Confluence", "YouTrack", "Business & functional requirements", "Acceptance criteria", "Requirements traceability", "Business-impact reporting", "Delivery dependencies", "Progress and blocker tracking", "Product owner & analyst collaboration"],
+    },
+    {
+      label: "Solution evaluation & technical decisions",
+      description: "Compare implementation options against maintainability, reuse, authentication, and environment constraints, drawing on the evaluation of Playwright and internal tooling.",
+      items: ["Tool and framework evaluation", "Legacy automation assessment", "Maintainability tradeoffs", "Reusable component design", "Environment access constraints", "Implementation alternatives"],
+    },
+  ];
+  const operationalGroups = [
+    {
+      label: "Version control & repositories",
+      description: "Version control and repository platforms I use for source code and development collaboration.",
+      items: ["Git", "GitHub", "GitLab", "Bitbucket", "Azure Repos"],
+    },
+    {
+      label: "Development environments",
+      description: "Editors and IDEs I use for application development, code navigation, and debugging. Database tooling is listed under data and integration.",
+      items: ["VS Code", "WebStorm", "IntelliJ IDEA"],
+    },
+    {
+      label: "Continuous integration & build tools",
+      description: "Tools for repeatable builds, automated checks, and feedback during development and delivery.",
+      items: ["GitHub Actions", "Jenkins", "TeamCity"],
+    },
+    {
+      label: "Operating systems",
+      description: "Daily personal and professional use across Windows, Linux, and macOS.",
+      items: ["Windows", "Linux", "macOS"],
+    },
+    {
+      label: "Identity & environment troubleshooting",
+      description: "Validate sign-in workflows and investigate authentication or environment dependencies that affect application behavior and automated execution.",
+      items: ["OIDC workflow validation", "Okta MFA", "Single sign-on checks", "Microsoft Entra ID investigation", "Restricted environment access", "Authentication failure evidence"],
+    },
+    {
+      label: "Release readiness & operational validation",
+      description: "Give developers and product owners repeatable evidence about expected behavior, defects, and fixes across delivery environments.",
+      items: ["Development, QA, UAT & staging", "Smoke and sanity checks", "Regression validation", "Deployment checks", "Hotfix verification", "Exploratory testing", "Fix verification", "Release-readiness evidence"],
+    },
+  ];
+  const displayGroups = detailed
+    ? [groups[0]!, ...businessGroups, ...groups.slice(1), ...operationalGroups].map(group => ({
+        ...group,
+        items: [...new Set([...group.items, ...(additionalSkills[group.label] ?? [])])].filter(item =>
+          !(group.label === "Delivery and quality" && ["Git", "Jira", "GitHub Actions", "Jenkins"].includes(item)) &&
+          !(group.label === "AI-assisted engineering" && item === "VS Code")),
+      }))
+    : groups;
+  const areas = [
+    { label: "Customer & business", summary: "Discovery, requirements & decisions", categories: [0, 1, 2] },
+    { label: "Application engineering", summary: "Development, internal tools & AI", categories: [3, 6, 7] },
+    { label: "Data & integration", summary: "Data, identity & troubleshooting", categories: [4, 9, 14] },
+    { label: "Quality & delivery", summary: "Validation, builds & releases", categories: [5, 12, 15] },
+    { label: "Platforms & tools", summary: "Web, repositories & environments", categories: [8, 10, 11, 13] },
+  ];
+  const selectedArea = areas.find(area => area.categories.includes(selectedCategory)) ?? areas[0]!;
+  useEffect(() => {
+    const syncCategory = () => {
+      const match = /^#toolkit-category-(\d+)$/.exec(window.location.hash);
+      const index = match ? Number(match[1]) : 0;
+      if (index < displayGroups.length) setSelectedCategory(index);
+    };
+    syncCategory();
+    setInteractive(true);
+    window.addEventListener("hashchange", syncCategory);
+    return () => window.removeEventListener("hashchange", syncCategory);
+  }, [displayGroups.length]);
+  return <section className={detailed ? "toolkit-full" : "expertise-section toolkit-overview"} id="engineering-toolkit" aria-labelledby="toolkit-heading">
+    <div className="section shell">
+      <header className="section-heading-centered">
+        {!detailed && <p className="eyebrow">Core expertise</p>}
+        <h2 id="toolkit-heading">{detailed ? "The tools behind the work." : "Engineering toolkit."}</h2>
+        <p className="section-intro">{detailed ? "From business workflows and stakeholder requirements to implementation, integration, and release readiness." : "The tools and practices I use to understand, build, and deliver."}</p>
+      </header>
+      <div className={detailed ? "work-explorer toolkit-explorer" : undefined}>
+        {detailed && <nav className="project-selector toolkit-selector" aria-label="Choose an expertise category">
+          <p className="project-menu-label">Skills &amp; tools</p>
+          {areas.map(area => <Button key={area.label}
+            href={`#toolkit-category-${area.categories[0]}`} color="tertiary"
+            className={`h-full items-start justify-start px-3 py-3 whitespace-normal text-left ${interactive && area === selectedArea ? "bg-brand-50 text-brand-secondary ring-1 ring-brand-200 hover:bg-brand-50" : ""}`}
+            aria-current={interactive && area === selectedArea ? "true" : undefined}
+            onClick={event => {
+              if (!interactive || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+              event.preventDefault();
+              setSelectedCategory(area.categories[0]!);
+            }}><span className="flex flex-col gap-1"><span>{area.label}</span><span className="text-xs font-normal">{area.summary}</span></span></Button>)}
+        </nav>}
+      <div className={detailed ? "toolkit-panel embedded-case" : undefined}>
+        {detailed && interactive && <header className="toolkit-area-heading"><h3>{selectedArea.label}</h3><p>{selectedArea.summary}</p></header>}
+        <div className={detailed ? "toolkit-area-grid" : "toolkit-list"}>
+        {displayGroups.map((group, index) => <article key={group.label} id={detailed ? `toolkit-category-${index}` : undefined}
+          hidden={detailed && interactive && !selectedArea.categories.includes(index)}>
+          {!detailed && <FeaturedIcon icon={icons[group.label] ?? Code02} color="brand" theme="light" size="sm" />}
+          <div className="toolkit-category">
+            <div className="toolkit-category-intro">
+              {detailed ? <h4>{group.label}</h4> : <h3>{group.label}</h3>}
+              <div className="toolkit-details"><p>{group.description}</p></div>
+            </div>
+            {detailed && <ul className="toolkit-skills" aria-label={`${group.label} skills`}>
+              {group.items.map(item => <li key={item}>{item}</li>)}
+            </ul>}
+          </div>
+        </article>)}
+        </div>
+      </div>
+      </div>
+      <div className="toolkit-evidence"><Button className="whitespace-normal text-left" href={href(detailed ? "experience/#experience-projects" : "experience/#engineering-toolkit")} color="link-color" iconTrailing={ArrowRight}>{detailed ? "Explore the projects behind these skills" : "Explore my full engineering toolkit"}</Button></div>
+    </div>
+  </section>;
 }
 
 export function Work({ profile }: { profile: Profile }) {
-  const [filter, setFilter] = useState("All work");
-  const [query, setQuery] = useState("");
-  const projects = orderedProjects(profile.projects).filter(
-    (p) =>
-      (filter === "All work" ||
-        (filter === "Independent projects"
-          ? p.kind === "independent"
-          : p.kind === "career")) &&
-      `${p.name} ${p.description} ${p.technologies.join(" ")}`
-        .toLowerCase()
-        .includes(query.toLowerCase()),
-  );
-  return (
-    <>
-      <section className="page-hero shell">
-        <p className="eyebrow">Work & case studies</p>
-        <h1>
-          Built with purpose.
-          <br />
-          <span>Backed by practice.</span>
-        </h1>
-        <p>
-          Explore the architecture, decisions, and engineering behind my
-          work—from quality systems to the website you’re browsing.
-        </p>
-      </section>
-      <section className="shell work-section" aria-labelledby="work-title">
-        <h2 id="work-title" className="work-heading">
-          Real delivery problems. Traceable engineering decisions.
-        </h2>
-        <div className="work-toolbar">
-          <div className="filters">
-          <ButtonGroup size="sm" aria-label="Filter projects" disallowEmptySelection selectedKeys={new Set([filter])}
-            onSelectionChange={(keys) => setFilter(String([...keys][0] ?? "All work"))}>
-            {["All work", "Independent projects", "Career case studies"].map(
-              (f) => (
-                <ButtonGroupItem
-                  key={f}
-                  id={f}
-                  aria-label={f}
-                >
-                  <span className="sm:hidden">{f === "Independent projects" ? "Independent" : f === "Career case studies" ? "Career" : f}</span>
-                  <span className="hidden sm:inline">{f}</span>
-                </ButtonGroupItem>
-              ),
-            )}
-          </ButtonGroup>
-          </div>
-          <div className="project-search">
-            <Input
-              aria-label="Search projects"
-              placeholder="Search projects"
-              icon={SearchLg}
-              value={query}
-              onChange={setQuery}
-            />
-          </div>
-        </div>
-        <p className="result-count" aria-live="polite">
-          {projects.length} {projects.length === 1 ? "project" : "projects"}
-        </p>
-        {projects.length ? (
-          <div className="project-grid">
-            {projects.map((p) => (
-              <ProjectCard key={p.slug} project={p} />
-            ))}
-          </div>
-        ) : (
-          <EmptyState className="py-16" size="lg">
-            <EmptyState.Header><EmptyState.FeaturedIcon color="gray" icon={SearchLg} /></EmptyState.Header>
-            <EmptyState.Content>
-            <EmptyState.Title>No matching projects</EmptyState.Title>
-            <EmptyState.Description>Try a different keyword or clear your filters.</EmptyState.Description>
-            </EmptyState.Content>
-            <EmptyState.Footer>
-            <Button
-              color="secondary"
-              onClick={() => {
-                setFilter("All work");
-                setQuery("");
-              }}
-            >
-              Clear filters
-            </Button>
-            </EmptyState.Footer>
-          </EmptyState>
-        )}
-        <div className="disclosure">
-          <ShieldTick />
-          <p>
-            Career case studies describe documented responsibilities.
-            Client-sensitive details are generalized. The independent portfolio
-            project has public source code.
-          </p>
-        </div>
-      </section>
-      <Contact />
-    </>
-  );
-}
-
-export function SkillGroups({ profile }: { profile: Profile }) {
-  return (
-    <div className="skill-grid">
-      {profile.skillGroups.map((g) => (
-        <article key={g.label}>
-          <h3>{g.label}</h3>
-          <Tags items={g.items} />
-        </article>
-      ))}
-    </div>
-  );
-}
-export function Experience({ profile }: { profile: Profile }) {
-  return (
-    <div className="timeline">
-      {profile.experience.map((role) => (
-        <article className="timeline-item" key={role.employer}>
-          <div className="timeline-meta">
-            <span>
-              {date(role.start)} — {date(role.end)}
-            </span>
-            <span>{role.location}</span>
-          </div>
-          <div>
-            <CompanyLogo company={role.employer} />
-            <p className="eyebrow">{role.employer}</p>
-            <h3>{role.professionalTitle ?? role.title}</h3>
-            <p>{role.summary}</p>
-            <details>
-              <NavItemBase type="collapsible" truncate={false}>Explore responsibilities</NavItemBase>
-              <ul>
-                {role.highlights.map((h) => (
-                  <li key={h}>{h}</li>
-                ))}
-              </ul>
-            </details>
-          </div>
-        </article>
-      ))}
-    </div>
-  );
-}
-
-export function About({ profile }: { profile: Profile }) {
   return (
     <>
       <section className="page-hero shell about-hero">
         <div>
-          <p className="eyebrow">About Mohamed</p>
           <h1>
-            Curious by nature.
-            <br />
-            <span>Engineer by practice.</span>
+            Work history.
+            {" "}
+            <span>Projects in practice.</span>
           </h1>
           <p>
-            I’m an engineer based in Reston, Virginia, focused on forward deployed
-            work: understanding the problem, building the solution, and helping
-            teams put it to use.
+            Explore my roles, the projects I’ve contributed to, and the tools
+            I’ve built across federal, e-commerce, and banking environments.
           </p>
-          <Button href={email} color="secondary" iconLeading={Mail01}>
-            Get in touch
-          </Button>
         </div>
       </section>
-      <section className="section shell story-grid">
-        <div>
+      <section className="section shell" id="experience-projects">
+        <header className="section-heading-centered">
+          <h2>Professional experience &amp; projects.</h2>
+          <p className="section-intro">{profile.experienceYears} years across federal, e-commerce, and banking environments. Explore the work below.</p>
+        </header>
+        <ProjectExplorer profile={profile} showExperience />
+      </section>
+      <section className="section shell profile-centered" aria-labelledby="approach-heading">
+        <header>
           <p className="eyebrow">My approach</p>
-          <h2>
-            Make the complex
-            <br />
-            feel clear.
-          </h2>
-        </div>
-        <div>
-          {profile.detailedSummary.map((p) => (
-            <p key={p}>{p}</p>
-          ))}
+          <h2 id="approach-heading">Understand the problem. Deliver the solution.</h2>
+        </header>
+        <div className="resume-summary">
           <p>
-            I also designed and developed this portfolio. It brings together the
-            same things I value in my daily work: clear architecture, useful
-            automation, accessible interfaces, and maintainable content.
+            I work directly with stakeholders to understand how they work,
+            identify technical obstacles, and turn requirements into application
+            features and internal tools. I stay involved through implementation,
+            demonstrations, troubleshooting, and user feedback—connecting
+            engineering decisions to the problem the customer needs solved.
+          </p>
+          <p>
+            At Booz Allen Hamilton, this includes contributing React features
+            and investigating application and data issues for the United States
+            Department of Veterans Affairs. I also independently built and
+            support Data Generator &amp; File Processing, a desktop application that creates referral test data,
+            packages files, and supports uploads for internal workflows.
+          </p>
+          <p>
+            My {profile.experienceYears} years across software development and quality engineering
+            in federal, banking, and e-commerce environments inform how I approach
+            delivery: understand the systems involved, validate the behavior,
+            and help people adopt the solution. That combination of customer
+            collaboration and technical execution is the foundation of my focus
+            on Forward Deployed Engineering.
           </p>
         </div>
       </section>
-      <section className="section shell">
-        <p className="eyebrow">Experience</p>
-        <h2>A decade of building confidence.</h2>
-        <Experience profile={profile} />
-      </section>
-      <section className="section shell">
-        <p className="eyebrow">Core expertise</p>
-        <h2>The tools behind the work.</h2>
-        <SkillGroups profile={profile} />
-      </section>
-      <section className="section shell story-grid">
-        <div>
+      <EngineeringToolkit profile={profile} detailed />
+      <section className="section shell" id="learning" aria-labelledby="learning-heading">
+        <header className="toolkit-heading">
           <p className="eyebrow">Always learning</p>
-          <h2>A foundation to build on.</h2>
-        </div>
-        <div>
-          {profile.education.map((e) => (
-            <p key={e.institution}>
-              <strong>
-                {e.credential} in {e.field}
-              </strong>
-              <br />
-              {e.institution} · {e.end.slice(0, 4)}
-            </p>
-          ))}
-          <ul className="plain-list">
-            {profile.credentials.map((c) => (
-              <li key={c}>{c}</li>
-            ))}
-          </ul>
+          <h2 id="learning-heading">A foundation to build on.</h2>
+        </header>
+        <div className="learning-grid">
+          <section className="learning-column" aria-labelledby="education-heading">
+            <FeaturedIcon icon={BookOpen01} color="brand" theme="light" size="lg" />
+            <h3 id="education-heading">Education</h3>
+            <ul className="learning-list">
+              {profile.education.map((education) => (
+                <li key={`${education.institution}-${education.credential}-${education.end}`}>
+                  <h4>{education.credential} in {education.field}</h4>
+                  <p>{education.institution} · {education.end.slice(0, 4)}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+          <section className="learning-column" aria-labelledby="courses-heading">
+            <FeaturedIcon icon={Award01} color="brand" theme="light" size="lg" />
+            <h3 id="courses-heading">Courses &amp; certifications</h3>
+            <ul className="learning-list">
+              {profile.credentials.map((credential) => (
+                <li key={credential}><p>{credential}</p></li>
+              ))}
+            </ul>
+          </section>
         </div>
       </section>
       <Contact />
@@ -524,14 +635,13 @@ export function About({ profile }: { profile: Profile }) {
   );
 }
 
-export function Resume({ profile }: { profile: Profile }) {
+export function Resume() {
   return (
     <>
       <section className="page-hero shell">
-        <p className="eyebrow">Resume library</p>
         <h1>
           Two resumes. One
-          <br />
+          {" "}
           <span>consistent career story.</span>
         </h1>
         <p>
@@ -549,7 +659,7 @@ export function Resume({ profile }: { profile: Profile }) {
             items: [
               "Professional summary and core capabilities",
               "Experience across all three roles",
-              "Automation, API, and delivery toolkit",
+              "React, integration, and customer delivery",
             ],
           },
           {
@@ -560,7 +670,7 @@ export function Resume({ profile }: { profile: Profile }) {
             items: [
               "Expanded responsibilities and delivery context",
               "Complete engineering and quality toolkit",
-              "Leadership, cloud, and CI/CD practices",
+              `${veteransAffairsName} stakeholder work and data-tool development and maintenance`,
             ],
           },
         ].map((r) => (
@@ -573,7 +683,7 @@ export function Resume({ profile }: { profile: Profile }) {
               {r.items.map((item) => (
                 <li key={item}>
                   <Check />
-                  {item}
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
@@ -596,84 +706,97 @@ export function Resume({ profile }: { profile: Profile }) {
           </article>
         ))}
       </section>
-      <section className="section shell">
-        <p className="eyebrow">Professional profile</p>
-        <h2>{profile.name}</h2>
-        <p className="resume-summary">{profile.summary}</p>
-        <Experience profile={profile} />
-      </section>
-      <section className="section shell">
-        <p className="eyebrow">Core expertise</p>
-        <h2>Engineering toolkit.</h2>
-        <SkillGroups profile={profile} />
-      </section>
       <Contact />
     </>
   );
 }
 
-export function CaseStudy({ project }: { project: Project }) {
+function projectDisplayName(project: Project) {
+  if (project.slug === "ecommerce-feedback-platform") return "E-commerce Quality Feedback Platform";
+  if (project.slug === "banking-risk-validation") return "Banking Risk-Based Validation System";
+  return project.name.replace(veteransAffairsName, "VA");
+}
+
+export function CaseStudy({ project, embedded = false, interactive = false, onSelectProject }: {
+  project: Project; embedded?: boolean; interactive?: boolean; onSelectProject?: (slug: string) => void;
+}) {
+  const [section, setSection] = useState("overview");
+  const role = careerProfile.experience.find(item => item.id === project.experienceId);
+  const sections = [["overview", "Overview"], ["implementation", "Implementation"], ["evidence", "Evidence"]] as const;
   return (
     <>
-      <article>
-        <header className="case-hero shell">
-          <Button
-            href={href("work/")}
+      <article className={embedded ? "embedded-case" : undefined}>
+        <header className={embedded ? "case-hero" : "case-hero shell"}>
+          {!embedded && <Button
+            href={href("experience/")}
             color="link-gray"
             iconLeading={ArrowLeft}
           >
-            All case studies
-          </Button>
-          <div className="case-badge">
+            All projects
+          </Button>}
+          {(!embedded || project.kind === "independent") && <div className="case-badge">
             <Badge color="brand">
               {project.kind === "independent"
                 ? "Independent project · Public source"
-                : "Career case study"}
+                : "Work project"}
             </Badge>
-          </div>
-          <h1>{project.name}</h1>
-          <p>{project.description}</p>
-          <dl className="case-facts">
-            <div>
-              <dt>My role</dt>
-              <dd>{project.role}</dd>
-            </div>
-            <div>
-              <dt>Context</dt>
-              <dd>{project.context}</dd>
-            </div>
-            <div>
-              <dt>Period</dt>
-              <dd>{project.period}</dd>
-            </div>
-          </dl>
+          </div>}
+          {embedded ? <h2>{projectDisplayName(project)}</h2> : <h1>{project.name}</h1>}
+          {!embedded && <p>{project.description}</p>}
+          {embedded ? <div className="project-summary-meta">
+            {role ? <>
+              <div><span className="eyebrow">Employer &amp; role</span>
+                <strong className="project-employer">{role.employer}</strong>
+                <p>{role.professionalTitle ?? role.title} · {date(role.start)} — {date(role.end)}</p>
+              </div>
+              {role.customer && <div><span className="eyebrow">End customer</span><EndCustomer customer={role.customer} /></div>}
+            </> : <p>Independent project · Designed and developed by me · {project.period}</p>}
+          </div> : <>
+            <dl className="case-facts">
+              <div><dt>My role</dt><dd>{project.role}</dd></div>
+              <div><dt>Context</dt><dd>{project.context}</dd></div>
+              <div><dt>Period</dt><dd>{project.period}</dd></div>
+            </dl>
+            <ResumeConnection project={project} />
+          </>}
           {project.repository && (
             <Button
               href={project.repository}
               color="secondary"
               iconTrailing={ArrowUpRight}
             >
-              View source on GitHub
+              {project.repositoryVisibility === "private" ? "GitHub repository (private)" : "View source on GitHub"}
             </Button>
           )}
+          {project.repositoryVisibility === "private" && <p>Private source. GitHub access requires repository permission.</p>}
         </header>
-        <div className="shell case-body">
-          <aside>
+        <div className={embedded ? "case-body" : "shell case-body"}>
+          {!embedded && <aside>
             <p className="eyebrow">Inside this project</p>
             <NavItemBase type="link" href="#challenge">01　The challenge</NavItemBase>
-            <NavItemBase type="link" href="#approach">02　The approach</NavItemBase>
+            <NavItemBase type="link" href="#approach">02　What I built</NavItemBase>
             <NavItemBase type="link" href="#outcome">03　The outcome</NavItemBase>
-            <NavItemBase type="link" href="#toolkit">04　The toolkit</NavItemBase>
-          </aside>
-          <div>
-            <section id="challenge">
-              <p className="eyebrow">01 / Challenge</p>
-              <h2>The delivery problem.</h2>
+            <NavItemBase type="link" href="#systems">04　Systems & decisions</NavItemBase>
+            <NavItemBase type="link" href="#evidence">05　Evidence</NavItemBase>
+            <NavItemBase type="link" href="#toolkit">06　The toolkit</NavItemBase>
+            {project.kind === "independent" && <NavItemBase type="link" href="#walkthrough">07　Walkthrough</NavItemBase>}
+          </aside>}
+          <div className={embedded && interactive && section === "overview" ? "project-detail-content overview-columns" : "project-detail-content"}>
+            {interactive && <div className="detail-selector">
+              <ButtonGroup className="w-full sm:w-max" aria-label="Project detail sections" disallowEmptySelection selectedKeys={new Set([section])}
+                onSelectionChange={(keys) => setSection(String([...keys][0] ?? "overview"))}>
+                {sections.map(([id, label]) => <ButtonGroupItem className="flex-1 justify-center px-2 text-xs not-last:pr-2 sm:px-4 sm:text-sm sm:not-last:pr-4" key={id} id={id} aria-controls={`project-details-${id}`}>{label}</ButtonGroupItem>)}
+              </ButtonGroup>
+            </div>}
+            <section id={embedded ? "project-details-overview" : "challenge"} hidden={interactive && section !== "overview"} tabIndex={-1}>
+              {!embedded && <p className="eyebrow">01 / Challenge</p>}
+              <h2>{embedded ? "The challenge" : "The delivery problem."}</h2>
               <p>{project.challenge}</p>
+              <p><strong>Who needed it:</strong> {project.audience}</p>
             </section>
-            <section id="approach">
-              <p className="eyebrow">02 / Approach</p>
-              <h2>How I shaped the system.</h2>
+            <section id={embedded ? "project-details-implementation" : "approach"} hidden={interactive && section !== "implementation"} tabIndex={-1}>
+              {!embedded && <p className="eyebrow">02 / Approach</p>}
+              <h2>What I personally built.</h2>
               <ol className="approach-list">
                 {project.approach.map((s, i) => (
                   <li key={s}>
@@ -683,9 +806,9 @@ export function CaseStudy({ project }: { project: Project }) {
                 ))}
               </ol>
             </section>
-            <section id="outcome">
-              <p className="eyebrow">03 / Outcome</p>
-              <h2>What changed.</h2>
+            <section id="outcome" hidden={interactive && section !== "overview"} tabIndex={-1}>
+              {!embedded && <p className="eyebrow">03 / Outcome</p>}
+              <h2>{embedded ? "My contribution & results" : "What changed."}</h2>
               <p>{project.outcome}</p>
               <ul className="outcomes">
                 {project.highlights.map((h) => (
@@ -696,12 +819,50 @@ export function CaseStudy({ project }: { project: Project }) {
                 ))}
               </ul>
             </section>
-            <section id="toolkit">
-              <p className="eyebrow">04 / Toolkit</p>
+            <section id="systems" hidden={interactive && section !== "implementation"} tabIndex={-1}>
+              {!embedded && <p className="eyebrow">04 / Systems & decisions</p>}
+              <h2>APIs, data, and infrastructure.</h2>
+              {project.systems.map((text) => <p key={text}>{text}</p>)}
+              <h3>Constraints and tradeoffs</h3>
+              <ul className="plain-list">{project.decisions.map((text) => <li key={text}>{text}</li>)}</ul>
+            </section>
+            <section id={embedded ? "project-details-evidence" : "evidence"} hidden={interactive && section !== "evidence"} tabIndex={-1}>
+              {!embedded && <p className="eyebrow">05 / Evidence</p>}
+              <h2>What you can inspect.</h2>
+              {project.evidence.map((item) => <div key={item.label}>
+                <h3>{item.label}</h3><p>{item.detail}</p>
+                {item.href && <Button className="whitespace-normal text-left" color="link-color" href={item.href} iconTrailing={ArrowUpRight}>{item.label}</Button>}
+              </div>)}
+              <h3>How this supports my FDE direction</h3><p>{project.relevance}</p>
+              {project.relatedProjects.length > 0 && <div>
+                <h3>Related work</h3>
+                {project.relatedProjects.map((related) => <p key={related.slug}><Button className="whitespace-normal text-left" color="link-color" href={href(`experience/${related.slug}/`)} onClick={(event) => {
+                  if (!interactive || !onSelectProject || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+                  event.preventDefault(); onSelectProject(related.slug);
+                }} iconTrailing={ArrowRight}>{related.label}</Button></p>)}
+              </div>}
+            </section>
+            <section id="toolkit" hidden={interactive && section !== "implementation"} tabIndex={-1}>
+              {!embedded && <p className="eyebrow">06 / Toolkit</p>}
               <h2>Tools in context.</h2>
               <Tags items={project.technologies} />
             </section>
-            <div className="disclosure">
+            {project.kind === "independent" && <section id="walkthrough" hidden={interactive && section !== "implementation"} tabIndex={-1}>
+              {!embedded && <p className="eyebrow">07 / Implementation walkthrough</p>}
+              <h2>Follow one content change through the system.</h2>
+              <ol className="approach-list">
+                {[
+                  ["Start with data", "Edit the public career record in src/content/career.json. Required fields and unique project slugs are checked before a build."],
+                  ["Render the interface", "React composes the record with free Untitled UI controls. Browse the work page or follow a project link; static HTML keeps the case studies readable without JavaScript."],
+                  ["Generate documents", "pnpm resume:generate creates the resume formats from the same record, with Inter and the website’s blue theme tokens."],
+                  ["Validate and package", "pnpm verify checks types, content, production output, and GitHub Pages paths. pnpm build:cloudflare restores the root-path build."],
+                  ["Deploy explicitly", "wrangler.jsonc points Cloudflare Static Assets at dist. Deployment is a separate release action; this walkthrough does not claim the current branch is live."]
+                ].map(([title, text], i) => <li key={title}><span>{String(i + 1).padStart(2, "0")}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}
+              </ol>
+              <p>This implementation connects a UI, structured data, generated documents, and deployment packaging. It has no runtime API; the career case studies describe my API and environment integration work.</p>
+              <div className="hero-buttons"><Button color="secondary" href={href("experience/")}>Explore the interface</Button><Button color="secondary" href={href("resume/")}>Inspect the resume outputs</Button></div>
+            </section>}
+            <div className="disclosure" role="note">
               <ShieldTick />
               <p>
                 {project.kind === "career"
@@ -712,7 +873,7 @@ export function CaseStudy({ project }: { project: Project }) {
           </div>
         </div>
       </article>
-      <Contact />
+      {!embedded && <Contact />}
     </>
   );
 }
@@ -733,9 +894,14 @@ export function Contact() {
             I’d love to hear about it.
           </p>
         </div>
-        <Button href={email} size="xl" iconTrailing={ArrowUpRight}>
-          Let’s connect
-        </Button>
+        <div className="contact-actions">
+          <Button href={email} size="xl" iconLeading={Mail01}>
+            Get in touch
+          </Button>
+          <Button className="max-w-full whitespace-normal break-all text-center" href={email} color="link-color" size="sm">
+            {emailAddress}
+          </Button>
+        </div>
       </div>
     </section>
   );
@@ -747,7 +913,7 @@ export function NotFound() {
       <p className="eyebrow">404 / Page not found</p>
       <h1>
         This page didn’t pass
-        <br />
+        {" "}
         <span>the existence check.</span>
       </h1>
       <p>The link may have changed. Let’s get you back to something useful.</p>

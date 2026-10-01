@@ -20,11 +20,8 @@ The imported components use React Aria and Tailwind v4. Local composition is in 
 | Primary navigation and case-study section links | Upstream `NavItemBase` |
 | Experience disclosure triggers | Upstream `NavItemBase` collapsible variant inside native `details` |
 | Calls to action, downloads, project titles, footer and social links | Upstream `Button` including link variants |
-| Work category filters | Upstream `ButtonGroup` and `ButtonGroupItem`, single selection |
-| Project search | Upstream `Input` |
 | Skills, project labels and location | Upstream `Badge` and `BadgeWithDot` |
 | Expertise, resume and hero icon tiles | Upstream `FeaturedIcon` |
-| Search with no results | Upstream `EmptyState` composition |
 | Colors, typography scale, interaction styles | Upstream theme tokens and component utilities |
 
 Remaining local composition consists of page sections, content cards and the accessibility skip link. Decorative artwork and mock interfaces have been removed. Semantic headings, lists, sections, and native disclosure containers remain HTML. No paid marketing templates are used, and no numerical coverage percentage is claimed: this is a component-level inventory, not a percentage of DOM elements or source lines.
@@ -35,7 +32,7 @@ The repository retains strict TypeScript configuration. `definedProps` omits und
 
 Navigation applies the same optional-prop adaptation. The empty-state source retains its root, header, featured icon, content, title, description, and footer; unused file-icon, background-pattern, illustration, and avatar variants were omitted to avoid unused dependencies. Its title is an `h3` and content is a `div`, preserving the work page's heading hierarchy and single main landmark. Layout CSS is in `@layer components`, below upstream utilities, and obsolete custom control selectors have been removed.
 
-The prerendered React application hydrates in the browser. Portfolio content renders static React output through React server rendering at build time. Navigation, project content, case studies, native experience disclosures, and downloads remain usable without JavaScript. Search and filters require JavaScript.
+The prerendered React application hydrates in the browser. Portfolio content renders static React output through React server rendering at build time. Navigation, project content, case studies, native experience disclosures, and downloads remain usable without JavaScript. The homepage shows all project cards. The Work page uses project selection and section controls to display one project at a time; search and category filters remain removed. Preserve direct project routes and no-JavaScript fallback links.
 
 ## Review and deployment
 
@@ -60,6 +57,8 @@ Use Untitled UI's official documentation and MIT source directly. Context7 and o
 
 ## Component conventions
 
+The Experience explorer uses the imported Button's tertiary variant for a quiet project menu, with a pale blue selected state. Its local layout separates navigation from project content with a single divider, groups employer details in a muted context area, and places challenge and contribution side by side on wide screens. Narrow screens stack the content. Project links retain direct-route fallbacks, and the existing ButtonGroup controls switch detail sections after hydration.
+
 `components.json` selects Untitled UI v8 and records aliases matching TypeScript and Vite. Header and footer name links use the upstream Button link variant. Portfolio typography uses the upstream text/display sizes and line heights; colors and shadows reference semantic theme tokens directly. Page sections remain local compositions of free components. No PRO page template or complete upstream marketing layout is claimed.
 
 ## Resume exports
@@ -67,3 +66,5 @@ Use Untitled UI's official documentation and MIT source directly. Context7 and o
 The web resume uses the imported Untitled UI React components. PDF and DOCX are native document formats, so their generator uses the same light-theme semantic colors and Inter rather than executing React components. Colors resolve directly from `src/styles/theme.css` and installed Tailwind tokens on every generation; there is no second brand palette. Print-specific sizing keeps the compact PDF to one page.
 
 Inter Regular and SemiBold are embedded in PDFs. DOCX specifies Inter; Word may substitute a font when Inter is unavailable. The two font files in `assets/fonts` are static instances (optical size 14; weights 400/600) of the Google Fonts Inter source, with its OFL license retained. They are used only for document generation and are not copied into the website bundle.
+
+The Work explorer reuses upstream Button links for project selection and ButtonGroup/ButtonGroupItem for detail sections. Layout composition is local; no additional UI package is installed. Existing project URLs remain readable without JavaScript.

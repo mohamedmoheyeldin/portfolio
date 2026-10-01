@@ -3,68 +3,113 @@
     "id": "profile",
     "name": "Mohamed Moheyeldin",
     "location": "Reston, VA 20191",
-    "headline": "Forward Deployed Engineer",
-    "heroTitle": "From complex problems to working software.",
-    "summary": "Engineer focused on forward deployed work, with 10+ years of experience building automation, API integrations, cloud environments, and delivery systems across federal, e-commerce, and banking organizations. I turn complex requirements into practical software, connect systems, and help teams troubleshoot and deliver reliable solutions.",
+    "headline": "Bridging customer needs and technical solutions.",
+    "experienceYears": 11,
+    "experienceAsOf": "2026-09",
+    "heroTitle": "Practical software. Connected systems.",
+    "summary": "Customer-focused engineer with 11 years of software development and quality engineering experience across federal, banking, and e-commerce environments. Connects business requirements with hands-on implementation, system integration, and technical troubleshooting. Works directly with stakeholders from discovery and acceptance criteria through demonstrations, feedback, and adoption. Contributes React application features and develops tools such as Data Generator & File Processing to simplify complex workflows, combining engineering execution with practical customer delivery.",
     "detailedSummary": [
-      "Engineer focused on forward deployed work, bringing 10+ years of hands-on experience across federal, e-commerce, and banking environments. My background spans TypeScript, JavaScript, Java, SQL, API integration, automation architecture, and cloud delivery.",
-      "I build tools and workflows that connect APIs, data, and infrastructure: Jira integrations, data-provisioning utilities, GitHub Actions pipelines, and AWS environments. I combine implementation and debugging with technical leadership, code review, and mentoring, including experience leading five automation engineers."
+      "Customer-focused engineer with 11 years of software development and quality engineering experience across federal, banking, and e-commerce environments. Connects business requirements with hands-on implementation, system integration, and technical troubleshooting. Works directly with stakeholders from discovery and acceptance criteria through demonstrations, feedback, and adoption. Contributes React application features and develops tools such as Data Generator & File Processing to simplify complex workflows, combining engineering execution with practical customer delivery.",
+      "Works directly with stakeholders to clarify requirements and acceptance criteria, evaluate technical constraints, demonstrate changes, and help teams adopt reusable tools. Hands-on experience spans React, TypeScript, JavaScript, Java, SQL, REST API validation, and CI workflows. Uses AI coding assistants for development, debugging, and refactoring."
     ],
     "links": [
-      { "label": "Email", "href": "mailto:mohamedmoheyeldin.jobs@gmail.com" },
-      { "label": "LinkedIn", "href": "https://www.linkedin.com/in/moheyeldin/" },
-      { "label": "GitHub", "href": "https://github.com/mohamedmoheyeldin" }
+      {
+        "label": "Email",
+        "href": "mailto:mohamedmoheyeldin.jobs@gmail.com"
+      },
+      {
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com/in/moheyeldin/"
+      },
+      {
+        "label": "GitHub",
+        "href": "https://github.com/mohamedmoheyeldin"
+      }
     ],
     "competencies": [
-      "API Integration & Automation",
-      "Cloud Environments & CI/CD",
-      "Requirements to Implementation",
-      "Debugging & Diagnostics",
-      "Data Provisioning & Validation",
-      "Technical Leadership & Mentoring"
+      "Customer discovery",
+      "Application development",
+      "System integration",
+      "Workflow automation",
+      "Technical troubleshooting",
+      "User enablement"
     ],
     "skillGroups": [
       {
-        "label": "Automation",
-        "items": ["Playwright", "Cypress", "Selenium WebDriver", "Cucumber BDD", "Applitools"]
+        "label": "Application development",
+        "items": [
+          "React",
+          "TypeScript",
+          "JavaScript",
+          "Java",
+          "Reusable components"
+        ]
       },
       {
-        "label": "Programming & API",
-        "items": ["TypeScript", "JavaScript", "Java", "SQL", "Playwright API", "REST Assured", "Postman", "Contract Testing", "Schema Validation", "Network Mocking"]
+        "label": "Data and integration",
+        "items": [
+          "SQL",
+          "MySQL",
+          "JSON",
+          "REST APIs",
+          "Postman",
+          "SQL Server",
+          "Oracle",
+          "MongoDB"
+        ]
       },
       {
-        "label": "Delivery",
-        "items": ["GitHub Actions", "Azure DevOps", "Jenkins", "Bamboo", "Cypress Dashboard", "AWS", "EC2", "S3", "Aurora DB"]
+        "label": "Delivery and quality",
+        "items": [
+          "Playwright",
+          "Cypress",
+          "GitHub Actions",
+          "Git",
+          "Jira",
+          "Jenkins",
+          "AWS EC2/S3/Aurora test environments"
+        ]
       },
       {
-        "label": "Data & insight",
-        "items": ["Oracle", "SQL Server", "MongoDB", "JMeter", "Datadog", "Allure", "Elastic Stack", "Extent Reports"]
-      },
-      {
-        "label": "Test frameworks",
-        "items": ["TestNG", "JUnit", "Mocha", "Chai", "Jest", "Selenium Grid", "Applitools Eyes"]
+        "label": "AI-assisted engineering",
+        "items": [
+          "GitHub Copilot",
+          "VS Code",
+          "GPT models",
+          "Claude",
+          "Gemini"
+        ]
       }
     ],
     "experience": [
       {
         "employer": "Booz Allen Hamilton",
         "title": "QA Test Engineer",
-        "professionalTitle": "Senior SDET / Test Automation Lead",
+        "professionalTitle": null,
         "location": "Washington, DC",
         "start": "2020-12",
         "end": null,
-        "summary": "Hands-on automation engineering and technical leadership in federal delivery environments, guiding framework direction while improving the quality signals teams use to make release decisions.",
+        "summary": "Contribute to a VA healthcare claims platform with two frontends sharing a database, supporting claim submission, provider updates, claim progress and status tracking, and payment visibility.",
         "highlights": [
-          "Led a team of five automation engineers, establishing scalable test strategies, resource planning, and automation standards.",
-          "Designed Cypress and Playwright frameworks for UI and API testing with resilient asynchronous handling, retry logic, and robust assertions.",
-          "Built GitHub Actions pipelines that distributed Cypress Dashboard and Playwright workloads across multiple virtual machines, managed artifacts, and provisioned environments dynamically for faster, diagnosable feedback.",
-          "Used AWS EC2, Aurora DB, and S3 to support on-demand test environments and scalable test execution.",
-          "Implemented automated defect triage through Jira API integration and risk-based failure prioritization.",
-          "Created test dashboards with Allure and Elastic Stack for trend analysis, failure-pattern recognition, and anomaly detection.",
-          "Balanced parallel workloads using suite composition and observed execution time, then tracked worker timing, retries, failure categories, artifact completeness, and environment health.",
-          "Developed data-provisioning utilities using JSON, Excel with Apache POI, and SQL-driven injection for mock responses and contract testing.",
-          "Configured Selenium Grid for parallel cross-browser testing and JMeter performance benchmarks."
-        ]
+          "Work directly with VA stakeholders to map healthcare claims workflows, clarify technical and operational constraints, and define requirements and acceptance criteria for application and tooling changes.",
+          "Independently built and continue to enhance Data Generator & File Processing, enabling QA users to generate, edit, and upload hundreds of referrals in minutes to VA lower environments.",
+          "Contribute frontend features using React, JavaScript, and TypeScript; translate stakeholder feedback into application improvements supporting claim submission, provider updates, and status visibility.",
+          "Implement referral-data uploads into VA lower environments and use MySQL to investigate discrepancies between application behavior and stored data across frontend and backend workflows.",
+          "Demonstrate application, file-processing, and automation enhancements to stakeholders, gather feedback on daily workflows, and refine implementations around user needs.",
+          "Evaluated alternatives to legacy automation and helped select Playwright, weighing maintainability, reusable components, authentication requirements, and restricted environment access.",
+          "Develop a reusable Playwright smoke and regression framework and use GitHub Actions in development and testing workflows; investigate Microsoft Entra ID and environment dependencies affecting execution.",
+          "Maintain Data Generator & File Processing for daily QA use, troubleshoot issues, and adapt functionality as testing needs change; document single and bulk referral uploads and framework usage to help teammates adopt and extend the tools.",
+          "Coordinate with VA stakeholders and developers to investigate defects and resolve delivery dependencies; document progress, blockers, and operational impact in Jira.",
+          "Use GitHub Copilot in VS Code for application development, debugging, refactoring, and test creation; use Gemini, GPT models, and Claude in broader development work to explore implementation approaches."
+        ],
+        "customer": "U.S. Department of Veterans Affairs (VA)",
+        "compactHighlights": [
+          "Independently built Data Generator & File Processing, used daily by QA to generate, edit, and upload hundreds of referrals in minutes to VA lower environments.",
+          "Contribute React, TypeScript, and JavaScript features; integrate referral uploads and use MySQL to investigate application and data discrepancies.",
+          "Work directly with VA stakeholders on claims workflows, requirements, and acceptance criteria; demonstrate enhancements and incorporate feedback.",
+          "Build reusable Playwright automation, support GitHub Actions workflows, and document tools for adoption; troubleshoot authentication and environment constraints."
+        ],
+        "id": "booz-allen-hamilton"
       },
       {
         "employer": "Chick-fil-A Corporate",
@@ -73,17 +118,21 @@
         "location": "Atlanta, GA",
         "start": "2018-11",
         "end": "2020-12",
-        "summary": "Moved quality feedback earlier in the delivery lifecycle by connecting browser, API, visual, authentication, cloud-environment, and CI concerns into maintainable test systems.",
+        "summary": "Supported application delivery by connecting user workflows, REST APIs, authentication, and AWS test environments through reusable engineering tools and actionable troubleshooting evidence.",
         "highlights": [
-          "Architected GitHub Actions pipelines integrating Cypress Dashboard and AWS for automated execution and rapid feedback.",
-          "Designed modular smoke and regression suites with JavaScript, Cypress, and Mocha, including flaky-test mitigation.",
-          "Integrated Applitools Eyes visual regression testing across multiple resolutions, devices, and browsers.",
-          "Developed Cypress and Postman API suites with contract testing, schema validation, and dynamic data-driven assertions.",
-          "Implemented OIDC and Okta MFA automation in Cypress for SSO-based applications.",
-          "Managed AWS EC2, Aurora DB, and S3 resources with AWS CLI to support scalable test environments.",
-          "Applied parallel execution, network stubbing, and headless testing to reduce test run time while maintaining accuracy.",
-          "Used Cypress Dashboard duration, failure, retry, video, and screenshot evidence to diagnose bottlenecks and tune parallel execution."
-        ]
+          "Built reusable JavaScript and Cypress tooling around application workflows, translating expected behavior into repeatable checks that supported implementation and release decisions.",
+          "Investigated application-to-service integration through Cypress and Postman REST API checks, validating schemas, service contracts, and data-dependent behavior to surface discrepancies.",
+          "Validated OIDC, Okta MFA, and SSO workflows, troubleshooting authentication behavior across application scenarios and capturing evidence for failure investigation.",
+          "Connected GitHub Actions, Cypress Dashboard, and AWS test environments into repeatable delivery workflows, making execution results and diagnostic artifacts available to engineering teams.",
+          "Used AWS EC2, S3, and Aurora resources to support test environments; combined network stubbing, headless testing, and parallel execution to isolate dependencies and reproduce scenarios.",
+          "Investigated user-facing issues across browsers, devices, and resolutions with Applitools Eyes and Cypress evidence, using screenshots, videos, retries, and run durations to trace failures."
+        ],
+        "customer": null,
+        "compactHighlights": [
+          "Investigated REST contracts, schemas, and data integration with Postman and reusable JavaScript/Cypress tooling.",
+          "Connected GitHub Actions and Cypress Dashboard with AWS EC2, S3, and Aurora test environments; troubleshot OIDC/Okta authentication and application failures."
+        ],
+        "id": "chick-fil-a"
       },
       {
         "employer": "Ally Bank",
@@ -92,16 +141,20 @@
         "location": "Sandy, UT",
         "start": "2015-09",
         "end": "2018-11",
-        "summary": "Built a foundation in risk-based testing, cross-browser investigation, clear defect communication, and release validation across complex banking experiences.",
+        "summary": "Partnered with developers, analysts, and product owners to turn banking requirements into traceable validation and release-readiness evidence.",
         "highlights": [
-          "Performed exploratory, functional, and regression testing of web applications across multiple platforms.",
-          "Created test plans, test cases, and acceptance criteria aligned with business and functional requirements.",
-          "Executed cross-browser and responsive UI testing on Chrome, Firefox, Safari, and Edge.",
-          "Turned defects into decision-ready evidence in Jira by documenting reproduction paths, business impact, environment details, and verified fixes.",
-          "Ran smoke, regression, and sanity testing across development, QA, UAT, and staging environments.",
-          "Connected UI behavior, SQL data checks, pre- and post-deployment validation, hotfix verification, and production monitoring across the customer path.",
-          "Built traceable coverage across business requirements, platforms, browsers, environments, and high-risk customer scenarios."
-        ]
+          "Translated business and functional requirements into test plans, acceptance criteria, and traceable scenarios with developers, analysts, and product owners.",
+          "Performed exploratory, functional, and regression testing of banking web applications, investigating behavior across customer workflows and platforms.",
+          "Validated responsive and cross-browser behavior across Chrome, Firefox, Safari, and Edge to identify inconsistent user experiences.",
+          "Created reproducible Jira defect reports with environment details and business impact; collaborated with developers to investigate causes and verify fixes.",
+          "Used SQL data checks alongside application validation to investigate discrepancies and verify expected results.",
+          "Supported smoke, regression, and sanity checks across development, QA, UAT, and staging environments, including deployment checks and hotfix verification."
+        ],
+        "customer": null,
+        "compactHighlights": [
+          "Translated banking requirements into acceptance criteria; used SQL and reproducible Jira reports to investigate data issues and verify releases across QA, UAT, and staging."
+        ],
+        "id": "ally-bank"
       }
     ],
     "education": [
@@ -113,35 +166,129 @@
       }
     ],
     "credentials": [
-      "Cucumber BDD Automation Framework",
-      "Implementing SAFe Course (5.1) · Scaled Agile, Inc. · 2021",
-      "Leading SAFe 4.0 Course · Scaled Agile, Inc. · 2016"
+      "Implementing SAFe 5.1 course completion, 2021 (historical course completion)",
+      "Leading SAFe 4.0 course completion, 2016 (historical course completion)"
     ],
     "projects": [
       {
         "slug": "federal-quality-delivery-system",
         "kind": "career",
-        "context": "Federal delivery environment",
-        "role": "Senior SDET / Test Automation Lead",
+        "context": "VA healthcare delivery",
+        "role": "Application contributor",
         "period": "2020–Present",
-        "name": "Federal Quality Delivery System",
-        "description": "A connected UI, API, CI/CD, cloud-environment, and diagnostics strategy for complex federal software delivery.",
-        "challenge": "Teams needed automation that could scale across application layers and environments while producing release evidence engineers could diagnose and trust.",
+        "name": "VA Claims Workflows",
+        "description": "Contribute to a VA healthcare claims platform with two frontends sharing a database, supporting claim submission, provider updates, claim progress and status tracking, and payment visibility.",
+        "challenge": "VA stakeholders needed dependable claim submission, provider updates, progress tracking, and payment visibility across two frontends sharing a database.",
         "approach": [
-          "Led five automation engineers and established shared framework standards, test strategy, and resource planning.",
-          "Designed Cypress and Playwright frameworks spanning UI and API coverage with resilient asynchronous handling and actionable assertions.",
-          "Distributed execution across multiple virtual machines while preserving artifacts, worker timing, retries, failure categories, and environment-health signals.",
-          "Connected AWS-backed test environments, data provisioning, automated Jira triage, Allure reporting, and Elastic Stack analysis into the delivery workflow."
+          "Work directly with VA stakeholders to clarify claims workflows, requirements, acceptance criteria, and operational constraints.",
+          "Contribute React, JavaScript, and TypeScript frontend features supporting claim submission, provider updates, and status visibility.",
+          "Use MySQL to investigate discrepancies between application behavior and stored data across frontend and backend workflows.",
+          "Demonstrate changes, incorporate stakeholder feedback, and coordinate defect investigations with developers."
         ],
-        "outcome": "Created a clearer release signal that connected coverage, execution health, diagnostics, and risk-based triage instead of treating test results as an isolated pass-or-fail gate.",
+        "outcome": "Contributed application improvements, investigated workflow and data discrepancies, and demonstrated changes to stakeholders.",
         "repository": null,
-        "technologies": ["Playwright", "Cypress", "GitHub Actions", "AWS", "Allure", "Elastic Stack", "Jira API"],
+        "technologies": [
+          "React",
+          "TypeScript",
+          "JavaScript",
+          "MySQL"
+        ],
         "highlights": [
-          "Multi-layer UI and API automation architecture",
-          "Parallel CI execution with complete diagnostic artifacts",
-          "Risk-based failure prioritization and automated defect triage",
-          "Technical leadership for a five-engineer automation team"
-        ]
+          "Stakeholder discovery and acceptance criteria",
+          "React application contributions",
+          "MySQL and cross-system investigations",
+          "Demonstrations and feedback"
+        ],
+        "audience": "VA stakeholders and engineering teams supporting healthcare claims workflows.",
+        "systems": [
+          "Two frontends support healthcare claims workflows against a shared database.",
+          "React, TypeScript, and JavaScript supply application features. MySQL investigations connect visible behavior to stored records.",
+          "Authentication and restricted environment access affect investigation and validation. Internal endpoints and environment details are not public."
+        ],
+        "decisions": [
+          "Changes must account for shared data across two frontends; a visible UI issue can require investigation beyond the affected screen.",
+          "Stakeholder acceptance criteria guide implementation and validation within restricted environments."
+        ],
+        "relevance": "This work demonstrates customer discovery, application implementation, cross-system troubleshooting, and feedback-driven delivery.",
+        "evidence": [
+          {
+            "label": "Documented contributions",
+            "detail": "The career record documents frontend contributions, stakeholder demonstrations, and MySQL investigations. Client source code, screenshots, and internal endpoints are not public.",
+            "href": null
+          }
+        ],
+        "repositoryVisibility": "unavailable",
+        "relatedProjects": [
+          {
+            "slug": "ccrs-test-data-tooling",
+            "label": "Data Generator & File Processing: the separate test-data tool"
+          }
+        ],
+        "experienceId": "booz-allen-hamilton"
+      },
+      {
+        "slug": "ccrs-test-data-tooling",
+        "kind": "career",
+        "context": "Internal data tooling",
+        "role": "Application developer and maintainer",
+        "period": "Ongoing",
+        "name": "Data Generator & File Processing",
+        "description": "A JavaScript/Electron desktop application I built to create and edit test and internal referral data, package files, and support uploads for VA lower-environment workflows.",
+        "challenge": "QA users needed a repeatable way to prepare referral data for the application they were testing, without repeatedly editing and packaging files by hand.",
+        "audience": "QA users and internal teams preparing referral data for lower-environment workflows.",
+        "approach": [
+          "Independently built and continue to maintain Data Generator & File Processing for generating and editing referral data.",
+          "Provide a desktop workflow for editing existing JSON, generating new files, and preparing combined data and gzip packages.",
+          "Support uploads to configured targets, with explicit status and retry handling for failed destinations.",
+          "Demonstrate updates, troubleshoot daily use, and document workflows so teammates can use and extend the tool."
+        ],
+        "outcome": "User-reported: QA uses Data Generator & File Processing daily to prepare and upload hundreds of referrals in minutes.",
+        "repository": "https://github.com/mohamedmoheyeldin/ccrs-file-processing-framework-js",
+        "repositoryVisibility": "private",
+        "technologies": [
+          "JavaScript",
+          "Electron",
+          "JSON",
+          "SFTP",
+          "GitHub Actions"
+        ],
+        "highlights": [
+          "Application development and maintenance",
+          "Referral data generation and editing",
+          "JSON and gzip file preparation",
+          "Upload status and explicit retry handling"
+        ],
+        "systems": [
+          "Electron provides the desktop window, dialogs, and IPC between the renderer and backend logic.",
+          "The file workflow reads and writes referral JSON and produces combined data and gzip archives.",
+          "Uploads use configured targets through SFTP or WinSCP. This is a desktop file-processing workflow; the VA claims application is a separate project.",
+          "The repository documents a Windows installer and a GitHub Actions release workflow. No internal targets or upload settings are published here."
+        ],
+        "decisions": [
+          "A desktop application supports local file selection, processing, and packaging; it also requires Windows installation and update handling.",
+          "A sequential upload queue attempts each destination once per run, continues after a failure, and offers explicit retries for failed destinations.",
+          "Completion reporting distinguishes completed destinations from transfer-byte progress; SFTP completion checks the remote file size."
+        ],
+        "relevance": "Data Generator & File Processing shows how I turn a recurring team need into a usable tool, connect an interface to data processing and external systems, and support adoption over time.",
+        "evidence": [
+          {
+            "label": "Repository-documented implementation",
+            "detail": "The private repository README documents Electron UI/backend separation, JSON editing and generation, gzip packaging, and upload handling. Source access requires repository permission; no public demo is available.",
+            "href": null
+          },
+          {
+            "label": "Reported team use",
+            "detail": "Daily QA adoption and hundreds of referrals in minutes are user-reported outcomes, not independently measured public benchmarks.",
+            "href": null
+          }
+        ],
+        "relatedProjects": [
+          {
+            "slug": "federal-quality-delivery-system",
+            "label": "VA Claims Workflows: the application work"
+          }
+        ],
+        "experienceId": "booz-allen-hamilton"
       },
       {
         "slug": "ecommerce-feedback-platform",
@@ -149,7 +296,7 @@
         "context": "Enterprise e-commerce environment",
         "role": "Software Engineer in Test",
         "period": "2018–2020",
-        "name": "E-commerce Quality Feedback Platform",
+        "name": "Chick-fil-A Corporate",
         "description": "A maintainable feedback system joining browser automation, API validation, visual testing, authentication, cloud environments, and CI.",
         "challenge": "Quality feedback crossed browsers, APIs, visual behavior, SSO authentication, and cloud-hosted environments, making isolated test suites difficult to operate as one reliable system.",
         "approach": [
@@ -160,13 +307,42 @@
         ],
         "outcome": "Moved useful feedback earlier in delivery while keeping browser, API, visual, authentication, and environment evidence available for investigation and release decisions.",
         "repository": null,
-        "technologies": ["Cypress", "JavaScript", "Postman", "Applitools", "GitHub Actions", "AWS", "Okta"],
+        "technologies": [
+          "Cypress",
+          "JavaScript",
+          "Postman",
+          "Applitools",
+          "GitHub Actions",
+          "AWS",
+          "Okta"
+        ],
         "highlights": [
           "Modular smoke and regression automation",
           "API contract and schema validation",
           "Cross-browser visual regression coverage",
           "Automated enterprise authentication workflows"
-        ]
+        ],
+        "audience": "E-commerce engineering teams investigating application failures and deciding whether changes were ready to release.",
+        "systems": [
+          "Cypress and Postman exercised REST service contracts, schemas, and data-dependent application behavior.",
+          "OIDC, Okta MFA, and SSO added authentication dependencies to end-user workflows.",
+          "GitHub Actions and Cypress Dashboard supplied execution evidence; AWS EC2, S3, and Aurora supported test environments."
+        ],
+        "decisions": [
+          "Network stubbing isolated application behavior from external dependencies; checks against real services were still needed to investigate integration failures.",
+          "Headless and parallel execution supported repeatable feedback, while screenshots, video, retries, and timings supplied context when a run failed."
+        ],
+        "relevance": "Investigating APIs, identity, application behavior, and cloud environments built the cross-system debugging skills needed for customer-facing implementation work.",
+        "evidence": [
+          {
+            "label": "Documented engineering outputs",
+            "detail": "The career record documents reusable JavaScript tooling, REST checks, authentication investigations, and CI diagnostic artifacts. Employer repositories and run artifacts are private; no performance improvement percentage is claimed.",
+            "href": null
+          }
+        ],
+        "repositoryVisibility": "unavailable",
+        "relatedProjects": [],
+        "experienceId": "chick-fil-a"
       },
       {
         "slug": "banking-risk-validation",
@@ -174,7 +350,7 @@
         "context": "Consumer banking environment",
         "role": "Software QA Engineer",
         "period": "2015–2018",
-        "name": "Banking Risk-Based Validation System",
+        "name": "Ally Bank",
         "description": "A traceable validation practice connecting requirements, exploratory testing, browsers, data checks, environments, and production readiness.",
         "challenge": "Complex customer journeys required clear coverage across business requirements, platforms, browsers, deployment environments, and high-risk scenarios.",
         "approach": [
@@ -185,13 +361,41 @@
         ],
         "outcome": "Turned testing activity into decision-ready evidence across customer risk, technical behavior, deployment readiness, and production follow-through.",
         "repository": null,
-        "technologies": ["Exploratory Testing", "SQL", "Jira", "Cross-browser Testing", "Risk-Based Testing", "Release Validation"],
+        "technologies": [
+          "Exploratory Testing",
+          "SQL",
+          "Jira",
+          "Cross-browser Testing",
+          "Risk-Based Testing",
+          "Release Validation"
+        ],
         "highlights": [
           "Risk-aligned test planning and acceptance coverage",
           "Cross-browser and responsive customer-journey validation",
           "UI-to-database verification",
           "Pre-deployment, hotfix, and production follow-through"
-        ]
+        ],
+        "audience": "Banking developers, analysts, and product owners who needed traceable evidence for customer workflows and release decisions.",
+        "systems": [
+          "Browser workflows were checked against business requirements and acceptance criteria.",
+          "SQL checks connected application results to underlying data; Jira captured reproduction steps, environment details, and business impact.",
+          "Validation spanned development, QA, UAT, and staging, including deployment and hotfix checks."
+        ],
+        "decisions": [
+          "Risk-based coverage focused investigation on customer and business impact; exploratory work supplemented repeatable regression scenarios.",
+          "Reproducible defect reports connected a symptom to its environment and data, giving developers enough context to investigate and verify a fix."
+        ],
+        "relevance": "Requirements discovery, SQL investigation, and clear handoffs are foundations for translating a customer problem into a dependable implementation.",
+        "evidence": [
+          {
+            "label": "Documented delivery responsibilities",
+            "detail": "The career record documents SQL validation, reproducible Jira reports, and release checks. No public banking code, customer data, or defect screenshots are available.",
+            "href": null
+          }
+        ],
+        "repositoryVisibility": "unavailable",
+        "relatedProjects": [],
+        "experienceId": "ally-bank"
       },
       {
         "slug": "portfolio-career-content-system",
@@ -206,17 +410,58 @@
           "Designed a schema-validated career record consumed by every presentation channel.",
           "Rebuilt the portfolio on the official Untitled UI React and Vite stack, preserving static pages, content validation, and resume downloads.",
           "Generated separate PDF and DOCX formats from the same factual source while preserving channel-appropriate layout.",
-          "Added strict diagnostics, production builds, subpath packaging checks, and continuous deployment."
+          "Added strict diagnostics, static production builds, subpath packaging checks, and explicit deployment configuration."
         ],
         "outcome": "Established one maintainable publishing workflow for the portfolio and resume library while keeping web, PDF, and Word presentations aligned.",
         "repository": "https://github.com/mohamedmoheyeldin/portfolio",
-        "technologies": ["Vite", "React", "Untitled UI", "Tailwind CSS", "TypeScript", "GitHub Actions", "Cloudflare"],
+        "technologies": [
+          "Vite",
+          "React",
+          "Untitled UI",
+          "Tailwind CSS",
+          "TypeScript",
+          "GitHub Actions",
+          "Cloudflare"
+        ],
         "highlights": [
           "Designed one structured content architecture for every career presentation channel.",
           "Redesigned the website with free Untitled UI React components while preserving static content and accessible navigation.",
-          "Added strict diagnostics, production builds, subpath packaging checks, and continuous deployment.",
+          "Added strict diagnostics, static production builds, subpath packaging checks, and explicit deployment configuration.",
           "Prepared separate PDF and DOCX presentation contracts without duplicating career facts."
-        ]
+        ],
+        "audience": "Recruiters and engineering reviewers exploring my work, and me as the maintainer of several resume formats.",
+        "systems": [
+          "One career.json record supplies React pages, project routes, and resume content. A dependency-free schema check validates required fields before publishing.",
+          "React and free Untitled UI components render through Vite at build time. Browser hydration adds search and filtering; core content and links are in the generated HTML.",
+          "Python produces PDF and Word resumes. Vite packages static assets for Cloudflare; a separate build verifies the /portfolio/ GitHub Pages base path. There is no runtime API or database."
+        ],
+        "decisions": [
+          "Static rendering keeps content available before JavaScript runs and avoids a service/database to operate. Career changes require a rebuild.",
+          "One factual record reduces content drift. Web and print use separate layouts because native documents cannot run React components.",
+          "Cloudflare and GitHub Pages need different asset bases. Both builds are checked; configuration alone does not prove a production deployment."
+        ],
+        "relevance": "This is a publicly inspectable example of owning data contracts, interface composition, document generation, and deployment packaging. API integration experience is documented in the career case studies.",
+        "evidence": [
+          {
+            "label": "Browse implementation",
+            "detail": "React composition, content model, and build scripts on the untitledui branch.",
+            "href": "https://github.com/mohamedmoheyeldin/portfolio/tree/untitledui"
+          },
+          {
+            "label": "Inspect publishing workflow",
+            "detail": "Build-time validation, static route generation, canonical metadata, and sitemap generation.",
+            "href": "https://github.com/mohamedmoheyeldin/portfolio/blob/untitledui/scripts/build.mjs"
+          },
+          {
+            "label": "Inspect resume generator",
+            "detail": "The same career record drives PDF and Word output using the website theme colors.",
+            "href": "https://github.com/mohamedmoheyeldin/portfolio/blob/untitledui/scripts/generate-resumes.py"
+          }
+        ],
+        "resumeSummary": "Built a React/Untitled UI portfolio from validated JSON, with shared PDF/Word generation and static deployment packaging for Cloudflare.",
+        "repositoryVisibility": "public",
+        "relatedProjects": [],
+        "experienceId": null
       }
     ],
     "provenance": {
@@ -224,7 +469,8 @@
       "referenceRepository": "https://github.com/mohamedmoheyeldin/mohamedmoheyeldin.github.io",
       "sourceSnapshotDate": "2025-10-13",
       "importedOn": "2026-08-13",
-      "policy": "Factual fields only. Verify every item with Mohamed before final publication."
-    }
+      "policy": "Career facts reconciled with the user-confirmed VA account and FDE career claim register on 2026-09-30. Historical title timing remains unverified; no production AI or unsupported metrics claimed."
+    },
+    "heroSummary": "I connect customer needs with technical solutions—turning complex requirements into practical products, services, and integrations."
   }
 ]

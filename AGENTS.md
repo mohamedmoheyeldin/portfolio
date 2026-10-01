@@ -18,16 +18,21 @@ This is the canonical React/Vite portfolio and multi-format resume platform. The
 - Keep career facts canonical and factual. Do not invent employers, responsibilities, dates, outcomes, or metrics.
 - Preserve public/private content boundaries, resume generation, `/portfolio/` portability, accessibility, metadata, and responsive behavior.
 - Use shared styles and presentation contracts instead of route-specific duplication.
-- `src/components/Portfolio.tsx` owns the portfolio composition; React route composition supplies validated content and metadata. The work explorer hydrates for search and filtering. Keep content and links usable without JavaScript.
+- Keep the homepage Engineering toolkit at overview level: category names and short descriptions. The Experience page's The tools behind the work section uses five broad areas in a wrapping top menu above a full-width detail panel matching the project explorer, with the 16 detailed categories organized beneath those areas, with full skill lists and business, solution evaluation, identity, and release-readiness capabilities supported by the career record. Show all skills in the selected category without disclosure controls, and render all categories with anchor navigation when JavaScript is unavailable. Link the homepage overview to `/experience/#engineering-toolkit`.
+- `src/components/Portfolio.tsx` owns the portfolio composition; React route composition supplies validated content and metadata. The homepage shows all project cards. The Experience page uses a responsive project menu above one full-width detail panel with Overview, Implementation, and Evidence controls. Keep employer/role/customer context in that panel without a duplicate experience summary; search and category filters remain removed. Preserve direct project routes and no-JavaScript fallback links. Keep content and links usable without JavaScript.
 - Blue is the permanent brand color. Map the complete brand scale (50–950) to the upstream blue tokens in `src/styles/theme.css`; keep semantic status colors intact. There is no palette picker or runtime theme switching.
-- Personal branding uses the linked name Mohamed Moheyeldin only. Keep the favicon blank and omit graphic app icons and branded social images. Employer logos are separate experience identifiers.
+- Personal branding uses the linked name Mohamed Moheyeldin only. Keep the favicon blank and omit graphic app icons and branded social images. Identify employers and customers with text; do not include company logo assets. Describe employer/client work through personal contributions rather than claims of intellectual property ownership. The public project label is Data Generator & File Processing; retain its existing ccrs-test-data-tooling slug for link compatibility.
 - Keep Untitled UI source attribution in `UNTITLED-UI-LICENSE` and `docs/UNTITLED-UI.md`. Preserve strict TypeScript checks when adapting upstream components.
 - Use imported Untitled UI components for controls, navigation, disclosures, badges, featured icons, and empty states. Compose portfolio layouts from these primitives and the upstream theme tokens. Keep custom layout CSS in the components layer so it cannot override the components' Tailwind utility styles. Document source adaptations and remaining custom artwork; do not imply custom layouts are upstream templates.
 - `pnpm verify` finishes with a subpath build. Run `pnpm build:cloudflare` again before production preview or deployment.
 - Do not deploy to Cloudflare or GitHub Pages unless explicitly requested.
 - Do not commit, push, open pull requests, or generate release artifacts unless explicitly requested.
 
+- Keep downloadable resumes at the user-preferred rounded “11 years of experience” wording for the current experience snapshot. The user removed the live experience clock; keep the header focused on personal branding and navigation. Do not add a ticking counter to the website, PDF, Word, or career documents.
+
 ## Documentation and tools
+
+- `/experience/` is the consolidated Experience page: projects, employment context, approach, skills, and education. `/about/` redirects to `/experience/`, preserving query and fragment in JavaScript, with a static fallback. Exclude the legacy route from the sitemap. Resume is a focused download page (PDF, Word, plain text); employment and project context belongs on Experience.
 
 - Start with `README.md`, `docs/DEVELOPMENT.md`, and `docs/TESTING.md`.
 - `docs/ARCHITECTURE.md` and `docs/CONTENT_PROVENANCE.md` define the key content boundaries.
@@ -39,4 +44,8 @@ This is the canonical React/Vite portfolio and multi-format resume platform. The
 
 - Resume generation: `pnpm resume:generate` uses Python with `scripts/requirements-resume.txt`, installed Tailwind tokens, and `assets/fonts`. Keep PDF/DOCX colors derived from the website theme. Visually verify output; do not imply native documents execute React components.
 
-- Current positioning is Forward Deployed Engineer (FDE). Keep historical employment titles and project roles factual; do not relabel past SDET roles as FDE or invent customer outcomes.
+- Position the profile around customer-facing engineering and FDE-relevant contributions. Do not use transitioning or moving-into language in public copy or resumes; do not imply prior FDE employment. Preserve the source employment titles (Booz Allen: QA Test Engineer), dates, and customer contributions. Total experience begins September 2015: 11 years as of September 2026, not 11 years of FDE tenure. Keep experienceYears/experienceAsOf and resume summary counts aligned; content validation checks the dated calculation.
+
+- Case-study edits must preserve audience, personal contribution, systems, decisions, and evidence boundaries. Do not describe the static portfolio as an API-backed application. Regenerate PDF, DOCX, Markdown, and job-board text together after career changes.
+
+Legacy `/work/` and `/work/<project>/` URLs redirect to the corresponding `/experience/` URLs, preserving query and fragment. `/about/` redirects to `/experience/`. Only canonical Experience routes appear in navigation and the sitemap.

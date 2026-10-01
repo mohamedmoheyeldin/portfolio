@@ -26,5 +26,12 @@ try {
   }
   await writeFile('dist/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${routes.map(p=>`<url><loc>${site}${base}${p.slice(1)}</loc></url>`).join('')}</urlset>`);
   await writeFile('dist/robots.txt',`User-agent: *\nAllow: /\nSitemap: ${site}${base}sitemap.xml\n`);
-  console.log(`Prerendered ${routes.length + 1} pages. Content, metadata, and links work without JavaScript.`);
+  const legacyRoutes = ['/about/', '/work/', ...profile.projects.map(p => `/work/${p.slug}/`)];
+  for (const legacy of legacyRoutes) {
+    const destination = `${base}${legacy === '/about/' ? 'experience/' : legacy.slice(1).replace(/^work\//, 'experience/')}`;
+    const target = `dist${legacy}index.html`;
+    await mkdir(dirname(target), {recursive: true});
+    await writeFile(target, `<!doctype html><html lang="en"><head><meta charset="UTF-8"><title>Experience</title><link rel="canonical" href="${site}${destination}"><script>location.replace(${JSON.stringify(destination)}+location.search+location.hash)</script><noscript><meta http-equiv="refresh" content="0;url=${destination}"></noscript></head><body><a href="${destination}">Continue to Experience</a></body></html>`);
+  }
+  console.log(`Prerendered ${routes.length + 1} pages and ${legacyRoutes.length} legacy redirects. Content, metadata, and links work without JavaScript.`);
 } finally { await server.close(); }
