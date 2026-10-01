@@ -354,5 +354,9 @@ Edit this file as the canonical website plan. Record a date, changed decisions, 
 
 ### Change log
 
+- 2026-10-01: Removed the Jobs & applications page, navigation entry, fictional job records, and related overview copy at the owner's request. The current preview has six pages. Future job-search ideas in this plan remain proposals, not implemented features.
+
+- 2026-10-01: First development preview implemented: seven Studio pages, temporary fictional workspace, editable template resume/cover-letter generation and text download, optional disabled Cloudflare public AI adapter with an atomic shared quota, and connection setup guide. Private owner authentication, Google OAuth, history, additional providers and real outbound automation remain unimplemented. This update does not release Studio to production.
+
 - 2026-10-01: Initial full plan. Incorporates shared public/private pages, owner-provided AI, conditional ChatGPT plan integration, MFA, Google workflows, job automation, employer exclusions, and controlled sensitive-information handling. Documentation only; no deployment or account actions.
 - 2026-10-01: Expanded broad provider adapters, automatic capped public AI routing, verified ChatGPT website registration requirements, and production/development branch separation. Studio remains planned for a later release.

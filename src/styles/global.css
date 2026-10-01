@@ -79,6 +79,37 @@
   }
 }
 @layer components {
+  .studio { padding-block: 0 var(--section-spacing); display: grid; gap: 28px; }
+  .studio-heading { padding-block: var(--section-spacing) 28px; text-align: center; }
+  .studio-heading h1 { margin-inline: auto; }
+  .studio-heading > p { text-align: center; }
+  .studio-note { padding: 16px 20px; border-radius: 10px; background: var(--color-bg-brand-primary); color: var(--color-text-secondary); font-size: var(--text-sm); line-height: 1.6; }
+  .studio-nav, .studio-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .studio-nav { justify-content: center; }
+  .studio-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .studio-section-heading { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 16px; width: 100%; text-align: center; }
+  .studio-section-heading h2 { font-size: var(--text-display-xs); }
+  .studio-section-heading p { max-width: 640px; }
+  .studio-split, .studio-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
+  .studio-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .studio-metrics strong { display: block; font-size: var(--text-display-md); margin-top: 12px; }
+  .studio-card { border: 1px solid var(--color-border-secondary); border-radius: 12px; padding: var(--card-padding); min-width: 0; background: var(--color-bg-primary); }
+  .studio-card h2 { font-size: var(--text-xl); line-height: 1.5; }
+  .studio-stack, .studio-list { display: grid; gap: 20px; }
+  .studio-reading { width: 100%; max-width: 760px; margin-inline: auto; }
+  .studio-hint { font-size: var(--text-sm); color: var(--color-text-tertiary); }
+  .studio-connections > p { text-align: center; }
+  .studio-experience-entry { margin: 0; min-width: 0; padding: 16px; border: 1px solid var(--color-border-secondary); border-radius: 10px; }
+  .studio-experience-entry legend { padding-inline: 6px; font-size: var(--text-sm); font-weight: 600; color: var(--color-text-secondary); }
+  .studio-field { display: grid; gap: 8px; font-size: var(--text-sm); font-weight: 500; color: var(--color-text-secondary); }
+  .studio-field textarea, .studio-field select { width: 100%; border: 1px solid var(--color-border-primary); border-radius: 8px; padding: 10px 12px; font: inherit; font-weight: 400; background: var(--color-bg-primary); color: var(--color-text-primary); min-width: 0; }
+  .studio-field textarea { resize: vertical; line-height: 1.6; }
+  .studio-field textarea:focus-visible, .studio-field select:focus-visible { outline: 3px solid var(--color-brand-200); border-color: var(--color-brand-500); }
+  .studio-consent { display: flex; align-items: start; gap: 10px; font-size: var(--text-sm); color: var(--color-text-secondary); line-height: 1.6; }
+  .studio-consent input { margin-top: 5px; accent-color: var(--color-brand-600); }
+  .studio-status { font-size: var(--text-sm); }
+  .studio-card ul { padding-left: 20px; display: grid; gap: 12px; color: var(--color-text-tertiary); }
+  @media (max-width: 760px) { .studio-split, .studio-two, .studio-metrics { grid-template-columns: minmax(0, 1fr); } .studio-nav > a { flex: 1 1 auto; } }
   .section#experience-projects { padding-top: 32px; }
   .work-explorer { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
   .project-selector { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }

@@ -19,7 +19,15 @@ The shared header contains personal branding, primary navigation, and a contact 
 - Vite 8.x, React 19, strict TypeScript, semantic HTML, and Tailwind CSS v4.
 - Static output for Cloudflare Workers Static Assets and the custom domain.
 - Free Untitled UI React components supply buttons and links, navigation items and disclosure triggers, badges, featured icons, tooltip support, icons, and theme tokens. Components render to static HTML through React server rendering at build time. The application hydrates after static HTML loads; the Work page uses React state for project and detail-section selection, with hash links and browser history support. See `UNTITLED-UI.md` for the component inventory and source adaptations.
-- `src/components/Portfolio.tsx` shares page composition. Routes retain static content collection reads, route generation, and page metadata. There is no client router or application server.
+- `src/components/Portfolio.tsx` shares portfolio composition. Routes retain static content collection reads, route generation, and page metadata. There is no client router. The Studio branch adds an optional, separately configured Worker API described below.
+
+## Application Studio development boundary
+
+`src/components/ApplicationStudio.tsx` renders six Studio pages. `src/lib/studio.ts` owns explicitly fictional examples and deterministic document templates, separate from the canonical portfolio career record. User inputs are temporary React state; no credentials or identity documents are retained in the browser. Long forms use shared styles and existing Untitled UI inputs, buttons, badges and icons.
+
+`workers/studio/index.mjs` serves static assets and the `/api/studio/*` namespace when run with `wrangler.studio.jsonc`. The public handler requires consent and same-origin JSON requests, limits input/output, and reserves a shared daily budget in a SQLite-backed Durable Object before calling Workers AI. Failed attempts consume budget. Public AI defaults off. Private API routes always reject access; there are no private credentials or Google connections in this Worker. This deliberate boundary must remain until a separately authenticated owner backend is implemented.
+
+`config/application-studio.public.json` contains public model and budget settings. Cloudflare's server variable `PUBLIC_AI_ENABLED` controls activation. Configuration is described in `APPLICATION-STUDIO-SETUP.md`; planned owner/Google settings are contracts, not currently functioning connections. Real provider execution and MFA/OAuth flows remain unverified. The Studio Worker has no production custom-domain route and must not replace the production portfolio deployment.
 - Automated validation covers TypeScript diagnostics, content schemas, production builds, and subpath packaging. UI workflows and accessibility are reviewed with an available browser tool; no browser test framework is installed.
 - The standalone Python resume generator reads the same career JSON and renders PDF and DOCX downloads.
 

@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "publicModel": "@cf/meta/llama-3.1-8b-instruct",
+  "publicRequestsPerDay": 20,
+  "maxInputCharacters": 12000,
+  "maxOutputTokens": 800
+}

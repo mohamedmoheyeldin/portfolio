@@ -10,6 +10,8 @@ Use Node.js 24 (see `.nvmrc`) and the pnpm version declared in `package.json` to
 
 ## Daily workflow
 
+For Application Studio on its development branch, see [Studio setup](APPLICATION-STUDIO-SETUP.md). `pnpm test:studio` runs backend boundary, quota and document-template tests as part of `pnpm verify`. `pnpm studio:bundle` checks the separate Worker configuration and bundle without deploying. The production deployment command still targets the existing portfolio Worker; never use it to release Studio accidentally.
+
 ```bash
 pnpm dev
 pnpm verify

@@ -7,6 +7,7 @@ This is the canonical React/Vite portfolio and multi-format resume platform. The
 ## Working agreements
 
 - `main` is the production portfolio branch. Keep Application Studio planning and implementation on `application-studio`; do not merge or deploy that branch to the production domain without an explicit release request. Its public-demo and private-owner APIs must use separate credentials and enforce owner authorization on the backend. A client mode flag never grants access.
+- Application Studio composition is in `src/components/ApplicationStudio.tsx`, with fictional records and templates in `src/lib/studio.ts`. Edits are temporary page state. Public API code is in `workers/studio`; `wrangler.studio.jsonc` names a separate preview Worker and defaults AI off. Never add private credentials/bindings to the public Worker. Private routes currently reject all requests; owner authentication and Google integration remain future work. Read `docs/APPLICATION-STUDIO-SETUP.md` before changing those boundaries. `pnpm test:studio` is included in `pnpm verify`; run `pnpm studio:bundle` after backend changes. Generate bindings with `pnpm dlx wrangler@4.144.0 types --config wrangler.studio.jsonc workers/studio/worker-configuration.d.ts` after config changes. Do not run a deployment command without explicit release authorization.
 
 - Use Untitled UI's official website and upstream source directly for design decisions and component documentation. The user explicitly excluded Context7 and other design sources for this project. Keep the presentation restrained: no custom mock browser illustrations, code artwork, tilted cards, floating notes, or monogram artwork. Use pnpm exclusively for package operations.
 
@@ -33,6 +34,10 @@ This is the canonical React/Vite portfolio and multi-format resume platform. The
 - Keep downloadable resumes at the user-preferred rounded “11 years of experience” wording for the current experience snapshot. The user removed the live experience clock; keep the header focused on personal branding and navigation. Do not add a ticking counter to the website, PDF, Word, or career documents.
 
 ## Documentation and tools
+
+- docs/INTERVIEW-PREPARATION.md connects portfolio case studies to the canonical interview track in the sibling fde-career-transition repository. Keep story/question copies and private review notes there; do not publish them through portfolio routes, public assets or resume exports. The technical walkthrough must distinguish core static rendering from ongoing Application Studio work and verified runtime outcomes.
+
+- Studio AI document instructions live in `workers/studio/prompts.mjs`. Keep writing preferences validated on the backend; candidate facts and job descriptions remain data, with job requirements never treated as candidate qualifications. Check prompt/request contracts with `pnpm test:studio`; mock-provider tests do not verify live model quality.
 
 - `/experience/` is the consolidated Experience page: projects, employment context, approach, skills, and education. `/about/` redirects to `/experience/`, preserving query and fragment in JavaScript, with a static fallback. Exclude the legacy route from the sitemap. Resume is a focused download page (PDF, Word, plain text); employment and project context belongs on Experience.
 

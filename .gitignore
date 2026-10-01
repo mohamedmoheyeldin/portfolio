@@ -9,3 +9,5 @@ tmp/
 .wrangler/
 .dev.vars*
 !.dev.vars.example
+workers/studio/worker-configuration.d.ts
+workers/studio/config/owner-exclusions.local.json

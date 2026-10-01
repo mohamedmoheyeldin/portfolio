@@ -1,5 +1,22 @@
 # Testing
 
+## October 1, 2026 interview preparation companion
+
+- Added repository-only interview and technical walkthrough guides; no website routes, career facts or resume outputs changed in this update. Existing Application Studio work was preserved.
+- Verified 32 local source/sibling-repository links in the new guides, UTF-8 decoding and whitespace. The canonical 80-question bank remains in the career project.
+- Node 24.19.0 / pnpm 11.22.0: pnpm verify passed, including 12 Studio tests, TypeScript/content validation, root build and GitHub Pages subpath checks. The current application build reports a JavaScript chunk above 500 kB; this documentation change does not alter that bundle.
+- Browser interaction, native document rendering and live AI were not exercised. No deployment, commit or push was performed.
+- Restored the root build with pnpm build:cloudflare after verification. Confirmed the interview guides are absent from built public assets; git diff --check passed.
+
+## Application Studio preview
+
+- `pnpm test:studio`: backend consent/input limits, disabled/unconfigured behavior, cross-origin rejection, private-route denial, provider response shape, budget exhaustion, SQL quota cap/reset, and template fact preservation.
+- `pnpm verify`: includes those tests, strict frontend TypeScript, content schema checks, production prerendering, and Studio `/portfolio/` navigation packaging checks.
+- `pnpm studio:bundle`: Wrangler dry-run validates the separate Worker module and bindings; it does not publish or exercise a provider.
+- With the disabled local Studio Worker running on port 8787, `node scripts/check-studio-http.mjs` exercises all six pages, assets, public status, private denials, disabled generation and unknown API routes. Set `STUDIO_TEST_ORIGIN` for a different local port; this check expects AI to be disabled and must not target production.
+- Public AI is disabled by default. Live AI, owner login/MFA, Google OAuth and actual email/job actions are not verified or connected. Sample interactions require a browser review before release; no browser is opened automatically.
+- First preview validation: 10 Studio tests, TypeScript/content checks, root and `/portfolio/` builds, Worker dry-run, and all seven local HTTP routes passed. Rebuilding while Wrangler was running caused a Windows asset-watcher failure; stopping and restarting the Worker restored the HTTP checks. No live AI request or external account mutation was performed.
+
 ## Standard verification
 
 ```bash

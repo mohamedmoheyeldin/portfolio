@@ -19,7 +19,10 @@
     "check": "tsc --noEmit && node scripts/validate-content.mjs",
     "test": "pnpm check && pnpm build",
     "test:pages": "pnpm build:pages && node scripts/check-pages-build.mjs",
-    "quality": "pnpm test && pnpm test:pages",
+    "test:studio": "node --test tests/studio.test.mjs",
+    "studio:dev": "pnpm build:cloudflare && pnpm dlx wrangler@4.144.0 dev --config wrangler.studio.local.jsonc --port 8787",
+    "studio:bundle": "pnpm dlx wrangler@4.144.0 deploy --config wrangler.studio.jsonc --dry-run --outdir tmp/studio-worker",
+    "quality": "pnpm test:studio && pnpm test && pnpm test:pages",
     "verify": "pnpm quality",
     "resume:generate": "python scripts/generate-resumes.py src/content/career.json public/resume"
   },

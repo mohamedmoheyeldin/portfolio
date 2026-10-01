@@ -9,6 +9,7 @@ The `untitledui` branch replaces the previous website presentation with free Unt
 - License: MIT; full notice in `UNTITLED-UI-LICENSE`.
 - Imported: button, button group, badge variants, input/label/hint, tooltip, navigation item, featured icon, empty state, dot icon, class utilities, React component guard, and theme CSS.
 - Icons: `@untitledui/icons`.
+- Application Studio connection statuses use a status-only adaptation of the upstream tags component (`components/base/tags/tags.tsx`): React Aria tag group/list/items and status dots, with unused avatar, removal and selection variants omitted. Source: https://www.untitledui.com/react/components/tags.
 - Installation guidance: https://www.untitledui.com/react/docs/installation
 
 The imported components use React Aria and Tailwind v4. Local composition is in `src/components/Portfolio.tsx`. Page composition adapts the portfolio content to upstream components and theme tokens; it is not a purchased Untitled UI marketing template.

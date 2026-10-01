@@ -77,6 +77,7 @@ export function Header({ name, location, path }: { name: string; location: strin
           >
             Resume
           </NavItemBase>
+          <NavItemBase type="link" href={href("application-studio/")} current={path.includes("/application-studio")}>Studio</NavItemBase>
         </nav>
         <div className="header-contact">
           <Button

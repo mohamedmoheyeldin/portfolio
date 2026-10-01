@@ -36,9 +36,11 @@ See [Untitled UI integration](docs/UNTITLED-UI.md) for upstream attribution and 
 
 ## Application Studio development
 
-This branch contains the [Application Studio plan](docs/APPLICATION-STUDIO-PLAN.md): public document tools and sample workflows, automatic capped free AI routing, broad owner-provider support, MFA, and private job-search integrations. Studio is planned and is not yet implemented. Keep it on `application-studio` until a separate release request; Cloudflare excludes this branch from automatic portfolio uploads.
+This branch now contains the first Application Studio preview at `/application-studio/`: a working template document builder, fictional inbox workflows, editable temporary preferences, automation previews, and connection-status tags. It uses the existing Untitled UI components and blue theme. An optional Cloudflare public AI adapter is implemented and disabled by default. Owner authentication, provider expansion, Google integration, persistent history, and real automation remain planned. See the [setup guide](docs/APPLICATION-STUDIO-SETUP.md) and [full plan](docs/APPLICATION-STUDIO-PLAN.md). Keep Studio on `application-studio` until a separate release request; Cloudflare excludes this branch from automatic portfolio uploads.
 
 ## Quality gates
+
+For interview preparation, use the [portfolio companion](docs/INTERVIEW-PREPARATION.md) and [technical walkthrough](docs/INTERVIEW-TECHNICAL-WALKTHROUGH.md). They connect these case studies to the career project's story cards and 80-question practice track. These are local repository guides, not public website content.
 
 ```bash
 pnpm check              # strict TypeScript diagnostics and content schema validation

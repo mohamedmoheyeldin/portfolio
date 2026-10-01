@@ -56,3 +56,8 @@ for (const oldPath of ['/work/', ...JSON.parse(career)[0].projects.map(p => `/wo
 }
 if (sitemap.includes('/work/') || home.includes('href="/portfolio/work/')) throw Error('Canonical links must use Experience.');
 console.log('Experience routes and old Work redirects validated.');
+for (const segment of ['', 'documents/', 'inbox/', 'profile/', 'rules/', 'connections/']) {
+  const html = await readFile(`dist/application-studio/${segment}index.html`, 'utf8');
+  if (!html.includes('href="/portfolio/application-studio/documents/"') || !html.includes('Public workspace preview.')) throw Error('Studio subpath navigation or preview notice is missing.');
+}
+console.log('Application Studio routes and subpath navigation validated.');
