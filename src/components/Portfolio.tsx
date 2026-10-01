@@ -15,7 +15,7 @@ import {
   Award01,
   ShieldTick,
 } from "@untitledui/icons";
-import { Button } from "@/components/base/buttons/button";
+import { Button, type Props as ButtonComponentProps } from "@/components/base/buttons/button";
 import { Badge } from "@/components/base/badges/badges";
 import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
 import { NavItemBase } from "@/components/application/app-navigation/base-components/nav-item";
@@ -122,10 +122,10 @@ export function Footer({ name }: { name: string }) {
       <div className="shell trademark-notice" role="note" aria-label="Professional references and intellectual property notice">
         <p>
           References to employers, clients, customers, government agencies, projects,
-          products, and services—including names, logos, trademarks, and other
+          products, and services—including names, trademarks, and other
           identifiers—are used solely to identify and describe my professional
           experience, contributions, and the tools I have used. All third-party
-          trademarks, logos, and other intellectual property remain the property
+          trademarks and other intellectual property remain the property
           of their respective owners. Their inclusion does not imply sponsorship,
           endorsement, approval, partnership, or authorization of this website.
         </p>
@@ -218,7 +218,7 @@ function orderedProjects(projects: Project[]) {
 export function Home({ profile }: { profile: Profile }) {
   return (
     <>
-      <section className="shell home-hero">
+      <section className="shell home-hero" id="professional-profile">
         <div className="hero-copy">
           <h1>
             Practical software. <span>Connected systems.</span>
@@ -226,27 +226,11 @@ export function Home({ profile }: { profile: Profile }) {
           <p>
             {profile.heroSummary}
           </p>
-          <div className="hero-buttons">
-            <Button href={href("experience/")} size="xl" iconTrailing={ArrowRight}>
-              Explore my work
-            </Button>
-            <Button
-              href={href("resume/")}
-              color="secondary"
-              size="xl"
-              iconLeading={File06}
-            >
-              View resume
-            </Button>
-          </div>
         </div>
-      </section>
-      <section className="section shell home-profile profile-centered" id="professional-profile" aria-label="Professional introduction">
-        <p className="resume-summary">{profile.summary}</p>
       </section>
       <section className="section shell">
         <header className="section-heading-centered">
-            <h2>Real problems. Thoughtful solutions.</h2>
+            <h2>Engineering solutions. Delivering value.</h2>
             <p>
               A look at the systems I’ve built and the decisions behind them.
             </p>
@@ -330,6 +314,24 @@ export function Home({ profile }: { profile: Profile }) {
   );
 }
 
+function ExplorerChoice({ title, description, active, ...props }: {
+  title: string;
+  description: string;
+  active: boolean;
+  href: string;
+  id?: string;
+  onClick: NonNullable<ButtonComponentProps["onClick"]>;
+}) {
+  return <Button {...props} color="tertiary"
+    className={`h-full min-h-28 w-full items-start justify-start rounded-lg px-4 py-4 whitespace-normal text-left ring-1 ring-inset max-sm:min-h-0 [&>[data-text]]:w-full ${active ? "bg-brand-50 text-brand-secondary ring-brand-300 hover:bg-brand-50" : "bg-primary text-secondary ring-secondary hover:bg-secondary hover:ring-primary"}`}
+    aria-current={active ? "true" : undefined}>
+    <span className="flex w-full min-w-0 flex-col gap-2">
+      <span>{title}</span>
+      <span className={`text-xs leading-5 font-normal ${active ? "text-brand-secondary" : "text-tertiary"}`}>{description}</span>
+    </span>
+  </Button>;
+}
+
 function ProjectExplorer({ profile, showExperience = false }: { profile: Profile; showExperience?: boolean }) {
   const projects = showExperience ? profile.projects : orderedProjects(profile.projects);
   const [selected, setSelected] = useState(projects[0]!.slug);
@@ -356,22 +358,16 @@ function ProjectExplorer({ profile, showExperience = false }: { profile: Profile
   const project = projects.find((item) => item.slug === selected) ?? projects[0]!;
   return <section className="work-explorer" aria-label="Project explorer">
       <nav className="project-selector" aria-label="Choose a project">
-        <p className="project-menu-label">Projects &amp; employment</p>
-        {projects.map((item) => <Button key={item.slug} id={`project-${item.slug}`} href={href(`experience/${item.slug}/`)}
-          color="tertiary"
-          className={`h-full items-start justify-start px-3 py-3 whitespace-normal text-left ${item.slug === selected ? "bg-brand-50 text-brand-secondary ring-1 ring-brand-200 hover:bg-brand-50" : ""}`} aria-current={item.slug === selected ? "true" : undefined}
+        <p className="sr-only">Projects &amp; employment</p>
+        {projects.map((item) => <ExplorerChoice key={item.slug} id={`project-${item.slug}`} href={href(`experience/${item.slug}/`)}
+          title={projectDisplayName(item)}
+          description={profile.experience.find((role) => role.id === item.experienceId)?.employer ?? "Independent project"}
+          active={item.slug === selected}
           onClick={(event) => {
             if (!ready || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
             event.preventDefault();
             selectProject(item.slug);
-          }}>
-            <span className="flex flex-col gap-1">
-              <span>{projectDisplayName(item)}</span>
-              <span className="text-xs font-normal">
-                {profile.experience.find((role) => role.id === item.experienceId)?.employer ?? "Independent project"}
-              </span>
-            </span>
-          </Button>)}
+          }} />)}
       </nav>
       <p className="sr-only" aria-live="polite">Selected project: {project.name}</p>
       <CaseStudy key={project.slug} project={project} embedded interactive={ready} onSelectProject={selectProject} />
@@ -428,7 +424,7 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
     "Customer discovery & delivery": ["Healthcare claims workflow mapping", "Stakeholder demonstrations", "Feedback-driven improvements", "Operational constraints"],
     "Application development": ["Frontend feature implementation", "Workflow and status interfaces", "Responsive behavior", "Cross-browser validation"],
     "Data and integration": ["DataGrip", "API schema validation", "Service contract checks", "Application-to-database reconciliation", "Referral-data uploads", "Network stubbing"],
-    "Delivery and quality": ["Reusable smoke & regression frameworks", "Parallel and headless execution", "Cypress Dashboard", "Sorry Cypress", "Applitools Eyes", "Diagnostic artifacts"],
+    "Delivery and quality": ["Reusable smoke & regression frameworks", "Parallel and headless execution", "Applitools Eyes", "Diagnostic artifacts"],
     "AI-assisted engineering": ["Implementation exploration", "Test creation", "Review and validation of generated changes"],
     "Troubleshooting & team enablement": ["Reproducible defect reports", "Screenshots and execution evidence", "Developer coordination", "Single and bulk upload guidance"],
   };
@@ -512,16 +508,15 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
       </header>
       <div className={detailed ? "work-explorer toolkit-explorer" : undefined}>
         {detailed && <nav className="project-selector toolkit-selector" aria-label="Choose an expertise category">
-          <p className="project-menu-label">Skills &amp; tools</p>
-          {areas.map(area => <Button key={area.label}
-            href={`#toolkit-category-${area.categories[0]}`} color="tertiary"
-            className={`h-full items-start justify-start px-3 py-3 whitespace-normal text-left ${interactive && area === selectedArea ? "bg-brand-50 text-brand-secondary ring-1 ring-brand-200 hover:bg-brand-50" : ""}`}
-            aria-current={interactive && area === selectedArea ? "true" : undefined}
+          <p className="sr-only">Skills &amp; tools</p>
+          {areas.map(area => <ExplorerChoice key={area.label}
+            href={`#toolkit-category-${area.categories[0]}`}
+            title={area.label} description={area.summary} active={area === selectedArea}
             onClick={event => {
               if (!interactive || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
               event.preventDefault();
               setSelectedCategory(area.categories[0]!);
-            }}><span className="flex flex-col gap-1"><span>{area.label}</span><span className="text-xs font-normal">{area.summary}</span></span></Button>)}
+            }} />)}
         </nav>}
       <div className={detailed ? "toolkit-panel embedded-case" : undefined}>
         {detailed && interactive && <header className="toolkit-area-heading"><h3>{selectedArea.label}</h3><p>{selectedArea.summary}</p></header>}
@@ -638,7 +633,7 @@ export function Work({ profile }: { profile: Profile }) {
 export function Resume() {
   return (
     <>
-      <section className="page-hero shell">
+      <section className="page-hero shell resume-hero">
         <h1>
           Two resumes. One
           {" "}
@@ -670,7 +665,7 @@ export function Resume() {
             items: [
               "Expanded responsibilities and delivery context",
               "Complete engineering and quality toolkit",
-              `${veteransAffairsName} stakeholder work and data-tool development and maintenance`,
+              "Expanded stakeholder work and internal tool development",
             ],
           },
         ].map((r) => (
@@ -734,12 +729,8 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
           >
             All projects
           </Button>}
-          {(!embedded || project.kind === "independent") && <div className="case-badge">
-            <Badge color="brand">
-              {project.kind === "independent"
-                ? "Independent project · Public source"
-                : "Work project"}
-            </Badge>
+          {!embedded && project.kind !== "independent" && <div className="case-badge">
+            <Badge color="brand">Work project</Badge>
           </div>}
           {embedded ? <h2>{projectDisplayName(project)}</h2> : <h1>{project.name}</h1>}
           {!embedded && <p>{project.description}</p>}
@@ -785,7 +776,7 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
             {interactive && <div className="detail-selector">
               <ButtonGroup className="w-full sm:w-max" aria-label="Project detail sections" disallowEmptySelection selectedKeys={new Set([section])}
                 onSelectionChange={(keys) => setSection(String([...keys][0] ?? "overview"))}>
-                {sections.map(([id, label]) => <ButtonGroupItem className="flex-1 justify-center px-2 text-xs not-last:pr-2 sm:px-4 sm:text-sm sm:not-last:pr-4" key={id} id={id} aria-controls={`project-details-${id}`}>{label}</ButtonGroupItem>)}
+                {sections.map(([id, label]) => <ButtonGroupItem className="flex-1 justify-center px-2 text-xs selected:bg-brand-50 selected:text-brand-secondary selected:ring-brand-300 selected:hover:bg-brand-100 selected:hover:text-brand-secondary not-last:pr-2 sm:px-4 sm:text-sm sm:not-last:pr-4" key={id} id={id} aria-controls={id === "overview" ? "project-details-overview outcome" : `project-details-${id}`}>{label}</ButtonGroupItem>)}
               </ButtonGroup>
             </div>}
             <section id={embedded ? "project-details-overview" : "challenge"} hidden={interactive && section !== "overview"} tabIndex={-1}>

@@ -38,12 +38,12 @@ Software Engineer in Test | Nov 2018 – Dec 2020
 
 Supported application delivery by connecting user workflows, REST APIs, authentication, and AWS test environments through reusable engineering tools and actionable troubleshooting evidence.
 
-- Built reusable JavaScript and Cypress tooling around application workflows, translating expected behavior into repeatable checks that supported implementation and release decisions.
-- Investigated application-to-service integration through Cypress and Postman REST API checks, validating schemas, service contracts, and data-dependent behavior to surface discrepancies.
+- Built reusable JavaScript browser automation around application workflows, translating expected behavior into repeatable checks that supported implementation and release decisions.
+- Investigated application-to-service integration through browser automation and Postman REST API checks, validating schemas, service contracts, and data-dependent behavior to surface discrepancies.
 - Validated OIDC, Okta MFA, and SSO workflows, troubleshooting authentication behavior across application scenarios and capturing evidence for failure investigation.
-- Connected GitHub Actions, Cypress Dashboard, and AWS test environments into repeatable delivery workflows, making execution results and diagnostic artifacts available to engineering teams.
+- Connected GitHub Actions and AWS test environments into repeatable delivery workflows, making execution results and diagnostic artifacts available to engineering teams.
 - Used AWS EC2, S3, and Aurora resources to support test environments; combined network stubbing, headless testing, and parallel execution to isolate dependencies and reproduce scenarios.
-- Investigated user-facing issues across browsers, devices, and resolutions with Applitools Eyes and Cypress evidence, using screenshots, videos, retries, and run durations to trace failures.
+- Investigated user-facing issues across browsers, devices, and resolutions with Applitools Eyes and browser automation evidence, using screenshots, videos, retries, and run durations to trace failures.
 
 Ally Bank — Sandy, UT
 
@@ -66,7 +66,7 @@ https://github.com/mohamedmoheyeldin/portfolio
 Technical skills
 Application development: React, TypeScript, JavaScript, Java, Reusable components
 Data and integration: SQL, MySQL, JSON, REST APIs, Postman, SQL Server, Oracle, MongoDB
-Delivery and quality: Playwright, Cypress, GitHub Actions, Git, Jira, Jenkins, AWS EC2/S3/Aurora test environments
+Delivery and quality: Playwright, GitHub Actions, Git, Jira, Jenkins, AWS EC2/S3/Aurora test environments
 AI-assisted engineering: GitHub Copilot, VS Code, GPT models, Claude, Gemini
 
 Education

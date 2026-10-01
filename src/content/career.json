@@ -62,7 +62,6 @@
         "label": "Delivery and quality",
         "items": [
           "Playwright",
-          "Cypress",
           "GitHub Actions",
           "Git",
           "Jira",
@@ -120,17 +119,17 @@
         "end": "2020-12",
         "summary": "Supported application delivery by connecting user workflows, REST APIs, authentication, and AWS test environments through reusable engineering tools and actionable troubleshooting evidence.",
         "highlights": [
-          "Built reusable JavaScript and Cypress tooling around application workflows, translating expected behavior into repeatable checks that supported implementation and release decisions.",
-          "Investigated application-to-service integration through Cypress and Postman REST API checks, validating schemas, service contracts, and data-dependent behavior to surface discrepancies.",
+          "Built reusable JavaScript browser automation around application workflows, translating expected behavior into repeatable checks that supported implementation and release decisions.",
+          "Investigated application-to-service integration through browser automation and Postman REST API checks, validating schemas, service contracts, and data-dependent behavior to surface discrepancies.",
           "Validated OIDC, Okta MFA, and SSO workflows, troubleshooting authentication behavior across application scenarios and capturing evidence for failure investigation.",
-          "Connected GitHub Actions, Cypress Dashboard, and AWS test environments into repeatable delivery workflows, making execution results and diagnostic artifacts available to engineering teams.",
+          "Connected GitHub Actions and AWS test environments into repeatable delivery workflows, making execution results and diagnostic artifacts available to engineering teams.",
           "Used AWS EC2, S3, and Aurora resources to support test environments; combined network stubbing, headless testing, and parallel execution to isolate dependencies and reproduce scenarios.",
-          "Investigated user-facing issues across browsers, devices, and resolutions with Applitools Eyes and Cypress evidence, using screenshots, videos, retries, and run durations to trace failures."
+          "Investigated user-facing issues across browsers, devices, and resolutions with Applitools Eyes and browser automation evidence, using screenshots, videos, retries, and run durations to trace failures."
         ],
         "customer": null,
         "compactHighlights": [
-          "Investigated REST contracts, schemas, and data integration with Postman and reusable JavaScript/Cypress tooling.",
-          "Connected GitHub Actions and Cypress Dashboard with AWS EC2, S3, and Aurora test environments; troubleshot OIDC/Okta authentication and application failures."
+          "Investigated REST contracts, schemas, and data integration with Postman and reusable JavaScript tooling.",
+          "Connected GitHub Actions with AWS EC2, S3, and Aurora test environments; troubleshot OIDC/Okta authentication and application failures."
         ],
         "id": "chick-fil-a"
       },
@@ -183,26 +182,30 @@
           "Work directly with VA stakeholders to clarify claims workflows, requirements, acceptance criteria, and operational constraints.",
           "Contribute React, JavaScript, and TypeScript frontend features supporting claim submission, provider updates, and status visibility.",
           "Use MySQL to investigate discrepancies between application behavior and stored data across frontend and backend workflows.",
+          "Develop reusable Playwright smoke and regression tests to validate claims workflows and investigate application failures.",
           "Demonstrate changes, incorporate stakeholder feedback, and coordinate defect investigations with developers."
         ],
-        "outcome": "Contributed application improvements, investigated workflow and data discrepancies, and demonstrated changes to stakeholders.",
+        "outcome": "Contributed application improvements and Playwright test automation, investigated workflow and data discrepancies, and demonstrated changes to stakeholders.",
         "repository": null,
         "technologies": [
           "React",
           "TypeScript",
           "JavaScript",
-          "MySQL"
+          "MySQL",
+          "Playwright"
         ],
         "highlights": [
           "Stakeholder discovery and acceptance criteria",
           "React application contributions",
           "MySQL and cross-system investigations",
+          "Playwright smoke and regression testing",
           "Demonstrations and feedback"
         ],
         "audience": "VA stakeholders and engineering teams supporting healthcare claims workflows.",
         "systems": [
           "Two frontends support healthcare claims workflows against a shared database.",
           "React, TypeScript, and JavaScript supply application features. MySQL investigations connect visible behavior to stored records.",
+          "Playwright provides reusable browser tests for smoke and regression validation of claims workflows.",
           "Authentication and restricted environment access affect investigation and validation. Internal endpoints and environment details are not public."
         ],
         "decisions": [
@@ -213,7 +216,7 @@
         "evidence": [
           {
             "label": "Documented contributions",
-            "detail": "The career record documents frontend contributions, stakeholder demonstrations, and MySQL investigations. Client source code, screenshots, and internal endpoints are not public.",
+            "detail": "The career record documents frontend contributions, Playwright smoke and regression automation, stakeholder demonstrations, and MySQL investigations. Client source code, screenshots, and internal endpoints are not public.",
             "href": null
           }
         ],
@@ -234,8 +237,8 @@
         "period": "Ongoing",
         "name": "Data Generator & File Processing",
         "description": "A JavaScript/Electron desktop application I built to create and edit test and internal referral data, package files, and support uploads for VA lower-environment workflows.",
-        "challenge": "QA users needed a repeatable way to prepare referral data for the application they were testing, without repeatedly editing and packaging files by hand.",
-        "audience": "QA users and internal teams preparing referral data for lower-environment workflows.",
+        "challenge": "Internal teams needed a repeatable way to generate large volumes of referral data and customize the data to suit their specific workflows and use cases.",
+        "audience": "Internal teams that need to generate and modify referral data for different testing and operational workflows.",
         "approach": [
           "Independently built and continue to maintain Data Generator & File Processing for generating and editing referral data.",
           "Provide a desktop workflow for editing existing JSON, generating new files, and preparing combined data and gzip packages.",
@@ -300,15 +303,14 @@
         "description": "A maintainable feedback system joining browser automation, API validation, visual testing, authentication, cloud environments, and CI.",
         "challenge": "Quality feedback crossed browsers, APIs, visual behavior, SSO authentication, and cloud-hosted environments, making isolated test suites difficult to operate as one reliable system.",
         "approach": [
-          "Designed modular Cypress smoke and regression suites with parallel execution, network stubbing, and flaky-test mitigation.",
-          "Built API coverage with Postman and Cypress using contract tests, schema validation, and dynamic data assertions.",
+          "Designed modular browser smoke and regression suites with parallel execution, network stubbing, and flaky-test mitigation.",
+          "Built API coverage with Postman and browser automation using contract tests, schema validation, and dynamic data assertions.",
           "Integrated Applitools Eyes across resolutions, devices, and browsers and automated OIDC and Okta MFA flows.",
-          "Connected GitHub Actions, Cypress Dashboard evidence, and AWS resources for repeatable execution and investigation."
+          "Connected GitHub Actions, execution evidence, and AWS resources for repeatable execution and investigation."
         ],
         "outcome": "Moved useful feedback earlier in delivery while keeping browser, API, visual, authentication, and environment evidence available for investigation and release decisions.",
         "repository": null,
         "technologies": [
-          "Cypress",
           "JavaScript",
           "Postman",
           "Applitools",
@@ -324,9 +326,9 @@
         ],
         "audience": "E-commerce engineering teams investigating application failures and deciding whether changes were ready to release.",
         "systems": [
-          "Cypress and Postman exercised REST service contracts, schemas, and data-dependent application behavior.",
+          "Browser automation and Postman exercised REST service contracts, schemas, and data-dependent application behavior.",
           "OIDC, Okta MFA, and SSO added authentication dependencies to end-user workflows.",
-          "GitHub Actions and Cypress Dashboard supplied execution evidence; AWS EC2, S3, and Aurora supported test environments."
+          "GitHub Actions supplied execution evidence; AWS EC2, S3, and Aurora supported test environments."
         ],
         "decisions": [
           "Network stubbing isolated application behavior from external dependencies; checks against real services were still needed to investigate integration failures.",
@@ -471,6 +473,6 @@
       "importedOn": "2026-08-13",
       "policy": "Career facts reconciled with the user-confirmed VA account and FDE career claim register on 2026-09-30. Historical title timing remains unverified; no production AI or unsupported metrics claimed."
     },
-    "heroSummary": "I connect customer needs with technical solutions—turning complex requirements into practical products, services, and integrations."
+    "heroSummary": "My focus is Forward Deployed Engineering: understanding customer workflows and turning requirements into practical software. I bring 11 years of development and quality engineering experience across federal, banking, and e-commerce environments. I work with stakeholders through implementation, integration, validation, and adoption."
   }
 ]

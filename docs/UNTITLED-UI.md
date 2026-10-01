@@ -57,14 +57,18 @@ Use Untitled UI's official documentation and MIT source directly. Context7 and o
 
 ## Component conventions
 
-The Experience explorer uses the imported Button's tertiary variant for a quiet project menu, with a pale blue selected state. Its local layout separates navigation from project content with a single divider, groups employer details in a muted context area, and places challenge and contribution side by side on wide screens. Narrow screens stack the content. Project links retain direct-route fallbacks, and the existing ButtonGroup controls switch detail sections after hydration.
+The Experience project and toolkit menus share an `ExplorerChoice` composition of the imported Button's tertiary variant. Each choice has a subtle border, a title and description, and a pale blue selected state with a stronger border and `aria-current`. Component utilities supply control styling and focus behavior; local grid CSS wraps the five choices into three, two, and one column as the viewport narrows. The layout separates navigation from detail content with whitespace, groups employer details in a muted context area, and places challenge and contribution side by side on wide screens. Narrow screens stack the content. Project links retain direct-route fallbacks, toolkit links retain category anchors, and the existing ButtonGroup controls switch detail sections after hydration.
 
 `components.json` selects Untitled UI v8 and records aliases matching TypeScript and Vite. Header and footer name links use the upstream Button link variant. Portfolio typography uses the upstream text/display sizes and line heights; colors and shadows reference semantic theme tokens directly. Page sections remain local compositions of free components. No PRO page template or complete upstream marketing layout is claimed.
+
+Portfolio CSS lives in one components layer with responsive rules alongside the layout. Shared layout variables define section spacing (72px desktop, 48px mobile), the 38px heading-to-content gap, 24px card padding, and a 70ch reading width. Long introductions and narrative paragraphs are left aligned while headings and short section descriptions remain centered. Detail ButtonGroup items use the React Aria selected variant with blue background, text, and border tokens; the Overview control identifies both its challenge and outcome sections.
 
 ## Resume exports
 
 The web resume uses the imported Untitled UI React components. PDF and DOCX are native document formats, so their generator uses the same light-theme semantic colors and Inter rather than executing React components. Colors resolve directly from `src/styles/theme.css` and installed Tailwind tokens on every generation; there is no second brand palette. Print-specific sizing keeps the compact PDF to one page.
 
 Inter Regular and SemiBold are embedded in PDFs. DOCX specifies Inter; Word may substitute a font when Inter is unavailable. The two font files in `assets/fonts` are static instances (optical size 14; weights 400/600) of the Google Fonts Inter source, with its OFL license retained. They are used only for document generation and are not copied into the website bundle.
+
+Both concise and detailed PDF and DOCX resumes center the name and tagline in the shared generator. Contact information and body content remain left aligned. Markdown and job-board text keep portable text formatting. The October 1 export check confirmed centered PDF text positions, centered DOCX paragraphs, and one-page/two-page PDF layouts; all PDF pages were visually inspected. DOCX visual rendering remains unverified because LibreOffice is unavailable.
 
 The Work explorer reuses upstream Button links for project selection and ButtonGroup/ButtonGroupItem for detail sections. Layout composition is local; no additional UI package is installed. Existing project URLs remain readable without JavaScript.

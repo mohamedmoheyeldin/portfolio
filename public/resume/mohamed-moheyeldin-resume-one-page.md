@@ -26,8 +26,8 @@ Customer: U.S. Department of Veterans Affairs (VA)
 
 Software Engineer in Test | Nov 2018 – Dec 2020
 
-- Investigated REST contracts, schemas, and data integration with Postman and reusable JavaScript/Cypress tooling.
-- Connected GitHub Actions and Cypress Dashboard with AWS EC2, S3, and Aurora test environments; troubleshot OIDC/Okta authentication and application failures.
+- Investigated REST contracts, schemas, and data integration with Postman and reusable JavaScript tooling.
+- Connected GitHub Actions with AWS EC2, S3, and Aurora test environments; troubleshot OIDC/Okta authentication and application failures.
 
 ### Ally Bank — Sandy, UT
 
@@ -43,7 +43,7 @@ https://github.com/mohamedmoheyeldin/portfolio
 ## Technical skills
 Application development: React, TypeScript, JavaScript, Java, Reusable components
 Data and integration: SQL, MySQL, JSON, REST APIs, Postman, SQL Server, Oracle, MongoDB
-Delivery and quality: Playwright, Cypress, GitHub Actions, Git, Jira, Jenkins, AWS EC2/S3/Aurora test environments
+Delivery and quality: Playwright, GitHub Actions, Git, Jira, Jenkins, AWS EC2/S3/Aurora test environments
 AI-assisted engineering: GitHub Copilot, VS Code, GPT models, Claude, Gemini
 
 ## Education

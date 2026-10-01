@@ -4,7 +4,9 @@ A Vite 8 portfolio with React 19, free Untitled UI components, Tailwind CSS v4, 
 
 ## Status
 
-The `untitledui` redesign includes a new home page, searchable project explorer, four case studies, about page, and resume library. The portfolio itself is featured as an independent engineering project. Production deployment is separate from local review.
+The current portfolio includes Home, Experience with project and toolkit explorers, five case studies, and a resume library with PDF, Word, Markdown, and plain-text formats. The portfolio itself is featured as an independent engineering project.
+
+`main` is the production branch for `https://mohamedmoheyeldin.com/`. Future Application Studio work belongs on `application-studio` and is not part of the current production release.
 
 ## Local setup
 

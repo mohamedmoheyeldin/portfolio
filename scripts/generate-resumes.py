@@ -15,7 +15,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
 from reportlab.lib.colors import HexColor
-from reportlab.lib.enums import TA_LEFT
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
@@ -110,11 +110,11 @@ def configure_doc(document: Document, compact: bool):
 
 def add_header(document: Document, profile: dict, compact: bool):
     p = document.add_paragraph(style="Title")
-    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p.paragraph_format.space_after = Pt(1)
     style_run(p.add_run(profile["name"]), 24 if compact else 23, INK, True)
     p = document.add_paragraph()
-    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p.paragraph_format.space_after = Pt(3 if compact else 5)
     style_run(p.add_run(profile["headline"]), 9 if compact else 11, BLUE, True)
     contact = f'{profile["location"]}  |  mohamedmoheyeldin.com  |  mohamedmoheyeldin.jobs@gmail.com  |  linkedin.com/in/moheyeldin  |  github.com/mohamedmoheyeldin'
@@ -217,8 +217,8 @@ def pdf_styles(compact: bool):
     base = getSampleStyleSheet()
     body_size = 9.2 if compact else 9.1
     return {
-        "name": ParagraphStyle("Name", parent=base["Normal"], fontName="Inter-SemiBold", fontSize=24 if compact else 23, leading=29 if compact else 26, textColor=HexColor("#" + INK), alignment=TA_LEFT, spaceAfter=2),
-        "title": ParagraphStyle("Title", parent=base["Normal"], fontName="Inter-SemiBold", fontSize=9 if compact else 11, leading=11 if compact else 13, textColor=HexColor("#" + BLUE), alignment=TA_LEFT, spaceAfter=3),
+        "name": ParagraphStyle("Name", parent=base["Normal"], fontName="Inter-SemiBold", fontSize=24 if compact else 23, leading=29 if compact else 26, textColor=HexColor("#" + INK), alignment=TA_CENTER, spaceAfter=2),
+        "title": ParagraphStyle("Title", parent=base["Normal"], fontName="Inter-SemiBold", fontSize=9 if compact else 11, leading=11 if compact else 13, textColor=HexColor("#" + BLUE), alignment=TA_CENTER, spaceAfter=3),
         "contact": ParagraphStyle("Contact", parent=base["Normal"], fontName="Inter", fontSize=8, leading=10, textColor=HexColor("#" + MUTED), alignment=TA_LEFT, spaceAfter=5),
         "section": ParagraphStyle("Section", parent=base["Normal"], fontName="Inter-SemiBold", fontSize=11 if compact else 12, leading=14 if compact else 15, textColor=HexColor("#" + INK), spaceBefore=7 if compact else 10, spaceAfter=2 if compact else 4, keepWithNext=True),
         "body": ParagraphStyle("Body", parent=base["Normal"], fontName="Inter", fontSize=body_size, leading=12.5 if compact else 11.2, textColor=HexColor("#" + INK), spaceAfter=2 if compact else 4),

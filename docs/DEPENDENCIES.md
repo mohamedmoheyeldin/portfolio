@@ -10,7 +10,7 @@ https://github.com/untitleduico/untitledui-vite-starter-kit/blob/main/package.js
 - `vite`, `@vitejs/plugin-react`: official starter build and development pipeline.
 - `typescript`, `@types/react`, `@types/react-dom`, `@types/node`: compiler and type definitions; Node types match this project's Node 24 runtime.
 
-Astro, its adapter/checker, Fontsource, cross-env, Wrangler, Playwright, and Cypress have been removed from the application dependency tree. Cloudflare deployment uses `pnpm dlx wrangler@4.144.0` separately. Inter loads with the Google Fonts link used by the official starter. No dependency was added for prerendering, content validation, routing, or MCP.
+Astro, its adapter/checker, Fontsource, cross-env, Wrangler, and browser test runners have been removed from the application dependency tree. Cloudflare deployment uses `pnpm dlx wrangler@4.144.0` separately. Inter loads with the Google Fonts link used by the official starter. No dependency was added for prerendering, content validation, routing, or MCP.
 
 The portfolio keeps a small local route composition and build-time React prerenderer so its existing URLs, metadata, sitemap, downloads, and no-JavaScript content remain available. These content-specific files are local code, not represented as upstream templates.
 
