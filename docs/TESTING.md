@@ -1,5 +1,13 @@
 # Testing
 
+## October 2, 2026 five-credential expansion
+
+- The issuer's public credential service and wallet confirm all five OpenAI Academy completion credentials for Mohamed Moheyeldin. Each was issued October 2, 2026 and expires April 2, 2027; all are public, complete, unexpired and not revoked at verification.
+- The Experience page displays all five titles with issue and expiration dates and individual canonical verification links. All seven resume formats include the five names, dates and links. Both PDF and DOCX formats use native clickable credential titles; Markdown uses named links and job-board text uses ordinary URLs.
+- Grouped shared credential metadata preserves the existing print fonts and all employment content. Rendered and visually inspected every PDF page: concise is one page, detailed is two, with no clipping or overlap. Both DOCX packages pass CRC, Letter page-size, hyperlink label/relationship, and clean-document checks. Native Word appearance and pagination remain unverified because bundled LibreOffice is unavailable.
+- Node 24.19.0 / pnpm 11.22.0: `pnpm verify`, `pnpm build:cloudflare` and `git diff --check` passed. Local HTTP verification passed for Experience and both Booz Allen case studies; all five public credential links and dates are present, and all seven served resume files match verified exports by SHA-256.
+- The user-confirmed FDE title, other employment titles and all employment dates are preserved. Private sharing keys and tracking fragments are absent. Browser interaction remains untested under the existing no-auto-browser policy; production verification follows publication.
+
 ## October 2, 2026 role and credential synchronization
 
 - The user's correction changes the Booz Allen heading to Forward Deployed Engineer (FDE) in the canonical career record, website employment context, and all seven resume downloads. Employer dates and the other employment titles remain unchanged.

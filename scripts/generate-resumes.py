@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 from datetime import datetime
+from html import escape
 import json
 import math
 import re
@@ -12,6 +13,8 @@ from pathlib import Path
 
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.opc.constants import RELATIONSHIP_TYPE as RT
+from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
 from reportlab.lib.colors import HexColor
@@ -137,6 +140,7 @@ def add_body(document: Document, text: str, compact: bool, italic=False):
     p.paragraph_format.space_after = Pt(2.2 if compact else 5)
     p.paragraph_format.line_spacing = 1.02 if compact else 1.12
     style_run(p.add_run(text), 9.5 if compact else 9.2, MUTED if italic else INK, italic=italic)
+    return p
 
 
 def add_bullet(document: Document, text: str, compact: bool):
@@ -152,13 +156,56 @@ def readable_date(value):
     return "Present" if value is None else datetime.strptime(value, "%Y-%m").strftime("%b %Y")
 
 
-def professional_development(profile: dict, include_historical: bool = True) -> list[str]:
-    verified = [
-        f'{credential["name"]} | {credential["issuer"]} | Issued '
-        + datetime.strptime(credential["issuedOn"], "%Y-%m-%d").strftime("%B %d, %Y").replace(" 0", " ")
-        for credential in profile.get("verifiedCredentials", [])
-    ]
-    return verified + (profile["credentials"] if include_historical else [])
+def credential_date(value: str) -> str:
+    return datetime.strptime(value, "%Y-%m-%d").strftime("%B %d, %Y").replace(" 0", " ")
+
+
+def professional_development(profile: dict, compact: bool) -> list[list[tuple[str, str | None]]]:
+    """Keep evidence links with their labels and group repeated print metadata."""
+    verified = profile.get("verifiedCredentials", [])
+    lines = []
+    groups = {}
+    for credential in verified:
+        groups.setdefault((credential["issuer"], credential["issuedOn"], credential.get("expiresOn")), []).append(credential)
+    for (issuer, issued_on, expires_on), credentials in groups.items():
+        metadata = f'{issuer} | Issued {credential_date(issued_on)}'
+        if expires_on:
+            metadata += f' | Expires {credential_date(expires_on)}'
+        parts = [(metadata + ": ", None)]
+        for index, credential in enumerate(credentials):
+            if index:
+                parts.append(("; ", None))
+            parts.append((credential["name"], credential["href"]))
+        lines.append(parts)
+    if not compact:
+        lines.extend([[(credential, None)] for credential in profile["credentials"]])
+    return lines
+
+
+def add_credential_docx(document: Document, parts: list[tuple[str, str | None]], compact: bool):
+    paragraph = add_body(document, "", compact)
+    for text, href in parts:
+        run = style_run(paragraph.add_run(text), 9.5 if compact else 9.2, BLUE if href else INK)
+        if href:
+            hyperlink = OxmlElement("w:hyperlink")
+            hyperlink.set(qn("r:id"), paragraph.part.relate_to(href, RT.HYPERLINK, is_external=True))
+            hyperlink.append(run._element)
+            paragraph._p.append(hyperlink)
+
+
+def credential_pdf(parts: list[tuple[str, str | None]]) -> str:
+    return "".join(
+        f'<link href="{escape(href, quote=True)}" color="#{BLUE}">{escape(text)}</link>'
+        if href else escape(text)
+        for text, href in parts
+    )
+
+
+def credential_text(parts: list[tuple[str, str | None]], markdown: bool) -> str:
+    return "".join(
+        (f'[{text}]({href})' if markdown else f'{text} ({href})') if href else text
+        for text, href in parts
+    )
 
 
 def add_role(document: Document, role: dict, compact: bool, highlights: list[str]):
@@ -212,8 +259,8 @@ def build_docx(profile: dict, output: Path, compact: bool):
     add_body(doc, f'{education["credential"]} in {education["field"]} | {education["institution"]} | May 2014', compact)
     if not compact or profile.get("verifiedCredentials"):
         add_section_heading(doc, "Professional", "development", compact)
-        for credential in professional_development(profile, include_historical=not compact):
-            add_body(doc, credential, compact)
+        for parts in professional_development(profile, compact):
+            add_credential_docx(doc, parts, compact)
     add_footer(doc, "One-page resume" if compact else "Detailed resume")
     doc.core_properties.title = f'{profile["name"]} - {"One-page" if compact else "Detailed"} Resume'
     doc.core_properties.subject = profile["headline"]
@@ -282,12 +329,12 @@ def build_pdf(profile: dict, output: Path, compact: bool):
     story.append(Paragraph(f'<b>{education["credential"]} in {education["field"]}</b> | {education["institution"]} | May 2014', styles["body"]))
     if not compact or profile.get("verifiedCredentials"):
         section_pdf(story, styles, "Professional", "development")
-        for credential in professional_development(profile, include_historical=not compact):
-            story.append(Paragraph(credential, styles["body"]))
+        for parts in professional_development(profile, compact):
+            story.append(Paragraph(credential_pdf(parts), styles["body"]))
     document.build(story)
 
 
-def build_text(profile: dict, compact: bool) -> str:
+def build_text(profile: dict, compact: bool, markdown: bool = True) -> str:
     lines = ["# " + profile["name"], "", profile["headline"], "", profile["location"] + " | mohamedmoheyeldin.com", " | ".join(link["href"].removeprefix("mailto:") for link in profile["links"]), "", "## Professional profile", "", profile["summary"] if compact else "\n\n".join(profile["detailedSummary"]), "", "## Professional experience"]
     for role in profile["experience"]:
         lines += ["", "### " + role["employer"] + " — " + role["location"], "", (role.get("professionalTitle") or role["title"]) + " | " + readable_date(role["start"]) + " – " + readable_date(role["end"])]
@@ -303,7 +350,7 @@ def build_text(profile: dict, compact: bool) -> str:
     lines += ["", "## Education"]
     lines += [e["credential"] + " in " + e["field"] + " | " + e["institution"] + " | " + readable_date(e["end"]) for e in profile["education"]]
     if not compact or profile.get("verifiedCredentials"):
-        lines += ["", "## Professional development", *professional_development(profile, include_historical=not compact)]
+        lines += ["", "## Professional development", *[credential_text(parts, markdown) for parts in professional_development(profile, compact)]]
     return "\n".join(lines) + "\n"
 
 
@@ -322,7 +369,7 @@ def main():
         build_docx(profile, args.output / f"{name}.docx", compact)
         build_pdf(profile, args.output / f"{name}.pdf", compact)
         (args.output / f"{name}.md").write_text(build_text(profile, compact), encoding="utf-8", newline="\n")
-    (args.output / "mohamed-moheyeldin-resume-job-board.txt").write_text(re.sub(r"(?m)^#{1,3} ", "", build_text(profile, False)), encoding="utf-8", newline="\n")
+    (args.output / "mohamed-moheyeldin-resume-job-board.txt").write_text(re.sub(r"(?m)^#{1,3} ", "", build_text(profile, False, markdown=False)), encoding="utf-8", newline="\n")
 
 
 if __name__ == "__main__":

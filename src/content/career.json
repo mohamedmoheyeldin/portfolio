@@ -173,7 +173,36 @@
         "name": "AI Foundations",
         "issuer": "OpenAI Academy",
         "issuedOn": "2026-10-02",
-        "href": null
+        "expiresOn": "2027-04-02",
+        "href": "https://oaiacademy.credential.net/c635354f-5145-4e44-b272-9680ea55a2ec"
+      },
+      {
+        "name": "Agents and Workflows",
+        "issuer": "OpenAI Academy",
+        "issuedOn": "2026-10-02",
+        "expiresOn": "2027-04-02",
+        "href": "https://oaiacademy.credential.net/5ada98f3-b6db-429a-93a1-0e38fd9be2d3"
+      },
+      {
+        "name": "Applied AI Foundations",
+        "issuer": "OpenAI Academy",
+        "issuedOn": "2026-10-02",
+        "expiresOn": "2027-04-02",
+        "href": "https://oaiacademy.credential.net/04366177-3bcf-4b1a-8a45-5d73bd27486f"
+      },
+      {
+        "name": "AI Leadership",
+        "issuer": "OpenAI Academy",
+        "issuedOn": "2026-10-02",
+        "expiresOn": "2027-04-02",
+        "href": "https://oaiacademy.credential.net/6fd4cbac-58f3-44d5-973e-34ff3ff5e2fd"
+      },
+      {
+        "name": "Apply AI at Work Pathway Completion",
+        "issuer": "OpenAI Academy",
+        "issuedOn": "2026-10-02",
+        "expiresOn": "2027-04-02",
+        "href": "https://oaiacademy.credential.net/d00220db-f7f7-4c84-b8e2-a028219e592a"
       }
     ],
     "projects": [

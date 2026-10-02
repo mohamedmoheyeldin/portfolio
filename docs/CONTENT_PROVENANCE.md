@@ -4,11 +4,13 @@
 
 The user explicitly corrected the Booz Allen Hamilton heading to **Forward Deployed Engineer (FDE)** and requested the change across the website, all resume formats, and related career materials, followed by repository pushes and production publication. This supersedes the earlier QA Test Engineer presentation. The employment dates, VA customer, documented responsibilities, and other employer titles are preserved. The correction is user-confirmed; no additional role-transition date or independent employment verification is inferred.
 
-## October 2, 2026 OpenAI Academy completion credential
+## October 2, 2026 OpenAI Academy completion credentials
 
-The issuer's credential service identifies Mohamed Moheyeldin as the recipient of **AI Foundations**, issued by **OpenAI Academy** on October 2, 2026. Verification confirmed completion, with no expiration or revocation recorded. This supports the displayed completion credential; it does not establish professional licensure, FDE employment, or production AI delivery experience.
+The user's follow-up requested all five credentials from the [public credential wallet](https://www.credential.net/profile/moheyeldin/wallet): **AI Foundations**, **Agents and Workflows**, **Applied AI Foundations**, **AI Leadership**, and **Apply AI at Work Pathway Completion**. The issuer's public credential service and wallet identify Mohamed Moheyeldin as the recipient and OpenAI Academy as issuer. All five were issued October 2, 2026 and expire April 2, 2027. The service reports each as public, complete, unexpired, and not revoked at the October 2 verification. This supports completion credentials; it does not establish professional licensure, additional employment responsibilities, or production AI delivery experience.
 
-The structured `verifiedCredentials` list supplies the Experience page's title, issuer, issue date, and optional public evidence link. The credential is currently private, so its evidence URL is `null`; no private sharing URL or access key is stored or rendered. The October 2 follow-up extends synchronization to all resume formats. Both concise and detailed resumes include AI Foundations; detailed professional-development sections also retain the existing historical course strings.
+This current verification supersedes the earlier single-credential snapshot, which omitted the evidence link and did not record an expiration. The structured `verifiedCredentials` list supplies each exact title, issuer, issue and expiration dates, and canonical public evidence URL. The user supplied public share links; the canonical URLs work without tracking fragments or private access keys. No private sharing URL or access key is stored or rendered.
+
+All seven resume exports include all five names and verification links. PDF and DOCX titles are clickable; Markdown contains named links and job-board text uses ordinary URLs. Both print variants group the shared issuer and dates to preserve the one-page and two-page layouts without shrinking fonts or removing employment content. Detailed professional-development sections also retain the existing historical SAFe course strings.
 
 ## October 1, 2026 public presentation update
 
