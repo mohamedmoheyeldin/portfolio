@@ -1,5 +1,12 @@
 # Testing
 
+## October 2, 2026 expiration display removal
+
+- The website's own Courses & certifications listings and all seven resume exports omit expiration wording/dates while retaining `Issued 2026`, all five credential titles and public verification links. Exact expiration facts remain in canonical content; issuer-controlled embeds retain their own presentation.
+- Export comparisons confirm that only expiration text was removed. Both DOCX document XML files otherwise match exactly, with unchanged hyperlink relationships; Markdown/plain text match after removing that substring, and PDF text matches after whitespace normalization. Both DOCX packages pass integrity, Letter-size and native hyperlink checks.
+- Both PDFs were rendered and all three pages visually inspected, with no clipping or overlap: concise remains one page and detailed two. Native Word appearance/pagination remains unverified because the packaged renderer reports missing bundled LibreOffice; no system desktop renderer was used.
+- `pnpm verify`, `pnpm build:cloudflare` and `git diff --check` passed. Local HTTP checks confirm expiration text is absent, five official embeds and verification links remain present, and all seven served resume files match the updated exports by SHA-256. Browser appearance remains untested under the no-auto-browser policy.
+
 ## October 2, 2026 compact credential previews
 
 - Added all five exact official OpenAI Academy embeds between the Experience introduction and professional experience heading. The 5/3/2/1 responsive grid scales 800×600 iframe viewports; readable titles, `Issued 2026` captions with exact time metadata, and individual outside verification links are prerendered.
@@ -8,7 +15,7 @@
 
 ## October 2, 2026 year-only issue display
 
-- The website and all seven resume formats display `Issued 2026`. Exact issue dates remain in the canonical credential record and the website's time metadata; verified expiration dates and credential links are preserved.
+- The website and all seven resume formats display `Issued 2026`. Exact issue dates remain in the canonical credential record and the website's time metadata; canonical expiration facts and credential links are preserved. The later expiration-display removal above supersedes the earlier visible expiry labels.
 - All seven exports pass credential name/date/link checks. Both PDFs were rendered and all three pages visually inspected: concise remains one page and detailed two, with no clipping or overlap. Both DOCX packages pass integrity, Letter page-size and native hyperlink checks; Word visual pagination remains unverified because bundled LibreOffice is unavailable.
 - `pnpm verify`, `pnpm build:cloudflare` and `git diff --check` passed. Local HTTP verification confirms all seven served resume files match the verified exports by SHA-256. This change updates presentation only; employment content and the raw credential dates are unchanged.
 
