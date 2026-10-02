@@ -630,7 +630,7 @@ export function Work({ profile }: { profile: Profile }) {
               {profile.verifiedCredentials.map((credential) => (
                 <li key={`${credential.issuer}-${credential.name}-${credential.issuedOn}`}>
                   <h4>{credential.name}</h4>
-                  <p>{credential.issuer} · Issued <time dateTime={credential.issuedOn}>{credentialIssuedDate(credential.issuedOn)}</time></p>
+                  <p>{credential.issuer} · Issued <time dateTime={credential.issuedOn}>{credential.issuedOn.slice(0, 4)}</time></p>
                   {credential.expiresOn && <p>Expires <time dateTime={credential.expiresOn}>{credentialIssuedDate(credential.expiresOn)}</time></p>}
                   {credential.href && (
                     <Button color="link-color" className="mt-3" href={credential.href} iconTrailing={ArrowUpRight}>
