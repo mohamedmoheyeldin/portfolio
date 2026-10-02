@@ -47,6 +47,8 @@ Resume generation also regenerates concise/detailed Markdown and job-board plain
 
 ### Work explorer presentation
 
+The Experience introduction is followed by a five-credential strip before the professional experience heading. Official OpenAI Academy iframe URLs are derived from canonical public verification links. A responsive grid displays five, three, two, or one preview per row; each 4:3 wrapper scales the supplied 800×600 viewport using `ResizeObserver`. The portfolio owns readable titles, year-only issue captions, and verification links outside the frames; the issuer owns the cross-origin contents. The existing Learning section retains full credential metadata. Static text and links remain usable before hydration and without JavaScript.
+
 The project selector is a wrapping top menu above one full-width detail panel at every screen size. Embedded case studies show the employer, historical role, dates, and customer once. Three controls group the full content into Overview (problem and results), Implementation (contribution, systems, tools, and walkthrough), and Evidence. Disclosure notes remain visible in all three views. Direct project routes and server-rendered content remain available without JavaScript.
 
 Legacy `/work/` and `/work/<project>/` URLs redirect to the corresponding `/experience/` URLs, preserving query and fragment. `/about/` redirects to `/experience/`. Only canonical Experience routes appear in navigation and the sitemap.

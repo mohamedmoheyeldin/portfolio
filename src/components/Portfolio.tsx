@@ -550,6 +550,72 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
   </section>;
 }
 
+function CredentialPreview({ src, name }: { src: string; name: string }) {
+  const previewRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const preview = previewRef.current;
+    if (!preview) return;
+    const resize = () => {
+      const width = preview.getBoundingClientRect().width;
+      if (width <= 0) return;
+      preview.style.setProperty("--credential-preview-scale", `${width / 800}`);
+      preview.dataset.scaled = "true";
+    };
+    resize();
+    const observer = new ResizeObserver(resize);
+    observer.observe(preview);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className="credential-preview" ref={previewRef}>
+      <iframe
+        src={src}
+        title={`${name} — OpenAI Academy credential`}
+        width={800}
+        height={600}
+        loading="lazy"
+        allowFullScreen
+      />
+    </div>
+  );
+}
+
+function CredentialStrip({ profile }: { profile: Profile }) {
+  const previews = profile.verifiedCredentials.flatMap((credential) => {
+    if (!credential.href) return [];
+    const url = new URL(credential.href);
+    if (url.origin !== "https://oaiacademy.credential.net" || !/^\/[a-f0-9-]{36}$/.test(url.pathname)) return [];
+    return [{ credential, src: `${url.origin}/embed${url.pathname}`, verificationHref: credential.href }];
+  });
+  if (!previews.length) return null;
+
+  return (
+    <section className="credential-strip shell" aria-label="OpenAI Academy credentials">
+      <ul className="credential-grid">
+        {previews.map(({ credential, src, verificationHref }) => (
+          <li className="credential-card" key={verificationHref}>
+            <CredentialPreview src={src} name={credential.name} />
+            <h3>{credential.name}</h3>
+            <p>{credential.issuer} · Issued <time dateTime={credential.issuedOn}>{credential.issuedOn.slice(0, 4)}</time></p>
+            <Button
+              className="mt-auto"
+              color="link-color"
+              size="sm"
+              href={verificationHref}
+              aria-label={`View ${credential.name} credential`}
+              iconTrailing={ArrowUpRight}
+            >
+              View credential
+            </Button>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 export function Work({ profile }: { profile: Profile }) {
   return (
     <>
@@ -566,6 +632,7 @@ export function Work({ profile }: { profile: Profile }) {
           </p>
         </div>
       </section>
+      <CredentialStrip profile={profile} />
       <section className="section shell" id="experience-projects">
         <header className="section-heading-centered">
           <h2>Professional experience &amp; projects.</h2>
