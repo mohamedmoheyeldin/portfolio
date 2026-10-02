@@ -36,13 +36,6 @@ const date = (value: string | null) =>
         timeZone: "UTC",
       }).format(new Date(`${value}-01T00:00:00Z`))
     : "Present";
-const credentialIssuedDate = (value: string) =>
-  new Intl.DateTimeFormat("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(`${value}T00:00:00Z`));
 
 export function Header({ name, location, path }: { name: string; location: string; path: string }) {
   const headerRef = useRef<HTMLElement>(null);
@@ -697,7 +690,6 @@ export function Work({ profile }: { profile: Profile }) {
                 <li key={`${credential.issuer}-${credential.name}-${credential.issuedOn}`}>
                   <h4>{credential.name}</h4>
                   <p>{credential.issuer} · Issued <time dateTime={credential.issuedOn}>{credential.issuedOn.slice(0, 4)}</time></p>
-                  {credential.expiresOn && <p>Expires <time dateTime={credential.expiresOn}>{credentialIssuedDate(credential.expiresOn)}</time></p>}
                   {credential.href && (
                     <Button color="link-color" className="mt-3" href={credential.href} iconTrailing={ArrowUpRight}>
                       View credential

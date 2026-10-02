@@ -156,21 +156,15 @@ def readable_date(value):
     return "Present" if value is None else datetime.strptime(value, "%Y-%m").strftime("%b %Y")
 
 
-def credential_date(value: str) -> str:
-    return datetime.strptime(value, "%Y-%m-%d").strftime("%B %d, %Y").replace(" 0", " ")
-
-
 def professional_development(profile: dict, compact: bool) -> list[list[tuple[str, str | None]]]:
     """Keep evidence links with their labels and group repeated print metadata."""
     verified = profile.get("verifiedCredentials", [])
     lines = []
     groups = {}
     for credential in verified:
-        groups.setdefault((credential["issuer"], credential["issuedOn"], credential.get("expiresOn")), []).append(credential)
-    for (issuer, issued_on, expires_on), credentials in groups.items():
+        groups.setdefault((credential["issuer"], credential["issuedOn"]), []).append(credential)
+    for (issuer, issued_on), credentials in groups.items():
         metadata = f'{issuer} | Issued {issued_on[:4]}'
-        if expires_on:
-            metadata += f' | Expires {credential_date(expires_on)}'
         parts = [(metadata + ": ", None)]
         for index, credential in enumerate(credentials):
             if index:
