@@ -73,6 +73,6 @@ AI-assisted engineering: GitHub Copilot, VS Code, GPT models, Claude, Gemini
 Bachelor's degree in Computer Science | American College of Commerce and Technology | May 2014
 
 ## Professional development
-OpenAI Academy | Issued October 2, 2026 | Expires April 2, 2027: [AI Foundations](https://oaiacademy.credential.net/c635354f-5145-4e44-b272-9680ea55a2ec); [Agents and Workflows](https://oaiacademy.credential.net/5ada98f3-b6db-429a-93a1-0e38fd9be2d3); [Applied AI Foundations](https://oaiacademy.credential.net/04366177-3bcf-4b1a-8a45-5d73bd27486f); [AI Leadership](https://oaiacademy.credential.net/6fd4cbac-58f3-44d5-973e-34ff3ff5e2fd); [Apply AI at Work Pathway Completion](https://oaiacademy.credential.net/d00220db-f7f7-4c84-b8e2-a028219e592a)
+OpenAI Academy | Issued 2026 | Expires April 2, 2027: [AI Foundations](https://oaiacademy.credential.net/c635354f-5145-4e44-b272-9680ea55a2ec); [Agents and Workflows](https://oaiacademy.credential.net/5ada98f3-b6db-429a-93a1-0e38fd9be2d3); [Applied AI Foundations](https://oaiacademy.credential.net/04366177-3bcf-4b1a-8a45-5d73bd27486f); [AI Leadership](https://oaiacademy.credential.net/6fd4cbac-58f3-44d5-973e-34ff3ff5e2fd); [Apply AI at Work Pathway Completion](https://oaiacademy.credential.net/d00220db-f7f7-4c84-b8e2-a028219e592a)
 Implementing SAFe 5.1 course completion, 2021 (historical course completion)
 Leading SAFe 4.0 course completion, 2016 (historical course completion)
