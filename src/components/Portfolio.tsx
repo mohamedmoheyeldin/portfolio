@@ -36,6 +36,13 @@ const date = (value: string | null) =>
         timeZone: "UTC",
       }).format(new Date(`${value}-01T00:00:00Z`))
     : "Present";
+const credentialIssuedDate = (value: string) =>
+  new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${value}T00:00:00Z`));
 
 export function Header({ name, location, path }: { name: string; location: string; path: string }) {
   const headerRef = useRef<HTMLElement>(null);
@@ -177,6 +184,7 @@ function ResumeConnection({ project }: { project: Project }) {
   </dl>;
   return <dl className="project-resume-link project-affiliation">
     <div><dt>Employer</dt><dd><Button color="link-color" className="whitespace-normal" href={href(`experience/#project-${project.slug}`)}>{role.employer}</Button></dd></div>
+    <div><dt>Employment role</dt><dd>{role.professionalTitle ?? role.title}</dd></div>
     {role.customer && <div><dt>End customer</dt><dd><EndCustomer customer={role.customer} /></dd></div>}
   </dl>;
 }
@@ -618,6 +626,17 @@ export function Work({ profile }: { profile: Profile }) {
             <FeaturedIcon icon={Award01} color="brand" theme="light" size="lg" />
             <h3 id="courses-heading">Courses &amp; certifications</h3>
             <ul className="learning-list">
+              {profile.verifiedCredentials.map((credential) => (
+                <li key={`${credential.issuer}-${credential.name}-${credential.issuedOn}`}>
+                  <h4>{credential.name}</h4>
+                  <p>{credential.issuer} · Issued <time dateTime={credential.issuedOn}>{credentialIssuedDate(credential.issuedOn)}</time></p>
+                  {credential.href && (
+                    <Button color="link-color" className="mt-3" href={credential.href} iconTrailing={ArrowUpRight}>
+                      View credential
+                    </Button>
+                  )}
+                </li>
+              ))}
               {profile.credentials.map((credential) => (
                 <li key={credential}><p>{credential}</p></li>
               ))}

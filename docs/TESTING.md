@@ -1,5 +1,14 @@
 # Testing
 
+## October 2, 2026 role and credential synchronization
+
+- The user's correction changes the Booz Allen heading to Forward Deployed Engineer (FDE) in the canonical career record, website employment context, and all seven resume downloads. Employer dates and the other employment titles remain unchanged.
+- AI Foundations, issued by OpenAI Academy on October 2, 2026, appears in the Experience learning section and all resume formats. The private evidence link is omitted.
+- Regenerated both PDF, DOCX, and Markdown variants plus job-board text using the bundled Python runtime. The three career-project text sources match the generated exports byte for byte; generated text uses UTF-8 and LF newlines on Windows.
+- Both PDF variants were rendered and every page visually inspected: concise remains one page, detailed remains two, with no clipping or overlap. Both DOCX files pass text, package integrity, Letter page-size, and unchanged-title/date checks. Native Word pagination remains unverified: the packaged renderer reports no bundled LibreOffice.
+- Node 24.19.0 / pnpm 11.22.0: pnpm verify and pnpm build:cloudflare passed. Local HTTP checks passed for the Experience page and both Booz Allen case studies; all seven served resume files match the verified exports by SHA-256. The direct project pages and homepage project cards display the employment title from the shared career record.
+- Browser interaction remains untested under the existing no-auto-browser policy. Production publication is verified separately from these local checks.
+
 ## Standard verification
 
 ```bash

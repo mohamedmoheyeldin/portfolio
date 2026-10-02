@@ -15,7 +15,7 @@ Works directly with stakeholders to clarify requirements and acceptance criteria
 
 ### Booz Allen Hamilton — Washington, DC
 
-QA Test Engineer | Dec 2020 – Present
+Forward Deployed Engineer (FDE) | Dec 2020 – Present
 
 Customer: U.S. Department of Veterans Affairs (VA)
 
@@ -73,5 +73,6 @@ AI-assisted engineering: GitHub Copilot, VS Code, GPT models, Claude, Gemini
 Bachelor's degree in Computer Science | American College of Commerce and Technology | May 2014
 
 ## Professional development
+AI Foundations | OpenAI Academy | Issued October 2, 2026
 Implementing SAFe 5.1 course completion, 2021 (historical course completion)
 Leading SAFe 4.0 course completion, 2016 (historical course completion)

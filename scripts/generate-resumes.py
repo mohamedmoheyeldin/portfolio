@@ -152,6 +152,15 @@ def readable_date(value):
     return "Present" if value is None else datetime.strptime(value, "%Y-%m").strftime("%b %Y")
 
 
+def professional_development(profile: dict, include_historical: bool = True) -> list[str]:
+    verified = [
+        f'{credential["name"]} | {credential["issuer"]} | Issued '
+        + datetime.strptime(credential["issuedOn"], "%Y-%m-%d").strftime("%B %d, %Y").replace(" 0", " ")
+        for credential in profile.get("verifiedCredentials", [])
+    ]
+    return verified + (profile["credentials"] if include_historical else [])
+
+
 def add_role(document: Document, role: dict, compact: bool, highlights: list[str]):
     p = document.add_paragraph()
     p.paragraph_format.space_before = Pt(2.8 if compact else 7)
@@ -201,10 +210,10 @@ def build_docx(profile: dict, output: Path, compact: bool):
     add_section_heading(doc, "Education", "", compact)
     education = profile["education"][0]
     add_body(doc, f'{education["credential"]} in {education["field"]} | {education["institution"]} | May 2014', compact)
-    if not compact:
-        add_section_heading(doc, "Professional", "development", False)
-        for credential in profile["credentials"]:
-            add_body(doc, credential, False)
+    if not compact or profile.get("verifiedCredentials"):
+        add_section_heading(doc, "Professional", "development", compact)
+        for credential in professional_development(profile, include_historical=not compact):
+            add_body(doc, credential, compact)
     add_footer(doc, "One-page resume" if compact else "Detailed resume")
     doc.core_properties.title = f'{profile["name"]} - {"One-page" if compact else "Detailed"} Resume'
     doc.core_properties.subject = profile["headline"]
@@ -271,9 +280,9 @@ def build_pdf(profile: dict, output: Path, compact: bool):
     section_pdf(story, styles, "Education", "")
     education = profile["education"][0]
     story.append(Paragraph(f'<b>{education["credential"]} in {education["field"]}</b> | {education["institution"]} | May 2014', styles["body"]))
-    if not compact:
+    if not compact or profile.get("verifiedCredentials"):
         section_pdf(story, styles, "Professional", "development")
-        for credential in profile["credentials"]:
+        for credential in professional_development(profile, include_historical=not compact):
             story.append(Paragraph(credential, styles["body"]))
     document.build(story)
 
@@ -293,8 +302,8 @@ def build_text(profile: dict, compact: bool) -> str:
     lines += [g["label"] + ": " + ", ".join(g["items"]) for g in profile["skillGroups"]]
     lines += ["", "## Education"]
     lines += [e["credential"] + " in " + e["field"] + " | " + e["institution"] + " | " + readable_date(e["end"]) for e in profile["education"]]
-    if not compact:
-        lines += ["", "## Professional development", *profile["credentials"]]
+    if not compact or profile.get("verifiedCredentials"):
+        lines += ["", "## Professional development", *professional_development(profile, include_historical=not compact)]
     return "\n".join(lines) + "\n"
 
 
@@ -312,8 +321,8 @@ def main():
     for name, compact in targets:
         build_docx(profile, args.output / f"{name}.docx", compact)
         build_pdf(profile, args.output / f"{name}.pdf", compact)
-        (args.output / f"{name}.md").write_text(build_text(profile, compact), encoding="utf-8")
-    (args.output / "mohamed-moheyeldin-resume-job-board.txt").write_text(re.sub(r"(?m)^#{1,3} ", "", build_text(profile, False)), encoding="utf-8")
+        (args.output / f"{name}.md").write_text(build_text(profile, compact), encoding="utf-8", newline="\n")
+    (args.output / "mohamed-moheyeldin-resume-job-board.txt").write_text(re.sub(r"(?m)^#{1,3} ", "", build_text(profile, False)), encoding="utf-8", newline="\n")
 
 
 if __name__ == "__main__":
