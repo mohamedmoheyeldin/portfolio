@@ -630,6 +630,7 @@ export function Work({ profile }: { profile: Profile }) {
                 <li key={`${credential.issuer}-${credential.name}-${credential.issuedOn}`}>
                   <h4>{credential.name}</h4>
                   <p>{credential.issuer} · Issued <time dateTime={credential.issuedOn}>{credentialIssuedDate(credential.issuedOn)}</time></p>
+                  {credential.expiresOn && <p>Expires <time dateTime={credential.expiresOn}>{credentialIssuedDate(credential.expiresOn)}</time></p>}
                   {credential.href && (
                     <Button color="link-color" className="mt-3" href={credential.href} iconTrailing={ArrowUpRight}>
                       View credential
