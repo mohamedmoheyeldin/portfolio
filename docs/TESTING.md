@@ -1,5 +1,11 @@
 # Testing
 
+## October 2, 2026 compact credential previews
+
+- Added all five exact official OpenAI Academy embeds between the Experience introduction and professional experience heading. The 5/3/2/1 responsive grid scales 800×600 iframe viewports; readable titles, `Issued 2026` captions with exact time metadata, and individual outside verification links are prerendered.
+- `pnpm verify`, `pnpm build:cloudflare` and `git diff --check` passed. Built-output and local HTTP checks confirm five exact embed sources, titles, dimensions, lazy loading, fullscreen attributes, verification links and the requested section order. Existing Learning metadata remains present, and all seven served resume files match the existing exports by SHA-256.
+- All five issuer endpoints returned HTTP 200, without `X-Frame-Options` or a CSP `frame-ancestors` restriction; the portfolio has no blocking `frame-src` header. This confirms transport/header compatibility, not actual cross-origin rendering. Browser appearance, embedded controls, keyboard interactions and runtime resizing remain unverified under the no-auto-browser policy. The issuer controls the details and dates inside its frames.
+
 ## October 2, 2026 year-only issue display
 
 - The website and all seven resume formats display `Issued 2026`. Exact issue dates remain in the canonical credential record and the website's time metadata; verified expiration dates and credential links are preserved.
