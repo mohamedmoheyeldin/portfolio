@@ -83,7 +83,7 @@
     "experience": [
       {
         "employer": "Booz Allen Hamilton",
-        "title": "QA Test Engineer",
+        "title": "Forward Deployed Engineer (FDE)",
         "professionalTitle": null,
         "location": "Washington, DC",
         "start": "2020-12",
@@ -167,6 +167,14 @@
     "credentials": [
       "Implementing SAFe 5.1 course completion, 2021 (historical course completion)",
       "Leading SAFe 4.0 course completion, 2016 (historical course completion)"
+    ],
+    "verifiedCredentials": [
+      {
+        "name": "AI Foundations",
+        "issuer": "OpenAI Academy",
+        "issuedOn": "2026-10-02",
+        "href": null
+      }
     ],
     "projects": [
       {
@@ -471,7 +479,7 @@
       "referenceRepository": "https://github.com/mohamedmoheyeldin/mohamedmoheyeldin.github.io",
       "sourceSnapshotDate": "2025-10-13",
       "importedOn": "2026-08-13",
-      "policy": "Career facts reconciled with the user-confirmed VA account and FDE career claim register on 2026-09-30. Historical title timing remains unverified; no production AI or unsupported metrics claimed."
+      "policy": "Career facts reconciled with the user-confirmed VA account and FDE career claim register. On 2026-10-02, the user corrected the Booz Allen title to Forward Deployed Engineer (FDE) for the website and all resume formats. Employment dates and documented responsibilities remain unchanged; no production AI or unsupported metrics claimed."
     },
     "heroSummary": "My focus is Forward Deployed Engineering: understanding customer workflows and turning requirements into practical software. I bring 11 years of development and quality engineering experience across federal, banking, and e-commerce environments. I work with stakeholders through implementation, integration, validation, and adoption."
   }

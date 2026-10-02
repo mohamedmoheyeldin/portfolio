@@ -1,5 +1,15 @@
 # Content provenance
 
+## October 2, 2026 Booz Allen role correction
+
+The user explicitly corrected the Booz Allen Hamilton heading to **Forward Deployed Engineer (FDE)** and requested the change across the website, all resume formats, and related career materials, followed by repository pushes and production publication. This supersedes the earlier QA Test Engineer presentation. The employment dates, VA customer, documented responsibilities, and other employer titles are preserved. The correction is user-confirmed; no additional role-transition date or independent employment verification is inferred.
+
+## October 2, 2026 OpenAI Academy completion credential
+
+The issuer's credential service identifies Mohamed Moheyeldin as the recipient of **AI Foundations**, issued by **OpenAI Academy** on October 2, 2026. Verification confirmed completion, with no expiration or revocation recorded. This supports the displayed completion credential; it does not establish professional licensure, FDE employment, or production AI delivery experience.
+
+The structured `verifiedCredentials` list supplies the Experience page's title, issuer, issue date, and optional public evidence link. The credential is currently private, so its evidence URL is `null`; no private sharing URL or access key is stored or rendered. The October 2 follow-up extends synchronization to all resume formats. Both concise and detailed resumes include AI Foundations; detailed professional-development sections also retain the existing historical course strings.
+
 ## October 1, 2026 public presentation update
 
 The user requested the public project name Data Generator & File Processing and removal of company logo assets. The existing `ccrs-test-data-tooling` URL and private repository URL remain for link compatibility. Public website and resume descriptions use the new name. Employer/client work uses development, maintenance, and contribution language rather than assertions of intellectual property ownership. These presentation changes do not establish permission to disclose client information or ownership of work performed for an employer or client.

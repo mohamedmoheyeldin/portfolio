@@ -13,7 +13,7 @@ Customer-focused engineer with 11 years of software development and quality engi
 
 ### Booz Allen Hamilton — Washington, DC
 
-QA Test Engineer | Dec 2020 – Present
+Forward Deployed Engineer (FDE) | Dec 2020 – Present
 
 Customer: U.S. Department of Veterans Affairs (VA)
 
@@ -48,3 +48,6 @@ AI-assisted engineering: GitHub Copilot, VS Code, GPT models, Claude, Gemini
 
 ## Education
 Bachelor's degree in Computer Science | American College of Commerce and Technology | May 2014
+
+## Professional development
+AI Foundations | OpenAI Academy | Issued October 2, 2026
