@@ -12,7 +12,7 @@ This current verification supersedes the earlier single-credential snapshot, whi
 
 All seven resume exports include all five names and verification links. PDF and DOCX titles are clickable; Markdown contains named links and job-board text uses ordinary URLs. Both print variants group the shared issuer and dates to preserve the one-page and two-page layouts without shrinking fonts or removing employment content. Detailed professional-development sections also retain the existing historical SAFe course strings.
 
-The user's subsequent presentation corrections display **Issued 2026** and omit expiration text from the website's own certification listings and all seven resume formats. Exact issue and expiration dates remain in the canonical record, with exact issue dates in the website's machine-readable time metadata. Official credential embeds and verification pages remain controlled by the issuer and may display their original expiration details.
+The user's subsequent presentation corrections display **Issued 2026** and omit expiration text from the website's own certification listings and all seven resume formats. Exact issue and expiration dates remain in the canonical record, with exact issue dates in the website's machine-readable time metadata. The user then replaced full-page iframe previews with four official badge images and one certificate image from Accredible. Their numeric credential IDs were checked against the issuer's public records; the image map retains the user's exact URLs. Badge images are 200×200 and the pathway certificate is 600×464. Unaltered issuer artwork and verification pages retain their original details, including issue and expiration dates within the certificate image.
 
 ## October 1, 2026 public presentation update
 

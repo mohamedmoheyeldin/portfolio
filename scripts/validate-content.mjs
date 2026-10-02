@@ -1,5 +1,6 @@
 import {readFile} from 'node:fs/promises';
 const records = JSON.parse(await readFile(new URL('../src/content/career.json', import.meta.url), 'utf8'));
+const credentialImages = JSON.parse(await readFile(new URL('../src/content/credential-images.json', import.meta.url), 'utf8'));
 const url = value => { try {new URL(value); return typeof value === 'string';} catch {return false;} };
 const text = value => typeof value === 'string';
 const nonemptyText = value => text(value) && value.trim().length > 0;
@@ -20,6 +21,24 @@ for (const credential of records[0].verifiedCredentials) {
   if (credential.expiresOn && credential.expiresOn < credential.issuedOn) throw Error('Credential expiration precedes its issue date.');
 }
 console.log('Career content schema validated.');
+
+const credentialImageUrl = value => {
+  if (!publicCredentialUrl(value)) return false;
+  const parsed = new URL(value);
+  return parsed.origin === 'https://api.accredible.com' && /^\/v1\/frontend\/credential_website_embed_image\/(badge|certificate)\/[1-9]\d*$/.test(parsed.pathname);
+};
+const dimension = value => Number.isInteger(value) && value > 0;
+if (!array(object({credentialHref:publicCredentialUrl,src:credentialImageUrl,width:dimension,height:dimension}))(credentialImages)) throw Error('Credential images do not match the required presentation schema.');
+const credentialHrefs = new Set(records[0].verifiedCredentials.map(credential => credential.href));
+if (new Set(credentialImages.map(image => image.credentialHref)).size !== credentialImages.length) throw Error('Duplicate credential image references.');
+if (new Set(credentialImages.map(image => image.src)).size !== credentialImages.length) throw Error('Duplicate credential image sources.');
+for (const image of credentialImages) {
+  if (!credentialHrefs.has(image.credentialHref)) throw Error('Credential image must reference a canonical verified credential.');
+}
+for (const credential of records[0].verifiedCredentials) {
+  if (credential.issuer === 'OpenAI Academy' && credential.href && !credentialImages.some(image => image.credentialHref === credential.href)) throw Error('OpenAI Academy credential is missing its presentation image.');
+}
+console.log('Credential image presentation references validated.');
 
 // Use a dated snapshot so server-rendered and client content agree.
 const profile = records[0];
