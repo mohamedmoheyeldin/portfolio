@@ -1,5 +1,11 @@
 # Testing
 
+## October 2, 2026 year-only issue display
+
+- The website and all seven resume formats display `Issued 2026`. Exact issue dates remain in the canonical credential record and the website's time metadata; verified expiration dates and credential links are preserved.
+- All seven exports pass credential name/date/link checks. Both PDFs were rendered and all three pages visually inspected: concise remains one page and detailed two, with no clipping or overlap. Both DOCX packages pass integrity, Letter page-size and native hyperlink checks; Word visual pagination remains unverified because bundled LibreOffice is unavailable.
+- `pnpm verify`, `pnpm build:cloudflare` and `git diff --check` passed. Local HTTP verification confirms all seven served resume files match the verified exports by SHA-256. This change updates presentation only; employment content and the raw credential dates are unchanged.
+
 ## October 2, 2026 five-credential expansion
 
 - The issuer's public credential service and wallet confirm all five OpenAI Academy completion credentials for Mohamed Moheyeldin. Each was issued October 2, 2026 and expires April 2, 2027; all are public, complete, unexpired and not revoked at verification.

@@ -168,7 +168,7 @@ def professional_development(profile: dict, compact: bool) -> list[list[tuple[st
     for credential in verified:
         groups.setdefault((credential["issuer"], credential["issuedOn"], credential.get("expiresOn")), []).append(credential)
     for (issuer, issued_on, expires_on), credentials in groups.items():
-        metadata = f'{issuer} | Issued {credential_date(issued_on)}'
+        metadata = f'{issuer} | Issued {issued_on[:4]}'
         if expires_on:
             metadata += f' | Expires {credential_date(expires_on)}'
         parts = [(metadata + ": ", None)]

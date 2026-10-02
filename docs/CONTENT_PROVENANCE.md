@@ -12,6 +12,8 @@ This current verification supersedes the earlier single-credential snapshot, whi
 
 All seven resume exports include all five names and verification links. PDF and DOCX titles are clickable; Markdown contains named links and job-board text uses ordinary URLs. Both print variants group the shared issuer and dates to preserve the one-page and two-page layouts without shrinking fonts or removing employment content. Detailed professional-development sections also retain the existing historical SAFe course strings.
 
+The user's subsequent presentation correction displays **Issued 2026** on the website and in all seven resume formats. The canonical issue date remains October 2, 2026, including the website's machine-readable time metadata. Expiration continues to show the verified full date, April 2, 2027.
+
 ## October 1, 2026 public presentation update
 
 The user requested the public project name Data Generator & File Processing and removal of company logo assets. The existing `ccrs-test-data-tooling` URL and private repository URL remain for link compatibility. Public website and resume descriptions use the new name. Employer/client work uses development, maintenance, and contribution language rather than assertions of intellectual property ownership. These presentation changes do not establish permission to disclose client information or ownership of work performed for an employer or client.
