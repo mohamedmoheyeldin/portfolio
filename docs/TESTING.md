@@ -1,5 +1,12 @@
 # Testing
 
+## October 2, 2026 official credential image previews
+
+- Replaced the five full-page iframe previews with the user's exact four badge image URLs and one certificate image URL from Accredible. All five endpoints returned HTTP 200/image PNG; their numeric IDs were matched to the issuer's public records, and the unaltered images were visually inspected. Badge images are 200×200; the pathway certificate is 600×464 and contains its original issue/expiration text.
+- The existing compact 5/3/2/1 grid and placement are preserved. Native images use verified intrinsic dimensions, descriptive alt text, lazy loading, async decoding and `object-fit: contain` within the original 4:3 area. Iframe markup, credential resize observers and scaling CSS are removed. Captions still show `Issued 2026`; Learning and resume expiration-display rules remain intact.
+- The existing content gate now validates the presentation image schema, trusted HTTPS endpoints, unique image references/sources, canonical credential references and complete OpenAI Academy coverage. `pnpm verify`, `pnpm build:cloudflare` and `git diff --check` passed. Built-output and local HTTP checks confirm five exact image sources, dimensions, alt text, loading attributes, verification links and section order, with no iframes. All seven served resume downloads still match the existing verified exports by SHA-256.
+- Browser page appearance and image loading in a browser remain unverified under the no-auto-browser policy. Asset inspection and HTTP/build checks do not establish responsive visual behavior on a device.
+
 ## October 2, 2026 expiration display removal
 
 - The website's own Courses & certifications listings and all seven resume exports omit expiration wording/dates while retaining `Issued 2026`, all five credential titles and public verification links. Exact expiration facts remain in canonical content; issuer-controlled embeds retain their own presentation.

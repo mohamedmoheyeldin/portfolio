@@ -84,9 +84,8 @@
   .credential-card { display: flex; flex-direction: column; gap: 12px; min-width: 0; padding: calc(var(--card-padding) / 2); border: 1px solid var(--color-border-secondary); border-radius: 8px; }
   .credential-card h3 { font-size: var(--text-sm); line-height: var(--text-sm--line-height); letter-spacing: normal; }
   .credential-card p { font-size: var(--text-xs); line-height: var(--text-xs--line-height); }
-  .credential-preview { position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 4px; background: var(--color-bg-secondary); }
-  .credential-preview iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-  .credential-preview[data-scaled="true"] iframe { width: 800px; height: 600px; transform: scale(var(--credential-preview-scale)); transform-origin: top left; }
+  .credential-preview { position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: 4px; background: var(--color-bg-secondary); }
+  .credential-preview img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; }
   @media (max-width: 1000px) { .credential-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (max-width: 720px) { .credential-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 420px) { .credential-grid { grid-template-columns: minmax(0, 1fr); } }
