@@ -16,7 +16,7 @@ The portfolio keeps a small local route composition and build-time React prerend
 
 ## Untitled UI MCP
 
-Project configuration: `.codex/config.toml` → `https://www.untitledui.com/react/api/mcp`.
-Verified with live MCP initialize, tools/list, and tools/call get_component(button) requests without authentication. The server reported public access and returned its install command. The desktop tool inventory in the active conversation did not expose it directly; these checks used the official HTTP MCP endpoint. Reload the project/chat to let Codex load the new server configuration. Configuration is not a claim that the active session has hot-loaded the tools.
+Project configuration: `.mcp.json` → `https://www.untitledui.com/react/api/mcp`.
+Verified with live MCP initialize, tools/list, and tools/call get_component(button) requests without authentication. The server reported public access and returned its install command. The tool inventory in the active session did not expose it directly; these checks used the official HTTP MCP endpoint. Restart the Claude Code session to load the server configuration. Configuration is not a claim that the active session has hot-loaded the tools.
 
 Use free source only. PRO components and full templates require separate licensed access. Do not put credentials in this repository.

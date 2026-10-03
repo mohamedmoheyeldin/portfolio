@@ -40,7 +40,7 @@ This is the canonical React/Vite portfolio and multi-format resume platform. The
 
 - Start with `README.md`, `docs/DEVELOPMENT.md`, and `docs/TESTING.md`.
 - `docs/ARCHITECTURE.md` and `docs/CONTENT_PROVENANCE.md` define the key content boundaries.
-- Project-scoped Untitled UI MCP: `.codex/config.toml`, official HTTPS endpoint; no credentials needed for free components.
+- Project-scoped Untitled UI MCP: `.mcp.json` (development tooling only; approve it on first use), official HTTPS endpoint; no credentials needed for free components.
 
 - Keep `components.json` aliases aligned with TypeScript and Vite. Use upstream typography, color, and shadow tokens for portfolio styles; avoid a parallel token system or custom control styles.
 
@@ -53,3 +53,22 @@ This is the canonical React/Vite portfolio and multi-format resume platform. The
 - Case-study edits must preserve audience, personal contribution, systems, decisions, and evidence boundaries. Do not describe the static portfolio as an API-backed application. Regenerate PDF, DOCX, Markdown, and job-board text together after career changes.
 
 Legacy `/work/` and `/work/<project>/` URLs redirect to the corresponding `/experience/` URLs, preserving query and fragment. `/about/` redirects to `/experience/`. Only canonical Experience routes appear in navigation and the sitemap.
+
+## Claude Code, publishing, and the live site
+
+This repository is read by Claude Code through this `CLAUDE.md` (the former `AGENTS.md`); `C:\Projects\CLAUDE.md` holds shared defaults and `.mcp.json` registers the Untitled UI MCP.
+
+How the public site works:
+
+- `https://mohamedmoheyeldin.com/` is a prerendered static site served by Cloudflare Workers Static Assets (Worker `portfolio`, custom domain mapped in `wrangler.jsonc`, assets from `./dist`). There is no application server.
+- Cloudflare's Git integration builds with `pnpm run build:cloudflare` and deploys with `pnpm dlx wrangler@4.144.0 deploy` when `main` changes. Treat any push or merge to `main` as a production release.
+- `application-studio` and other feature branches are never production. Cloudflare excludes `application-studio` from automatic uploads; Studio previews need separate reviewed hosting.
+- GitHub Actions (`.github/workflows/ci.yml`, "Quality gates") runs `pnpm quality` on pull requests; it does not deploy.
+
+Updating the website later (only on an explicit request):
+
+1. Work on a branch. Edit `src/content/career.json` for career facts and run `pnpm resume:generate` for resume files; edit components/styles for design.
+2. Run `pnpm verify`, then `pnpm build:cloudflare` and `pnpm dlx wrangler@4.144.0 deploy --dry-run`.
+3. Push the branch and open a pull request into `main`; wait for CI.
+4. Merge on the user's explicit release request. Cloudflare then builds and deploys. Fallback manual deploy: `pnpm deploy:cloudflare` (needs a Cloudflare login and explicit authorization).
+5. Verify the live result without opening a browser: `curl.exe -sI https://mohamedmoheyeldin.com/` and fetch the changed page or resume file. The Cloudflare connector can inspect the Worker and recent deployments. State plainly when visual verification was not done.
