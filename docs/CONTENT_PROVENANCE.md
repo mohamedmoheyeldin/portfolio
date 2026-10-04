@@ -1,5 +1,9 @@
 # Content provenance
 
+## October 3, 2026 VA impact and Tableau details
+
+The user reported the following about the VA claims work, all user-reported and not independently measured: stakeholder demonstrations led at the end of each release cycle and program increment since 2022; working sessions with health-provider claims processors and, at times, VA end users on production issues; work with health providers to integrate APIs so live claim status displays in the VA system for staff, providers, and veterans by role (previously not continuously updated from the VA side); a claims framework, created after stakeholder questions about stuck claims, that notifies the right party so claims keep moving and are easier to track; and enabling the team to use Tableau, with custom dashboards for VA and internal users that grew, through repeated VA stakeholder discussions, into the main way to monitor server health and system status. The wording avoids absolute claims such as "claims can never be stuck". The user's note "every PI" is written as program increment. No counts, dates beyond 2022, or system names were added, and internal endpoints and environment details remain unpublished.
+
 ## October 3, 2026 Scaled Agile certificate
 
 The user supplied the PDF certificate for **Implementing SAFe Course (5.1)**: Scaled Agile, completed August 26, 2021, naming Mohamed Moheyeldin. It carries no public verification link, so the record stores it with `href: null`; the certificate image appears in the credentials strip without a link button. It replaces the earlier plain-text SAFe 5.1 line, and the Leading SAFe 4.0 line was removed at the user's request. It shows course completion only. It appears in the website and the detailed and job-board resumes; the one-page resume omits unlinked credentials to keep its single page.

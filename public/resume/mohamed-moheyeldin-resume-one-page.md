@@ -7,7 +7,7 @@ mohamedmoheyeldin.jobs@gmail.com | https://www.linkedin.com/in/moheyeldin/ | htt
 
 ## Professional profile
 
-Customer-focused engineer with 11 years of software development and quality engineering experience across federal, banking, and e-commerce environments. Connects business requirements with hands-on implementation, system integration, and technical troubleshooting. Works directly with stakeholders from discovery and acceptance criteria through demonstrations, feedback, and adoption. Contributes React application features and develops tools such as Data Generator & File Processing, which lets developers and QA build realistic data where production data can't be used, combining engineering execution with practical customer delivery.
+Forward Deployed Engineer on a VA healthcare claims platform, with 11 years of software development and quality engineering experience across federal, banking, and e-commerce environments. Works directly with stakeholders from discovery and acceptance criteria through demonstrations, feedback, and adoption. Contributes React application features and builds tools such as Data Generator & File Processing, giving developers and QA realistic data where production data can't be used.
 
 ## Professional experience
 
@@ -17,10 +17,11 @@ Forward Deployed Engineer (FDE) | Dec 2020 – Present
 
 Customer: U.S. Department of Veterans Affairs (VA)
 
-- Built Data Generator & File Processing so developers and QA can work without production data; the whole team uses it daily, and a full dev database or up to 10,000 custom records now takes under 5 minutes instead of hours of daily preparation.
-- Contribute React, TypeScript, and JavaScript features; integrate referral uploads and use MySQL to investigate application and data discrepancies.
-- Lead demonstrations and discussions with VA stakeholders on claims workflows, requirements, and acceptance criteria; incorporate feedback.
-- Build a reusable Playwright framework that helps reduce production bugs and speeds delivery of stakeholder requests; support GitHub Actions and troubleshoot authentication and environment constraints.
+- Work directly with VA stakeholders on a healthcare claims platform: define requirements, lead demos each release cycle since 2022, and join working sessions with claims processors and VA users on production issues.
+- Integrate claim-status APIs with health providers so staff, providers, and veterans see live status by role; created a claims framework that notifies the right party so claims keep moving.
+- Enabled the team to use Tableau and built custom VA and internal dashboards, now the main view of server health and system status.
+- Contribute React, TypeScript, and JavaScript features; investigate data issues across frontend, backend, and MySQL.
+- Built Data Generator & File Processing (used daily; a full dev database or up to 10,000 records in under 5 minutes) and a Playwright framework that helps reduce production bugs.
 
 ### Chick-fil-A Corporate — Atlanta, GA
 
@@ -42,7 +43,7 @@ https://github.com/mohamedmoheyeldin/portfolio
 
 ## Technical skills
 Application development: React, TypeScript, JavaScript, Java, Reusable components
-Data and integration: SQL, MySQL, JSON, REST APIs, Postman, SQL Server, Oracle, MongoDB
+Data and integration: SQL, MySQL, JSON, REST APIs, Postman, Tableau, SQL Server, Oracle, MongoDB
 Delivery and quality: Playwright, GitHub Actions, Git, Jira, Jenkins, AWS EC2/S3/Aurora test environments
 AI-assisted engineering: GitHub Copilot, VS Code, GPT models, Claude, Gemini
 

@@ -423,9 +423,9 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
     },
   ];
   const additionalSkills: Record<string, string[]> = {
-    "Customer discovery & delivery": ["Healthcare claims workflow mapping", "Stakeholder demonstrations", "Feedback-driven improvements", "Operational constraints"],
+    "Customer discovery & delivery": ["Healthcare claims workflow mapping", "Stakeholder demonstrations", "Working sessions with end users", "Production issue triage", "Feedback-driven improvements", "Operational constraints"],
     "Application development": ["Frontend feature implementation", "Workflow and status interfaces", "Responsive behavior", "Cross-browser validation"],
-    "Data and integration": ["DataGrip", "API schema validation", "Service contract checks", "Application-to-database reconciliation", "Referral-data uploads", "Network stubbing"],
+    "Data and integration": ["DataGrip", "API schema validation", "Service contract checks", "Provider API integration", "Live claim status", "Tableau dashboards", "System health monitoring", "Application-to-database reconciliation", "Referral-data uploads", "Network stubbing"],
     "Delivery and quality": ["Reusable smoke & regression frameworks", "Parallel and headless execution", "Applitools Eyes", "Diagnostic artifacts"],
     "AI-assisted engineering": ["Implementation exploration", "Test creation", "Review and validation of generated changes"],
     "Troubleshooting & team enablement": ["Reproducible defect reports", "Screenshots and execution evidence", "Developer coordination", "Single and bulk upload guidance"],
