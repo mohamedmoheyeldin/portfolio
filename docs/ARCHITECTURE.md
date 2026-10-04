@@ -39,7 +39,7 @@ The web presentation uses Untitled UI's light theme, blue accents, Inter loaded 
 
 `career.json` → `scripts/generate-resumes.py` → PDF / DOCX downloads
 
-The repository publishes one-page and detailed PDF/DOCX artifacts from the canonical content source through the dedicated resume generator. Web, PDF, and Word may format and select facts differently, but career history remains owned by the shared record.
+The repository publishes one-page and detailed PDF/DOCX artifacts from the canonical content source through the dedicated resume generator. Web, PDF, and Word may format and select facts differently, but career history remains owned by the shared record. The Resume page lists the downloads from the `resumes` array in `src/components/Portfolio.tsx`; adding an entry there (with matching files in `public/resume/`) adds a card, and the grid adapts to one, two, or three resumes. The one-page resume is still generated but is not linked from the page.
 
 Case studies also validate audience, systems, decisions, evidence links, and FDE relevance. Evidence distinguishes user-reported career results from public source code. The portfolio walkthrough documents static rendering and explicitly states that no runtime API or database exists.
 

@@ -14,7 +14,7 @@ const expectations = [
   [home, 'href="/portfolio/experience/"'],
   [home, 'href="/portfolio/experience/portfolio-career-content-system/"'],
   [home, 'href="/portfolio/site.webmanifest"'],
-  [resume, 'href="/portfolio/resume/mohamed-moheyeldin-resume-one-page.pdf"'],
+  [resume, 'href="/portfolio/resume/mohamed-moheyeldin-resume-detailed.pdf"'],
   [sitemap, 'https://mohamedmoheyeldin.github.io/portfolio/experience/'],
   [robots, 'Sitemap: https://mohamedmoheyeldin.github.io/portfolio/sitemap.xml'],
 ];

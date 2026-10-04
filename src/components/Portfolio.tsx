@@ -223,7 +223,7 @@ export function Home({ profile }: { profile: Profile }) {
       <section className="shell home-hero" id="professional-profile">
         <div className="hero-copy">
           <h1>
-            Forward Deployed Engineer <span>for VA healthcare claims.</span>
+            Forward Deployed Engineer <span>building software with the people who use it.</span>
           </h1>
           <p>
             {profile.heroSummary}
@@ -703,6 +703,26 @@ export function Work({ profile }: { profile: Profile }) {
   );
 }
 
+/* Resumes listed on the Resume page. To add one, generate its files as
+   public/resume/mohamed-moheyeldin-resume-<id>.<ext> and add an entry here. */
+const resumes = [
+  {
+    id: "detailed",
+    label: "PDF and Word",
+    title: "Detailed resume",
+    text: "My roles, projects, skills, and certifications, with the details behind each one.",
+    items: [
+      "Booz Allen Hamilton, Chick-fil-A, and Ally Bank, role by role",
+      "VA claims work, stakeholder demos, and internal tools",
+      "Skills, education, and certifications",
+    ],
+    formats: [
+      { ext: "pdf", label: "Download PDF", primary: true },
+      { ext: "docx", label: "Download Word", primary: false },
+    ],
+  },
+];
+
 export function Resume() {
   return (
     <>
@@ -713,35 +733,11 @@ export function Resume() {
           <span>downloads.</span>
         </h1>
         <p>
-          A one-page version for a quick read, and a longer one with the full
-          technical detail.
+          Download my resume as a PDF or Word file.
         </p>
       </section>
       <section className="shell resume-choices" aria-label="Resume downloads">
-        {[
-          {
-            id: "one-page",
-            label: "Short version",
-            title: "One-page resume",
-            text: "One page. A quick read for recruiters and first conversations.",
-            items: [
-              "Summary and key skills",
-              "All three roles",
-              "VA claims work, React, and integrations",
-            ],
-          },
-          {
-            id: "detailed",
-            label: "Full version",
-            title: "Detailed resume",
-            text: "Two pages with the full technical detail.",
-            items: [
-              "Full responsibilities for each role",
-              "Complete tools and skills list",
-              "Stakeholder work and internal tools in detail",
-            ],
-          },
-        ].map((r) => (
+        {resumes.map((r) => (
           <article className="resume-choice" key={r.id}>
             <FeaturedIcon icon={File06} color="brand" theme="light" size="lg" />
             <p className="eyebrow">{r.label}</p>
@@ -756,20 +752,17 @@ export function Resume() {
               ))}
             </ul>
             <div className="resume-downloads">
-              <Button
-                href={href(`resume/mohamed-moheyeldin-resume-${r.id}.pdf`)}
-                download
-                iconLeading={Download01}
-              >
-                Download PDF
-              </Button>
-              <Button
-                color="secondary"
-                href={href(`resume/mohamed-moheyeldin-resume-${r.id}.docx`)}
-                download
-              >
-                Download Word
-              </Button>
+              {r.formats.map((format) => (
+                <Button
+                  key={format.ext}
+                  color={format.primary ? "primary" : "secondary"}
+                  href={href(`resume/mohamed-moheyeldin-resume-${r.id}.${format.ext}`)}
+                  download
+                  iconLeading={format.primary ? Download01 : undefined}
+                >
+                  {format.label}
+                </Button>
+              ))}
             </div>
           </article>
         ))}
