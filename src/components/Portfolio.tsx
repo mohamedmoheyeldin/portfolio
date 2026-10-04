@@ -59,7 +59,7 @@ export function Header({ name, location, path }: { name: string; location: strin
           <Button color="link-gray" size="lg" href={root} aria-label={`${name}, home`}>
             {name}
           </Button>
-          <span className="wordmark-caption">Bridging customer needs and technical solutions.</span>
+          <span className="wordmark-caption">Forward Deployed Engineer</span>
           <span className="header-location">{location}</span>
         </div>
         <nav aria-label="Primary navigation">
@@ -102,7 +102,7 @@ export function Footer({ name }: { name: string }) {
           <Button color="link-gray" size="lg" href={root}>
             {name}
           </Button>
-          <p>Bridging customer needs and technical solutions.</p>
+          <p>Forward Deployed Engineer</p>
         </div>
         <nav className="footer-links" aria-label="Footer navigation">
           <Button color="link-gray" href={root}>Home</Button>
@@ -223,7 +223,7 @@ export function Home({ profile }: { profile: Profile }) {
       <section className="shell home-hero" id="professional-profile">
         <div className="hero-copy">
           <h1>
-            Practical software. <span>Connected systems.</span>
+            Forward Deployed Engineer <span>for VA healthcare claims.</span>
           </h1>
           <p>
             {profile.heroSummary}
@@ -232,9 +232,9 @@ export function Home({ profile }: { profile: Profile }) {
       </section>
       <section className="section shell">
         <header className="section-heading-centered">
-            <h2>Engineering solutions. Delivering value.</h2>
+            <h2>Selected work</h2>
             <p>
-              A look at the systems I’ve built and the decisions behind them.
+              What I built, who it was for, and the decisions along the way.
             </p>
         </header>
         <div className="project-grid">
@@ -247,11 +247,11 @@ export function Home({ profile }: { profile: Profile }) {
       <section className="expertise-section">
         <div className="section shell">
           <header className="section-heading-centered">
-          <p className="eyebrow">What I bring</p>
-          <h2>Build it. Connect it. Make it work.</h2>
+          <p className="eyebrow">What I do</p>
+          <h2>What my days look like.</h2>
           <p className="section-intro">
-            I bring implementation, integration, and troubleshooting together
-            to solve problems across software and delivery environments.
+            Most of my work is connecting systems, building small tools, and
+            working closely with the people who use them.
           </p>
           </header>
           <div className="expertise-grid">
@@ -259,17 +259,17 @@ export function Home({ profile }: { profile: Profile }) {
               {
                 icon: Code02,
                 title: "APIs, tools, and integrations",
-                text: "API integrations, data-provisioning utilities, and automation that connect systems and make complex workflows repeatable.",
+                text: "I integrate APIs, build tools that generate and process data, and automate work that would otherwise be repeated by hand.",
               },
               {
                 icon: GitBranch01,
                 title: "Cloud and delivery systems",
-                text: "GitHub Actions pipelines, AWS environments, and diagnostics that help teams deploy, investigate, and improve their software.",
+                text: "I have used GitHub Actions and AWS test environments to run checks and track down why something failed.",
               },
               {
                 icon: LayersTwo01,
-                title: "Hands-on technical leadership",
-                text: "Stakeholder discovery, demonstrations, and practical documentation that help teams adopt and maintain useful tools.",
+                title: "Working with stakeholders",
+                text: "I meet with stakeholders and users, write down what they need, demo the work, and keep supporting it after release.",
               },
             ].map(({ icon: Icon, title, text }) => (
               <article key={title}>
@@ -285,30 +285,21 @@ export function Home({ profile }: { profile: Profile }) {
       <section className="section shell profile-centered" aria-labelledby="how-i-work-heading">
         <header>
           <p className="eyebrow">How I work</p>
-          <h2 id="how-i-work-heading">From customer discovery to practical delivery.</h2>
+          <h2 id="how-i-work-heading">Start with the people using it.</h2>
         </header>
         <div className="resume-summary">
           <p>
-            I work with stakeholders to understand their workflows, clarify
-            requirements, and turn technical constraints into practical decisions.
-            My work spans application features, integrations, and internal tools,
-            followed by demonstrations, feedback, and ongoing support.
+            I start by talking with the people who will use the software. I ask
+            how they work today, write down the requirements and what done looks
+            like, then build it and show them. Their feedback decides what
+            happens next, and I keep supporting it after release.
           </p>
           <p>
-            I bring {profile.experienceYears} years
-            of development and quality engineering experience across federal,
-            e-commerce, and banking environments. My focus is connecting customer
-            needs with products, services, and systems people can adopt and rely on.
+            After {profile.experienceYears} years in development and quality
+            engineering across federal, e-commerce, and banking, I trace a
+            problem through the whole system, from what a user sees to the data
+            behind it.
           </p>
-          <div className="mt-5">
-          <Button
-            href={href("experience/")}
-            color="link-color"
-            iconTrailing={ArrowRight}
-          >
-            Explore my experience
-          </Button>
-          </div>
         </div>
       </section>
       <Contact />
@@ -390,15 +381,15 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
     "Troubleshooting & team enablement": LayersTwo01,
   };
   const descriptions: Record<string, string> = {
-    "Application development": "Build interfaces and reusable application features around the problem a team needs solved.",
-    "Data and integration": "Connect workflows, validate API behavior, and investigate the data behind application results.",
-    "Delivery and quality": "Make changes repeatable and give teams useful feedback before release.",
-    "AI-assisted engineering": "Use coding assistants to explore approaches, develop features, debug, and refactor—with review and validation.",
+    "Application development": "I build interfaces and reusable features around the problem a team is trying to solve.",
+    "Data and integration": "Connecting workflows, checking API behavior, and digging into the data behind what the application shows.",
+    "Delivery and quality": "Making changes repeatable and giving teams feedback before release.",
+    "AI-assisted engineering": "I use coding assistants to explore options, write and debug code, and refactor, then review and test what they produce.",
   };
   const groups = [
     {
       label: "Customer discovery & delivery",
-      description: "Work directly with stakeholders from the first requirements conversation through demonstrations and adoption.",
+      description: "Working with stakeholders from the first requirements conversation through demos and adoption.",
       items: [...profile.competencies, "Requirements & acceptance criteria", "Technical constraints", "Product demonstrations", "User feedback"],
     },
     ...profile.skillGroups.map(group => ({
@@ -408,17 +399,17 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
     })),
     {
       label: "Internal tools & file workflows",
-      description: "Turn recurring manual work into a desktop tool that teammates can use and maintain.",
+      description: "Turning repeated manual work into a desktop tool the team can use and maintain.",
       items: ["Electron", "Test data generation", "JSON editing", "gzip packaging", "SFTP", "WinSCP", "Upload status", "Retry handling"],
     },
     {
       label: "Web platforms & deployment",
-      description: "Build and maintain this portfolio with shared content, accessible components, and portable static builds.",
+      description: "What this portfolio runs on: shared content, accessible components, and static builds for Cloudflare or a GitHub Pages path.",
       items: ["Vite", "Untitled UI", "Tailwind CSS", "React Aria", "pnpm", "Cloudflare deployment configuration", "GitHub Pages", "Static prerendering"],
     },
     {
       label: "Troubleshooting & team enablement",
-      description: "Trace issues across interfaces, data, and delivery workflows, then help the team put the fix to use.",
+      description: "Tracing issues across interfaces, data, and delivery workflows, then helping the team use the fix.",
       items: ["Frontend & backend investigation", "Database checks", "Defect diagnosis", "API validation", "Technical documentation", "Workflow walkthroughs", "Ongoing tool support"],
     },
   ];
@@ -433,44 +424,44 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
   const businessGroups = [
     {
       label: "Business requirements & delivery coordination",
-      description: "Translate business workflows into clear acceptance criteria and keep stakeholders informed about blockers, dependencies, and operational impact.",
+      description: "Turning business workflows into clear acceptance criteria, and keeping stakeholders posted on blockers, dependencies, and operational impact.",
       items: ["Jira", "Confluence", "YouTrack", "Business & functional requirements", "Acceptance criteria", "Requirements traceability", "Business-impact reporting", "Delivery dependencies", "Progress and blocker tracking", "Product owner & analyst collaboration"],
     },
     {
       label: "Solution evaluation & technical decisions",
-      description: "Compare implementation options against maintainability, reuse, authentication, and environment constraints, drawing on the evaluation of Playwright and internal tooling.",
+      description: "Comparing options on maintainability, reuse, authentication, and environment limits, including the Playwright evaluation and internal tooling.",
       items: ["Tool and framework evaluation", "Legacy automation assessment", "Maintainability tradeoffs", "Reusable component design", "Environment access constraints", "Implementation alternatives"],
     },
   ];
   const operationalGroups = [
     {
       label: "Version control & repositories",
-      description: "Version control and repository platforms I use for source code and development collaboration.",
+      description: "Version control and repository platforms I use for source code and collaboration.",
       items: ["Git", "GitHub", "GitLab", "Bitbucket", "Azure Repos"],
     },
     {
       label: "Development environments",
-      description: "Editors and IDEs I use for application development, code navigation, and debugging. Database tooling is listed under data and integration.",
+      description: "Editors and IDEs I use to write code, navigate it, and debug. Database tools are listed under data and integration.",
       items: ["VS Code", "WebStorm", "IntelliJ IDEA"],
     },
     {
       label: "Continuous integration & build tools",
-      description: "Tools for repeatable builds, automated checks, and feedback during development and delivery.",
+      description: "Tools for repeatable builds, automated checks, and early feedback.",
       items: ["GitHub Actions", "Jenkins", "TeamCity"],
     },
     {
       label: "Operating systems",
-      description: "Daily personal and professional use across Windows, Linux, and macOS.",
+      description: "I use Windows, Linux, and macOS day to day, at work and at home.",
       items: ["Windows", "Linux", "macOS"],
     },
     {
       label: "Identity & environment troubleshooting",
-      description: "Validate sign-in workflows and investigate authentication or environment dependencies that affect application behavior and automated execution.",
+      description: "Checking sign-in flows and looking into authentication or environment problems that affect the application or automated runs.",
       items: ["OIDC workflow validation", "Okta MFA", "Single sign-on checks", "Microsoft Entra ID investigation", "Restricted environment access", "Authentication failure evidence"],
     },
     {
       label: "Release readiness & operational validation",
-      description: "Give developers and product owners repeatable evidence about expected behavior, defects, and fixes across delivery environments.",
+      description: "Repeatable evidence for developers and product owners about expected behavior, defects, and fixes across environments.",
       items: ["Development, QA, UAT & staging", "Smoke and sanity checks", "Regression validation", "Deployment checks", "Hotfix verification", "Exploratory testing", "Fix verification", "Release-readiness evidence"],
     },
   ];
@@ -506,7 +497,7 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
       <header className="section-heading-centered">
         {!detailed && <p className="eyebrow">Core expertise</p>}
         <h2 id="toolkit-heading">{detailed ? "The tools behind the work." : "Engineering toolkit."}</h2>
-        <p className="section-intro">{detailed ? "From business workflows and stakeholder requirements to implementation, integration, and release readiness." : "The tools and practices I use to understand, build, and deliver."}</p>
+        <p className="section-intro">{detailed ? "From business workflows and requirements to implementation, integration, and release checks." : "The tools and practices I use day to day."}</p>
       </header>
       <div className={detailed ? "work-explorer toolkit-explorer" : undefined}>
         {detailed && <nav className="project-selector toolkit-selector" aria-label="Choose an expertise category">
@@ -597,51 +588,50 @@ export function Work({ profile }: { profile: Profile }) {
       <section className="page-hero shell about-hero">
         <div>
           <h1>
-            Work history.
+            Work history
             {" "}
-            <span>Projects in practice.</span>
+            <span>and projects.</span>
           </h1>
           <p>
-            Explore my roles, the projects I’ve contributed to, and the tools
-            I’ve built across federal, e-commerce, and banking environments.
+            My roles, the projects I have worked on, and the tools I have
+            built, across federal, e-commerce, and banking.
           </p>
         </div>
       </section>
       <CredentialStrip profile={profile} />
       <section className="section shell" id="experience-projects">
         <header className="section-heading-centered">
-          <h2>Professional experience &amp; projects.</h2>
-          <p className="section-intro">{profile.experienceYears} years across federal, e-commerce, and banking environments. Explore the work below.</p>
+          <h2>Experience &amp; projects</h2>
+          <p className="section-intro">{profile.experienceYears} years across federal, e-commerce, and banking. The work is below.</p>
         </header>
         <ProjectExplorer profile={profile} showExperience />
       </section>
       <section className="section shell profile-centered" aria-labelledby="approach-heading">
         <header>
           <p className="eyebrow">My approach</p>
-          <h2 id="approach-heading">Understand the problem. Deliver the solution.</h2>
+          <h2 id="approach-heading">How I approach the work.</h2>
         </header>
         <div className="resume-summary">
           <p>
-            I work directly with stakeholders to understand how they work,
-            identify technical obstacles, and turn requirements into application
-            features and internal tools. I stay involved through implementation,
-            demonstrations, troubleshooting, and user feedback—connecting
-            engineering decisions to the problem the customer needs solved.
+            I work directly with stakeholders to learn how they work and what
+            is getting in their way, then build the application features and
+            internal tools that fix it. I stay involved after that: demos,
+            troubleshooting, and user feedback.
           </p>
           <p>
-            At Booz Allen Hamilton, this includes contributing React features
-            and investigating application and data issues for the United States
-            Department of Veterans Affairs. I also independently built and
-            support Data Generator &amp; File Processing, a desktop application that creates referral test data,
-            packages files, and supports uploads for internal workflows.
+            At Booz Allen Hamilton I work on a VA healthcare claims platform.
+            I build React features, work with health providers and VA
+            stakeholders, and investigate application and data issues. I also
+            built and support Data Generator &amp; File Processing, a desktop
+            app that creates referral test data, packages files, and uploads
+            them for internal use.
           </p>
           <p>
-            My {profile.experienceYears} years across software development and quality engineering
-            in federal, banking, and e-commerce environments inform how I approach
-            delivery: understand the systems involved, validate the behavior,
-            and help people adopt the solution. That combination of customer
-            collaboration and technical execution is the foundation of my focus
-            on Forward Deployed Engineering.
+            After {profile.experienceYears} years in software development and
+            quality engineering across federal, banking, and e-commerce, I start
+            by understanding the system, check that it behaves the way people
+            expect, and make sure they can use the result. That is why I am
+            focused on Forward Deployed Engineering.
           </p>
         </div>
       </section>
@@ -718,37 +708,37 @@ export function Resume() {
     <>
       <section className="page-hero shell resume-hero">
         <h1>
-          Two resumes. One
+          Resume
           {" "}
-          <span>consistent career story.</span>
+          <span>downloads.</span>
         </h1>
         <p>
-          A concise introduction or the full technical picture. Choose the
-          format that works for your conversation.
+          A one-page version for a quick read, and a longer one with the full
+          technical detail.
         </p>
       </section>
       <section className="shell resume-choices" aria-label="Resume downloads">
         {[
           {
             id: "one-page",
-            label: "The introduction",
+            label: "Short version",
             title: "One-page resume",
-            text: "A focused overview for recruiters, applications, and first conversations.",
+            text: "One page. A quick read for recruiters and first conversations.",
             items: [
-              "Professional summary and core capabilities",
-              "Experience across all three roles",
-              "React, integration, and customer delivery",
+              "Summary and key skills",
+              "All three roles",
+              "VA claims work, React, and integrations",
             ],
           },
           {
             id: "detailed",
-            label: "The full picture",
+            label: "Full version",
             title: "Detailed resume",
-            text: "The complete technical record for a deeper look at my experience.",
+            text: "Two pages with the full technical detail.",
             items: [
-              "Expanded responsibilities and delivery context",
-              "Complete engineering and quality toolkit",
-              "Expanded stakeholder work and internal tool development",
+              "Full responsibilities for each role",
+              "Complete tools and skills list",
+              "Stakeholder work and internal tools in detail",
             ],
           },
         ].map((r) => (
@@ -864,13 +854,13 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
             </div>}
             <section id={embedded ? "project-details-overview" : "challenge"} hidden={interactive && section !== "overview"} tabIndex={-1}>
               {!embedded && <p className="eyebrow">01 / Challenge</p>}
-              <h2>{embedded ? "The challenge" : "The delivery problem."}</h2>
+              <h2>{embedded ? "The challenge" : "The problem."}</h2>
               <p>{project.challenge}</p>
               <p><strong>Who needed it:</strong> {project.audience}</p>
             </section>
             <section id={embedded ? "project-details-implementation" : "approach"} hidden={interactive && section !== "implementation"} tabIndex={-1}>
               {!embedded && <p className="eyebrow">02 / Approach</p>}
-              <h2>What I personally built.</h2>
+              <h2>What I did.</h2>
               <ol className="approach-list">
                 {project.approach.map((s, i) => (
                   <li key={s}>
@@ -895,19 +885,19 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
             </section>
             <section id="systems" hidden={interactive && section !== "implementation"} tabIndex={-1}>
               {!embedded && <p className="eyebrow">04 / Systems & decisions</p>}
-              <h2>APIs, data, and infrastructure.</h2>
+              <h2>How it fit together.</h2>
               {project.systems.map((text) => <p key={text}>{text}</p>)}
               <h3>Constraints and tradeoffs</h3>
               <ul className="plain-list">{project.decisions.map((text) => <li key={text}>{text}</li>)}</ul>
             </section>
             <section id={embedded ? "project-details-evidence" : "evidence"} hidden={interactive && section !== "evidence"} tabIndex={-1}>
               {!embedded && <p className="eyebrow">05 / Evidence</p>}
-              <h2>What you can inspect.</h2>
+              <h2>What you can check.</h2>
               {project.evidence.map((item) => <div key={item.label}>
                 <h3>{item.label}</h3><p>{item.detail}</p>
                 {item.href && <Button className="whitespace-normal text-left" color="link-color" href={item.href} iconTrailing={ArrowUpRight}>{item.label}</Button>}
               </div>)}
-              <h3>How this supports my FDE direction</h3><p>{project.relevance}</p>
+              <h3>Why it matters for FDE work</h3><p>{project.relevance}</p>
               {project.relatedProjects.length > 0 && <div>
                 <h3>Related work</h3>
                 {project.relatedProjects.map((related) => <p key={related.slug}><Button className="whitespace-normal text-left" color="link-color" href={href(`experience/${related.slug}/`)} onClick={(event) => {
@@ -918,30 +908,30 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
             </section>
             <section id="toolkit" hidden={interactive && section !== "implementation"} tabIndex={-1}>
               {!embedded && <p className="eyebrow">06 / Toolkit</p>}
-              <h2>Tools in context.</h2>
+              <h2>Tools used.</h2>
               <Tags items={project.technologies} />
             </section>
             {project.kind === "independent" && <section id="walkthrough" hidden={interactive && section !== "implementation"} tabIndex={-1}>
               {!embedded && <p className="eyebrow">07 / Implementation walkthrough</p>}
-              <h2>Follow one content change through the system.</h2>
+              <h2>How a content change reaches the site.</h2>
               <ol className="approach-list">
                 {[
-                  ["Start with data", "Edit the public career record in src/content/career.json. Required fields and unique project slugs are checked before a build."],
-                  ["Render the interface", "React composes the record with free Untitled UI controls. Browse the work page or follow a project link; static HTML keeps the case studies readable without JavaScript."],
-                  ["Generate documents", "pnpm resume:generate creates the resume formats from the same record, with Inter and the website’s blue theme tokens."],
-                  ["Validate and package", "pnpm verify checks types, content, production output, and GitHub Pages paths. pnpm build:cloudflare restores the root-path build."],
-                  ["Deploy explicitly", "wrangler.jsonc points Cloudflare Static Assets at dist. Deployment is a separate release action; this walkthrough does not claim the current branch is live."]
+                  ["Edit the data", "Content lives in src/content/career.json. Required fields and unique project slugs are checked before a build."],
+                  ["Render the pages", "React builds the pages from that record using free Untitled UI components. The HTML is generated ahead of time, so the project pages are readable without JavaScript."],
+                  ["Generate the resumes", "pnpm resume:generate builds every resume format from the same record, using the site’s font and blue theme."],
+                  ["Check and build", "pnpm verify checks types, content, the production build, and GitHub Pages paths. pnpm build:cloudflare rebuilds for the root path."],
+                  ["Deploy", "wrangler.jsonc points Cloudflare Static Assets at dist. Merging to main starts the production build."]
                 ].map(([title, text], i) => <li key={title}><span>{String(i + 1).padStart(2, "0")}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}
               </ol>
-              <p>This implementation connects a UI, structured data, generated documents, and deployment packaging. It has no runtime API; the career case studies describe my API and environment integration work.</p>
+              <p>This site has no runtime API or database. My API and integration work is described in the work projects.</p>
               <div className="hero-buttons"><Button color="secondary" href={href("experience/")}>Explore the interface</Button><Button color="secondary" href={href("resume/")}>Inspect the resume outputs</Button></div>
             </section>}
             <div className="disclosure" role="note">
               <ShieldTick />
               <p>
                 {project.kind === "career"
-                  ? "This account is derived from documented career responsibilities. Client-sensitive details are intentionally generalized, and no undisclosed metrics are presented."
-                  : "I designed and developed this public project. Its source, content model, and automated checks can be reviewed in the linked repository. The Untitled UI redesign is developed on the untitledui branch."}
+                  ? "This is based on my documented career responsibilities. I left out client-sensitive details on purpose, and I have not added numbers I can't support."
+                  : "I designed and built this project. The source, content model, and automated checks are in the linked repository."}
               </p>
             </div>
           </div>
@@ -957,15 +947,11 @@ export function Contact() {
     <section className="contact-section">
       <div className="shell contact-inner">
         <div>
-          <p className="eyebrow">Let’s build something dependable</p>
-          <h2>
-            Good work starts with
-            <br />a conversation.
-          </h2>
+          <p className="eyebrow">Contact</p>
+          <h2>Get in touch.</h2>
           <p>
-            Have an integration challenge or a Forward Deployed Engineer opportunity?
-            <br />
-            I’d love to hear about it.
+            If you have an integration problem or a Forward Deployed Engineer
+            role, send me an email.
           </p>
         </div>
         <div className="contact-actions">
@@ -986,11 +972,11 @@ export function NotFound() {
     <section className="page-hero shell not-found">
       <p className="eyebrow">404 / Page not found</p>
       <h1>
-        This page didn’t pass
+        This page
         {" "}
-        <span>the existence check.</span>
+        <span>doesn’t exist.</span>
       </h1>
-      <p>The link may have changed. Let’s get you back to something useful.</p>
+      <p>The link may be old or mistyped. The home page is a good place to start.</p>
       <Button href={root} iconLeading={ArrowLeft}>
         Back to home
       </Button>

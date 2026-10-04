@@ -3,14 +3,14 @@
     "id": "profile",
     "name": "Mohamed Moheyeldin",
     "location": "Reston, VA 20191",
-    "headline": "Bridging customer needs and technical solutions.",
+    "headline": "Forward Deployed Engineer",
     "experienceYears": 11,
     "experienceAsOf": "2026-09",
-    "heroTitle": "Practical software. Connected systems.",
-    "summary": "Forward Deployed Engineer on a VA healthcare claims platform, with 11 years of software development and quality engineering experience across federal, banking, and e-commerce environments. Works directly with stakeholders from discovery and acceptance criteria through demonstrations, feedback, and adoption. Contributes React application features and builds tools such as Data Generator & File Processing, giving developers and QA realistic data where production data can't be used.",
+    "heroTitle": "Forward Deployed Engineer for VA healthcare claims.",
+    "summary": "Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal, banking, and e-commerce. Work directly with stakeholders from first requirements conversations through demos and feedback. Write React features and built Data Generator & File Processing, which gives developers and QA realistic data where production data can't be used.",
     "detailedSummary": [
-      "Forward Deployed Engineer on a VA healthcare claims platform, with 11 years of software development and quality engineering experience across federal, banking, and e-commerce environments. Works directly with stakeholders from discovery and acceptance criteria through demonstrations, feedback, and adoption. Contributes React application features and builds tools such as Data Generator & File Processing, giving developers and QA realistic data where production data can't be used.",
-      "Works directly with stakeholders to clarify requirements and acceptance criteria, evaluate technical constraints, demonstrate changes, and help teams adopt reusable tools. Hands-on experience spans React, TypeScript, JavaScript, Java, SQL, REST API validation, Tableau dashboards, and CI workflows. Uses AI coding assistants for development, debugging, and refactoring."
+      "Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal, banking, and e-commerce. Work directly with stakeholders from first requirements conversations through demos and feedback. Write React features and built Data Generator & File Processing, which gives developers and QA realistic data where production data can't be used.",
+      "Work with stakeholders to clarify requirements and acceptance criteria, weigh technical constraints, demo changes, and help teams adopt the tools I build. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST API validation, Tableau dashboards, and CI workflows. Use AI coding assistants for development, debugging, and refactoring."
     ],
     "links": [
       {
@@ -109,8 +109,8 @@
           "Work directly with VA stakeholders on a healthcare claims platform: define requirements, lead demos each release cycle since 2022, and join working sessions with claims processors and VA users on production issues.",
           "Integrate claim-status APIs with health providers so staff, providers, and veterans see live status by role; created a claims framework that notifies the right party so claims keep moving.",
           "Enabled the team to use Tableau and built custom VA and internal dashboards, now the main view of server health and system status.",
-          "Contribute React, TypeScript, and JavaScript features; investigate data issues across frontend, backend, and MySQL.",
-          "Built Data Generator & File Processing (used daily; a full dev database or up to 10,000 records in under 5 minutes) and a Playwright framework that helps reduce production bugs."
+          "Contribute React, TypeScript, and JavaScript features; trace data issues across frontend, backend, MySQL.",
+          "Built Data Generator & File Processing (used daily; full dev database in under 5 minutes) and a Playwright framework that helps reduce production bugs."
         ],
         "id": "booz-allen-hamilton"
       },
@@ -121,7 +121,7 @@
         "location": "Atlanta, GA",
         "start": "2018-11",
         "end": "2020-12",
-        "summary": "Supported application delivery by connecting user workflows, REST APIs, authentication, and AWS test environments through reusable engineering tools and actionable troubleshooting evidence.",
+        "summary": "Built reusable test tooling and used it to investigate REST APIs, authentication, and AWS test environments, giving engineers the evidence to track down failures.",
         "highlights": [
           "Built reusable JavaScript browser automation around application workflows, translating expected behavior into repeatable checks that supported implementation and release decisions.",
           "Investigated application-to-service integration through browser automation and Postman REST API checks, validating schemas, service contracts, and data-dependent behavior to surface discrepancies.",
@@ -144,7 +144,7 @@
         "location": "Sandy, UT",
         "start": "2015-09",
         "end": "2018-11",
-        "summary": "Partnered with developers, analysts, and product owners to turn banking requirements into traceable validation and release-readiness evidence.",
+        "summary": "Worked with developers, analysts, and product owners to turn banking requirements into traceable tests and release checks.",
         "highlights": [
           "Translated business and functional requirements into test plans, acceptance criteria, and traceable scenarios with developers, analysts, and product owners.",
           "Performed exploratory, functional, and regression testing of banking web applications, investigating behavior across customer workflows and platforms.",
@@ -236,7 +236,7 @@
         "period": "2020–Present",
         "name": "VA Claims Workflows",
         "description": "Work with VA stakeholders and health providers on a healthcare claims platform with two frontends sharing a database, supporting claim submission, provider updates, live claim status, and payment visibility.",
-        "challenge": "VA stakeholders needed dependable claim submission, provider updates, and payment visibility across two frontends sharing a database, but the VA side had no continuously updated claim status, claims could stall without anyone knowing why, and there was no single view of system and server health.",
+        "challenge": "VA stakeholders needed claim submission, provider updates, and payment visibility to work reliably across two frontends sharing a database. The VA side had no continuously updated claim status, claims could stall without anyone knowing why, and there was no single view of system and server health.",
         "approach": [
           "Work directly with VA stakeholders to clarify claims workflows, requirements, acceptance criteria, and operational constraints.",
           "Join working sessions with health-provider claims processors and, at times, VA end users on issues reported in production, to see the full picture and set the direction of future work.",
@@ -282,7 +282,7 @@
           "Tableau became the main monitoring view because VA stakeholders repeatedly asked for one place to see system status, and self-service dashboards let users build views without waiting on developers.",
           "The claims framework routes work to the right party instead of relying on people noticing a stalled claim."
         ],
-        "relevance": "This work shows the core of forward deployed engineering: working with stakeholders and end users to find the real problem, building and integrating the solution, demonstrating it, and making sure users can adopt and extend it.",
+        "relevance": "This is the core of forward deployed engineering for me: work with stakeholders and end users to find the real problem, build and integrate the fix, demo it, and make sure people can use it.",
         "evidence": [
           {
             "label": "Documented contributions",
@@ -349,7 +349,7 @@
           "A sequential upload queue attempts each destination once per run, continues after a failure, and offers explicit retries for failed destinations.",
           "Completion reporting distinguishes completed destinations from transfer-byte progress; SFTP completion checks the remote file size."
         ],
-        "relevance": "Data Generator & File Processing shows how I turn a recurring team need into a usable tool, connect an interface to data processing and external systems, and support adoption over time.",
+        "relevance": "This is how I handle a recurring team need: build a tool for it, connect it to the data and systems it touches, and keep supporting it as people use it.",
         "evidence": [
           {
             "label": "Repository-documented implementation",
@@ -377,15 +377,15 @@
         "role": "Software Engineer in Test",
         "period": "2018–2020",
         "name": "Chick-fil-A Corporate",
-        "description": "A maintainable feedback system joining browser automation, API validation, visual testing, authentication, cloud environments, and CI.",
-        "challenge": "Quality feedback crossed browsers, APIs, visual behavior, SSO authentication, and cloud-hosted environments, making isolated test suites difficult to operate as one reliable system.",
+        "description": "Browser, API, visual, and SSO login tests, plus AWS environments and CI, set up to work together.",
+        "challenge": "Tests covered browsers, APIs, visual checks, SSO login, and cloud-hosted environments. Running them as separate suites made the results hard to trust as a whole.",
         "approach": [
           "Designed modular browser smoke and regression suites with parallel execution, network stubbing, and flaky-test mitigation.",
           "Built API coverage with Postman and browser automation using contract tests, schema validation, and dynamic data assertions.",
           "Integrated Applitools Eyes across resolutions, devices, and browsers and automated OIDC and Okta MFA flows.",
           "Connected GitHub Actions, execution evidence, and AWS resources for repeatable execution and investigation."
         ],
-        "outcome": "Moved useful feedback earlier in delivery while keeping browser, API, visual, authentication, and environment evidence available for investigation and release decisions.",
+        "outcome": "Feedback came earlier in delivery, and the browser, API, visual, login, and environment evidence was there when someone had to investigate a failure or decide on a release.",
         "repository": null,
         "technologies": [
           "JavaScript",
@@ -411,7 +411,7 @@
           "Network stubbing isolated application behavior from external dependencies; checks against real services were still needed to investigate integration failures.",
           "Headless and parallel execution supported repeatable feedback, while screenshots, video, retries, and timings supplied context when a run failed."
         ],
-        "relevance": "Investigating APIs, identity, application behavior, and cloud environments built the cross-system debugging skills needed for customer-facing implementation work.",
+        "relevance": "Tracing problems through APIs, login, the application, and cloud environments built the cross-system debugging I use on customer-facing work.",
         "evidence": [
           {
             "label": "Documented engineering outputs",
@@ -430,15 +430,15 @@
         "role": "Software QA Engineer",
         "period": "2015–2018",
         "name": "Ally Bank",
-        "description": "A traceable validation practice connecting requirements, exploratory testing, browsers, data checks, environments, and production readiness.",
-        "challenge": "Complex customer journeys required clear coverage across business requirements, platforms, browsers, deployment environments, and high-risk scenarios.",
+        "description": "Test planning and validation for banking applications, from requirements through exploratory testing, browser checks, SQL data checks, and release readiness.",
+        "challenge": "Customer journeys in the banking apps spanned many browsers, platforms, and environments, and some scenarios carried more risk than others.",
         "approach": [
           "Created test plans, acceptance criteria, and traceable coverage aligned with business and functional requirements.",
           "Combined exploratory, functional, regression, cross-browser, and responsive testing across the delivery lifecycle.",
           "Connected UI behavior with SQL data checks, pre- and post-deployment validation, hotfix verification, and production monitoring.",
           "Documented defects with reproduction paths, business impact, environment details, and verified fixes."
         ],
-        "outcome": "Turned testing activity into decision-ready evidence across customer risk, technical behavior, deployment readiness, and production follow-through.",
+        "outcome": "Testing produced clear evidence about customer risk, technical behavior, and release readiness, with follow-up after deployment.",
         "repository": null,
         "technologies": [
           "Exploratory Testing",
@@ -464,7 +464,7 @@
           "Risk-based coverage focused investigation on customer and business impact; exploratory work supplemented repeatable regression scenarios.",
           "Reproducible defect reports connected a symptom to its environment and data, giving developers enough context to investigate and verify a fix."
         ],
-        "relevance": "Requirements discovery, SQL investigation, and clear handoffs are foundations for translating a customer problem into a dependable implementation.",
+        "relevance": "Gathering requirements, checking data with SQL, and writing clear handoffs are what I use now to take a customer problem to a working solution.",
         "evidence": [
           {
             "label": "Documented delivery responsibilities",
@@ -483,15 +483,15 @@
         "role": "Designer and engineer",
         "period": "2026",
         "name": "Portfolio & Career Content System",
-        "description": "A schema-validated React and Vite platform that keeps the website portfolio, browser resume, and generated PDF and DOCX outputs aligned through one validated professional data source.",
-        "challenge": "Career facts had to remain consistent across a public website, browser resume, concise application resume, and detailed technical resume without duplicating content or weakening presentation quality.",
+        "description": "A React and Vite site where one validated career record drives this website, the browser resume, and the generated PDF and Word resumes.",
+        "challenge": "I needed my career facts to match across the website, a one-page resume, and a detailed resume without copying the same text into each one.",
         "approach": [
           "Designed a schema-validated career record consumed by every presentation channel.",
           "Rebuilt the portfolio on the official Untitled UI React and Vite stack, preserving static pages, content validation, and resume downloads.",
           "Generated separate PDF and DOCX formats from the same factual source while preserving channel-appropriate layout.",
           "Added strict diagnostics, static production builds, subpath packaging checks, and explicit deployment configuration."
         ],
-        "outcome": "Established one maintainable publishing workflow for the portfolio and resume library while keeping web, PDF, and Word presentations aligned.",
+        "outcome": "One publishing workflow keeps the site and every resume format in sync.",
         "repository": "https://github.com/mohamedmoheyeldin/portfolio",
         "technologies": [
           "Vite",
@@ -508,7 +508,7 @@
           "Added strict diagnostics, static production builds, subpath packaging checks, and explicit deployment configuration.",
           "Prepared separate PDF and DOCX presentation contracts without duplicating career facts."
         ],
-        "audience": "Recruiters and engineering reviewers exploring my work, and me as the maintainer of several resume formats.",
+        "audience": "Recruiters and engineers looking at my work, and me, maintaining the resume formats.",
         "systems": [
           "One career.json record supplies React pages, project routes, and resume content. A dependency-free schema check validates required fields before publishing.",
           "React and free Untitled UI components render through Vite at build time. Browser hydration adds interactivity; core content and links are in the generated HTML.",
@@ -519,7 +519,7 @@
           "One factual record reduces content drift. Web and print use separate layouts because native documents cannot run React components.",
           "Cloudflare and GitHub Pages need different asset bases. Both builds are checked; configuration alone does not prove a production deployment."
         ],
-        "relevance": "This is a publicly inspectable example of owning data contracts, interface composition, document generation, and deployment packaging. API integration experience is documented in the career case studies.",
+        "relevance": "A public example of how I handle data contracts, UI, document generation, and deployment. My API and integration work is described in the work projects.",
         "evidence": [
           {
             "label": "Browse implementation",
@@ -550,6 +550,6 @@
       "importedOn": "2026-08-13",
       "policy": "Career facts reconciled with the user-confirmed VA account and FDE career claim register. On 2026-10-02, the user corrected the Booz Allen title to Forward Deployed Engineer (FDE) for the website and all resume formats. Employment dates and documented responsibilities remain unchanged; no production AI or unsupported metrics claimed."
     },
-    "heroSummary": "My focus is Forward Deployed Engineering: understanding customer workflows and turning requirements into practical software. I bring 11 years of development and quality engineering experience across federal, banking, and e-commerce environments. I work with stakeholders through implementation, integration, validation, and adoption."
+    "heroSummary": "I'm a Forward Deployed Engineer at Booz Allen Hamilton, working on a VA healthcare claims platform. I spend much of my time with the people who use it: finding out what they need, building it, showing them, and adjusting based on their feedback. I have 11 years in software development and quality engineering across federal, banking, and e-commerce."
   }
 ]

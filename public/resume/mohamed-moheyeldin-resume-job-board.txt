@@ -1,15 +1,15 @@
 Mohamed Moheyeldin
 
-Bridging customer needs and technical solutions.
+Forward Deployed Engineer
 
 Reston, VA 20191 | mohamedmoheyeldin.com
 mohamedmoheyeldin.jobs@gmail.com | https://www.linkedin.com/in/moheyeldin/ | https://github.com/mohamedmoheyeldin
 
 Professional profile
 
-Forward Deployed Engineer on a VA healthcare claims platform, with 11 years of software development and quality engineering experience across federal, banking, and e-commerce environments. Works directly with stakeholders from discovery and acceptance criteria through demonstrations, feedback, and adoption. Contributes React application features and builds tools such as Data Generator & File Processing, giving developers and QA realistic data where production data can't be used.
+Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal, banking, and e-commerce. Work directly with stakeholders from first requirements conversations through demos and feedback. Write React features and built Data Generator & File Processing, which gives developers and QA realistic data where production data can't be used.
 
-Works directly with stakeholders to clarify requirements and acceptance criteria, evaluate technical constraints, demonstrate changes, and help teams adopt reusable tools. Hands-on experience spans React, TypeScript, JavaScript, Java, SQL, REST API validation, Tableau dashboards, and CI workflows. Uses AI coding assistants for development, debugging, and refactoring.
+Work with stakeholders to clarify requirements and acceptance criteria, weigh technical constraints, demo changes, and help teams adopt the tools I build. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST API validation, Tableau dashboards, and CI workflows. Use AI coding assistants for development, debugging, and refactoring.
 
 Professional experience
 
@@ -38,7 +38,7 @@ Chick-fil-A Corporate — Atlanta, GA
 
 Software Engineer in Test | Nov 2018 – Dec 2020
 
-Supported application delivery by connecting user workflows, REST APIs, authentication, and AWS test environments through reusable engineering tools and actionable troubleshooting evidence.
+Built reusable test tooling and used it to investigate REST APIs, authentication, and AWS test environments, giving engineers the evidence to track down failures.
 
 - Built reusable JavaScript browser automation around application workflows, translating expected behavior into repeatable checks that supported implementation and release decisions.
 - Investigated application-to-service integration through browser automation and Postman REST API checks, validating schemas, service contracts, and data-dependent behavior to surface discrepancies.
@@ -51,7 +51,7 @@ Ally Bank — Sandy, UT
 
 Software QA Engineer | Sep 2015 – Nov 2018
 
-Partnered with developers, analysts, and product owners to turn banking requirements into traceable validation and release-readiness evidence.
+Worked with developers, analysts, and product owners to turn banking requirements into traceable tests and release checks.
 
 - Translated business and functional requirements into test plans, acceptance criteria, and traceable scenarios with developers, analysts, and product owners.
 - Performed exploratory, functional, and regression testing of banking web applications, investigating behavior across customer workflows and platforms.
