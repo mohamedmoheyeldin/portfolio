@@ -1,13 +1,13 @@
 # Mohamed Moheyeldin
 
-Bridging customer needs and technical solutions.
+Forward Deployed Engineer
 
 Reston, VA 20191 | mohamedmoheyeldin.com
 mohamedmoheyeldin.jobs@gmail.com | https://www.linkedin.com/in/moheyeldin/ | https://github.com/mohamedmoheyeldin
 
 ## Professional profile
 
-Forward Deployed Engineer on a VA healthcare claims platform, with 11 years of software development and quality engineering experience across federal, banking, and e-commerce environments. Works directly with stakeholders from discovery and acceptance criteria through demonstrations, feedback, and adoption. Contributes React application features and builds tools such as Data Generator & File Processing, giving developers and QA realistic data where production data can't be used.
+Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal, banking, and e-commerce. Work directly with stakeholders from first requirements conversations through demos and feedback. Write React features and built Data Generator & File Processing, which gives developers and QA realistic data where production data can't be used.
 
 ## Professional experience
 
