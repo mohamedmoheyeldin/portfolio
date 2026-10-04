@@ -7,10 +7,10 @@
     "experienceYears": 11,
     "experienceAsOf": "2026-09",
     "heroTitle": "Practical software. Connected systems.",
-    "summary": "Customer-focused engineer with 11 years of software development and quality engineering experience across federal, banking, and e-commerce environments. Connects business requirements with hands-on implementation, system integration, and technical troubleshooting. Works directly with stakeholders from discovery and acceptance criteria through demonstrations, feedback, and adoption. Contributes React application features and develops tools such as Data Generator & File Processing to simplify complex workflows, combining engineering execution with practical customer delivery.",
+    "summary": "Forward Deployed Engineer on a VA healthcare claims platform, with 11 years of software development and quality engineering experience across federal, banking, and e-commerce environments. Works directly with stakeholders from discovery and acceptance criteria through demonstrations, feedback, and adoption. Contributes React application features and builds tools such as Data Generator & File Processing, giving developers and QA realistic data where production data can't be used.",
     "detailedSummary": [
-      "Customer-focused engineer with 11 years of software development and quality engineering experience across federal, banking, and e-commerce environments. Connects business requirements with hands-on implementation, system integration, and technical troubleshooting. Works directly with stakeholders from discovery and acceptance criteria through demonstrations, feedback, and adoption. Contributes React application features and develops tools such as Data Generator & File Processing to simplify complex workflows, combining engineering execution with practical customer delivery.",
-      "Works directly with stakeholders to clarify requirements and acceptance criteria, evaluate technical constraints, demonstrate changes, and help teams adopt reusable tools. Hands-on experience spans React, TypeScript, JavaScript, Java, SQL, REST API validation, and CI workflows. Uses AI coding assistants for development, debugging, and refactoring."
+      "Forward Deployed Engineer on a VA healthcare claims platform, with 11 years of software development and quality engineering experience across federal, banking, and e-commerce environments. Works directly with stakeholders from discovery and acceptance criteria through demonstrations, feedback, and adoption. Contributes React application features and builds tools such as Data Generator & File Processing, giving developers and QA realistic data where production data can't be used.",
+      "Works directly with stakeholders to clarify requirements and acceptance criteria, evaluate technical constraints, demonstrate changes, and help teams adopt reusable tools. Hands-on experience spans React, TypeScript, JavaScript, Java, SQL, REST API validation, Tableau dashboards, and CI workflows. Uses AI coding assistants for development, debugging, and refactoring."
     ],
     "links": [
       {
@@ -53,6 +53,7 @@
           "JSON",
           "REST APIs",
           "Postman",
+          "Tableau",
           "SQL Server",
           "Oracle",
           "MongoDB"
@@ -88,25 +89,28 @@
         "location": "Washington, DC",
         "start": "2020-12",
         "end": null,
-        "summary": "Contribute to a VA healthcare claims platform with two frontends sharing a database, supporting claim submission, provider updates, claim progress and status tracking, and payment visibility.",
+        "summary": "Work directly with VA stakeholders on a healthcare claims platform with two frontends sharing a database, supporting claim submission, provider updates, claim progress and status tracking, and payment visibility.",
         "highlights": [
-          "Work directly with VA stakeholders to map healthcare claims workflows, clarify technical and operational constraints, and define requirements and acceptance criteria for application and tooling changes.",
-          "Independently built and continue to enhance Data Generator & File Processing, enabling QA users to generate, edit, and upload hundreds of referrals in minutes to VA lower environments.",
-          "Contribute frontend features using React, JavaScript, and TypeScript; translate stakeholder feedback into application improvements supporting claim submission, provider updates, and status visibility.",
-          "Implement referral-data uploads into VA lower environments and use MySQL to investigate discrepancies between application behavior and stored data across frontend and backend workflows.",
-          "Demonstrate application, file-processing, and automation enhancements to stakeholders, gather feedback on daily workflows, and refine implementations around user needs.",
-          "Evaluated alternatives to legacy automation and helped select Playwright, weighing maintainability, reusable components, authentication requirements, and restricted environment access.",
-          "Develop a reusable Playwright smoke and regression framework and use GitHub Actions in development and testing workflows; investigate Microsoft Entra ID and environment dependencies affecting execution.",
-          "Maintain Data Generator & File Processing for daily QA use, troubleshoot issues, and adapt functionality as testing needs change; document single and bulk referral uploads and framework usage to help teammates adopt and extend the tools.",
-          "Coordinate with VA stakeholders and developers to investigate defects and resolve delivery dependencies; document progress, blockers, and operational impact in Jira.",
-          "Use GitHub Copilot in VS Code for application development, debugging, refactoring, and test creation; use Gemini, GPT models, and Claude in broader development work to explore implementation approaches."
+          "Work directly with VA stakeholders to map healthcare claims workflows, clarify technical and operational constraints, and define requirements and acceptance criteria for claim submission, provider updates, status tracking, and payment visibility.",
+          "Lead the stakeholder demonstrations at the end of each release cycle and program increment (since 2022) and all discussions with VA stakeholders; gather feedback on daily workflows and refine implementations around user needs.",
+          "Join working sessions with health-provider claims processors and, at times, VA end users on issues reported in production, to see the full picture and keep future work pointed in the right direction.",
+          "Work with health providers to integrate APIs with the VA system so live claim statuses display for VA staff, providers, and veterans based on their role; the VA side previously had no continuously updated claim status.",
+          "Responded to stakeholder questions about stalled claims and process gaps by creating a claims framework that notifies the right party when a claim needs extra work, keeping claims moving and giving better tracking of every claim.",
+          "Enabled the team to use Tableau for requests and system information so any user can build their own dashboard; built custom dashboards for VA and internal users and, through repeated VA stakeholder discussions, expanded Tableau into the main way to monitor server health and system status.",
+          "Contribute React, TypeScript, and JavaScript features that turn stakeholder feedback into improvements to the claims application.",
+          "Investigate defects and data discrepancies across frontend, backend, and MySQL data; coordinate with developers and stakeholders to resolve delivery dependencies, and document progress, blockers, and operational impact in Jira.",
+          "Built and continue to enhance Data Generator & File Processing because production data can't be used in VA lower environments. The team used to spend hours each day preparing data and keeping a database in every environment; now anyone can generate a full development database or up to 10,000 custom records in under 5 minutes, and the whole team uses it daily.",
+          "Run the tool like a product: versioned Windows releases built through GitHub Actions, in-app release notes, a user guide, a stakeholder overview, and release updates for the team; added Excel file processing with duplicate detection as a second workflow when team needs grew.",
+          "Evaluated alternatives to legacy automation and helped select Playwright, weighing maintainability, reuse, authentication, and restricted environment access; developed a reusable smoke and regression framework that helps QA and developers reduce production bugs and deliver stakeholder requests faster.",
+          "Use GitHub Copilot in VS Code for development, debugging, refactoring, and test creation; use Gemini, GPT models, and Claude to explore implementation approaches."
         ],
         "customer": "U.S. Department of Veterans Affairs (VA)",
         "compactHighlights": [
-          "Independently built Data Generator & File Processing, used daily by QA to generate, edit, and upload hundreds of referrals in minutes to VA lower environments.",
-          "Contribute React, TypeScript, and JavaScript features; integrate referral uploads and use MySQL to investigate application and data discrepancies.",
-          "Work directly with VA stakeholders on claims workflows, requirements, and acceptance criteria; demonstrate enhancements and incorporate feedback.",
-          "Build reusable Playwright automation, support GitHub Actions workflows, and document tools for adoption; troubleshoot authentication and environment constraints."
+          "Work directly with VA stakeholders on a healthcare claims platform: define requirements, lead demos each release cycle since 2022, and join working sessions with claims processors and VA users on production issues.",
+          "Integrate claim-status APIs with health providers so staff, providers, and veterans see live status by role; created a claims framework that notifies the right party so claims keep moving.",
+          "Enabled the team to use Tableau and built custom VA and internal dashboards, now the main view of server health and system status.",
+          "Contribute React, TypeScript, and JavaScript features; investigate data issues across frontend, backend, and MySQL.",
+          "Built Data Generator & File Processing (used daily; a full dev database or up to 10,000 records in under 5 minutes) and a Playwright framework that helps reduce production bugs."
         ],
         "id": "booz-allen-hamilton"
       },
@@ -164,10 +168,7 @@
         "end": "2014-05"
       }
     ],
-    "credentials": [
-      "Implementing SAFe 5.1 course completion, 2021 (historical course completion)",
-      "Leading SAFe 4.0 course completion, 2016 (historical course completion)"
-    ],
+    "credentials": [],
     "verifiedCredentials": [
       {
         "name": "AI Foundations",
@@ -203,6 +204,27 @@
         "issuedOn": "2026-10-02",
         "expiresOn": "2027-04-02",
         "href": "https://oaiacademy.credential.net/d00220db-f7f7-4c84-b8e2-a028219e592a"
+      },
+      {
+        "name": "Speedrun: Your First End-to-End Workflow",
+        "issuer": "Palantir",
+        "issuedOn": "2026-10-03",
+        "expiresOn": null,
+        "href": "https://verify.skilljar.com/c/kcegzzpuv8bs"
+      },
+      {
+        "name": "Foundry & AIP Builder Foundations Quiz",
+        "issuer": "Palantir",
+        "issuedOn": "2026-10-03",
+        "expiresOn": null,
+        "href": "https://verify.skilljar.com/c/f2k866zr4gj3"
+      },
+      {
+        "name": "Implementing SAFe Course (5.1)",
+        "issuer": "Scaled Agile",
+        "issuedOn": "2021-08-26",
+        "expiresOn": null,
+        "href": null
       }
     ],
     "projects": [
@@ -210,50 +232,66 @@
         "slug": "federal-quality-delivery-system",
         "kind": "career",
         "context": "VA healthcare delivery",
-        "role": "Application contributor",
+        "role": "Forward Deployed Engineer",
         "period": "2020–Present",
         "name": "VA Claims Workflows",
-        "description": "Contribute to a VA healthcare claims platform with two frontends sharing a database, supporting claim submission, provider updates, claim progress and status tracking, and payment visibility.",
-        "challenge": "VA stakeholders needed dependable claim submission, provider updates, progress tracking, and payment visibility across two frontends sharing a database.",
+        "description": "Work with VA stakeholders and health providers on a healthcare claims platform with two frontends sharing a database, supporting claim submission, provider updates, live claim status, and payment visibility.",
+        "challenge": "VA stakeholders needed dependable claim submission, provider updates, and payment visibility across two frontends sharing a database, but the VA side had no continuously updated claim status, claims could stall without anyone knowing why, and there was no single view of system and server health.",
         "approach": [
           "Work directly with VA stakeholders to clarify claims workflows, requirements, acceptance criteria, and operational constraints.",
+          "Join working sessions with health-provider claims processors and, at times, VA end users on issues reported in production, to see the full picture and set the direction of future work.",
+          "Work with health providers to integrate APIs with the VA system so claim statuses display live for VA staff, providers, and veterans based on their role.",
+          "In response to stakeholder questions about stuck claims and process improvements, create a claims framework that notifies the right party when a claim needs extra work, so claims keep moving and can be tracked.",
+          "Enable the team to use Tableau for requests and system information; build custom dashboards for VA and internal users and expand Tableau's role, through repeated discussions with VA stakeholders, into the main source for monitoring server health and status.",
           "Contribute React, JavaScript, and TypeScript frontend features supporting claim submission, provider updates, and status visibility.",
           "Use MySQL to investigate discrepancies between application behavior and stored data across frontend and backend workflows.",
-          "Develop reusable Playwright smoke and regression tests to validate claims workflows and investigate application failures.",
-          "Demonstrate changes, incorporate stakeholder feedback, and coordinate defect investigations with developers."
+          "Develop a reusable Playwright smoke and regression framework to validate claims workflows, reduce production bugs, and speed delivery of stakeholder requests.",
+          "Lead demonstrations at the end of each release cycle and program increment since 2022, incorporate stakeholder feedback, and coordinate defect investigations with developers."
         ],
-        "outcome": "Contributed application improvements and Playwright test automation, investigated workflow and data discrepancies, and demonstrated changes to stakeholders.",
+        "outcome": "User-reported: live claim status now displays in the VA system for staff, providers, and veterans by role, where it was not continuously updated before; a claims framework notifies the right party so claims keep moving and are easier to track; and Tableau dashboards give VA internal staff a full view of system and server health. The Playwright framework helps QA and developers reduce production bugs and deliver stakeholder requests faster. These are not independently measured benchmarks.",
         "repository": null,
         "technologies": [
           "React",
           "TypeScript",
           "JavaScript",
           "MySQL",
-          "Playwright"
+          "Playwright",
+          "Tableau",
+          "API integration"
         ],
         "highlights": [
-          "Stakeholder discovery and acceptance criteria",
-          "React application contributions",
-          "MySQL and cross-system investigations",
-          "Playwright smoke and regression testing",
-          "Demonstrations and feedback"
+          "Stakeholder discovery, working sessions, and acceptance criteria",
+          "Live claim status through health-provider API integration",
+          "Claims framework that keeps claims moving",
+          "Tableau dashboards for system and server health",
+          "Demonstrations every release cycle and program increment",
+          "React, MySQL, and Playwright delivery"
         ],
-        "audience": "VA stakeholders and engineering teams supporting healthcare claims workflows.",
+        "audience": "VA staff, health-provider claims processors, veterans, and the engineering teams supporting healthcare claims workflows.",
         "systems": [
           "Two frontends support healthcare claims workflows against a shared database.",
+          "API integration with health providers feeds claim status into the VA system, shown to staff, providers, and veterans based on role.",
+          "Tableau dashboards present requests and system information, including server health and status, for VA and internal users.",
           "React, TypeScript, and JavaScript supply application features. MySQL investigations connect visible behavior to stored records.",
           "Playwright provides reusable browser tests for smoke and regression validation of claims workflows.",
           "Authentication and restricted environment access affect investigation and validation. Internal endpoints and environment details are not public."
         ],
         "decisions": [
           "Changes must account for shared data across two frontends; a visible UI issue can require investigation beyond the affected screen.",
-          "Stakeholder acceptance criteria guide implementation and validation within restricted environments."
+          "Stakeholder acceptance criteria guide implementation and validation within restricted environments.",
+          "Tableau became the main monitoring view because VA stakeholders repeatedly asked for one place to see system status, and self-service dashboards let users build views without waiting on developers.",
+          "The claims framework routes work to the right party instead of relying on people noticing a stalled claim."
         ],
-        "relevance": "This work demonstrates customer discovery, application implementation, cross-system troubleshooting, and feedback-driven delivery.",
+        "relevance": "This work shows the core of forward deployed engineering: working with stakeholders and end users to find the real problem, building and integrating the solution, demonstrating it, and making sure users can adopt and extend it.",
         "evidence": [
           {
             "label": "Documented contributions",
-            "detail": "The career record documents frontend contributions, Playwright smoke and regression automation, stakeholder demonstrations, and MySQL investigations. Client source code, screenshots, and internal endpoints are not public.",
+            "detail": "The career record documents stakeholder demonstrations, working sessions with claims processors and VA users, health-provider API integration for claim status, a claims-tracking framework, Tableau dashboards for system status, frontend contributions, MySQL investigations, and Playwright automation. Client source code, screenshots, and internal endpoints are not public.",
+            "href": null
+          },
+          {
+            "label": "Reported outcomes",
+            "detail": "Live claim status by role, the claims framework, Tableau as the main monitoring view, and the demonstration cadence are user-reported, not independently measured public benchmarks.",
             "href": null
           }
         ],
@@ -273,16 +311,18 @@
         "role": "Application developer and maintainer",
         "period": "Ongoing",
         "name": "Data Generator & File Processing",
-        "description": "A JavaScript/Electron desktop application I built to create and edit test and internal referral data, package files, and support uploads for VA lower-environment workflows.",
-        "challenge": "Internal teams needed a repeatable way to generate large volumes of referral data and customize the data to suit their specific workflows and use cases.",
-        "audience": "Internal teams that need to generate and modify referral data for different testing and operational workflows.",
+        "description": "A JavaScript/Electron desktop application I built so developers and QA can create realistic referral data from scratch, since production data can't be used in VA lower environments, then package and upload it.",
+        "challenge": "Production data can't be used in VA lower environments, so developers and QA needed a repeatable way to create large volumes of realistic referral data from scratch and tailor it to their own workflows and use cases.",
+        "audience": "Developers and QA teams who need realistic referral data to build and test VA workflows without production records.",
         "approach": [
           "Independently built and continue to maintain Data Generator & File Processing for generating and editing referral data.",
           "Provide a desktop workflow for editing existing JSON, generating new files, and preparing combined data and gzip packages.",
           "Support uploads to configured targets, with explicit status and retry handling for failed destinations.",
+          "Ship versioned Windows releases through a GitHub Actions workflow, with in-app release notes, a user guide, and a stakeholder overview.",
+          "Added Excel file processing with duplicate detection as a second workflow when the team's needs grew.",
           "Demonstrate updates, troubleshoot daily use, and document workflows so teammates can use and extend the tool."
         ],
-        "outcome": "User-reported: QA uses Data Generator & File Processing daily to prepare and upload hundreds of referrals in minutes.",
+        "outcome": "User-reported: the whole team uses Data Generator & File Processing daily. Work that took hours each day, plus keeping a database in every environment, now takes under 5 minutes for a full development database or up to 10,000 custom records, and developers rely on the same generated data in place of production records.",
         "repository": "https://github.com/mohamedmoheyeldin/ccrs-file-processing-framework-js",
         "repositoryVisibility": "private",
         "technologies": [
@@ -293,10 +333,10 @@
           "GitHub Actions"
         ],
         "highlights": [
-          "Application development and maintenance",
+          "Realistic data where production data can't be used",
           "Referral data generation and editing",
-          "JSON and gzip file preparation",
-          "Upload status and explicit retry handling"
+          "Versioned releases, user guide, and stakeholder overview",
+          "Second workflow added as team needs grew"
         ],
         "systems": [
           "Electron provides the desktop window, dialogs, and IPC between the renderer and backend logic.",
@@ -318,7 +358,7 @@
           },
           {
             "label": "Reported team use",
-            "detail": "Daily QA adoption and hundreds of referrals in minutes are user-reported outcomes, not independently measured public benchmarks.",
+            "detail": "Daily team adoption, the under-5-minute generation time, and the previous hours of daily preparation are user-reported outcomes, not independently measured public benchmarks.",
             "href": null
           }
         ],
@@ -471,7 +511,7 @@
         "audience": "Recruiters and engineering reviewers exploring my work, and me as the maintainer of several resume formats.",
         "systems": [
           "One career.json record supplies React pages, project routes, and resume content. A dependency-free schema check validates required fields before publishing.",
-          "React and free Untitled UI components render through Vite at build time. Browser hydration adds search and filtering; core content and links are in the generated HTML.",
+          "React and free Untitled UI components render through Vite at build time. Browser hydration adds interactivity; core content and links are in the generated HTML.",
           "Python produces PDF and Word resumes. Vite packages static assets for Cloudflare; a separate build verifies the /portfolio/ GitHub Pages base path. There is no runtime API or database."
         ],
         "decisions": [

@@ -1,5 +1,21 @@
 # Content provenance
 
+## October 3, 2026 VA impact and Tableau details
+
+The user reported the following about the VA claims work, all user-reported and not independently measured: stakeholder demonstrations led at the end of each release cycle and program increment since 2022; working sessions with health-provider claims processors and, at times, VA end users on production issues; work with health providers to integrate APIs so live claim status displays in the VA system for staff, providers, and veterans by role (previously not continuously updated from the VA side); a claims framework, created after stakeholder questions about stuck claims, that notifies the right party so claims keep moving and are easier to track; and enabling the team to use Tableau, with custom dashboards for VA and internal users that grew, through repeated VA stakeholder discussions, into the main way to monitor server health and system status. The wording avoids absolute claims such as "claims can never be stuck". The user's note "every PI" is written as program increment. No counts, dates beyond 2022, or system names were added, and internal endpoints and environment details remain unpublished.
+
+## October 3, 2026 Scaled Agile certificate
+
+The user supplied the PDF certificate for **Implementing SAFe Course (5.1)**: Scaled Agile, completed August 26, 2021, naming Mohamed Moheyeldin. It carries no public verification link, so the record stores it with `href: null`; the certificate image appears in the credentials strip without a link button. It replaces the earlier plain-text SAFe 5.1 line, and the Leading SAFe 4.0 line was removed at the user's request. It shows course completion only. It appears in the website and the detailed and job-board resumes; the one-page resume omits unlinked credentials to keep its single page.
+
+## October 3, 2026 Palantir credentials
+
+The user supplied two Palantir Learning certificate PDFs and their public verification links: **Speedrun: Your First End-to-End Workflow** (https://verify.skilljar.com/c/kcegzzpuv8bs) and **Foundry & AIP Builder Foundations Quiz** (https://verify.skilljar.com/c/f2k866zr4gj3). Each PDF names Mohamed Moheyeldin and an October 3, 2026 issue date, and both links returned HTTP 200 on October 3. No expiration appears on either certificate. These show training completion, not production Foundry or AIP delivery. They appear in the website's Courses & certifications list and in all seven resume formats; no issuer artwork is stored for them.
+
+## October 3, 2026 user-reported impact details
+
+The user reported that the whole application team uses Data Generator & File Processing daily; that the team previously spent hours each day on data preparation and per-environment databases; that a full development database or up to 10,000 custom records now takes under 5 minutes; that the Playwright setup helps QA and developers reduce production bugs and deliver VA stakeholder requests faster; and that the user leads all demonstrations and discussions with VA stakeholders. These are user-reported, not independently measured. The user asked for a stakeholder count to "match the story"; none was supplied or added, and no count appears in any output. Earlier "hundreds of referrals" wording was replaced by these reported figures.
+
 ## October 2, 2026 Booz Allen role correction
 
 The user explicitly corrected the Booz Allen Hamilton heading to **Forward Deployed Engineer (FDE)** and requested the change across the website, all resume formats, and related career materials, followed by repository pushes and production publication. This supersedes the earlier QA Test Engineer presentation. The employment dates, VA customer, documented responsibilities, and other employer titles are preserved. The correction is user-confirmed; no additional role-transition date or independent employment verification is inferred.

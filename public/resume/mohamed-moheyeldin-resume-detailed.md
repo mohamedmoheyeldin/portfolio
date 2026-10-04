@@ -7,9 +7,9 @@ mohamedmoheyeldin.jobs@gmail.com | https://www.linkedin.com/in/moheyeldin/ | htt
 
 ## Professional profile
 
-Customer-focused engineer with 11 years of software development and quality engineering experience across federal, banking, and e-commerce environments. Connects business requirements with hands-on implementation, system integration, and technical troubleshooting. Works directly with stakeholders from discovery and acceptance criteria through demonstrations, feedback, and adoption. Contributes React application features and develops tools such as Data Generator & File Processing to simplify complex workflows, combining engineering execution with practical customer delivery.
+Forward Deployed Engineer on a VA healthcare claims platform, with 11 years of software development and quality engineering experience across federal, banking, and e-commerce environments. Works directly with stakeholders from discovery and acceptance criteria through demonstrations, feedback, and adoption. Contributes React application features and builds tools such as Data Generator & File Processing, giving developers and QA realistic data where production data can't be used.
 
-Works directly with stakeholders to clarify requirements and acceptance criteria, evaluate technical constraints, demonstrate changes, and help teams adopt reusable tools. Hands-on experience spans React, TypeScript, JavaScript, Java, SQL, REST API validation, and CI workflows. Uses AI coding assistants for development, debugging, and refactoring.
+Works directly with stakeholders to clarify requirements and acceptance criteria, evaluate technical constraints, demonstrate changes, and help teams adopt reusable tools. Hands-on experience spans React, TypeScript, JavaScript, Java, SQL, REST API validation, Tableau dashboards, and CI workflows. Uses AI coding assistants for development, debugging, and refactoring.
 
 ## Professional experience
 
@@ -19,18 +19,20 @@ Forward Deployed Engineer (FDE) | Dec 2020 – Present
 
 Customer: U.S. Department of Veterans Affairs (VA)
 
-Contribute to a VA healthcare claims platform with two frontends sharing a database, supporting claim submission, provider updates, claim progress and status tracking, and payment visibility.
+Work directly with VA stakeholders on a healthcare claims platform with two frontends sharing a database, supporting claim submission, provider updates, claim progress and status tracking, and payment visibility.
 
-- Work directly with VA stakeholders to map healthcare claims workflows, clarify technical and operational constraints, and define requirements and acceptance criteria for application and tooling changes.
-- Independently built and continue to enhance Data Generator & File Processing, enabling QA users to generate, edit, and upload hundreds of referrals in minutes to VA lower environments.
-- Contribute frontend features using React, JavaScript, and TypeScript; translate stakeholder feedback into application improvements supporting claim submission, provider updates, and status visibility.
-- Implement referral-data uploads into VA lower environments and use MySQL to investigate discrepancies between application behavior and stored data across frontend and backend workflows.
-- Demonstrate application, file-processing, and automation enhancements to stakeholders, gather feedback on daily workflows, and refine implementations around user needs.
-- Evaluated alternatives to legacy automation and helped select Playwright, weighing maintainability, reusable components, authentication requirements, and restricted environment access.
-- Develop a reusable Playwright smoke and regression framework and use GitHub Actions in development and testing workflows; investigate Microsoft Entra ID and environment dependencies affecting execution.
-- Maintain Data Generator & File Processing for daily QA use, troubleshoot issues, and adapt functionality as testing needs change; document single and bulk referral uploads and framework usage to help teammates adopt and extend the tools.
-- Coordinate with VA stakeholders and developers to investigate defects and resolve delivery dependencies; document progress, blockers, and operational impact in Jira.
-- Use GitHub Copilot in VS Code for application development, debugging, refactoring, and test creation; use Gemini, GPT models, and Claude in broader development work to explore implementation approaches.
+- Work directly with VA stakeholders to map healthcare claims workflows, clarify technical and operational constraints, and define requirements and acceptance criteria for claim submission, provider updates, status tracking, and payment visibility.
+- Lead the stakeholder demonstrations at the end of each release cycle and program increment (since 2022) and all discussions with VA stakeholders; gather feedback on daily workflows and refine implementations around user needs.
+- Join working sessions with health-provider claims processors and, at times, VA end users on issues reported in production, to see the full picture and keep future work pointed in the right direction.
+- Work with health providers to integrate APIs with the VA system so live claim statuses display for VA staff, providers, and veterans based on their role; the VA side previously had no continuously updated claim status.
+- Responded to stakeholder questions about stalled claims and process gaps by creating a claims framework that notifies the right party when a claim needs extra work, keeping claims moving and giving better tracking of every claim.
+- Enabled the team to use Tableau for requests and system information so any user can build their own dashboard; built custom dashboards for VA and internal users and, through repeated VA stakeholder discussions, expanded Tableau into the main way to monitor server health and system status.
+- Contribute React, TypeScript, and JavaScript features that turn stakeholder feedback into improvements to the claims application.
+- Investigate defects and data discrepancies across frontend, backend, and MySQL data; coordinate with developers and stakeholders to resolve delivery dependencies, and document progress, blockers, and operational impact in Jira.
+- Built and continue to enhance Data Generator & File Processing because production data can't be used in VA lower environments. The team used to spend hours each day preparing data and keeping a database in every environment; now anyone can generate a full development database or up to 10,000 custom records in under 5 minutes, and the whole team uses it daily.
+- Run the tool like a product: versioned Windows releases built through GitHub Actions, in-app release notes, a user guide, a stakeholder overview, and release updates for the team; added Excel file processing with duplicate detection as a second workflow when team needs grew.
+- Evaluated alternatives to legacy automation and helped select Playwright, weighing maintainability, reuse, authentication, and restricted environment access; developed a reusable smoke and regression framework that helps QA and developers reduce production bugs and deliver stakeholder requests faster.
+- Use GitHub Copilot in VS Code for development, debugging, refactoring, and test creation; use Gemini, GPT models, and Claude to explore implementation approaches.
 
 ### Chick-fil-A Corporate — Atlanta, GA
 
@@ -65,7 +67,7 @@ https://github.com/mohamedmoheyeldin/portfolio
 
 ## Technical skills
 Application development: React, TypeScript, JavaScript, Java, Reusable components
-Data and integration: SQL, MySQL, JSON, REST APIs, Postman, SQL Server, Oracle, MongoDB
+Data and integration: SQL, MySQL, JSON, REST APIs, Postman, Tableau, SQL Server, Oracle, MongoDB
 Delivery and quality: Playwright, GitHub Actions, Git, Jira, Jenkins, AWS EC2/S3/Aurora test environments
 AI-assisted engineering: GitHub Copilot, VS Code, GPT models, Claude, Gemini
 
@@ -74,5 +76,5 @@ Bachelor's degree in Computer Science | American College of Commerce and Technol
 
 ## Professional development
 OpenAI Academy | Issued 2026: [AI Foundations](https://oaiacademy.credential.net/c635354f-5145-4e44-b272-9680ea55a2ec); [Agents and Workflows](https://oaiacademy.credential.net/5ada98f3-b6db-429a-93a1-0e38fd9be2d3); [Applied AI Foundations](https://oaiacademy.credential.net/04366177-3bcf-4b1a-8a45-5d73bd27486f); [AI Leadership](https://oaiacademy.credential.net/6fd4cbac-58f3-44d5-973e-34ff3ff5e2fd); [Apply AI at Work Pathway Completion](https://oaiacademy.credential.net/d00220db-f7f7-4c84-b8e2-a028219e592a)
-Implementing SAFe 5.1 course completion, 2021 (historical course completion)
-Leading SAFe 4.0 course completion, 2016 (historical course completion)
+Palantir | Issued 2026: [Speedrun: Your First End-to-End Workflow](https://verify.skilljar.com/c/kcegzzpuv8bs); [Foundry & AIP Builder Foundations Quiz](https://verify.skilljar.com/c/f2k866zr4gj3)
+Scaled Agile | Issued 2021: Implementing SAFe Course (5.1)

@@ -423,9 +423,9 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
     },
   ];
   const additionalSkills: Record<string, string[]> = {
-    "Customer discovery & delivery": ["Healthcare claims workflow mapping", "Stakeholder demonstrations", "Feedback-driven improvements", "Operational constraints"],
+    "Customer discovery & delivery": ["Healthcare claims workflow mapping", "Stakeholder demonstrations", "Working sessions with end users", "Production issue triage", "Feedback-driven improvements", "Operational constraints"],
     "Application development": ["Frontend feature implementation", "Workflow and status interfaces", "Responsive behavior", "Cross-browser validation"],
-    "Data and integration": ["DataGrip", "API schema validation", "Service contract checks", "Application-to-database reconciliation", "Referral-data uploads", "Network stubbing"],
+    "Data and integration": ["DataGrip", "API schema validation", "Service contract checks", "Provider API integration", "Live claim status", "Tableau dashboards", "System health monitoring", "Application-to-database reconciliation", "Referral-data uploads", "Network stubbing"],
     "Delivery and quality": ["Reusable smoke & regression frameworks", "Parallel and headless execution", "Applitools Eyes", "Diagnostic artifacts"],
     "AI-assisted engineering": ["Implementation exploration", "Test creation", "Review and validation of generated changes"],
     "Troubleshooting & team enablement": ["Reproducible defect reports", "Screenshots and execution evidence", "Developer coordination", "Single and bulk upload guidance"],
@@ -546,21 +546,20 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
 
 function CredentialStrip({ profile }: { profile: Profile }) {
   const previews = profile.verifiedCredentials.flatMap((credential) => {
-    if (!credential.href) return [];
-    const image = credentialImages.find((asset) => asset.credentialHref === credential.href);
+    const image = credentialImages.find((asset) => (credential.href ? asset.credentialHref === credential.href : asset.credentialName === credential.name));
     return image ? [{ credential, image, verificationHref: credential.href }] : [];
   });
   if (!previews.length) return null;
 
   return (
-    <section className="credential-strip shell" aria-label="OpenAI Academy credentials">
+    <section className="credential-strip shell" aria-label="Verified credentials">
       <ul className="credential-grid">
         {previews.map(({ credential, image, verificationHref }) => (
-          <li className="credential-card" key={verificationHref}>
+          <li className="credential-card" key={verificationHref ?? credential.name}>
             <div className="credential-preview">
               <img
-                src={image.src}
-                alt={`${credential.name} — OpenAI Academy credential`}
+                src={/^https:/.test(image.src) ? image.src : `${root}${image.src}`}
+                alt={`${credential.name} — ${credential.issuer} credential`}
                 width={image.width}
                 height={image.height}
                 loading="lazy"
@@ -569,16 +568,18 @@ function CredentialStrip({ profile }: { profile: Profile }) {
             </div>
             <h3>{credential.name}</h3>
             <p>{credential.issuer} · Issued <time dateTime={credential.issuedOn}>{credential.issuedOn.slice(0, 4)}</time></p>
-            <Button
-              className="mt-auto"
-              color="link-color"
-              size="sm"
-              href={verificationHref}
-              aria-label={`View ${credential.name} credential`}
-              iconTrailing={ArrowUpRight}
-            >
-              View credential
-            </Button>
+            {verificationHref && (
+              <Button
+                className="mt-auto"
+                color="link-color"
+                size="sm"
+                href={verificationHref}
+                aria-label={`View ${credential.name} credential`}
+                iconTrailing={ArrowUpRight}
+              >
+                View credential
+              </Button>
+            )}
           </li>
         ))}
       </ul>
@@ -587,6 +588,10 @@ function CredentialStrip({ profile }: { profile: Profile }) {
 }
 
 export function Work({ profile }: { profile: Profile }) {
+  const credentialGroups = profile.verifiedCredentials.reduce<Map<string, Profile["verifiedCredentials"]>>((groups, credential) => {
+    groups.set(credential.issuer, [...(groups.get(credential.issuer) ?? []), credential]);
+    return groups;
+  }, new Map());
   return (
     <>
       <section className="page-hero shell about-hero">
@@ -647,37 +652,59 @@ export function Work({ profile }: { profile: Profile }) {
           <h2 id="learning-heading">A foundation to build on.</h2>
         </header>
         <div className="learning-grid">
-          <section className="learning-column" aria-labelledby="education-heading">
+          <section className="learning-card" aria-labelledby="education-heading">
             <FeaturedIcon icon={BookOpen01} color="brand" theme="light" size="lg" />
             <h3 id="education-heading">Education</h3>
             <ul className="learning-list">
               {profile.education.map((education) => (
                 <li key={`${education.institution}-${education.credential}-${education.end}`}>
-                  <h4>{education.credential} in {education.field}</h4>
-                  <p>{education.institution} · {education.end.slice(0, 4)}</p>
+                  <div>
+                    <h4>{education.credential} in {education.field}</h4>
+                    <p>{education.institution} · {education.end.slice(0, 4)}</p>
+                  </div>
                 </li>
               ))}
             </ul>
           </section>
-          <section className="learning-column" aria-labelledby="courses-heading">
+          <section className="learning-card" aria-labelledby="courses-heading">
             <FeaturedIcon icon={Award01} color="brand" theme="light" size="lg" />
             <h3 id="courses-heading">Courses &amp; certifications</h3>
-            <ul className="learning-list">
-              {profile.verifiedCredentials.map((credential) => (
-                <li key={`${credential.issuer}-${credential.name}-${credential.issuedOn}`}>
-                  <h4>{credential.name}</h4>
-                  <p>{credential.issuer} · Issued <time dateTime={credential.issuedOn}>{credential.issuedOn.slice(0, 4)}</time></p>
-                  {credential.href && (
-                    <Button color="link-color" className="mt-3" href={credential.href} iconTrailing={ArrowUpRight}>
-                      View credential
-                    </Button>
-                  )}
-                </li>
+            <div className="learning-issuers">
+              {Array.from(credentialGroups, ([issuer, credentials]) => (
+                <div className="learning-issuer" key={issuer}>
+                  <h4 className="learning-subheading">{issuer}</h4>
+                  <ul className="learning-list">
+                    {credentials.map((credential) => (
+                      <li key={`${credential.name}-${credential.issuedOn}`}>
+                        <div>
+                          <h4>{credential.name}</h4>
+                          <p>Issued <time dateTime={credential.issuedOn}>{credential.issuedOn.slice(0, 4)}</time></p>
+                        </div>
+                        {credential.href && (
+                          <Button color="link-color" href={credential.href} iconTrailing={ArrowUpRight} aria-label={`View ${credential.name} credential`}>
+                            View credential
+                          </Button>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
-              {profile.credentials.map((credential) => (
-                <li key={credential}><p>{credential}</p></li>
-              ))}
-            </ul>
+              {profile.credentials.length > 0 && (
+                <div className="learning-issuer">
+                  <h4 className="learning-subheading">Earlier training</h4>
+                  <ul className="learning-list">
+                    {profile.credentials.map((credential) => (
+                      <li key={credential}>
+                        <div>
+                          <h4>{credential}</h4>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </section>
         </div>
       </section>
@@ -847,7 +874,7 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
               <ol className="approach-list">
                 {project.approach.map((s, i) => (
                   <li key={s}>
-                    <span>{String(i + 1).padStart(2, "0")}</span>
+                    <span>{i + 1}</span>
                     <p>{s}</p>
                   </li>
                 ))}

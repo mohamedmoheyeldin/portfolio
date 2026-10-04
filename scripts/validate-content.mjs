@@ -1,3 +1,4 @@
+import {existsSync} from 'node:fs';
 import {readFile} from 'node:fs/promises';
 const records = JSON.parse(await readFile(new URL('../src/content/career.json', import.meta.url), 'utf8'));
 const credentialImages = JSON.parse(await readFile(new URL('../src/content/credential-images.json', import.meta.url), 'utf8'));
@@ -23,20 +24,23 @@ for (const credential of records[0].verifiedCredentials) {
 console.log('Career content schema validated.');
 
 const credentialImageUrl = value => {
+  if (/^credentials\/[a-z0-9-]+\.webp$/.test(value)) return existsSync(new URL(`../public/${value}`, import.meta.url));
   if (!publicCredentialUrl(value)) return false;
   const parsed = new URL(value);
   return parsed.origin === 'https://api.accredible.com' && /^\/v1\/frontend\/credential_website_embed_image\/(badge|certificate)\/[1-9]\d*$/.test(parsed.pathname);
 };
 const dimension = value => Number.isInteger(value) && value > 0;
-if (!array(object({credentialHref:publicCredentialUrl,src:credentialImageUrl,width:dimension,height:dimension}))(credentialImages)) throw Error('Credential images do not match the required presentation schema.');
-const credentialHrefs = new Set(records[0].verifiedCredentials.map(credential => credential.href));
-if (new Set(credentialImages.map(image => image.credentialHref)).size !== credentialImages.length) throw Error('Duplicate credential image references.');
+if (!array(object({credentialHref:v=>v===undefined||publicCredentialUrl(v),credentialName:v=>v===undefined||nonemptyText(v),src:credentialImageUrl,width:dimension,height:dimension}))(credentialImages)) throw Error('Credential images do not match the required presentation schema.');
+const imageKey = image => image.credentialHref ?? image.credentialName;
+if (credentialImages.some(image => (image.credentialHref === undefined) === (image.credentialName === undefined))) throw Error('Each credential image needs exactly one of credentialHref or credentialName.');
+const credentialKeys = new Set(records[0].verifiedCredentials.map(credential => credential.href ?? credential.name));
+if (new Set(credentialImages.map(imageKey)).size !== credentialImages.length) throw Error('Duplicate credential image references.');
 if (new Set(credentialImages.map(image => image.src)).size !== credentialImages.length) throw Error('Duplicate credential image sources.');
 for (const image of credentialImages) {
-  if (!credentialHrefs.has(image.credentialHref)) throw Error('Credential image must reference a canonical verified credential.');
+  if (!credentialKeys.has(imageKey(image))) throw Error('Credential image must reference a canonical verified credential.');
 }
 for (const credential of records[0].verifiedCredentials) {
-  if (credential.issuer === 'OpenAI Academy' && credential.href && !credentialImages.some(image => image.credentialHref === credential.href)) throw Error('OpenAI Academy credential is missing its presentation image.');
+  if (['OpenAI Academy', 'Palantir'].includes(credential.issuer) && credential.href && !credentialImages.some(image => image.credentialHref === credential.href)) throw Error(`${credential.issuer} credential is missing its presentation image.`);
 }
 console.log('Credential image presentation references validated.');
 

@@ -158,7 +158,7 @@ def readable_date(value):
 
 def professional_development(profile: dict, compact: bool) -> list[list[tuple[str, str | None]]]:
     """Keep evidence links with their labels and group repeated print metadata."""
-    verified = profile.get("verifiedCredentials", [])
+    verified = [c for c in profile.get("verifiedCredentials", []) if c["href"] or not compact]
     lines = []
     groups = {}
     for credential in verified:
