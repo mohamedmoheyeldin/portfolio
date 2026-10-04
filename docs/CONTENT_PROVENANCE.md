@@ -6,7 +6,7 @@ The user reported the following about the VA claims work, all user-reported and 
 
 ## October 3, 2026 Scaled Agile certificate
 
-The user supplied the PDF certificate for **Implementing SAFe Course (5.1)**: Scaled Agile, completed August 26, 2021, naming Mohamed Moheyeldin. It carries no public verification link, so the record stores it with `href: null`; the certificate image appears in the credentials strip without a link button. It replaces the earlier plain-text SAFe 5.1 line, and the Leading SAFe 4.0 line was removed at the user's request. It shows course completion only. It appears in the website and the detailed and job-board resumes; the one-page resume omits unlinked credentials to keep its single page.
+The user supplied the PDF certificate for **Implementing SAFe Course (5.1)**: Scaled Agile, completed August 26, 2021, naming Mohamed Moheyeldin. It carries no public verification link, so the record stores it with `href: null`; the certificate image appears in the credentials strip without a link button. It replaces the earlier plain-text SAFe 5.1 line, and the Leading SAFe 4.0 line was removed at the user's request. It shows course completion only. It appears in the website and all resume formats, including the one-page resume, where the entry is shown as plain text without a link.
 
 ## October 3, 2026 Palantir credentials
 

@@ -1,4 +1,4 @@
-import {existsSync} from 'node:fs';
+import {existsSync, readFileSync} from 'node:fs';
 import {readFile} from 'node:fs/promises';
 const records = JSON.parse(await readFile(new URL('../src/content/career.json', import.meta.url), 'utf8'));
 const credentialImages = JSON.parse(await readFile(new URL('../src/content/credential-images.json', import.meta.url), 'utf8'));
@@ -23,6 +23,15 @@ for (const credential of records[0].verifiedCredentials) {
 }
 console.log('Career content schema validated.');
 
+const webpSize = file => {
+  const b = readFileSync(file);
+  if (b.length < 30 || b.toString('ascii', 0, 4) !== 'RIFF' || b.toString('ascii', 8, 12) !== 'WEBP') return null;
+  const kind = b.toString('ascii', 12, 16);
+  if (kind === 'VP8X') return {width: 1 + b.readUIntLE(24, 3), height: 1 + b.readUIntLE(27, 3)};
+  if (kind === 'VP8 ') return {width: b.readUInt16LE(26) & 0x3fff, height: b.readUInt16LE(28) & 0x3fff};
+  if (kind === 'VP8L') { const v = b.readUInt32LE(21); return {width: (v & 0x3fff) + 1, height: ((v >> 14) & 0x3fff) + 1}; }
+  return null;
+};
 const credentialImageUrl = value => {
   if (/^credentials\/[a-z0-9-]+\.webp$/.test(value)) return existsSync(new URL(`../public/${value}`, import.meta.url));
   if (!publicCredentialUrl(value)) return false;
@@ -37,6 +46,10 @@ const credentialKeys = new Set(records[0].verifiedCredentials.map(credential => 
 if (new Set(credentialImages.map(imageKey)).size !== credentialImages.length) throw Error('Duplicate credential image references.');
 if (new Set(credentialImages.map(image => image.src)).size !== credentialImages.length) throw Error('Duplicate credential image sources.');
 for (const image of credentialImages) {
+  if (!/^https:/.test(image.src)) {
+    const size = webpSize(new URL(`../public/${image.src}`, import.meta.url));
+    if (!size || size.width !== image.width || size.height !== image.height) throw Error(`Credential image dimensions do not match ${image.src}.`);
+  }
   if (!credentialKeys.has(imageKey(image))) throw Error('Credential image must reference a canonical verified credential.');
 }
 for (const credential of records[0].verifiedCredentials) {
