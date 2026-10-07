@@ -16,9 +16,16 @@ import {
   ShieldTick,
   Copy01,
   SearchLg,
+  MessageChatCircle,
+  ClipboardCheck,
+  PresentationChart01,
+  LifeBuoy01,
+  CheckVerified01,
+  Moon01,
+  Sun,
 } from "@untitledui/icons";
 import { Button, type Props as ButtonComponentProps } from "@/components/base/buttons/button";
-import { Badge } from "@/components/base/badges/badges";
+import { Badge, BadgeWithIcon } from "@/components/base/badges/badges";
 import { BadgeGroup } from "@/components/base/badges/badge-groups";
 import { ButtonUtility } from "@/components/base/buttons/button-utility";
 import GitHub from "@/components/foundations/social-icons/github";
@@ -59,7 +66,7 @@ export function Header({ name, headline, location, path }: { name: string; headl
             {name}
           </Button>
           <span className="wordmark-caption">{headline}</span>
-          <span className="header-location">{location}</span>
+          <span className="header-location">{location.replace(/\s+\d{5}(?:-\d{4})?$/, "")}</span>
         </div>
         <nav aria-label="Primary navigation">
           <NavItemBase type="link" href={root} current={path === "/"}>
@@ -79,6 +86,7 @@ export function Header({ name, headline, location, path }: { name: string; headl
           </NavItemBase>
         </nav>
         <div className="header-contact">
+          <ThemeToggle />
           <Button
             href={email}
             color="secondary"
@@ -91,6 +99,20 @@ export function Header({ name, headline, location, path }: { name: string; headl
       </div>
     </header>
   );
+}
+
+// Theme choice is applied before first paint by the inline script in index.html; this only flips and stores it.
+function ThemeToggle() {
+  const [dark, setDark] = useState<boolean | null>(null);
+  useEffect(() => setDark(document.documentElement.classList.contains("dark-mode")), []);
+  if (dark === null) return null;
+  return <ButtonUtility color="tertiary" size="sm" icon={dark ? Sun : Moon01} tooltip={dark ? "Switch to light mode" : "Switch to dark mode"} tooltipPlacement="bottom"
+    onPress={() => {
+      const next = !dark;
+      document.documentElement.classList.toggle("dark-mode", next);
+      try { localStorage.setItem("theme", next ? "dark" : "light"); } catch { /* storage can be unavailable */ }
+      setDark(next);
+    }} />;
 }
 
 export function Footer({ name, headline }: { name: string; headline: string }) {
@@ -188,15 +210,13 @@ function ProjectCard({ project }: { project: Project }) {
     <article className="project-card">
       <div className="project-card-body">
         <div className="card-kicker">
-          <span>
-            {project.kind === "independent"
-              ? "INDEPENDENT PROJECT"
-              : project.context.toUpperCase()}
-          </span>
+          <Badge color={project.kind === "independent" ? "brand" : "gray"} size="md">
+            {project.kind === "independent" ? "Independent project" : project.context.replace(veteransAffairsName, "VA")}
+          </Badge>
           <span>{project.period}</span>
         </div>
         <h3>
-          <Button color="link-gray" className="w-full justify-between text-left text-xl whitespace-normal" href={href(`experience/#project-${project.slug}`)} iconTrailing={ArrowUpRight}>
+          <Button color="link-gray" className="w-full justify-between text-left text-xl font-semibold whitespace-normal text-primary" href={href(`experience/#project-${project.slug}`)} iconTrailing={ArrowUpRight}>
             {project.name}
           </Button>
         </h3>
@@ -232,8 +252,13 @@ export function Home({ profile }: { profile: Profile }) {
           <p>
             {profile.heroSummary}
           </p>
+          <div className="hero-buttons hero-actions">
+            <Button size="xl" href={href("experience/#experience-projects")} iconTrailing={ArrowRight}>View my work</Button>
+            <Button size="xl" color="secondary" href={href("resume/mohamed-moheyeldin-resume-detailed.pdf")} download iconLeading={Download01}>Download resume</Button>
+          </div>
         </div>
       </section>
+      <CredentialSummary profile={profile} />
       <section className="section shell">
         <header className="section-heading-centered">
             <h2>Selected work</h2>
@@ -291,13 +316,17 @@ export function Home({ profile }: { profile: Profile }) {
           <p className="eyebrow">How I work</p>
           <h2 id="how-i-work-heading">Start with the people using it.</h2>
         </header>
+        <ol className="process-steps">
+          {processSteps.map(({ icon, title, text }, index) => (
+            <li key={title}>
+              <FeaturedIcon icon={icon} color="brand" theme="light" size="lg" />
+              <span className="process-step-number">Step {index + 1}</span>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </li>
+          ))}
+        </ol>
         <div className="resume-summary">
-          <p>
-            I start by talking with the people who will use the software. I ask
-            how they work today, write down the requirements and what done looks
-            like, then build it and show them. Their feedback decides what
-            happens next, and I keep supporting it after release.
-          </p>
           <p>
             After {profile.experienceYears} years in development and quality
             engineering across federal, e-commerce, and banking, I trace a
@@ -320,7 +349,7 @@ function ExplorerChoice({ title, description, active, ...props }: {
   onClick: NonNullable<ButtonComponentProps["onClick"]>;
 }) {
   return <Button {...props} color="tertiary"
-    className={`h-full min-h-28 w-full items-start justify-start rounded-lg px-4 py-4 whitespace-normal text-left ring-1 ring-inset max-sm:min-h-0 [&>[data-text]]:w-full ${active ? "bg-brand-50 text-brand-secondary ring-brand-300 hover:bg-brand-50" : "bg-primary text-secondary ring-secondary hover:bg-secondary hover:ring-primary"}`}
+    className={`h-full min-h-28 w-full items-start justify-start rounded-lg px-4 py-4 whitespace-normal text-left ring-1 ring-inset max-sm:min-h-0 [&>[data-text]]:w-full ${active ? "bg-brand-primary_alt text-brand-secondary ring-brand hover:bg-brand-primary_alt" : "bg-primary text-secondary ring-secondary hover:bg-secondary hover:ring-primary"}`}
     aria-current={active ? "true" : undefined}>
     <span className="flex w-full min-w-0 flex-col gap-2">
       <span>{title}</span>
@@ -538,6 +567,33 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
     </div>
   </section>;
 }
+
+function CredentialSummary({ profile }: { profile: Profile }) {
+  const issuers = profile.verifiedCredentials.reduce<Map<string, number>>((counts, credential) => counts.set(credential.issuer, (counts.get(credential.issuer) ?? 0) + 1), new Map());
+  if (!issuers.size) return null;
+  return (
+    <section className="shell credential-summary" aria-labelledby="credential-summary-heading">
+      <h2 id="credential-summary-heading">Verified credentials</h2>
+      <ul>
+        {Array.from(issuers, ([issuer, count]) => (
+          <li key={issuer}>
+            <BadgeWithIcon type="modern" color="gray" size="lg" iconLeading={CheckVerified01}>
+              {issuer} · {count} {count === 1 ? "credential" : "credentials"}
+            </BadgeWithIcon>
+          </li>
+        ))}
+      </ul>
+      <Button color="link-color" size="sm" href={href("experience/#learning")} iconTrailing={ArrowRight}>See all credentials</Button>
+    </section>
+  );
+}
+
+const processSteps = [
+  { icon: MessageChatCircle, title: "Listen first", text: "I talk with the people who will use the software and ask how they work today." },
+  { icon: ClipboardCheck, title: "Define done", text: "I write down the requirements and what done looks like before I build." },
+  { icon: PresentationChart01, title: "Build and demo", text: "I build it, show them, and let their feedback decide what happens next." },
+  { icon: LifeBuoy01, title: "Support adoption", text: "I keep supporting it after release, from troubleshooting to workflow walkthroughs." },
+];
 
 function CredentialStrip({ profile }: { profile: Profile }) {
   const previews = profile.verifiedCredentials.flatMap((credential) => {
