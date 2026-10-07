@@ -10,3 +10,4 @@ tmp/
 .dev.vars*
 !.dev.vars.example
 workers/studio/worker-configuration.d.ts
+__pycache__/
