@@ -39,7 +39,7 @@ The prerendered React application hydrates in the browser. Portfolio content ren
 
 ### Brand color
 
-Blue is the permanent brand color, following https://www.untitledui.com/react/docs/theming. The complete brand scale (50–950) maps to the upstream blue tokens in theme.css. The palette picker, alternate brand overrides, generator, and saved-preference handling have been removed. Semantic status colors remain available to Untitled UI components.
+Blue is the permanent brand color, following https://www.untitledui.com/react/docs/theming. The complete brand scale (50–950) maps to the upstream blue tokens in theme.css. The palette picker, alternate brand overrides, and generator have been removed; only the light/dark choice is saved. Semantic status colors remain available to Untitled UI components.
 
 - Local production review: `pnpm build:cloudflare`, then `pnpm preview --host 127.0.0.1 --port 4322`.
 - Interactive development: `pnpm dev --host 127.0.0.1 --port 4322` (stop the preview before reusing its port).
