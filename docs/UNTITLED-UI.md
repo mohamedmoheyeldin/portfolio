@@ -7,7 +7,8 @@ The `untitledui` branch replaces the previous website presentation with free Unt
 - Source: https://github.com/untitleduico/react
 - Snapshot: `4702dc0ea8d140c3491a85670c7b4fab47b722da`
 - License: MIT; full notice in `UNTITLED-UI-LICENSE`.
-- Imported: button, button group, badge variants, input/label/hint, tooltip, navigation item, featured icon, empty state, dot icon, class utilities, React component guard, and theme CSS. The input/label/hint, tooltip, and empty-state sources are vendored for future use; the current pages do not render them.
+- Light and dark themes come from the upstream `.dark-mode` tokens in `theme.css`; the header toggle switches them.
+- Imported and rendered: button, utility button with tooltip, close button, slide-out menu (phone navigation), badge variants, badge group, tabs, navigation item, featured icon, dot icon, LinkedIn and GitHub social icons, the grid background pattern, the cloud illustration, class utilities, React component guard, and theme CSS. Each was added with the official `untitledui` CLI and adapted to strict TypeScript with `definedProps`; pattern and illustration indexes list only the vendored variants. Unused button group, input, and empty-state sources were removed.
 - Icons: `@untitledui/icons`.
 - Installation guidance: https://www.untitledui.com/react/docs/installation
 
@@ -38,7 +39,7 @@ The prerendered React application hydrates in the browser. Portfolio content ren
 
 ### Brand color
 
-Blue is the permanent brand color, following https://www.untitledui.com/react/docs/theming. The complete brand scale (50–950) maps to the upstream blue tokens in theme.css. The palette picker, alternate brand overrides, generator, and saved-preference handling have been removed. Semantic status colors remain available to Untitled UI components.
+Blue is the permanent brand color, following https://www.untitledui.com/react/docs/theming. The complete brand scale (50–950) maps to the upstream blue tokens in theme.css. The palette picker, alternate brand overrides, and generator have been removed; only the light/dark choice is saved. Semantic status colors remain available to Untitled UI components.
 
 - Local production review: `pnpm build:cloudflare`, then `pnpm preview --host 127.0.0.1 --port 4322`.
 - Interactive development: `pnpm dev --host 127.0.0.1 --port 4322` (stop the preview before reusing its port).
@@ -57,11 +58,11 @@ Use Untitled UI's official documentation and MIT source directly. Context7 and o
 
 ## Component conventions
 
-The Experience project and toolkit menus share an `ExplorerChoice` composition of the imported Button's tertiary variant. Each choice has a subtle border, a title and description, and a pale blue selected state with a stronger border and `aria-current`. Component utilities supply control styling and focus behavior; local grid CSS wraps the five choices into three, two, and one column as the viewport narrows. The layout separates navigation from detail content with whitespace, groups employer details in a muted context area, and places challenge and contribution side by side on wide screens. Narrow screens stack the content. Project links retain direct-route fallbacks, toolkit links retain category anchors, and the existing ButtonGroup controls switch detail sections after hydration.
+The Experience project and toolkit menus share an `ExplorerChoice` composition of the imported Button's tertiary variant. Each choice has a subtle border, a title and description, and a pale blue selected state with a stronger border and `aria-current`. Component utilities supply control styling and focus behavior; local grid CSS wraps the five choices into three, two, and one column as the viewport narrows. The layout separates navigation from detail content with whitespace, groups employer details in a muted context area, and places challenge and contribution side by side on wide screens. Narrow screens stack the content. Project links retain direct-route fallbacks, toolkit links retain category anchors, and Untitled UI tabs (button-border style) switch the Overview, Implementation, and Evidence panels after hydration. Without JavaScript every section renders in reading order with no tab list.
 
 `components.json` selects Untitled UI v8 and records aliases matching TypeScript and Vite. Header and footer name links use the upstream Button link variant. Portfolio typography uses the upstream text/display sizes and line heights; colors and shadows reference semantic theme tokens directly. Page sections remain local compositions of free components. No PRO page template or complete upstream marketing layout is claimed.
 
-Portfolio CSS lives in one components layer with responsive rules alongside the layout. Shared layout variables define section spacing (72px desktop, 48px mobile), the 38px heading-to-content gap, 24px card padding, and a 70ch reading width. Long introductions and narrative paragraphs are left aligned while headings and short section descriptions remain centered. Detail ButtonGroup items use the React Aria selected variant with blue background, text, and border tokens; the Overview control identifies both its challenge and outcome sections.
+Portfolio CSS lives in one components layer with responsive rules alongside the layout. Shared layout variables define section spacing (72px desktop, 48px mobile), the 38px heading-to-content gap, 24px card padding, and a 70ch reading width. Long introductions and narrative paragraphs are left aligned while headings and short section descriptions remain centered. The Overview tab panel holds both the challenge and outcome sections in two columns on wide screens.
 
 ## Resume exports
 
@@ -71,4 +72,4 @@ Inter Regular and SemiBold are embedded in PDFs. DOCX specifies Inter; Word may 
 
 Both concise and detailed PDF and DOCX resumes center the name and tagline in the shared generator. Contact information and body content remain left aligned. Markdown and job-board text keep portable text formatting. The October 1 export check confirmed centered PDF text positions, centered DOCX paragraphs, and one-page/two-page PDF layouts; all PDF pages were visually inspected. DOCX visual rendering remains unverified because LibreOffice is unavailable.
 
-The Work explorer reuses upstream Button links for project selection and ButtonGroup/ButtonGroupItem for detail sections. Layout composition is local; no additional UI package is installed. Existing project URLs remain readable without JavaScript.
+The Work explorer reuses upstream Button links for project selection and Tabs for detail sections. Layout composition is local; no additional UI package is installed. Existing project URLs remain readable without JavaScript.

@@ -18,7 +18,7 @@ The shared header contains personal branding, primary navigation, and a contact 
 
 - Vite 8.x, React 19, strict TypeScript, semantic HTML, and Tailwind CSS v4.
 - Static output for Cloudflare Workers Static Assets and the custom domain.
-- Free Untitled UI React components supply buttons and links, navigation items and disclosure triggers, badges, featured icons, tooltip support, icons, and theme tokens. Components render to static HTML through React server rendering at build time. The application hydrates after static HTML loads; the Experience page uses React state for project and detail-section selection, with hash links and browser history support. See `UNTITLED-UI.md` for the component inventory and source adaptations.
+- Free Untitled UI React components supply buttons and links, a utility copy button with tooltip, navigation items, tabs, badges and a badge group, featured icons, social icons, the grid background pattern, the cloud illustration, icons, and theme tokens. Components render to static HTML through React server rendering at build time. The application hydrates after static HTML loads; the Experience page uses React state for project and detail-section selection, with hash links and browser history support. See `UNTITLED-UI.md` for the component inventory and source adaptations.
 - `src/components/Portfolio.tsx` shares page composition. Routes retain static content collection reads, route generation, and page metadata. There is no client router or application server.
 - Automated validation covers TypeScript diagnostics, content schemas, production builds, and subpath packaging. UI workflows and accessibility are reviewed in a browser only on explicit request; no browser test framework is installed.
 - The standalone Python resume generator reads the same career JSON and renders PDF and DOCX downloads.
@@ -39,7 +39,7 @@ The web presentation uses Untitled UI's light theme, blue accents, Inter loaded 
 
 `career.json` → `scripts/generate-resumes.py` → PDF / DOCX downloads
 
-The repository publishes one-page and detailed PDF/DOCX artifacts from the canonical content source through the dedicated resume generator. Web, PDF, and Word may format and select facts differently, but career history remains owned by the shared record. The Resume page lists the downloads from the `resumes` array in `src/components/Portfolio.tsx`; adding an entry there (with matching files in `public/resume/`) adds a card, and the grid adapts to one, two, or three resumes. The one-page resume is still generated but is not linked from the page.
+The repository publishes one-page and detailed PDF/DOCX artifacts from the canonical content source through the dedicated resume generator. Web, PDF, and Word may format and select facts differently, but career history remains owned by the shared record. The site has no separate Resume page: the header, home hero and footer link to the detailed PDF, the footer also links the Word file, and `/resume/` redirects to the PDF for older links. The one-page resume is still generated but is not linked.
 
 Case studies also validate audience, systems, decisions, evidence links, and FDE relevance. Evidence distinguishes user-reported career results from public source code. The portfolio walkthrough documents static rendering and explicitly states that no runtime API or database exists.
 
