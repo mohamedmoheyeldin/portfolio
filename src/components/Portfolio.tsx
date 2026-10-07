@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ButtonGroup, ButtonGroupItem } from "@/components/base/button-group/button-group";
+import { Tabs } from "@/components/application/tabs/tabs";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -14,9 +14,17 @@ import {
   BookOpen01,
   Award01,
   ShieldTick,
+  Copy01,
+  SearchLg,
 } from "@untitledui/icons";
 import { Button, type Props as ButtonComponentProps } from "@/components/base/buttons/button";
 import { Badge } from "@/components/base/badges/badges";
+import { BadgeGroup } from "@/components/base/badges/badge-groups";
+import { ButtonUtility } from "@/components/base/buttons/button-utility";
+import GitHub from "@/components/foundations/social-icons/github";
+import LinkedIn from "@/components/foundations/social-icons/linkedin";
+import { BackgroundPattern } from "@/components/shared-assets/background-patterns";
+import { Illustration } from "@/components/shared-assets/illustrations";
 import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
 import { NavItemBase } from "@/components/application/app-navigation/base-components/nav-item";
 import { formatCareerDate, profile as careerProfile, veteransAffairsName } from "@/lib/career";
@@ -99,8 +107,8 @@ export function Footer({ name, headline }: { name: string; headline: string }) {
           <Button color="link-gray" href={root}>Home</Button>
           <Button color="link-gray" href={href("experience/")}>Experience</Button>
           <Button color="link-gray" href={href("resume/")}>Resume</Button>
-          <Button color="link-gray" href="https://www.linkedin.com/in/moheyeldin/" iconTrailing={ArrowUpRight}>LinkedIn</Button>
-          <Button color="link-gray" href="https://github.com/mohamedmoheyeldin" iconTrailing={ArrowUpRight}>GitHub</Button>
+          <Button color="link-gray" href="https://www.linkedin.com/in/moheyeldin/" iconLeading={LinkedIn}>LinkedIn</Button>
+          <Button color="link-gray" href="https://github.com/mohamedmoheyeldin" iconLeading={GitHub}>GitHub</Button>
         </nav>
       </div>
       <div className="shell footer-bottom">
@@ -212,8 +220,12 @@ function orderedProjects(projects: Project[]) {
 export function Home({ profile }: { profile: Profile }) {
   return (
     <>
-      <section className="shell home-hero" id="professional-profile">
+      <section className="shell home-hero relative isolate" id="professional-profile">
+        <BackgroundPattern pattern="grid" size="lg" className="absolute top-0 left-1/2 -z-10 -translate-x-1/2 max-md:hidden" />
         <div className="hero-copy">
+          <BadgeGroup className="mb-6 cursor-default" color="brand" addonText={`${profile.experienceYears} years`} iconTrailing={null}>
+            Federal, e-commerce &amp; banking
+          </BadgeGroup>
           <h1>
             Forward Deployed Engineer <span>building software with the people who use it.</span>
           </h1>
@@ -515,7 +527,7 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
               <div className="toolkit-details"><p>{group.description}</p></div>
             </div>
             {detailed && <ul className="toolkit-skills" aria-label={`${group.label} skills`}>
-              {group.items.map(item => <li key={item}>{item}</li>)}
+              {group.items.map(item => <li key={item}><Badge className="max-w-full whitespace-normal" color="gray" size="md">{item}</Badge></li>)}
             </ul>}
           </div>
         </article>)}
@@ -777,6 +789,80 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
   const [section, setSection] = useState("overview");
   const role = careerProfile.experience.find(item => item.id === project.experienceId);
   const sections = [["overview", "Overview"], ["implementation", "Implementation"], ["evidence", "Evidence"]] as const;
+  const challenge = <section id={embedded ? "project-details-overview" : "challenge"} tabIndex={-1}>
+      {!embedded && <p className="eyebrow">01 / Challenge</p>}
+      <h2>{embedded ? "The challenge" : "The problem."}</h2>
+      <p>{project.challenge}</p>
+      <p><strong>Who needed it:</strong> {project.audience}</p>
+    </section>;
+  const approach = <section id={embedded ? "project-details-implementation" : "approach"} tabIndex={-1}>
+      {!embedded && <p className="eyebrow">02 / Approach</p>}
+      <h2>What I did.</h2>
+      <ol className="approach-list">
+        {project.approach.map((s, i) => (
+          <li key={s}>
+            <span>{i + 1}</span>
+            <p>{s}</p>
+          </li>
+        ))}
+      </ol>
+    </section>;
+  const outcome = <section id="outcome" tabIndex={-1}>
+      {!embedded && <p className="eyebrow">03 / Outcome</p>}
+      <h2>{embedded ? "My contribution & results" : "What changed."}</h2>
+      <p>{project.outcome}</p>
+      <ul className="outcomes">
+        {project.highlights.map((h) => (
+          <li key={h}>
+            <Check />
+            {h}
+          </li>
+        ))}
+      </ul>
+    </section>;
+  const systems = <section id="systems" tabIndex={-1}>
+      {!embedded && <p className="eyebrow">04 / Systems & decisions</p>}
+      <h2>How it fit together.</h2>
+      {project.systems.map((text) => <p key={text}>{text}</p>)}
+      <h3>Constraints and tradeoffs</h3>
+      <ul className="plain-list">{project.decisions.map((text) => <li key={text}>{text}</li>)}</ul>
+    </section>;
+  const evidence = <section id={embedded ? "project-details-evidence" : "evidence"} tabIndex={-1}>
+      {!embedded && <p className="eyebrow">05 / Evidence</p>}
+      <h2>What you can check.</h2>
+      {project.evidence.map((item) => <div key={item.label}>
+        <h3>{item.label}</h3><p>{item.detail}</p>
+        {item.href && <Button className="whitespace-normal text-left" color="link-color" href={item.href} iconTrailing={ArrowUpRight}>{item.label}</Button>}
+      </div>)}
+      <h3>Why it matters for FDE work</h3><p>{project.relevance}</p>
+      {project.relatedProjects.length > 0 && <div>
+        <h3>Related work</h3>
+        {project.relatedProjects.map((related) => <p key={related.slug}><Button className="whitespace-normal text-left" color="link-color" href={href(`experience/${related.slug}/`)} onClick={(event) => {
+          if (!interactive || !onSelectProject || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+          event.preventDefault(); onSelectProject(related.slug);
+        }} iconTrailing={ArrowRight}>{related.label}</Button></p>)}
+      </div>}
+    </section>;
+  const toolkit = <section id="toolkit" tabIndex={-1}>
+      {!embedded && <p className="eyebrow">06 / Toolkit</p>}
+      <h2>Tools used.</h2>
+      <Tags items={project.technologies} />
+    </section>;
+  const walkthrough = project.kind === "independent" && <section id="walkthrough" tabIndex={-1}>
+      {!embedded && <p className="eyebrow">07 / Implementation walkthrough</p>}
+      <h2>How a content change reaches the site.</h2>
+      <ol className="approach-list">
+        {[
+          ["Edit the data", "Content lives in src/content/career.json. Required fields and unique project slugs are checked before a build."],
+          ["Render the pages", "React builds the pages from that record using free Untitled UI components. The HTML is generated ahead of time, so the project pages are readable without JavaScript."],
+          ["Generate the resumes", "pnpm resume:generate builds every resume format from the same record, using the site’s font and blue theme."],
+          ["Check and build", "pnpm verify checks types, content, the production build, and GitHub Pages paths. pnpm build:cloudflare rebuilds for the root path."],
+          ["Deploy", "wrangler.jsonc points Cloudflare Static Assets at dist. Merging to main starts the production build."]
+        ].map(([title, text], i) => <li key={title}><span>{String(i + 1).padStart(2, "0")}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}
+      </ol>
+      <p>This site has no runtime API or database. My API and integration work is described in the work projects.</p>
+      <div className="hero-buttons"><Button color="secondary" href={href("experience/")}>Explore the interface</Button><Button color="secondary" href={href("resume/")}>Inspect the resume outputs</Button></div>
+    </section>;
   return (
     <>
       <article className={embedded ? "embedded-case" : undefined}>
@@ -831,89 +917,17 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
             <NavItemBase type="link" href="#toolkit">06　The toolkit</NavItemBase>
             {project.kind === "independent" && <NavItemBase type="link" href="#walkthrough">07　Walkthrough</NavItemBase>}
           </aside>}
-          <div className={embedded && interactive && section === "overview" ? "project-detail-content overview-columns" : "project-detail-content"}>
-            {interactive && <div className="detail-selector">
-              <ButtonGroup className="w-full sm:w-max" aria-label="Project detail sections" disallowEmptySelection selectedKeys={new Set([section])}
-                onSelectionChange={(keys) => setSection(String([...keys][0] ?? "overview"))}>
-                {sections.map(([id, label]) => <ButtonGroupItem className="flex-1 justify-center px-2 text-xs selected:bg-brand-50 selected:text-brand-secondary selected:ring-brand-300 selected:hover:bg-brand-100 selected:hover:text-brand-secondary not-last:pr-2 sm:px-4 sm:text-sm sm:not-last:pr-4" key={id} id={id} aria-controls={id === "overview" ? "project-details-overview outcome" : `project-details-${id}`}>{label}</ButtonGroupItem>)}
-              </ButtonGroup>
-            </div>}
-            <section id={embedded ? "project-details-overview" : "challenge"} hidden={interactive && section !== "overview"} tabIndex={-1}>
-              {!embedded && <p className="eyebrow">01 / Challenge</p>}
-              <h2>{embedded ? "The challenge" : "The problem."}</h2>
-              <p>{project.challenge}</p>
-              <p><strong>Who needed it:</strong> {project.audience}</p>
-            </section>
-            <section id={embedded ? "project-details-implementation" : "approach"} hidden={interactive && section !== "implementation"} tabIndex={-1}>
-              {!embedded && <p className="eyebrow">02 / Approach</p>}
-              <h2>What I did.</h2>
-              <ol className="approach-list">
-                {project.approach.map((s, i) => (
-                  <li key={s}>
-                    <span>{i + 1}</span>
-                    <p>{s}</p>
-                  </li>
-                ))}
-              </ol>
-            </section>
-            <section id="outcome" hidden={interactive && section !== "overview"} tabIndex={-1}>
-              {!embedded && <p className="eyebrow">03 / Outcome</p>}
-              <h2>{embedded ? "My contribution & results" : "What changed."}</h2>
-              <p>{project.outcome}</p>
-              <ul className="outcomes">
-                {project.highlights.map((h) => (
-                  <li key={h}>
-                    <Check />
-                    {h}
-                  </li>
-                ))}
-              </ul>
-            </section>
-            <section id="systems" hidden={interactive && section !== "implementation"} tabIndex={-1}>
-              {!embedded && <p className="eyebrow">04 / Systems & decisions</p>}
-              <h2>How it fit together.</h2>
-              {project.systems.map((text) => <p key={text}>{text}</p>)}
-              <h3>Constraints and tradeoffs</h3>
-              <ul className="plain-list">{project.decisions.map((text) => <li key={text}>{text}</li>)}</ul>
-            </section>
-            <section id={embedded ? "project-details-evidence" : "evidence"} hidden={interactive && section !== "evidence"} tabIndex={-1}>
-              {!embedded && <p className="eyebrow">05 / Evidence</p>}
-              <h2>What you can check.</h2>
-              {project.evidence.map((item) => <div key={item.label}>
-                <h3>{item.label}</h3><p>{item.detail}</p>
-                {item.href && <Button className="whitespace-normal text-left" color="link-color" href={item.href} iconTrailing={ArrowUpRight}>{item.label}</Button>}
-              </div>)}
-              <h3>Why it matters for FDE work</h3><p>{project.relevance}</p>
-              {project.relatedProjects.length > 0 && <div>
-                <h3>Related work</h3>
-                {project.relatedProjects.map((related) => <p key={related.slug}><Button className="whitespace-normal text-left" color="link-color" href={href(`experience/${related.slug}/`)} onClick={(event) => {
-                  if (!interactive || !onSelectProject || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
-                  event.preventDefault(); onSelectProject(related.slug);
-                }} iconTrailing={ArrowRight}>{related.label}</Button></p>)}
-              </div>}
-            </section>
-            <section id="toolkit" hidden={interactive && section !== "implementation"} tabIndex={-1}>
-              {!embedded && <p className="eyebrow">06 / Toolkit</p>}
-              <h2>Tools used.</h2>
-              <Tags items={project.technologies} />
-            </section>
-            {project.kind === "independent" && <section id="walkthrough" hidden={interactive && section !== "implementation"} tabIndex={-1}>
-              {!embedded && <p className="eyebrow">07 / Implementation walkthrough</p>}
-              <h2>How a content change reaches the site.</h2>
-              <ol className="approach-list">
-                {[
-                  ["Edit the data", "Content lives in src/content/career.json. Required fields and unique project slugs are checked before a build."],
-                  ["Render the pages", "React builds the pages from that record using free Untitled UI components. The HTML is generated ahead of time, so the project pages are readable without JavaScript."],
-                  ["Generate the resumes", "pnpm resume:generate builds every resume format from the same record, using the site’s font and blue theme."],
-                  ["Check and build", "pnpm verify checks types, content, the production build, and GitHub Pages paths. pnpm build:cloudflare rebuilds for the root path."],
-                  ["Deploy", "wrangler.jsonc points Cloudflare Static Assets at dist. Merging to main starts the production build."]
-                ].map(([title, text], i) => <li key={title}><span>{String(i + 1).padStart(2, "0")}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}
-              </ol>
-              <p>This site has no runtime API or database. My API and integration work is described in the work projects.</p>
-              <div className="hero-buttons"><Button color="secondary" href={href("experience/")}>Explore the interface</Button><Button color="secondary" href={href("resume/")}>Inspect the resume outputs</Button></div>
-            </section>}
+          <div className="project-detail-content">
+            {interactive ? <Tabs selectedKey={section} onSelectionChange={(key) => setSection(String(key))}>
+              <div className="detail-selector">
+                <Tabs.List type="button-border" aria-label="Project detail sections" items={sections.map(([id, label]) => ({ id, label }))} />
+              </div>
+              <Tabs.Panel id="overview" className="overview-columns">{challenge}{outcome}</Tabs.Panel>
+              <Tabs.Panel id="implementation">{approach}{systems}{toolkit}{walkthrough}</Tabs.Panel>
+              <Tabs.Panel id="evidence">{evidence}</Tabs.Panel>
+            </Tabs> : <>{challenge}{approach}{outcome}{systems}{evidence}{toolkit}{walkthrough}</>}
             <div className="disclosure" role="note">
-              <ShieldTick />
+              <FeaturedIcon icon={ShieldTick} color="gray" theme="modern" size="md" />
               <p>
                 {project.kind === "career"
                   ? "This is based on my documented career responsibilities. I left out client-sensitive details on purpose, and I have not added numbers I can't support."
@@ -926,6 +940,16 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
       {!embedded && <Contact />}
     </>
   );
+}
+
+// Clipboard copy needs JavaScript, so the button appears only after hydration; the mailto link always works.
+function CopyEmail() {
+  const [ready, setReady] = useState(false);
+  const [copied, setCopied] = useState(false);
+  useEffect(() => setReady(true), []);
+  if (!ready) return null;
+  return <ButtonUtility color="tertiary" size="xs" icon={copied ? Check : Copy01} tooltip={copied ? "Copied" : "Copy email address"}
+    onPress={() => navigator.clipboard?.writeText(emailAddress).then(() => setCopied(true), () => setCopied(false))} />;
 }
 
 export function Contact() {
@@ -944,9 +968,12 @@ export function Contact() {
           <Button href={email} size="xl" iconLeading={Mail01}>
             Get in touch
           </Button>
-          <Button className="max-w-full whitespace-normal break-all text-center" href={email} color="link-color" size="sm">
-            {emailAddress}
-          </Button>
+          <div className="flex max-w-full items-center gap-1">
+            <Button className="max-w-full whitespace-normal break-all text-center" href={email} color="link-color" size="sm">
+              {emailAddress}
+            </Button>
+            <CopyEmail />
+          </div>
         </div>
       </div>
     </section>
@@ -956,6 +983,9 @@ export function Contact() {
 export function NotFound() {
   return (
     <section className="page-hero shell not-found">
+      <Illustration type="cloud" size="md" className="mx-auto mb-8">
+        <SearchLg className="size-7" />
+      </Illustration>
       <p className="eyebrow">404 / Page not found</p>
       <h1>
         This page
@@ -963,9 +993,10 @@ export function NotFound() {
         <span>doesn’t exist.</span>
       </h1>
       <p>The link may be old or mistyped. The home page is a good place to start.</p>
-      <Button href={root} iconLeading={ArrowLeft}>
-        Back to home
-      </Button>
+      <div className="hero-buttons">
+        <Button color="secondary" size="lg" href={href("experience/")}>View my experience</Button>
+        <Button size="lg" href={root} iconLeading={ArrowLeft}>Back to home</Button>
+      </div>
     </section>
   );
 }
