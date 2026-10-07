@@ -79,8 +79,7 @@ export function Header({ name, headline, location, path }: { name: string; headl
             Experience
           </NavItemBase>
           <NavItemBase type="link"
-            href={href("resume/")}
-            current={path.includes("/resume")}
+            href={href("resume/mohamed-moheyeldin-resume-detailed.pdf")}
           >
             Resume
           </NavItemBase>
@@ -128,7 +127,8 @@ export function Footer({ name, headline }: { name: string; headline: string }) {
         <nav className="footer-links" aria-label="Footer navigation">
           <Button color="link-gray" href={root}>Home</Button>
           <Button color="link-gray" href={href("experience/")}>Experience</Button>
-          <Button color="link-gray" href={href("resume/")}>Resume</Button>
+          <Button color="link-gray" href={href("resume/mohamed-moheyeldin-resume-detailed.pdf")}>Resume (PDF)</Button>
+          <Button color="link-gray" href={href("resume/mohamed-moheyeldin-resume-detailed.docx")} download>Resume (Word)</Button>
           <Button color="link-gray" href="https://www.linkedin.com/in/moheyeldin/" iconLeading={LinkedIn}>LinkedIn</Button>
           <Button color="link-gray" href="https://github.com/mohamedmoheyeldin" iconLeading={GitHub}>GitHub</Button>
         </nav>
@@ -764,75 +764,6 @@ export function Work({ profile }: { profile: Profile }) {
   );
 }
 
-/* Resumes listed on the Resume page. To add one, generate its files as
-   public/resume/mohamed-moheyeldin-resume-<id>.<ext> and add an entry here. */
-const resumes = [
-  {
-    id: "detailed",
-    label: "PDF and Word",
-    title: "Detailed resume",
-    text: "My roles, projects, skills, and certifications, with the details behind each one.",
-    items: [
-      "Booz Allen Hamilton, Chick-fil-A, and Ally Bank, role by role",
-      "VA claims work, stakeholder demos, and internal tools",
-      "Skills, education, and certifications",
-    ],
-    formats: [
-      { ext: "pdf", label: "Download PDF", primary: true },
-      { ext: "docx", label: "Download Word", primary: false },
-    ],
-  },
-];
-
-export function Resume() {
-  return (
-    <>
-      <section className="page-hero shell resume-hero">
-        <h1>
-          Resume
-          {" "}
-          <span>downloads.</span>
-        </h1>
-        <p>
-          Download my resume as a PDF or Word file.
-        </p>
-      </section>
-      <section className="shell resume-choices" aria-label="Resume downloads">
-        {resumes.map((r) => (
-          <article className="resume-choice" key={r.id}>
-            <FeaturedIcon icon={File06} color="brand" theme="light" size="lg" />
-            <p className="eyebrow">{r.label}</p>
-            <h2>{r.title}</h2>
-            <p>{r.text}</p>
-            <ul>
-              {r.items.map((item) => (
-                <li key={item}>
-                  <Check />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="resume-downloads">
-              {r.formats.map((format) => (
-                <Button
-                  key={format.ext}
-                  color={format.primary ? "primary" : "secondary"}
-                  href={href(`resume/mohamed-moheyeldin-resume-${r.id}.${format.ext}`)}
-                  download
-                  iconLeading={format.primary ? Download01 : undefined}
-                >
-                  {format.label}
-                </Button>
-              ))}
-            </div>
-          </article>
-        ))}
-      </section>
-      <Contact />
-    </>
-  );
-}
-
 function projectDisplayName(project: Project) {
   if (project.slug === "ecommerce-feedback-platform") return "E-commerce Quality Feedback Platform";
   if (project.slug === "banking-risk-validation") return "Banking Risk-Based Validation System";
@@ -917,7 +848,7 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
         ].map(([title, text], i) => <li key={title}><span>{String(i + 1).padStart(2, "0")}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}
       </ol>
       <p>This site has no runtime API or database. My API and integration work is described in the work projects.</p>
-      <div className="hero-buttons"><Button color="secondary" href={href("experience/")}>Explore the interface</Button><Button color="secondary" href={href("resume/")}>Inspect the resume outputs</Button></div>
+      <div className="hero-buttons"><Button color="secondary" href={href("experience/")}>Explore the interface</Button><Button color="secondary" href={href("resume/mohamed-moheyeldin-resume-detailed.pdf")}>Inspect the resume output</Button></div>
     </section>;
   return (
     <>

@@ -84,7 +84,7 @@ This is the canonical React/Vite portfolio and multi-format resume platform. The
 
 ### Documentation and tools
 
-- `/experience/` is the consolidated Experience page: projects, employment context, approach, skills, and education. `/about/` redirects to `/experience/`, preserving query and fragment in JavaScript, with a static fallback. Exclude the legacy route from the sitemap. Resume is a focused download page (PDF, Word, plain text); employment and project context belongs on Experience.
+- `/experience/` is the consolidated Experience page: projects, employment context, approach, skills, and education. `/about/` redirects to `/experience/`, preserving query and fragment in JavaScript, with a static fallback. Exclude the legacy route from the sitemap. There is no Resume page: the header, hero and footer link straight to the detailed PDF (the footer also offers Word), and `/resume/` is a legacy redirect to that PDF that stays out of the sitemap. Employment and project context belongs on Experience.
 
 - Start with `README.md`, `docs/DEVELOPMENT.md`, and `docs/TESTING.md`.
 - `docs/ARCHITECTURE.md` and `docs/CONTENT_PROVENANCE.md` define the key content boundaries.

@@ -512,68 +512,6 @@ h1 > span {
   line-height: var(--text-sm--line-height);
   color: var(--color-text-tertiary);
 }
-.page-hero.resume-hero { padding-bottom: var(--section-heading-gap); }
-.resume-choices {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 480px));
-  justify-content: center;
-  gap: 26px;
-  padding-bottom: 56px;
-}
-.resume-choice {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  border: 1px solid var(--color-border-secondary);
-  border-radius: 14px;
-  padding: 32px;
-  box-shadow: var(--shadow-xs);
-}
-.resume-choice .eyebrow {
-  margin: 24px 0 8px;
-}
-.resume-choice h2 {
-  font-size: var(--text-display-xs);
-  line-height: var(--text-display-xs--line-height);
-}
-.resume-choice > p:not(.eyebrow) {
-  margin-top: 14px;
-  font-size: var(--text-sm);
-  line-height: var(--text-sm--line-height);
-}
-.resume-choice ul {
-  width: min(100%, 400px);
-  margin-inline: auto;
-  text-align: left;
-  display: grid;
-  gap: 12px;
-  margin-block: 28px;
-  font-size: var(--text-sm);
-  line-height: var(--text-sm--line-height);
-  color: var(--color-text-tertiary);
-}
-.resume-choice li {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 9px;
-}
-.resume-choice li svg {
-  flex-shrink: 0;
-  width: 18px;
-  height: 18px;
-  color: var(--color-fg-brand-primary);
-}
-.resume-downloads {
-  margin-top: auto;
-  padding-top: 8px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 12px;
-}
 .resume-summary {
   max-width: var(--reading-width);
   margin-top: 18px;
@@ -705,7 +643,7 @@ h1 > span {
 .not-found .hero-buttons { justify-content: center; }
 /* Shared content wrapping and detail typography. */
 .header-brand, .project-card, .toolkit-category, .learning-card,
-.project-detail-content, .resume-choice, .trademark-notice { overflow-wrap: anywhere; }
+.project-detail-content, .trademark-notice { overflow-wrap: anywhere; }
 .case-body h3 { margin-block: 24px 12px; }
 .plain-list li + li { margin-top: 8px; }
 .case-hero .project-affiliation { max-width: 840px; margin: 24px auto; }
@@ -808,12 +746,6 @@ h1 > span {
     grid-template-columns: 1fr;
     gap: 8px;
   }
-  .resume-choices {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .resume-choice { padding: var(--card-padding); }
-  .resume-downloads { width: 100%; }
-  .resume-downloads > a { flex: 1 1 140px; }
   .case-facts { gap: 24px; }
   .case-body {
     grid-template-columns: 1fr;
@@ -854,7 +786,6 @@ h1 > span {
   .site-header,
   .site-footer,
   .contact-section,
-  .resume-choices,
   .skip-link {
     display: none;
   }
