@@ -220,7 +220,7 @@ function orderedProjects(projects: Project[]) {
 export function Home({ profile }: { profile: Profile }) {
   return (
     <>
-      <section className="shell home-hero relative isolate" id="professional-profile">
+      <section className="shell home-hero relative isolate overflow-hidden" id="professional-profile">
         <BackgroundPattern pattern="grid" size="lg" className="absolute top-0 left-1/2 -z-10 -translate-x-1/2 max-md:hidden" />
         <div className="hero-copy">
           <BadgeGroup className="mb-6 cursor-default" color="brand" addonText={`${profile.experienceYears} years`} iconTrailing={null}>
