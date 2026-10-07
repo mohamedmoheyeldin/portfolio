@@ -213,7 +213,6 @@ def add_role(document: Document, role: dict, compact: bool, highlights: list[str
     p.paragraph_format.keep_with_next = True
     p.paragraph_format.space_after = Pt(1)
     style_run(p.add_run(title), 9.5, INK, True)
-    date_end = "Present" if role["end"] is None else role["end"]
     style_run(p.add_run(f'  |  {readable_date(role["start"])} – {readable_date(role["end"])}'), 7 if compact else 8.3, MUTED)
     if role.get("customer"):
         add_body(document, "Customer: " + role["customer"], compact)
@@ -250,7 +249,7 @@ def build_docx(profile: dict, output: Path, compact: bool):
         add_body(doc, f'{group["label"]}: {", ".join(group["items"])}', compact)
     add_section_heading(doc, "Education", "", compact)
     education = profile["education"][0]
-    add_body(doc, f'{education["credential"]} in {education["field"]} | {education["institution"]} | May 2014', compact)
+    add_body(doc, f'{education["credential"]} in {education["field"]} | {education["institution"]} | {readable_date(education["end"])}', compact)
     if not compact or profile.get("verifiedCredentials"):
         add_section_heading(doc, "Professional", "development", compact)
         for parts in professional_development(profile, compact):
@@ -284,7 +283,6 @@ def section_pdf(story, styles, black, accent):
 
 def role_pdf(story, styles, role, compact, highlights):
     title = role.get("professionalTitle") or role["title"]
-    date_end = "Present" if role["end"] is None else role["end"]
     story.append(Paragraph(f'{role["employer"]} — {role["location"]}', styles["role"]))
     story.append(Paragraph(f'<b>{title}</b> | {readable_date(role["start"])} – {readable_date(role["end"])}', styles["body"]))
     if role.get("customer"):
@@ -320,7 +318,7 @@ def build_pdf(profile: dict, output: Path, compact: bool):
         story.append(Paragraph(f'<b>{group["label"]}:</b> {", ".join(group["items"])}', styles["body"]))
     section_pdf(story, styles, "Education", "")
     education = profile["education"][0]
-    story.append(Paragraph(f'<b>{education["credential"]} in {education["field"]}</b> | {education["institution"]} | May 2014', styles["body"]))
+    story.append(Paragraph(f'<b>{education["credential"]} in {education["field"]}</b> | {education["institution"]} | {readable_date(education["end"])}', styles["body"]))
     if not compact or profile.get("verifiedCredentials"):
         section_pdf(story, styles, "Professional", "development")
         for parts in professional_development(profile, compact):

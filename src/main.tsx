@@ -2,7 +2,7 @@ import { createRoot, hydrateRoot } from 'react-dom/client';
 import { App, routeInfo, routes } from './App';
 import './styles/global.css';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const path = (location.pathname.slice(base.length).replace(/\/$/, '') || '') + '/';
+const path = (location.pathname.slice(base.length).replace(/(?:\/index\.html|\/)$/, '') || '') + '/';
 if (path === '/about/' || path === '/work/' || path.startsWith('/work/')) {
   const destination = path === '/about/' ? '/experience/' : path.replace(/^\/work\//, '/experience/');
   location.replace(`${base}${destination}${location.search}${location.hash}`);

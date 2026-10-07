@@ -1,5 +1,7 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 
-if (!existsSync(new URL('../dist/index.html', import.meta.url))) {
+// Rebuild when dist is missing or holds the GitHub Pages subpath build (`pnpm verify` ends with one).
+const index = new URL('../dist/index.html', import.meta.url);
+if (!existsSync(index) || readFileSync(index, 'utf8').includes('/portfolio/assets/')) {
   await import('./build.mjs');
 }
