@@ -23,6 +23,8 @@ import {
   CheckVerified01,
   Moon01,
   Sun,
+  Menu02,
+  Briefcase01,
 } from "@untitledui/icons";
 import { Button, type Props as ButtonComponentProps } from "@/components/base/buttons/button";
 import { Badge, BadgeWithIcon } from "@/components/base/badges/badges";
@@ -32,6 +34,7 @@ import GitHub from "@/components/foundations/social-icons/github";
 import LinkedIn from "@/components/foundations/social-icons/linkedin";
 import { BackgroundPattern } from "@/components/shared-assets/background-patterns";
 import { Illustration } from "@/components/shared-assets/illustrations";
+import { SlideoutMenu } from "@/components/application/slideout-menus/slideout-menu";
 import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
 import { NavItemBase } from "@/components/application/app-navigation/base-components/nav-item";
 import { formatCareerDate, profile as careerProfile, veteransAffairsName } from "@/lib/career";
@@ -43,6 +46,10 @@ const emailAddress = "mohamedmoheyeldin.jobs@gmail.com";
 const email = `mailto:${emailAddress}`;
 const root = `${import.meta.env.BASE_URL.replace(/\/?$/, "")}/`;
 const href = (path = "") => `${root}${path}`;
+const resumePdf = href("resume/mohamed-moheyeldin-resume-detailed.pdf");
+const resumeWord = href("resume/mohamed-moheyeldin-resume-detailed.docx");
+const linkedInUrl = "https://www.linkedin.com/in/moheyeldin/";
+const gitHubUrl = "https://github.com/mohamedmoheyeldin";
 
 export function Header({ name, headline, location, path }: { name: string; headline: string; location: string; path: string }) {
   const headerRef = useRef<HTMLElement>(null);
@@ -81,10 +88,12 @@ export function Header({ name, headline, location, path }: { name: string; headl
         </nav>
         <div className="header-contact">
           <ThemeToggle />
-          <Button href={href("resume/mohamed-moheyeldin-resume-detailed.pdf")} download color="secondary" size="sm" iconLeading={Download01}>
+          <MobileMenu path={path} />
+          <Button className="max-[720px]:hidden" href={resumePdf} download color="secondary" size="sm" iconLeading={Download01}>
             Download resume
           </Button>
           <Button
+            className="max-[720px]:hidden"
             href={email}
             color="secondary"
             size="sm"
@@ -95,6 +104,38 @@ export function Header({ name, headline, location, path }: { name: string; headl
         </div>
       </div>
     </header>
+  );
+}
+
+// Phone-width navigation. The trigger appears after hydration because the dialog needs JavaScript;
+// without it, the header's inline Home and Experience links still work.
+function MobileMenu({ path }: { path: string }) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
+  if (!ready) return null;
+  return (
+    <SlideoutMenu.Trigger>
+      <ButtonUtility className="min-[721px]:hidden" color="tertiary" size="sm" icon={Menu02} tooltip="Open menu" tooltipPlacement="bottom" />
+      <SlideoutMenu isDismissable className="z-50">
+        {({ close }) => (
+          <>
+            <SlideoutMenu.Header onClose={close}>
+              <p className="text-lg font-semibold text-primary">Menu</p>
+            </SlideoutMenu.Header>
+            <SlideoutMenu.Content role="presentation">
+              <nav className="flex flex-col gap-1" aria-label="Mobile navigation">
+                <NavItemBase type="link" href={root} current={path === "/"}>Home</NavItemBase>
+                <NavItemBase type="link" href={href("experience/")} current={path.includes("/experience")}>Experience</NavItemBase>
+              </nav>
+            </SlideoutMenu.Content>
+            <SlideoutMenu.Footer className="flex flex-col gap-3">
+              <Button href={resumePdf} download color="secondary" iconLeading={Download01}>Download resume</Button>
+              <Button href={email} iconLeading={Mail01}>Get in touch</Button>
+            </SlideoutMenu.Footer>
+          </>
+        )}
+      </SlideoutMenu>
+    </SlideoutMenu.Trigger>
   );
 }
 
@@ -116,19 +157,35 @@ export function Footer({ name, headline }: { name: string; headline: string }) {
   return (
     <footer className="site-footer">
       <div className="shell footer-top">
-        <div>
+        <div className="footer-brand">
           <Button color="link-gray" size="lg" href={root}>
             {name}
           </Button>
-          <p>{headline}</p>
+          <p>{headline} building software with the people who use it.</p>
+          <div className="footer-social">
+            <ButtonUtility color="secondary" size="sm" icon={LinkedIn} tooltip="LinkedIn" href={linkedInUrl} />
+            <ButtonUtility color="secondary" size="sm" icon={GitHub} tooltip="GitHub" href={gitHubUrl} />
+            <ButtonUtility color="secondary" size="sm" icon={Mail01} tooltip="Email" href={email} />
+          </div>
         </div>
-        <nav className="footer-links" aria-label="Footer navigation">
-          <Button color="link-gray" href={root}>Home</Button>
-          <Button color="link-gray" href={href("experience/")}>Experience</Button>
-          <Button color="link-gray" href={href("resume/mohamed-moheyeldin-resume-detailed.pdf")}>Resume (PDF)</Button>
-          <Button color="link-gray" href={href("resume/mohamed-moheyeldin-resume-detailed.docx")} download>Resume (Word)</Button>
-          <Button color="link-gray" href="https://www.linkedin.com/in/moheyeldin/" iconLeading={LinkedIn}>LinkedIn</Button>
-          <Button color="link-gray" href="https://github.com/mohamedmoheyeldin" iconLeading={GitHub}>GitHub</Button>
+        <nav className="footer-columns" aria-label="Footer navigation">
+          <div>
+            <p className="footer-heading">Site</p>
+            <Button color="link-gray" href={root}>Home</Button>
+            <Button color="link-gray" href={href("experience/")}>Experience</Button>
+            <Button color="link-gray" href={href("experience/#learning")}>Credentials</Button>
+          </div>
+          <div>
+            <p className="footer-heading">Resume</p>
+            <Button color="link-gray" href={resumePdf}>PDF</Button>
+            <Button color="link-gray" href={resumeWord} download>Word</Button>
+          </div>
+          <div>
+            <p className="footer-heading">Connect</p>
+            <Button color="link-gray" href={email}>Email</Button>
+            <Button color="link-gray" href={linkedInUrl}>LinkedIn</Button>
+            <Button color="link-gray" href={gitHubUrl}>GitHub</Button>
+          </div>
         </nav>
       </div>
       <div className="shell footer-bottom">
@@ -204,26 +261,25 @@ function ResumeConnection({ project }: { project: Project }) {
 }
 
 function ProjectCard({ project }: { project: Project }) {
+  const target = href(`experience/#project-${project.slug}`);
   return (
     <article className="project-card">
-      <div className="project-card-body">
-        <div className="card-kicker">
-          <Badge color={project.kind === "independent" ? "brand" : "gray"} size="md">
-            {project.kind === "independent" ? "Independent project" : project.context.replace(veteransAffairsName, "VA")}
-          </Badge>
-          <span>{project.period}</span>
-        </div>
-        <h3>
-          <Button color="link-gray" className="w-full justify-between text-left text-xl font-semibold whitespace-normal text-primary" href={href(`experience/#project-${project.slug}`)} iconTrailing={ArrowUpRight}>
-            {project.name}
-          </Button>
-        </h3>
-        <p>{project.description}</p>
-        <Tags items={project.technologies.slice(0, 4)} />
+      <div className="card-kicker">
+        <Badge color={project.kind === "independent" ? "brand" : "gray"} size="md">
+          {project.kind === "independent" ? "Independent project" : project.context.replace(veteransAffairsName, "VA")}
+        </Badge>
+        <span>{project.period}</span>
       </div>
-      <aside className="project-card-connection" aria-label={`${project.name} experience`}>
-        <ResumeConnection project={project} />
-      </aside>
+      <h3>
+        <Button color="link-gray" className="text-left text-xl font-semibold whitespace-normal text-primary" href={target}>
+          {projectDisplayName(project)}
+        </Button>
+      </h3>
+      <p>{project.description}</p>
+      <Tags items={project.technologies.slice(0, 4)} />
+      <Button className="project-card-link" color="link-color" href={target} iconTrailing={ArrowRight} aria-label={`Read the ${projectDisplayName(project)} case study`}>
+        Read case study
+      </Button>
     </article>
   );
 }
@@ -231,7 +287,7 @@ function ProjectCard({ project }: { project: Project }) {
 function orderedProjects(projects: Project[]) {
   return [...projects].sort(
     (a, b) =>
-      Number(b.kind === "independent") - Number(a.kind === "independent"),
+      Number(a.kind === "independent") - Number(b.kind === "independent"),
   );
 }
 
@@ -241,8 +297,8 @@ export function Home({ profile }: { profile: Profile }) {
       <section className="shell home-hero relative isolate overflow-hidden" id="professional-profile">
         <BackgroundPattern pattern="grid" size="lg" className="absolute top-0 left-1/2 -z-10 -translate-x-1/2 max-md:hidden" />
         <div className="hero-copy">
-          <BadgeGroup className="mb-6 cursor-default" color="brand" addonText={`${profile.experienceYears} years`} iconTrailing={null}>
-            Federal, e-commerce &amp; banking
+          <BadgeGroup className="mb-6 w-fit max-w-full cursor-default text-left" theme="modern" color="success" addonText="Open to FDE roles" iconTrailing={null}>
+            {profile.experienceYears} years · Federal, e-commerce &amp; banking
           </BadgeGroup>
           <h1>
             Forward Deployed Engineer <span>building software with the people who use it.</span>
@@ -252,7 +308,7 @@ export function Home({ profile }: { profile: Profile }) {
           </p>
           <div className="hero-buttons hero-actions">
             <Button size="xl" href={href("experience/#experience-projects")} iconTrailing={ArrowRight}>View my work</Button>
-            <Button size="xl" color="secondary" href={href("resume/mohamed-moheyeldin-resume-detailed.pdf")} download iconLeading={Download01}>Download resume</Button>
+            <Button size="xl" color="secondary" href={resumePdf} download iconLeading={Download01}>Download resume</Button>
           </div>
         </div>
       </section>
@@ -271,48 +327,14 @@ export function Home({ profile }: { profile: Profile }) {
             ))}
         </div>
       </section>
-      <section className="expertise-section">
-        <div className="section shell">
-          <header className="section-heading-centered">
-          <p className="eyebrow">What I do</p>
-          <h2>What my days look like.</h2>
+      <section className="section shell profile-centered" aria-labelledby="how-i-work-heading">
+        <header className="section-heading-centered">
+          <p className="eyebrow">How I work</p>
+          <h2 id="how-i-work-heading">Start with the people using it.</h2>
           <p className="section-intro">
             Most of my work is connecting systems, building small tools, and
             working closely with the people who use them.
           </p>
-          </header>
-          <div className="expertise-grid">
-            {[
-              {
-                icon: Code02,
-                title: "APIs, tools, and integrations",
-                text: "I integrate APIs, build tools that generate and process data, and automate work that would otherwise be repeated by hand.",
-              },
-              {
-                icon: GitBranch01,
-                title: "Cloud and delivery systems",
-                text: "I have used GitHub Actions and AWS test environments to run checks and track down why something failed.",
-              },
-              {
-                icon: LayersTwo01,
-                title: "Working with stakeholders",
-                text: "I meet with stakeholders and users, write down what they need, demo the work, and keep supporting it after release.",
-              },
-            ].map(({ icon: Icon, title, text }) => (
-              <article key={title}>
-                <FeaturedIcon icon={Icon} color="brand" theme="light" size="lg" />
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-      <EngineeringToolkit profile={profile} />
-      <section className="section shell profile-centered" aria-labelledby="how-i-work-heading">
-        <header>
-          <p className="eyebrow">How I work</p>
-          <h2 id="how-i-work-heading">Start with the people using it.</h2>
         </header>
         <ol className="process-steps">
           {processSteps.map(({ icon, title, text }, index) => (
@@ -333,21 +355,24 @@ export function Home({ profile }: { profile: Profile }) {
           </p>
         </div>
       </section>
+      <EngineeringToolkit profile={profile} />
       <Contact />
     </>
   );
 }
 
-function ExplorerChoice({ title, description, active, ...props }: {
+function ExplorerChoice({ title, description, active, compact = false, ...props }: {
   title: string;
   description: string;
   active: boolean;
+  /** Shorter rows for the vertical project menu. */
+  compact?: boolean;
   href: string;
   id?: string;
   onClick: NonNullable<ButtonComponentProps["onClick"]>;
 }) {
   return <Button {...props} color="tertiary"
-    className={`h-full min-h-28 w-full items-start justify-start rounded-lg px-4 py-4 whitespace-normal text-left ring-1 ring-inset max-sm:min-h-0 [&>[data-text]]:w-full ${active ? "bg-brand-primary_alt text-brand-secondary ring-brand hover:bg-brand-primary_alt" : "bg-primary text-secondary ring-secondary hover:bg-secondary hover:ring-primary"}`}
+    className={`${compact ? "py-3" : "h-full min-h-28 py-4"} w-full items-start justify-start rounded-lg px-4 whitespace-normal text-left ring-1 ring-inset max-sm:min-h-0 [&>[data-text]]:w-full ${active ? "bg-brand-primary_alt text-brand-secondary ring-brand hover:bg-brand-primary_alt" : "bg-primary text-secondary ring-secondary hover:bg-secondary hover:ring-primary"}`}
     aria-current={active ? "true" : undefined}>
     <span className="flex w-full min-w-0 flex-col gap-2">
       <span>{title}</span>
@@ -383,7 +408,7 @@ function ProjectExplorer({ profile }: { profile: Profile }) {
   return <section className="work-explorer" aria-label="Project explorer">
       <nav className="project-selector" aria-label="Choose a project">
         <p className="sr-only">Projects &amp; employment</p>
-        {projects.map((item) => <ExplorerChoice key={item.slug} id={`project-${item.slug}`} href={href(`experience/${item.slug}/`)}
+        {projects.map((item) => <ExplorerChoice compact key={item.slug} id={`project-${item.slug}`} href={href(`experience/${item.slug}/`)}
           title={projectDisplayName(item)}
           description={profile.experience.find((role) => role.id === item.experienceId)?.employer ?? "Independent project"}
           active={item.slug === selected}
@@ -637,6 +662,33 @@ function CredentialStrip({ profile }: { profile: Profile }) {
   );
 }
 
+function WorkHistory({ profile }: { profile: Profile }) {
+  return (
+    <section className="section shell" id="work-history" aria-labelledby="work-history-heading">
+      <header className="section-heading-centered">
+        <p className="eyebrow">Work history</p>
+        <h2 id="work-history-heading">Where I have worked.</h2>
+      </header>
+      <ol className="work-timeline">
+        {profile.experience.map((role) => (
+          <li key={role.id}>
+            <FeaturedIcon icon={Briefcase01} color={role.end ? "gray" : "brand"} theme="modern" size="md" />
+            <div>
+              <p className="work-timeline-dates">
+                <time dateTime={role.start}>{formatCareerDate(role.start)}</time> — {role.end ? <time dateTime={role.end}>{formatCareerDate(role.end)}</time> : "Present"}
+              </p>
+              <h3>{role.professionalTitle ?? role.title}</h3>
+              <p className="work-timeline-employer">{role.employer} · {role.location}</p>
+              {role.customer && <p className="work-timeline-customer">End customer: {role.customer}</p>}
+              <p>{role.summary}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
 export function Work({ profile }: { profile: Profile }) {
   const credentialGroups = profile.verifiedCredentials.reduce<Map<string, Profile["verifiedCredentials"]>>((groups, credential) => {
     groups.set(credential.issuer, [...(groups.get(credential.issuer) ?? []), credential]);
@@ -657,6 +709,13 @@ export function Work({ profile }: { profile: Profile }) {
           </p>
         </div>
       </section>
+      <nav className="shell page-sections" aria-label="On this page">
+        <NavItemBase type="link" href="#experience-projects">Projects</NavItemBase>
+        <NavItemBase type="link" href="#work-history">Work history</NavItemBase>
+        <NavItemBase type="link" href="#approach">Approach</NavItemBase>
+        <NavItemBase type="link" href="#engineering-toolkit">Skills</NavItemBase>
+        <NavItemBase type="link" href="#learning">Learning</NavItemBase>
+      </nav>
       <CredentialStrip profile={profile} />
       <section className="section shell" id="experience-projects">
         <header className="section-heading-centered">
@@ -665,7 +724,8 @@ export function Work({ profile }: { profile: Profile }) {
         </header>
         <ProjectExplorer profile={profile} />
       </section>
-      <section className="section shell profile-centered" aria-labelledby="approach-heading">
+      <WorkHistory profile={profile} />
+      <section className="section shell profile-centered" id="approach" aria-labelledby="approach-heading">
         <header>
           <p className="eyebrow">My approach</p>
           <h2 id="approach-heading">How I approach the work.</h2>
@@ -922,6 +982,7 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
           </div>
         </div>
       </article>
+      {!embedded && <ProjectPager project={project} />}
       {!embedded && <Contact />}
     </>
   );
@@ -937,6 +998,23 @@ function CopyEmail() {
     onPress={() => navigator.clipboard?.writeText(emailAddress).then(() => setCopied(true), () => setCopied(false))} />;
 }
 
+function ProjectPager({ project }: { project: Project }) {
+  const projects = careerProfile.projects;
+  const index = projects.findIndex((item) => item.slug === project.slug);
+  const previous = projects[(index - 1 + projects.length) % projects.length]!;
+  const next = projects[(index + 1) % projects.length]!;
+  return (
+    <nav className="shell project-pager" aria-label="More projects">
+      <Button color="secondary" size="lg" className="whitespace-normal text-left" href={href(`experience/${previous.slug}/`)} iconLeading={ArrowLeft}>
+        <span className="flex flex-col"><span className="text-xs font-medium text-tertiary">Previous project</span>{projectDisplayName(previous)}</span>
+      </Button>
+      <Button color="secondary" size="lg" className="whitespace-normal text-right" href={href(`experience/${next.slug}/`)} iconTrailing={ArrowRight}>
+        <span className="flex flex-col"><span className="text-xs font-medium text-tertiary">Next project</span>{projectDisplayName(next)}</span>
+      </Button>
+    </nav>
+  );
+}
+
 export function Contact() {
   return (
     <section className="contact-section">
@@ -950,9 +1028,14 @@ export function Contact() {
           </p>
         </div>
         <div className="contact-actions">
-          <Button href={email} size="xl" iconLeading={Mail01}>
-            Get in touch
-          </Button>
+          <div className="contact-buttons">
+            <Button href={email} size="xl" iconLeading={Mail01}>
+              Get in touch
+            </Button>
+            <Button href={linkedInUrl} size="xl" color="secondary" iconLeading={LinkedIn}>
+              Message me on LinkedIn
+            </Button>
+          </div>
           <div className="flex max-w-full items-center gap-1">
             <Button className="max-w-full whitespace-normal break-all text-center" href={email} color="link-color" size="sm">
               {emailAddress}

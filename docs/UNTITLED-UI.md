@@ -8,7 +8,7 @@ The `untitledui` branch replaces the previous website presentation with free Unt
 - Snapshot: `4702dc0ea8d140c3491a85670c7b4fab47b722da`
 - License: MIT; full notice in `UNTITLED-UI-LICENSE`.
 - Light and dark themes come from the upstream `.dark-mode` tokens in `theme.css`; the header toggle switches them.
-- Imported and rendered: button, utility button with tooltip, badge variants, badge group, tabs, navigation item, featured icon, dot icon, LinkedIn and GitHub social icons, the grid background pattern, the cloud illustration, class utilities, React component guard, and theme CSS. Each was added with the official `untitledui` CLI and adapted to strict TypeScript with `definedProps`; pattern and illustration indexes list only the vendored variants. Unused button group, input, and empty-state sources were removed.
+- Imported and rendered: button, utility button with tooltip, close button, slide-out menu (phone navigation), badge variants, badge group, tabs, navigation item, featured icon, dot icon, LinkedIn and GitHub social icons, the grid background pattern, the cloud illustration, class utilities, React component guard, and theme CSS. Each was added with the official `untitledui` CLI and adapted to strict TypeScript with `definedProps`; pattern and illustration indexes list only the vendored variants. Unused button group, input, and empty-state sources were removed.
 - Icons: `@untitledui/icons`.
 - Installation guidance: https://www.untitledui.com/react/docs/installation
 
