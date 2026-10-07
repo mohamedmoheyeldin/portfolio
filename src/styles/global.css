@@ -94,9 +94,9 @@
   .section#experience-projects { padding-top: 32px; }
   .work-explorer { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
   .project-selector { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
-  .work-explorer:not(.toolkit-explorer) { grid-template-columns: 280px minmax(0, 1fr); gap: 40px; }
-  .work-explorer:not(.toolkit-explorer) > .project-selector { display: flex; flex-direction: column; gap: 8px; position: sticky; top: calc(var(--site-header-height, 92px) + 16px); }
-  .work-explorer:not(.toolkit-explorer) > .project-selector > a { min-height: 0; }
+  .work-explorer { grid-template-columns: 280px minmax(0, 1fr); gap: 40px; }
+  .work-explorer > .project-selector { display: flex; flex-direction: column; gap: 8px; position: sticky; top: calc(var(--site-header-height, 92px) + 16px); }
+  .work-explorer > .project-selector > a { min-height: 0; }
   .work-explorer > *, .case-body > * { min-width: 0; }
   .project-selector > a { width: 100%; min-width: 0; }
   .project-summary-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; padding: 20px; border-radius: 8px; background: var(--color-bg-secondary); margin-top: 24px; }
@@ -122,9 +122,9 @@
   .embedded-case .overview-columns > section + section:not([hidden]) { padding-top: 0; border-top: 0; }
   .detail-selector { display: flex; justify-content: center; max-width: 100%; overflow-x: auto; padding: 4px; margin-bottom: 32px; }
   @media (max-width: 1000px) {
-    .work-explorer:not(.toolkit-explorer) { grid-template-columns: minmax(0, 1fr); gap: 28px; }
-    .work-explorer:not(.toolkit-explorer) > .project-selector { position: static; flex-direction: row; overflow-x: auto; padding-bottom: 4px; scroll-snap-type: x mandatory; }
-    .work-explorer:not(.toolkit-explorer) > .project-selector > a { flex: 0 0 240px; scroll-snap-align: start; }
+    .work-explorer { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .work-explorer > .project-selector { position: static; flex-direction: row; overflow-x: auto; padding-bottom: 4px; scroll-snap-type: x mandatory; }
+    .work-explorer > .project-selector > a { flex: 0 0 240px; scroll-snap-align: start; }
   }
   @media (max-width: 1000px) { .project-selector { grid-template-columns: repeat(3, minmax(0, 1fr)); } .project-summary-meta { grid-template-columns: 1fr; } .overview-columns { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 720px) {
@@ -758,8 +758,7 @@ h1 > span {
 @media (max-width: 560px) { .process-steps { grid-template-columns: minmax(0, 1fr); } }
 .project-card { transition: box-shadow 150ms ease, border-color 150ms ease; }
 .project-card:hover { box-shadow: var(--shadow-lg); border-color: var(--color-border-primary); }/* Experience: on-page section links, work history timeline, and case-study pager. */
-.page-sections { display: flex; gap: 4px; max-width: 640px; padding-bottom: 24px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
-.page-sections > a { justify-content: center; }
+.page-sections { display: flex; justify-content: center; padding-bottom: 32px; }
 .work-timeline { list-style: none; padding: 0; margin: 0 auto; max-width: 760px; display: grid; gap: 0; }
 .work-timeline li { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 20px; padding-bottom: 36px; }
 .work-timeline li:not(:last-child)::before { content: ""; position: absolute; left: 19px; top: 48px; bottom: 8px; width: 2px; background: var(--color-border-secondary); }

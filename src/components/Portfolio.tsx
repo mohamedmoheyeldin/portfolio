@@ -558,7 +558,7 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
       <div className={detailed ? "work-explorer toolkit-explorer" : undefined}>
         {detailed && <nav className="project-selector toolkit-selector" aria-label="Choose an expertise category">
           <p className="sr-only">Skills &amp; tools</p>
-          {areas.map(area => <ExplorerChoice key={area.label}
+          {areas.map(area => <ExplorerChoice compact key={area.label}
             href={`#toolkit-category-${area.categories[0]}`}
             title={area.label} description={area.summary} active={area === selectedArea}
             onClick={event => {
@@ -709,13 +709,15 @@ export function Work({ profile }: { profile: Profile }) {
           </p>
         </div>
       </section>
-      <nav className="shell page-sections" aria-label="On this page">
-        <NavItemBase type="link" href="#experience-projects">Projects</NavItemBase>
-        <NavItemBase type="link" href="#work-history">Work history</NavItemBase>
-        <NavItemBase type="link" href="#approach">Approach</NavItemBase>
-        <NavItemBase type="link" href="#engineering-toolkit">Skills</NavItemBase>
-        <NavItemBase type="link" href="#learning">Learning</NavItemBase>
-      </nav>
+      <div className="shell page-sections">
+        <nav className="flex max-w-full gap-1 overflow-x-auto rounded-xl bg-secondary_alt p-1.5 ring-1 ring-secondary ring-inset" aria-label="On this page">
+          {[["experience-projects", "Projects"], ["work-history", "Work history"], ["approach", "Approach"], ["engineering-toolkit", "Skills"], ["learning", "Learning"]].map(([id, label]) => (
+            <a key={id} href={`#${id}`} className="rounded-md px-3 py-2 text-sm font-semibold whitespace-nowrap text-quaternary outline-focus-ring transition duration-100 ease-linear hover:bg-primary_alt hover:text-secondary hover:shadow-sm focus-visible:outline-2 focus-visible:-outline-offset-2">
+              {label}
+            </a>
+          ))}
+        </nav>
+      </div>
       <CredentialStrip profile={profile} />
       <section className="section shell" id="experience-projects">
         <header className="section-heading-centered">
