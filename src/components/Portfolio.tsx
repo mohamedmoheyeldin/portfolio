@@ -78,14 +78,12 @@ export function Header({ name, headline, location, path }: { name: string; headl
           >
             Experience
           </NavItemBase>
-          <NavItemBase type="link"
-            href={href("resume/mohamed-moheyeldin-resume-detailed.pdf")}
-          >
-            Resume
-          </NavItemBase>
         </nav>
         <div className="header-contact">
           <ThemeToggle />
+          <Button href={href("resume/mohamed-moheyeldin-resume-detailed.pdf")} download color="secondary" size="sm" iconLeading={Download01}>
+            Download resume
+          </Button>
           <Button
             href={email}
             color="secondary"
