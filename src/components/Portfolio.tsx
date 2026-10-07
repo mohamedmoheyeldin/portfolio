@@ -387,7 +387,7 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
     ...profile.skillGroups.map(group => ({
       ...group,
       description: descriptions[group.label],
-      items: group.label === "AI-assisted engineering" ? [...group.items, "Codex", "Code review", "Debugging & refactoring"] : group.items,
+      items: group.label === "AI-assisted engineering" ? [...group.items, "Code review", "Debugging & refactoring"] : group.items,
     })),
     {
       label: "Internal tools & file workflows",
