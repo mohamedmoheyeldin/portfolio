@@ -18,14 +18,14 @@ The shared header contains personal branding, primary navigation, and a contact 
 
 - Vite 8.x, React 19, strict TypeScript, semantic HTML, and Tailwind CSS v4.
 - Static output for Cloudflare Workers Static Assets and the custom domain.
-- Free Untitled UI React components supply buttons and links, navigation items and disclosure triggers, badges, featured icons, tooltip support, icons, and theme tokens. Components render to static HTML through React server rendering at build time. The application hydrates after static HTML loads; the Work page uses React state for project and detail-section selection, with hash links and browser history support. See `UNTITLED-UI.md` for the component inventory and source adaptations.
+- Free Untitled UI React components supply buttons and links, navigation items and disclosure triggers, badges, featured icons, tooltip support, icons, and theme tokens. Components render to static HTML through React server rendering at build time. The application hydrates after static HTML loads; the Experience page uses React state for project and detail-section selection, with hash links and browser history support. See `UNTITLED-UI.md` for the component inventory and source adaptations.
 - `src/components/Portfolio.tsx` shares page composition. Routes retain static content collection reads, route generation, and page metadata. There is no client router or application server.
-- Automated validation covers TypeScript diagnostics, content schemas, production builds, and subpath packaging. UI workflows and accessibility are reviewed with an available browser tool; no browser test framework is installed.
+- Automated validation covers TypeScript diagnostics, content schemas, production builds, and subpath packaging. UI workflows and accessibility are reviewed in a browser only on explicit request; no browser test framework is installed.
 - The standalone Python resume generator reads the same career JSON and renders PDF and DOCX downloads.
 
 ## Project storytelling
 
-Work projects reference a canonical experience ID. Cards and detail pages link to that employer's section in the online resume; experience entries link back to their projects. Independent work has a separate resume section and no employer association. Schema validation rejects missing or invalid work-to-experience references.
+Work projects reference a canonical experience ID. The Experience page shows that employer, role, and end customer in the project's detail panel. Independent work has no employer association. Schema validation rejects missing or invalid work-to-experience references.
 
 Career-derived projects are stored beside the canonical career record and rendered through static detail routes. Their challenge, approach, outcome, toolkit, and disclosure fields are schema-validated. The project layer may reorganize documented responsibilities into a clearer narrative, but it cannot invent metrics or expose client-sensitive details.
 

@@ -41,8 +41,8 @@ runInNewContext(legacy.match(/<script>(.*?)<\/script>/s)[1], {
 if (destination !== '/portfolio/experience/?from=legacy#project-ccrs-test-data-tooling') throw new Error('Legacy redirect lost its base path, query, or fragment.');
 if (!legacy.includes('0;url=/portfolio/experience/')) throw new Error('Missing static redirect fallback.');
 if (sitemap.includes('/about/')) throw new Error('Legacy About route must not appear in the sitemap.');
-if (home.includes('href="/portfolio/about/"')) throw new Error('Homepage links must use the consolidated Work route.');
-console.log('Consolidated Work route and legacy redirect validated.');
+if (home.includes('href="/portfolio/about/"')) throw new Error('Homepage links must use the consolidated Experience route.');
+console.log('Consolidated Experience route and legacy redirect validated.');
 
 for (const oldPath of ['/work/', ...JSON.parse(career)[0].projects.map(p => `/work/${p.slug}/`)]) {
   const html = await readFile(`dist${oldPath}index.html`, 'utf8');

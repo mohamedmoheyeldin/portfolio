@@ -7,7 +7,7 @@ The `untitledui` branch replaces the previous website presentation with free Unt
 - Source: https://github.com/untitleduico/react
 - Snapshot: `4702dc0ea8d140c3491a85670c7b4fab47b722da`
 - License: MIT; full notice in `UNTITLED-UI-LICENSE`.
-- Imported: button, button group, badge variants, input/label/hint, tooltip, navigation item, featured icon, empty state, dot icon, class utilities, React component guard, and theme CSS.
+- Imported: button, button group, badge variants, input/label/hint, tooltip, navigation item, featured icon, empty state, dot icon, class utilities, React component guard, and theme CSS. The input/label/hint, tooltip, and empty-state sources are vendored for future use; the current pages do not render them.
 - Icons: `@untitledui/icons`.
 - Installation guidance: https://www.untitledui.com/react/docs/installation
 
@@ -30,9 +30,9 @@ Remaining local composition consists of page sections, content cards and the acc
 
 The repository retains strict TypeScript configuration. `definedProps` omits undefined optional values when passing props between upstream React components. Button booleans receive explicit defaults. The input's icon type reflects the className prop actually passed to the icon. These changes make the imported components compatible with `exactOptionalPropertyTypes` without disabling checks.
 
-Navigation applies the same optional-prop adaptation. The empty-state source retains its root, header, featured icon, content, title, description, and footer; unused file-icon, background-pattern, illustration, and avatar variants were omitted to avoid unused dependencies. Its title is an `h3` and content is a `div`, preserving the work page's heading hierarchy and single main landmark. Layout CSS is in `@layer components`, below upstream utilities, and obsolete custom control selectors have been removed.
+Navigation applies the same optional-prop adaptation. The empty-state source retains its root, header, featured icon, content, title, description, and footer; unused file-icon, background-pattern, illustration, and avatar variants were omitted to avoid unused dependencies. Its title is an `h3` and content is a `div`, preserving the surrounding page's heading hierarchy and single main landmark. Layout CSS is in `@layer components`, below upstream utilities, and obsolete custom control selectors have been removed.
 
-The prerendered React application hydrates in the browser. Portfolio content renders static React output through React server rendering at build time. Navigation, project content, case studies, native experience disclosures, and downloads remain usable without JavaScript. The homepage shows all project cards. The Work page uses project selection and section controls to display one project at a time; search and category filters remain removed. Preserve direct project routes and no-JavaScript fallback links.
+The prerendered React application hydrates in the browser. Portfolio content renders static React output through React server rendering at build time. Navigation, project content, case studies, and downloads remain usable without JavaScript. The homepage shows all project cards. The Experience page uses project selection and section controls to display one project at a time; search and category filters remain removed. Preserve direct project routes and no-JavaScript fallback links.
 
 ## Review and deployment
 
