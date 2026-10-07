@@ -103,7 +103,6 @@
   .embedded-case { padding: 28px 0 0; margin-top: 0; }
   .embedded-case .case-hero { padding: 0; min-width: 0; text-align: left; }
   .embedded-case .case-hero > h2 { font-size: var(--text-display-xs); line-height: var(--text-display-xs--line-height); text-align: center; }
-  .embedded-case .case-badge { margin: 0 0 12px; }
   .embedded-case .case-hero > p { margin: 14px 0; font-size: var(--text-md); }
   .embedded-case .case-facts { justify-content: flex-start; flex-wrap: wrap; gap: 16px 40px; margin-block: 18px; padding-top: 16px; }
   .embedded-case .project-affiliation { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 16px; }
@@ -228,16 +227,6 @@ h1 > span {
 }
 .trademark-notice p + p { margin-top: 12px; }
 .trademark-notice p { font-size: inherit; line-height: inherit; color: inherit; }
-.section-heading-row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 28px;
-  margin-bottom: var(--section-heading-gap);
-}
-.section-heading-row p:last-child {
-  margin-top: 14px;
-}
 .project-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -334,16 +323,6 @@ h1 > span {
 .expertise-grid p {
   font-size: var(--text-md);
   line-height: var(--text-md--line-height);
-}
-.about-teaser,
-.story-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 70px;
-}
-.about-teaser > div:last-child p,
-.story-grid > div:last-child p {
-  margin-bottom: 20px;
 }
 .contact-section {
   background: var(--color-brand-50);
@@ -450,12 +429,6 @@ h1 > span {
 .project-affiliation { display: grid; gap: 12px; }
 .project-affiliation dt { font-size: var(--text-xs); color: var(--color-text-tertiary); margin-bottom: 4px; }
 .project-affiliation dd { margin: 0; }
-.skill-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 32px;
-  margin-top: 36px;
-}
 .expertise-section + .expertise-section { border-top: 0; }
 .toolkit-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px; align-items: start; }
 .toolkit-list article { display: flex; align-items: flex-start; gap: 16px; border-top: 1px solid var(--color-border-secondary); padding-block: 24px; min-width: 0; }
@@ -534,18 +507,9 @@ h1 > span {
   border-top: 1px solid var(--color-border-secondary);
 }
 .learning-list li:first-child { border-top: 0; }
-.learning-list h4 { margin: 0 0 4px; font-size: var(--text-md); line-height: var(--text-md--line-height); font-weight: 600; }
+.learning-list h5 { margin: 0 0 4px; font-size: var(--text-md); line-height: var(--text-md--line-height); font-weight: 600; }
 .learning-list p { margin: 0; font-size: var(--text-sm); line-height: var(--text-sm--line-height); color: var(--color-text-tertiary); }
 .toolkit-evidence { margin-top: 32px; }
-.skill-grid article {
-  border-top: 1px solid var(--color-border-secondary);
-  padding-top: 24px;
-}
-.skill-grid h3 {
-  font-size: var(--text-md);
-  line-height: var(--text-md--line-height);
-  margin-bottom: 16px;
-}
 .plain-list {
   list-style: disc;
   padding-left: 20px;
@@ -749,10 +713,7 @@ h1 > span {
 .case-body h3 { margin-block: 24px 12px; }
 .plain-list li + li { margin-top: 8px; }
 .case-hero .project-affiliation { max-width: 840px; margin: 24px auto; }
-.section-title { text-align: center; margin-bottom: var(--section-heading-gap); }
-.section-title .section-intro { margin-inline: auto; }
 .project-summary-meta a { white-space: normal; text-align: left; }
-.embedded-case .case-badge { justify-content: flex-start; }
 @media (max-width: 1000px) {
   .shell {
     width: calc(100% - 48px);
@@ -808,12 +769,6 @@ h1 > span {
   .hero-copy h1 {
     max-width: 600px;
   }
-  .section-heading-row {
-    display: block;
-  }
-  .section-heading-row > a {
-    margin-top: 24px;
-  }
   .project-grid {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -824,11 +779,6 @@ h1 > span {
   }
   .expertise-grid article {
     max-width: 540px;
-  }
-  .about-teaser,
-  .story-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
   }
   .contact-inner {
     display: block;
@@ -862,7 +812,6 @@ h1 > span {
     grid-template-columns: 1fr;
     gap: 8px;
   }
-.skill-grid,
   .resume-choices {
     grid-template-columns: minmax(0, 1fr);
   }

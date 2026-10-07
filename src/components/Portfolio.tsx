@@ -19,26 +19,17 @@ import { Button, type Props as ButtonComponentProps } from "@/components/base/bu
 import { Badge } from "@/components/base/badges/badges";
 import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
 import { NavItemBase } from "@/components/application/app-navigation/base-components/nav-item";
-import type { getCareerProfile } from "@/lib/career";
-import { profile as careerProfile, veteransAffairsName } from "@/lib/career";
+import { formatCareerDate, profile as careerProfile, veteransAffairsName } from "@/lib/career";
 import credentialImages from "@/content/credential-images.json";
 
-type Profile = Awaited<ReturnType<typeof getCareerProfile>>;
+type Profile = typeof careerProfile;
 type Project = Profile["projects"][number];
 const emailAddress = "mohamedmoheyeldin.jobs@gmail.com";
 const email = `mailto:${emailAddress}`;
 const root = `${import.meta.env.BASE_URL.replace(/\/?$/, "")}/`;
 const href = (path = "") => `${root}${path}`;
-const date = (value: string | null) =>
-  value
-    ? new Intl.DateTimeFormat("en-US", {
-        month: "short",
-        year: "numeric",
-        timeZone: "UTC",
-      }).format(new Date(`${value}-01T00:00:00Z`))
-    : "Present";
 
-export function Header({ name, location, path }: { name: string; location: string; path: string }) {
+export function Header({ name, headline, location, path }: { name: string; headline: string; location: string; path: string }) {
   const headerRef = useRef<HTMLElement>(null);
   useEffect(() => {
     const header = headerRef.current;
@@ -59,7 +50,7 @@ export function Header({ name, location, path }: { name: string; location: strin
           <Button color="link-gray" size="lg" href={root} aria-label={`${name}, home`}>
             {name}
           </Button>
-          <span className="wordmark-caption">Forward Deployed Engineer</span>
+          <span className="wordmark-caption">{headline}</span>
           <span className="header-location">{location}</span>
         </div>
         <nav aria-label="Primary navigation">
@@ -94,7 +85,7 @@ export function Header({ name, location, path }: { name: string; location: strin
   );
 }
 
-export function Footer({ name }: { name: string }) {
+export function Footer({ name, headline }: { name: string; headline: string }) {
   return (
     <footer className="site-footer">
       <div className="shell footer-top">
@@ -102,7 +93,7 @@ export function Footer({ name }: { name: string }) {
           <Button color="link-gray" size="lg" href={root}>
             {name}
           </Button>
-          <p>Forward Deployed Engineer</p>
+          <p>{headline}</p>
         </div>
         <nav className="footer-links" aria-label="Footer navigation">
           <Button color="link-gray" href={root}>Home</Button>
@@ -113,7 +104,8 @@ export function Footer({ name }: { name: string }) {
         </nav>
       </div>
       <div className="shell footer-bottom">
-        <span>
+        {/* The prerendered year can lag the visitor's clock until the next build. */}
+        <span suppressHydrationWarning>
           © {new Date().getFullYear()} {name}
         </span>
         <Button className="max-w-full whitespace-normal text-left" color="link-gray" href={href("experience/portfolio-career-content-system/")} iconTrailing={ArrowUpRight}>
@@ -325,8 +317,8 @@ function ExplorerChoice({ title, description, active, ...props }: {
   </Button>;
 }
 
-function ProjectExplorer({ profile, showExperience = false }: { profile: Profile; showExperience?: boolean }) {
-  const projects = showExperience ? profile.projects : orderedProjects(profile.projects);
+function ProjectExplorer({ profile }: { profile: Profile }) {
+  const projects = profile.projects;
   const [selected, setSelected] = useState(projects[0]!.slug);
   const [ready, setReady] = useState(false);
   useEffect(() => {
@@ -342,7 +334,7 @@ function ProjectExplorer({ profile, showExperience = false }: { profile: Profile
       window.removeEventListener("hashchange", sync);
       window.removeEventListener("popstate", sync);
     };
-  }, [profile, showExperience]);
+  }, [profile]);
   const selectProject = (slug: string) => {
     if (!projects.some((project) => project.slug === slug)) return;
     setSelected(slug);
@@ -543,7 +535,8 @@ function CredentialStrip({ profile }: { profile: Profile }) {
   if (!previews.length) return null;
 
   return (
-    <section className="credential-strip shell" aria-label="Verified credentials">
+    <section className="credential-strip shell" aria-labelledby="credentials-heading">
+      <h2 className="sr-only" id="credentials-heading">Verified credentials</h2>
       <ul className="credential-grid">
         {previews.map(({ credential, image, verificationHref }) => (
           <li className="credential-card" key={verificationHref ?? credential.name}>
@@ -604,7 +597,7 @@ export function Work({ profile }: { profile: Profile }) {
           <h2>Experience &amp; projects</h2>
           <p className="section-intro">{profile.experienceYears} years across federal, e-commerce, and banking. The work is below.</p>
         </header>
-        <ProjectExplorer profile={profile} showExperience />
+        <ProjectExplorer profile={profile} />
       </section>
       <section className="section shell profile-centered" aria-labelledby="approach-heading">
         <header>
@@ -667,7 +660,7 @@ export function Work({ profile }: { profile: Profile }) {
                     {credentials.map((credential) => (
                       <li key={`${credential.name}-${credential.issuedOn}`}>
                         <div>
-                          <h4>{credential.name}</h4>
+                          <h5>{credential.name}</h5>
                           <p>Issued <time dateTime={credential.issuedOn}>{credential.issuedOn.slice(0, 4)}</time></p>
                         </div>
                         {credential.href && (
@@ -687,7 +680,7 @@ export function Work({ profile }: { profile: Profile }) {
                     {profile.credentials.map((credential) => (
                       <li key={credential}>
                         <div>
-                          <h4>{credential}</h4>
+                          <h5>{credential}</h5>
                         </div>
                       </li>
                     ))}
@@ -804,7 +797,7 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
             {role ? <>
               <div><span className="eyebrow">Employer &amp; role</span>
                 <strong className="project-employer">{role.employer}</strong>
-                <p>{role.professionalTitle ?? role.title} · {date(role.start)} — {date(role.end)}</p>
+                <p>{role.professionalTitle ?? role.title} · {formatCareerDate(role.start)} — {formatCareerDate(role.end)}</p>
               </div>
               {role.customer && <div><span className="eyebrow">End customer</span><EndCustomer customer={role.customer} /></div>}
             </> : <p>Independent project · Designed and developed by me · {project.period}</p>}

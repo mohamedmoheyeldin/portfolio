@@ -11,5 +11,5 @@ export function routeInfo(path: string) {
 export function App({path}: {path: string}) {
   const {project} = routeInfo(path);
   const content = path === '/' ? <Home profile={profile}/> : path === '/experience/' ? <Work profile={profile}/> : path === '/resume/' ? <Resume/> : project ? <CaseStudy project={project}/> : <NotFound/>;
-  return <><a className="skip-link" href="#main-content">Skip to content</a><Header name={profile.name} location={profile.location} path={path}/><main id="main-content">{content}</main><Footer name={profile.name}/></>;
+  return <><a className="skip-link" href="#main-content">Skip to content</a><Header name={profile.name} headline={profile.headline} location={profile.location} path={path}/><main id="main-content">{content}</main><Footer name={profile.name} headline={profile.headline}/></>;
 }

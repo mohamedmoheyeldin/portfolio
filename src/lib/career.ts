@@ -32,10 +32,6 @@ export const profile = {
   })),
 };
 
-export async function getCareerProfile() {
-  return profile;
-}
-
 export function formatCareerDate(value: string | null): string {
   if (!value) return 'Present';
 

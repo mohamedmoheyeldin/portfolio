@@ -40,7 +40,7 @@ This is the canonical React/Vite portfolio and multi-format resume platform. The
 
 - Start with `README.md`, `docs/DEVELOPMENT.md`, and `docs/TESTING.md`.
 - `docs/ARCHITECTURE.md` and `docs/CONTENT_PROVENANCE.md` define the key content boundaries.
-- Project-scoped Untitled UI MCP: `.codex/config.toml`, official HTTPS endpoint; no credentials needed for free components.
+- Project-scoped Untitled UI MCP: `.codex/config.toml` (Codex) and `.mcp.json` (Claude Code), official HTTPS endpoint; no credentials needed for free components.
 
 - Keep `components.json` aliases aligned with TypeScript and Vite. Use upstream typography, color, and shadow tokens for portfolio styles; avoid a parallel token system or custom control styles.
 
