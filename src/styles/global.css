@@ -108,6 +108,7 @@
   .embedded-case .case-hero { padding: 0; min-width: 0; text-align: left; }
   .embedded-case .case-hero > h2 { font-size: var(--text-display-xs); line-height: var(--text-display-xs--line-height); text-align: center; }
   .embedded-case .case-hero > p { margin: 14px 0; font-size: var(--text-md); }
+  .embedded-case .case-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
   .embedded-case .case-facts { justify-content: flex-start; flex-wrap: wrap; gap: 16px 40px; margin-block: 18px; padding-top: 16px; }
   .embedded-case .project-affiliation { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 16px; }
   .embedded-case .case-body { display: block; padding: 24px 0 0; }

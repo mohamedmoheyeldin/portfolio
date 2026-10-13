@@ -25,11 +25,13 @@ import {
   Sun,
   Menu02,
   Briefcase01,
+  ChevronDown,
 } from "@untitledui/icons";
 import { Button, type Props as ButtonComponentProps } from "@/components/base/buttons/button";
 import { Badge, BadgeWithIcon } from "@/components/base/badges/badges";
 import { BadgeGroup } from "@/components/base/badges/badge-groups";
 import { ButtonUtility } from "@/components/base/buttons/button-utility";
+import { Dropdown } from "@/components/base/dropdown/dropdown";
 import GitHub from "@/components/foundations/social-icons/github";
 import LinkedIn from "@/components/foundations/social-icons/linkedin";
 import { BackgroundPattern } from "@/components/shared-assets/background-patterns";
@@ -46,8 +48,8 @@ const emailAddress = "mohamedmoheyeldin.jobs@gmail.com";
 const email = `mailto:${emailAddress}`;
 const root = `${import.meta.env.BASE_URL.replace(/\/?$/, "")}/`;
 const href = (path = "") => `${root}${path}`;
-const resumePdf = href("resume/mohamed-moheyeldin-resume-detailed.pdf");
-const resumeWord = href("resume/mohamed-moheyeldin-resume-detailed.docx");
+const resumeFile = (version: "one-page" | "detailed", format: "pdf" | "docx") => href(`resume/mohamed-moheyeldin-resume-${version}.${format}`);
+const resumePdf = resumeFile("detailed", "pdf");
 const linkedInUrl = "https://www.linkedin.com/in/moheyeldin/";
 const gitHubUrl = "https://github.com/mohamedmoheyeldin";
 
@@ -89,9 +91,7 @@ export function Header({ name, headline, location, path }: { name: string; headl
         <div className="header-contact">
           <ThemeToggle />
           <MobileMenu path={path} />
-          <Button className="max-[720px]:hidden" href={resumePdf} download color="secondary" size="sm" iconLeading={Download01}>
-            Download resume
-          </Button>
+          <ResumeMenu variant="header" />
           <Button
             className="max-[720px]:hidden"
             href={email}
@@ -129,13 +129,40 @@ function MobileMenu({ path }: { path: string }) {
               </nav>
             </SlideoutMenu.Content>
             <SlideoutMenu.Footer className="flex flex-col gap-3">
-              <Button href={resumePdf} download color="secondary" iconLeading={Download01}>Download resume</Button>
+              <Button href={resumeFile("one-page", "pdf")} download color="secondary" iconLeading={Download01}>One-page resume</Button>
+              <Button href={resumePdf} download color="secondary" iconLeading={Download01}>Full resume</Button>
               <Button href={email} iconLeading={Mail01}>Get in touch</Button>
             </SlideoutMenu.Footer>
           </>
         )}
       </SlideoutMenu>
     </SlideoutMenu.Trigger>
+  );
+}
+
+// Lets visitors pick the one-page or full resume. Without JavaScript the trigger stays a plain link to the full resume.
+function ResumeMenu({ variant, format = "pdf" }: { variant: "header" | "hero" | "footer"; format?: "pdf" | "docx" }) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
+  const label = variant === "footer" ? (format === "pdf" ? "PDF" : "Word") : "Download resume";
+  const download = variant !== "footer" || format === "docx";
+  const button = {
+    header: { className: "max-[720px]:hidden", color: "secondary", size: "sm", iconLeading: Download01 },
+    hero: { color: "secondary", size: "xl", iconLeading: Download01 },
+    footer: { color: "link-gray" },
+  } as const;
+  if (!ready) return <Button {...button[variant]} href={resumeFile("detailed", format)} download={download}>{label}</Button>;
+  const formatName = format === "pdf" ? "PDF" : "Word";
+  return (
+    <Dropdown.Root>
+      <Button {...button[variant]} iconTrailing={ChevronDown} {...(variant === "footer" && { "aria-label": `Resume as ${formatName}` })}>{label}</Button>
+      <Dropdown.Popover placement={variant === "header" ? "bottom end" : "bottom start"}>
+        <Dropdown.Menu aria-label={`Choose a ${formatName} resume`}>
+          <Dropdown.Item href={resumeFile("one-page", format)} download={download} addon="1 page" textValue="One-page resume">One-page resume</Dropdown.Item>
+          <Dropdown.Item href={resumeFile("detailed", format)} download={download} addon="2 pages" textValue="Full resume">Full resume</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown.Popover>
+    </Dropdown.Root>
   );
 }
 
@@ -177,8 +204,8 @@ export function Footer({ name, headline }: { name: string; headline: string }) {
           </div>
           <div>
             <p className="footer-heading">Resume</p>
-            <Button color="link-gray" href={resumePdf}>PDF</Button>
-            <Button color="link-gray" href={resumeWord} download>Word</Button>
+            <ResumeMenu variant="footer" format="pdf" />
+            <ResumeMenu variant="footer" format="docx" />
           </div>
           <div>
             <p className="footer-heading">Connect</p>
@@ -308,7 +335,7 @@ export function Home({ profile }: { profile: Profile }) {
           </p>
           <div className="hero-buttons hero-actions">
             <Button size="xl" href={href("experience/#experience-projects")} iconTrailing={ArrowRight}>View my work</Button>
-            <Button size="xl" color="secondary" href={resumePdf} download iconLeading={Download01}>Download resume</Button>
+            <ResumeMenu variant="hero" />
           </div>
         </div>
       </section>
@@ -910,6 +937,15 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
       <p>This site has no runtime API or database. My API and integration work is described in the work projects.</p>
       <div className="hero-buttons"><Button color="secondary" href={href("experience/")}>Explore the interface</Button><Button color="secondary" href={href("resume/mohamed-moheyeldin-resume-detailed.pdf")}>Inspect the resume output</Button></div>
     </section>;
+  const repositoryLink = project.repository && (
+    <Button
+      href={project.repository}
+      color="secondary"
+      iconTrailing={ArrowUpRight}
+    >
+      {project.repositoryVisibility === "private" ? "GitHub repository (private)" : "View source on GitHub"}
+    </Button>
+  );
   return (
     <>
       <article className={embedded ? "embedded-case" : undefined}>
@@ -942,15 +978,12 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
             </dl>
             <ResumeConnection project={project} />
           </>}
-          {project.repository && (
-            <Button
-              href={project.repository}
-              color="secondary"
-              iconTrailing={ArrowUpRight}
-            >
-              {project.repositoryVisibility === "private" ? "GitHub repository (private)" : "View source on GitHub"}
+          {embedded ? <div className="case-actions">
+            <Button href={href(`experience/${project.slug}/`)} color="secondary" iconTrailing={ArrowRight}>
+              More about this project
             </Button>
-          )}
+            {repositoryLink}
+          </div> : repositoryLink}
           {project.repositoryVisibility === "private" && <p>Private source. GitHub access requires repository permission.</p>}
         </header>
         <div className={embedded ? "case-body" : "shell case-body"}>
