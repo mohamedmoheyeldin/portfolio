@@ -162,9 +162,9 @@ def professional_development(profile: dict, compact: bool) -> list[list[tuple[st
     lines = []
     groups = {}
     for credential in verified:
-        groups.setdefault((credential["issuer"], credential["issuedOn"]), []).append(credential)
-    for (issuer, issued_on), credentials in groups.items():
-        metadata = f'{issuer} | Issued {issued_on[:4]}'
+        groups.setdefault((credential["issuer"], credential["issuedOn"][:4]), []).append(credential)
+    for (issuer, issued_year), credentials in groups.items():
+        metadata = f'{issuer} | Issued {issued_year}'
         parts = [(metadata + ": ", None)]
         for index, credential in enumerate(credentials):
             if index:

@@ -171,6 +171,13 @@
     "credentials": [],
     "verifiedCredentials": [
       {
+        "name": "Claude Code in Action",
+        "issuer": "Claude Academy",
+        "issuedOn": "2026-10-13",
+        "expiresOn": null,
+        "href": "https://academy.claude.com/verify/7b3ff04abc3498d68852e61ed374b97a"
+      },
+      {
         "name": "Building with the Claude API",
         "issuer": "Claude Academy",
         "issuedOn": "2026-10-12",
