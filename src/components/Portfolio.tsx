@@ -557,11 +557,11 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
       }))
     : groups;
   const areas = [
-    { label: "Customer & business", summary: "Discovery, requirements & decisions", categories: [0, 1, 2] },
-    { label: "Application engineering", summary: "Development, internal tools & AI", categories: [3, 6, 7] },
-    { label: "Data & integration", summary: "Data, identity & troubleshooting", categories: [4, 9, 14] },
-    { label: "Quality & delivery", summary: "Validation, builds & releases", categories: [5, 12, 15] },
-    { label: "Platforms & tools", summary: "Web, repositories & environments", categories: [8, 10, 11, 13] },
+    { label: "Customer & Business", summary: "Discovery, requirements & decisions", categories: [0, 1, 2] },
+    { label: "Application Engineering", summary: "Development, internal tools & AI", categories: [3, 6, 7] },
+    { label: "Data & Integration", summary: "Data, identity & troubleshooting", categories: [4, 9, 14] },
+    { label: "Quality & Delivery", summary: "Validation, builds & releases", categories: [5, 12, 15] },
+    { label: "Platforms & Tools", summary: "Web, repositories & environments", categories: [8, 10, 11, 13] },
   ];
   const selectedArea = areas.find(area => area.categories.includes(selectedCategory)) ?? areas[0]!;
   useEffect(() => {
@@ -748,7 +748,7 @@ export function Work({ profile }: { profile: Profile }) {
       <CredentialStrip profile={profile} />
       <section className="section shell" id="experience-projects">
         <header className="section-heading-centered">
-          <h2>Experience &amp; projects</h2>
+          <h2>Experience &amp; Projects</h2>
           <p className="section-intro">{profile.experienceYears} years across federal, e-commerce, and banking. The work is below.</p>
         </header>
         <ProjectExplorer profile={profile} />
