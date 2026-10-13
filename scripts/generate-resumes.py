@@ -295,7 +295,8 @@ def role_pdf(story, styles, role, compact, highlights):
 
 def build_pdf(profile: dict, output: Path, compact: bool):
     margin = 0.62 * inch
-    document = SimpleDocTemplate(str(output), pagesize=letter, rightMargin=margin, leftMargin=margin, topMargin=margin, bottomMargin=margin, title=f'{profile["name"]} Resume', author=profile["name"])
+    vertical_margin = 0.52 * inch
+    document = SimpleDocTemplate(str(output), pagesize=letter, rightMargin=margin, leftMargin=margin, topMargin=vertical_margin, bottomMargin=vertical_margin, title=f'{profile["name"]} Resume', author=profile["name"])
     styles = pdf_styles(compact)
     story = [
         Paragraph(profile["name"], styles["name"]),

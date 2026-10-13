@@ -171,6 +171,13 @@
     "credentials": [],
     "verifiedCredentials": [
       {
+        "name": "Introduction to Model Context Protocol",
+        "issuer": "Claude Academy",
+        "issuedOn": "2026-10-13",
+        "expiresOn": null,
+        "href": "https://academy.claude.com/verify/36670c0d9aaee696aa3e0ba4874e7b64"
+      },
+      {
         "name": "Claude Code in Action",
         "issuer": "Claude Academy",
         "issuedOn": "2026-10-13",
