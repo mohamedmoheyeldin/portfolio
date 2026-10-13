@@ -171,6 +171,13 @@
     "credentials": [],
     "verifiedCredentials": [
       {
+        "name": "Building with the Claude API",
+        "issuer": "Claude Academy",
+        "issuedOn": "2026-10-12",
+        "expiresOn": null,
+        "href": "https://academy.claude.com/verify/08fc7ab740323b8a73ceebb7360cd1fb"
+      },
+      {
         "name": "AI Foundations",
         "issuer": "OpenAI Academy",
         "issuedOn": "2026-10-02",

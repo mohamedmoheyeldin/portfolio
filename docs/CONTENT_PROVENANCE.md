@@ -1,5 +1,9 @@
 # Content provenance
 
+## October 13, 2026 Claude Academy credential
+
+The user supplied the Claude Academy course completion badge PDF for **Building with the Claude API** and its public verification link (https://academy.claude.com/verify/08fc7ab740323b8a73ceebb7360cd1fb). The badge names Mohamed Moheyeldin and an October 12, 2026 issue date, with no expiration shown. It shows course completion, not production delivery. The badge PDF was rendered unaltered to `public/credentials/claude-academy-building-with-the-claude-api.webp` for the credentials strip. It appears in the website's Courses & certifications list and in all seven resume formats.
+
 ## October 3, 2026 VA impact and Tableau details
 
 The user reported the following about the VA claims work, all user-reported and not independently measured: stakeholder demonstrations led at the end of each release cycle and program increment since 2022; working sessions with health-provider claims processors and, at times, VA end users on production issues; work with health providers to integrate APIs so live claim status displays in the VA system for staff, providers, and veterans by role (previously not continuously updated from the VA side); a claims framework, created after stakeholder questions about stuck claims, that notifies the right party so claims keep moving and are easier to track; and enabling the team to use Tableau, with custom dashboards for VA and internal users that grew, through repeated VA stakeholder discussions, into the main way to monitor server health and system status. The wording avoids absolute claims such as "claims can never be stuck". The user's note "every PI" is written as program increment. No counts, dates beyond 2022, or system names were added, and internal endpoints and environment details remain unpublished.
