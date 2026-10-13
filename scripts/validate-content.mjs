@@ -53,7 +53,9 @@ for (const image of credentialImages) {
   if (!credentialKeys.has(imageKey(image))) throw Error('Credential image must reference a canonical verified credential.');
 }
 for (const credential of records[0].verifiedCredentials) {
-  if (['Claude Academy', 'OpenAI Academy', 'Palantir'].includes(credential.issuer) && credential.href && !credentialImages.some(image => image.credentialHref === credential.href)) throw Error(`${credential.issuer} credential is missing its presentation image.`);
+  // Claude Academy badges are supplied as files; until one arrives the credential stays out of the strip but remains in Learning and the resumes.
+  if (['OpenAI Academy', 'Palantir'].includes(credential.issuer) && credential.href && !credentialImages.some(image => image.credentialHref === credential.href)) throw Error(`${credential.issuer} credential is missing its presentation image.`);
+  if (credential.issuer === 'Claude Academy' && credential.href && !credentialImages.some(image => image.credentialHref === credential.href)) console.warn(`${credential.name} has no badge image yet; it is omitted from the credential strip.`);
 }
 console.log('Credential image presentation references validated.');
 
