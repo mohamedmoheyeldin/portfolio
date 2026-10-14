@@ -171,6 +171,13 @@
     "credentials": [],
     "verifiedCredentials": [
       {
+        "name": "Introduction to Claude Tag",
+        "issuer": "Claude Academy",
+        "issuedOn": "2026-10-14",
+        "expiresOn": null,
+        "href": "https://academy.claude.com/verify/cadc41a99079191b7e5f153fe0788fce"
+      },
+      {
         "name": "AI Capabilities and Limitations",
         "issuer": "Claude Academy",
         "issuedOn": "2026-10-14",
