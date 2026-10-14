@@ -1,12 +1,16 @@
 # Content provenance
 
+## October 14, 2026 Claude Academy AI Capabilities and Limitations credential
+
+The user supplied the Claude Academy course completion badge PDF for **AI Capabilities and Limitations** and its public verification link (https://academy.claude.com/verify/a8f51b0d97c8fffc177c879a70765dbf). The badge names Mohamed Moheyeldin and an October 14, 2026 issue date, with no expiration shown. It shows course completion, not production delivery. The badge PDF was rendered unaltered to `public/credentials/claude-academy-ai-capabilities-and-limitations.webp` for the credentials strip. It appears in the website's Courses & certifications list and in all seven resume formats.
+
 ## October 13, 2026 Claude Academy Introduction to Model Context Protocol credential
 
 The user supplied the Claude Academy course completion badge PDF for **Introduction to Model Context Protocol** and its public verification link (https://academy.claude.com/verify/36670c0d9aaee696aa3e0ba4874e7b64). The badge names Mohamed Moheyeldin and an October 13, 2026 issue date, with no expiration shown. It shows course completion, not production delivery. The badge PDF was rendered unaltered to `public/credentials/claude-academy-introduction-to-model-context-protocol.webp` for the credentials strip. It appears in the website's Courses & certifications list and in all seven resume formats.
 
 ## October 13, 2026 Claude Academy Claude Code in Action credential
 
-The user supplied the public verification link https://academy.claude.com/verify/7b3ff04abc3498d68852e61ed374b97a. The verify page renders only in a browser, so its title and issue date could not be read during the update; **Claude Code in Action** comes from the user's own Claude Academy course plan (the course after Building with the Claude API) and the October 13, 2026 issue date is the day the user reported it, both pending the user's confirmation. No badge file was supplied, so the credential appears in the Courses & certifications list and all seven resume formats but not in the credentials strip; content validation warns until a badge image is added. It shows course completion, not production delivery.
+The user supplied the public verification link https://academy.claude.com/verify/7b3ff04abc3498d68852e61ed374b97a. The verify page renders only in a browser, so its title and issue date could not be read during the update; **Claude Code in Action** comes from the user's own Claude Academy course plan (the course after Building with the Claude API) and the October 13, 2026 issue date is the day the user reported it. The user confirmed both on October 13, 2026. No badge file was supplied, so the credential appears in the Courses & certifications list and all seven resume formats but not in the credentials strip; content validation warns until a badge image is added. It shows course completion, not production delivery.
 
 ## October 13, 2026 Claude Academy credential
 
