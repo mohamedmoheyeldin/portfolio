@@ -1,5 +1,9 @@
 # Content provenance
 
+## October 14, 2026 Claude Academy Introduction to Claude Cowork credential
+
+The user supplied the Claude Academy course completion badge PDF for **Introduction to Claude Cowork** and its public verification link (https://academy.claude.com/verify/1af5f73b464937fbf578738dd1c4a8fc). The badge names Mohamed Moheyeldin and an October 14, 2026 issue date, with no expiration shown. It shows course completion, not production delivery. The badge PDF was rendered unaltered to `public/credentials/claude-academy-introduction-to-claude-cowork.webp` for the credentials strip. It appears in the website's Courses & certifications list and in all seven resume formats.
+
 ## October 14, 2026 Claude Academy Introduction to Claude Tag credential
 
 The user supplied the Claude Academy course completion badge PDF for **Introduction to Claude Tag** and its public verification link (https://academy.claude.com/verify/cadc41a99079191b7e5f153fe0788fce). The badge names Mohamed Moheyeldin and an October 14, 2026 issue date, with no expiration shown. It shows course completion, not production delivery. The badge PDF was rendered unaltered to `public/credentials/claude-academy-introduction-to-claude-tag.webp` for the credentials strip. It appears in the website's Courses & certifications list and in all seven resume formats.
