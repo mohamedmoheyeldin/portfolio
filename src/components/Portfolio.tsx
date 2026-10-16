@@ -325,7 +325,7 @@ export function Home({ profile }: { profile: Profile }) {
         <BackgroundPattern pattern="grid" size="lg" className="absolute top-0 left-1/2 -z-10 -translate-x-1/2 max-md:hidden" />
         <div className="hero-copy">
           <BadgeGroup className="mb-6 w-fit max-w-full cursor-default text-left" theme="modern" color="success" addonText="Open to FDE roles" iconTrailing={null}>
-            {profile.experienceYears} years · Federal, e-commerce &amp; banking
+            {profile.experienceYears} years<span className="max-sm:hidden"> · Federal, e-commerce &amp; banking</span>
           </BadgeGroup>
           <h1>
             Forward Deployed Engineer <span>building software with the people who use it.</span>
