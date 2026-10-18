@@ -1061,9 +1061,9 @@ const auditSteps = [
 ];
 
 const hiringFits = [
-  "Defense-tech and public-sector AI companies hiring Forward Deployed Engineers",
-  "AI teams inside federal contractors",
-  "Healthcare and government programs with restricted environments and sensitive data",
+  "AI and software companies hiring Forward Deployed Engineers to work with their customers",
+  "Teams putting AI into real customer workflows, from documents to data pipelines",
+  "Regulated settings such as healthcare and government, where I have the most experience",
 ];
 
 // Two ways to work together: an FDE role, or a fixed-scope audit for organizations that want AI but can't hire for it yet.
@@ -1073,10 +1073,10 @@ function WorkWithMe() {
     <section className="section shell" id="work-with-me" aria-labelledby="work-with-me-heading">
       <header className="section-heading-centered">
         <p className="eyebrow">Work with me</p>
-        <h2 id="work-with-me-heading">Federal and healthcare work is where I fit best.</h2>
+        <h2 id="work-with-me-heading">Build it with the people who use it.</h2>
         <p className="section-intro">
-          Since 2020 I have worked on a VA healthcare claims platform, where production data is off-limits and the
-          people using the system shape what gets built. That is the work I want more of.
+          I am looking for Forward Deployed Engineer roles in any industry: working with customers, integrating their
+          systems, and shipping tools their teams use. Healthcare and federal work is where I have the deepest experience.
         </p>
       </header>
       <div className="offer-grid">
@@ -1088,7 +1088,7 @@ function WorkWithMe() {
           <h3 id="audit-heading">AI workflow audit</h3>
           <p className="offer-terms">2 weeks · fixed price</p>
           <p>
-            For mid-size healthcare organizations and government contractors that want to use AI but can't hire a team for it yet.
+            For teams that want to use AI in a real workflow but don't have the people to scope it yet.
           </p>
           <ol className="offer-steps">
             {auditSteps.map(({ title, text }) => (

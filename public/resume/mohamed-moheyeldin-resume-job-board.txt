@@ -9,7 +9,7 @@ Professional profile
 
 Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal healthcare, banking, and e-commerce. Integrate health-provider claim-status APIs, write React features, and built Data Generator & File Processing, which replaced hours of daily test-data prep with a 5-minute run. Work directly with stakeholders from first requirements conversations through demos and adoption.
 
-Most at home in federal and healthcare programs, where production data is off-limits, environments are restricted, and the people using the system need to be in the room. Work with stakeholders to clarify requirements and acceptance criteria, weigh technical constraints, demo changes, and help teams adopt the tools I build. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST APIs, Tableau dashboards, and CI workflows. Built a Claude-based claims document assistant with human review, and use AI coding assistants for development, debugging, and refactoring.
+Bring a customer-facing engineering approach to any industry, with the deepest experience in federal healthcare, where production data is off-limits and environments are restricted. Work with stakeholders to clarify requirements and acceptance criteria, weigh technical constraints, demo changes, and help teams adopt the tools I build. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST APIs, Tableau dashboards, and CI workflows. Built a Claude-based claims document assistant with human review, and use AI coding assistants for development, debugging, and refactoring.
 
 Professional experience
 
