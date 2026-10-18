@@ -1055,76 +1055,62 @@ function ProjectPager({ project }: { project: Project }) {
 }
 
 const auditSteps = [
-  { title: "Week 1: map the workflow", text: "I sit with the people who run one workflow, such as intake, claims, documents, or reporting, and trace where the time goes, where the data lives, and what access rules apply." },
-  { title: "Week 2: rank the options", text: "I test where AI helps and where it does not, using synthetic or approved data, and weigh each option against your systems, data handling rules, and team." },
-  { title: "Handoff: a plan you can act on", text: "You get a written report with ranked opportunities, risks, and a scoped first build, plus a walkthrough with your team." },
+  { label: "Week 1", title: "Map the workflow", text: "I sit with the people who run one workflow, such as intake, claims, documents, or reporting, and trace where the time goes, where the data lives, and which rules apply." },
+  { label: "Week 2", title: "Test where AI helps", text: "I try AI on synthetic or approved data and show where it earns its place, where it doesn't, and what it would take to run it for real." },
+  { label: "Handoff", title: "Leave with a plan", text: "You get ranked opportunities, the risks, and a scoped first build, walked through with your team so it doesn't sit in a drawer." },
 ];
 
-const hiringFits = [
-  "AI and software companies hiring Forward Deployed Engineers to work with their customers",
-  "Teams putting AI into real customer workflows, from documents to data pipelines",
-  "Regulated settings such as healthcare and government, where I have the most experience",
+const goodFits = [
+  "AI and software companies hiring Forward Deployed Engineers",
+  "Teams putting AI into real customer workflows",
+  "Regulated settings like healthcare and government",
 ];
 
-// Two ways to work together: an FDE role, or a fixed-scope audit for organizations that want AI but can't hire for it yet.
+// One offer for both audiences: an FDE role, or a fixed-scope audit for teams that want AI but can't staff it yet.
 function WorkWithMe() {
   const auditEmail = `${email}?subject=${encodeURIComponent("AI workflow audit")}`;
+  const roleEmail = `${email}?subject=${encodeURIComponent("Forward Deployed Engineer role")}`;
   return (
     <section className="section shell" id="work-with-me" aria-labelledby="work-with-me-heading">
       <header className="section-heading-centered">
         <p className="eyebrow">Work with me</p>
-        <h2 id="work-with-me-heading">Build it with the people who use it.</h2>
+        <h2 id="work-with-me-heading">Put AI to work where your people already are.</h2>
         <p className="section-intro">
-          I am looking for Forward Deployed Engineer roles in any industry: working with customers, integrating their
-          systems, and shipping tools their teams use. Healthcare and federal work is where I have the deepest experience.
+          Hire me as a Forward Deployed Engineer, or start with a two-week AI workflow audit. Either way, I work alongside the
+          people who use the system, connect it to your data, and ship something they rely on.
         </p>
       </header>
-      <div className="offer-grid">
-        <article className="offer-card offer-card-featured" aria-labelledby="audit-heading">
-          <div className="offer-card-header">
-            <FeaturedIcon icon={SearchLg} color="brand" theme="light" size="lg" />
-            <Badge color="brand" size="md">For organizations</Badge>
+      <article className="offer-panel" aria-labelledby="audit-heading">
+        <div className="offer-panel-intro">
+          <BadgeWithIcon color="brand" size="md" iconLeading={SearchLg}>AI workflow audit</BadgeWithIcon>
+          <h3 id="audit-heading">Two weeks. One workflow. A plan you can act on.</h3>
+          <p>Fixed price, quoted after a short intro call. For teams that want AI in a real workflow but don't have the people to scope it yet.</p>
+        </div>
+        <ol className="offer-timeline">
+          {auditSteps.map(({ label, title, text }, index) => (
+            <li key={title}>
+              <span className="offer-step-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <p className="offer-step-label">{label}</p>
+              <h4>{title}</h4>
+              <p>{text}</p>
+            </li>
+          ))}
+        </ol>
+        <div className="offer-panel-footer">
+          <div>
+            <p className="offer-fit-label">A good fit for</p>
+            <ul className="offer-fits">
+              {goodFits.map((fit) => (
+                <li key={fit}><Check aria-hidden="true" />{fit}</li>
+              ))}
+            </ul>
           </div>
-          <h3 id="audit-heading">AI workflow audit</h3>
-          <p className="offer-terms">2 weeks · fixed price</p>
-          <p>
-            For teams that want to use AI in a real workflow but don't have the people to scope it yet.
-          </p>
-          <ol className="offer-steps">
-            {auditSteps.map(({ title, text }) => (
-              <li key={title}>
-                <Check aria-hidden="true" />
-                <span><strong>{title}.</strong> {text}</span>
-              </li>
-            ))}
-          </ol>
           <div className="offer-actions">
             <Button href={auditEmail} size="lg" iconLeading={Mail01}>Ask about an audit</Button>
-            <span>The price is quoted after a short intro call.</span>
+            <Button href={roleEmail} size="lg" color="secondary" iconLeading={Briefcase01}>Talk about an FDE role</Button>
           </div>
-        </article>
-        <article className="offer-card" aria-labelledby="hiring-heading">
-          <div className="offer-card-header">
-            <FeaturedIcon icon={Briefcase01} color="gray" theme="modern" size="lg" />
-            <Badge color="gray" size="md">For hiring teams</Badge>
-          </div>
-          <h3 id="hiring-heading">Forward Deployed Engineer roles</h3>
-          <p>
-            I work directly with customers, integrate the systems they depend on, and build the tools their teams use every day.
-          </p>
-          <ul className="offer-steps">
-            {hiringFits.map((fit) => (
-              <li key={fit}>
-                <Check aria-hidden="true" />
-                <span>{fit}</span>
-              </li>
-            ))}
-          </ul>
-          <div className="offer-actions">
-            <Button href={email} size="lg" color="secondary" iconLeading={Mail01}>Talk about a role</Button>
-          </div>
-        </article>
-      </div>
+        </div>
+      </article>
     </section>
   );
 }
