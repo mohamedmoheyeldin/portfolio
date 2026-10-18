@@ -9,7 +9,7 @@ Professional profile
 
 Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal healthcare, banking, and e-commerce. Integrate health-provider claim-status APIs, write React features, and built Data Generator & File Processing, which replaced hours of daily test-data prep with a 5-minute run. Work directly with stakeholders from first requirements conversations through demos and adoption.
 
-Most at home in federal and healthcare programs, where production data is off-limits, environments are restricted, and the people using the system need to be in the room. Work with stakeholders to clarify requirements and acceptance criteria, weigh technical constraints, demo changes, and help teams adopt the tools I build. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST APIs, Tableau dashboards, and CI workflows. Use AI coding assistants for development, debugging, and refactoring.
+Most at home in federal and healthcare programs, where production data is off-limits, environments are restricted, and the people using the system need to be in the room. Work with stakeholders to clarify requirements and acceptance criteria, weigh technical constraints, demo changes, and help teams adopt the tools I build. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST APIs, Tableau dashboards, and CI workflows. Built a Claude-based claims document assistant with human review, and use AI coding assistants for development, debugging, and refactoring.
 
 Professional experience
 
@@ -45,7 +45,6 @@ Built reusable test tooling and used it to investigate REST APIs, authentication
 - Validated OIDC, Okta MFA, and SSO workflows, troubleshooting authentication behavior across application scenarios and capturing evidence for failure investigation.
 - Connected GitHub Actions and AWS test environments into repeatable delivery workflows, making execution results and diagnostic artifacts available to engineering teams.
 - Used AWS EC2, S3, and Aurora resources to support test environments; combined network stubbing, headless testing, and parallel execution to isolate dependencies and reproduce scenarios.
-- Investigated user-facing issues across browsers, devices, and resolutions with Applitools Eyes and browser automation evidence, using screenshots, videos, retries, and run durations to trace failures.
 
 Ally Bank — Sandy, UT
 
@@ -55,12 +54,14 @@ Worked with developers, analysts, and product owners to turn banking requirement
 
 - Translated business and functional requirements into test plans, acceptance criteria, and traceable scenarios with developers, analysts, and product owners.
 - Performed exploratory, functional, and regression testing of banking web applications, investigating behavior across customer workflows and platforms.
-- Validated responsive and cross-browser behavior across Chrome, Firefox, Safari, and Edge to identify inconsistent user experiences.
 - Created reproducible Jira defect reports with environment details and business impact; collaborated with developers to investigate causes and verify fixes.
 - Used SQL data checks alongside application validation to investigate discrepancies and verify expected results.
 - Supported smoke, regression, and sanity checks across development, QA, UAT, and staging environments, including deployment checks and hotfix verification.
 
-Selected project
+Selected projects
+
+Claims Document Assistant: Claude API assistant that extracts 17 fields from claim PDFs, flags gaps with fixed rules, and drafts replies a reviewer approves; 26 tests.
+https://github.com/mohamedmoheyeldin/claims-document-assistant
 
 Portfolio & Career Content System: Built a React/Untitled UI portfolio from validated JSON, with shared PDF/Word generation and static deployment packaging for Cloudflare.
 https://github.com/mohamedmoheyeldin/portfolio
@@ -69,7 +70,7 @@ Technical skills
 Application development: React, TypeScript, JavaScript, Java, Reusable components
 Data and integration: SQL, MySQL, JSON, REST APIs, Postman, Tableau, SQL Server, Oracle, MongoDB
 Delivery and quality: Playwright, GitHub Actions, Git, Jira, Jenkins, AWS EC2/S3/Aurora test environments
-AI-assisted engineering: GitHub Copilot, VS Code, GPT models, Claude, Gemini
+AI-assisted engineering: Claude API, GitHub Copilot, VS Code, GPT models, Claude, Gemini
 
 Education
 Bachelor's degree in Computer Science | American College of Commerce and Technology | May 2014

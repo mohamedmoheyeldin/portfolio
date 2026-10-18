@@ -926,7 +926,7 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
       <h2>Tools used.</h2>
       <Tags items={project.technologies} />
     </section>;
-  const walkthrough = project.kind === "independent" && <section id="walkthrough" tabIndex={-1}>
+  const walkthrough = project.slug === "portfolio-career-content-system" && <section id="walkthrough" tabIndex={-1}>
       {!embedded && <p className="eyebrow">07 / Implementation walkthrough</p>}
       <h2>How a content change reaches the site.</h2>
       <ol className="approach-list">
@@ -999,7 +999,7 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
             <NavItemBase type="link" href="#systems">04　Systems & decisions</NavItemBase>
             <NavItemBase type="link" href="#evidence">05　Evidence</NavItemBase>
             <NavItemBase type="link" href="#toolkit">06　The toolkit</NavItemBase>
-            {project.kind === "independent" && <NavItemBase type="link" href="#walkthrough">07　Walkthrough</NavItemBase>}
+            {project.slug === "portfolio-career-content-system" && <NavItemBase type="link" href="#walkthrough">07　Walkthrough</NavItemBase>}
           </aside>}
           <div className="project-detail-content">
             {interactive ? <Tabs selectedKey={section} onSelectionChange={(key) => setSection(String(key))}>
