@@ -370,8 +370,8 @@
           "Demonstrate updates, troubleshoot daily use, and document workflows so teammates can use and extend the tool."
         ],
         "outcome": "User-reported: the whole team uses Data Generator & File Processing daily. Work that took hours each day, plus keeping a database in every environment, now takes under 5 minutes for a full development database or up to 10,000 custom records, and developers rely on the same generated data in place of production records.",
-        "repository": "https://github.com/mohamedmoheyeldin/ccrs-file-processing-framework-js",
-        "repositoryVisibility": "private",
+        "repository": "https://github.com/mohamedmoheyeldin/data-generator-file-processing",
+        "repositoryVisibility": "public",
         "technologies": [
           "JavaScript",
           "Electron",
@@ -399,9 +399,9 @@
         "relevance": "This is how I handle a recurring team need: build a tool for it, connect it to the data and systems it touches, and keep supporting it as people use it.",
         "evidence": [
           {
-            "label": "Repository-documented implementation",
-            "detail": "The repository README documents the Electron UI/backend separation, JSON editing and generation, gzip packaging, upload handling, and the release workflow. A public copy is being prepared.",
-            "href": null
+            "label": "Browse the source",
+            "detail": "The public repository and its README document the Electron UI/backend separation, JSON editing and generation, gzip packaging, upload handling, and the release workflow.",
+            "href": "https://github.com/mohamedmoheyeldin/data-generator-file-processing"
           },
           {
             "label": "Reported team use",
