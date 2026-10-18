@@ -1068,8 +1068,7 @@ const goodFits = [
 
 // One offer for both audiences: an FDE role, or a fixed-scope audit for teams that want AI but can't staff it yet.
 function WorkWithMe() {
-  const auditEmail = `${email}?subject=${encodeURIComponent("AI workflow audit")}`;
-  const roleEmail = `${email}?subject=${encodeURIComponent("Forward Deployed Engineer role")}`;
+  const workEmail = `${email}?subject=${encodeURIComponent("Working together")}`;
   return (
     <section className="section shell" id="work-with-me" aria-labelledby="work-with-me-heading">
       <header className="section-heading-centered">
@@ -1106,8 +1105,7 @@ function WorkWithMe() {
             </ul>
           </div>
           <div className="offer-actions">
-            <Button href={auditEmail} size="lg" iconLeading={Mail01}>Ask about an audit</Button>
-            <Button href={roleEmail} size="lg" color="secondary" iconLeading={Briefcase01}>Talk about an FDE role</Button>
+            <Button href={workEmail} size="lg" iconLeading={Mail01}>Start a conversation</Button>
           </div>
         </div>
       </article>
