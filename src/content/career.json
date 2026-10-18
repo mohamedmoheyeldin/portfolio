@@ -358,9 +358,9 @@
         "role": "Application developer and maintainer",
         "period": "Ongoing",
         "name": "Data Generator & File Processing",
-        "description": "A JavaScript/Electron desktop application I built so developers and QA can create realistic referral data from scratch, since production data can't be used in VA lower environments, then package and upload it.",
-        "challenge": "Production data can't be used in VA lower environments, so developers and QA needed a repeatable way to create large volumes of realistic referral data from scratch and tailor it to their own workflows and use cases.",
-        "audience": "Developers and QA teams who need realistic referral data to build and test VA workflows without production records.",
+        "description": "A JavaScript/Electron desktop application I built so developers and QA can create realistic referral data from scratch when production data can't be used in test environments, then package and upload it.",
+        "challenge": "Production data can't be used in the team's lower environments, so developers and QA needed a repeatable way to create large volumes of realistic referral data from scratch and tailor it to their own workflows and use cases.",
+        "audience": "Developers and QA teams who need realistic referral data to build and test healthcare workflows without production records.",
         "approach": [
           "Independently built and continue to maintain Data Generator & File Processing for generating and editing referral data.",
           "Provide a desktop workflow for editing existing JSON, generating new files, and preparing combined data and gzip packages.",
@@ -370,8 +370,8 @@
           "Demonstrate updates, troubleshoot daily use, and document workflows so teammates can use and extend the tool."
         ],
         "outcome": "User-reported: the whole team uses Data Generator & File Processing daily. Work that took hours each day, plus keeping a database in every environment, now takes under 5 minutes for a full development database or up to 10,000 custom records, and developers rely on the same generated data in place of production records.",
-        "repository": "https://github.com/mohamedmoheyeldin/ccrs-file-processing-framework-js",
-        "repositoryVisibility": "private",
+        "repository": "https://github.com/mohamedmoheyeldin/data-generator-file-processing",
+        "repositoryVisibility": "public",
         "technologies": [
           "JavaScript",
           "Electron",
@@ -388,7 +388,7 @@
         "systems": [
           "Electron provides the desktop window, dialogs, and IPC between the renderer and backend logic.",
           "The file workflow reads and writes referral JSON and produces combined data and gzip archives.",
-          "Uploads use configured targets through SFTP or WinSCP. This is a desktop file-processing workflow; the VA claims application is a separate project.",
+          "Uploads use configured targets through SFTP or WinSCP. This is a desktop file-processing workflow; the claims application is a separate project.",
           "The repository documents a Windows installer and a GitHub Actions release workflow. No internal targets or upload settings are published here."
         ],
         "decisions": [
@@ -399,9 +399,9 @@
         "relevance": "This is how I handle a recurring team need: build a tool for it, connect it to the data and systems it touches, and keep supporting it as people use it.",
         "evidence": [
           {
-            "label": "Repository-documented implementation",
-            "detail": "The private repository README documents Electron UI/backend separation, JSON editing and generation, gzip packaging, and upload handling. Source access requires repository permission; no public demo is available.",
-            "href": null
+            "label": "Browse the source",
+            "detail": "The public repository and its README document the Electron UI/backend separation, JSON editing and generation, gzip packaging, upload handling, and the release workflow.",
+            "href": "https://github.com/mohamedmoheyeldin/data-generator-file-processing"
           },
           {
             "label": "Reported team use",
