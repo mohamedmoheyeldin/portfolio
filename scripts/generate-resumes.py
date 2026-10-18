@@ -202,6 +202,19 @@ def credential_text(parts: list[tuple[str, str | None]], markdown: bool) -> str:
     )
 
 
+def selected_projects(profile: dict, compact: bool) -> list[dict]:
+    """Independent projects with a resume summary, in career-record order; the one-page resume keeps the first."""
+    projects = [p for p in profile["projects"] if p.get("resumeSummary")]
+    return projects[:1] if compact else projects
+
+
+def project_link(project: dict) -> str:
+    """The portfolio links to the live site; other projects link to their public source."""
+    if project["slug"] == "portfolio-career-content-system":
+        return "mohamedmoheyeldin.com"
+    return project["repository"].removeprefix("https://")
+
+
 def add_role(document: Document, role: dict, compact: bool, highlights: list[str]):
     p = document.add_paragraph()
     p.paragraph_format.space_before = Pt(2.8 if compact else 7)
@@ -241,9 +254,9 @@ def build_docx(profile: dict, output: Path, compact: bool):
             doc.add_page_break()
             add_section_heading(doc, "Professional experience", "continued", False)
         add_role(doc, role, compact, role["compactHighlights"] if compact else role["highlights"])
-    project = next(p for p in profile["projects"] if p["slug"] == "portfolio-career-content-system")
-    add_section_heading(doc, "Selected", "project", compact)
-    add_body(doc, project["name"] + ": " + project["resumeSummary"] + " mohamedmoheyeldin.com", compact)
+    add_section_heading(doc, "Selected", "projects", compact)
+    for project in selected_projects(profile, compact):
+        add_body(doc, project["name"] + ": " + project["resumeSummary"] + " " + project_link(project), compact)
     add_section_heading(doc, "Technical", "skills", compact)
     for group in profile["skillGroups"]:
         add_body(doc, f'{group["label"]}: {", ".join(group["items"])}', compact)
@@ -311,9 +324,10 @@ def build_pdf(profile: dict, output: Path, compact: bool):
             story.append(PageBreak())
             section_pdf(story, styles, "Professional experience", "continued")
         role_pdf(story, styles, role, compact, role["compactHighlights"] if compact else role["highlights"])
-    project = next(p for p in profile["projects"] if p["slug"] == "portfolio-career-content-system")
-    section_pdf(story, styles, "Selected", "project")
-    story.append(Paragraph(project["name"] + ": " + project["resumeSummary"] + ' <link href="https://mohamedmoheyeldin.com">mohamedmoheyeldin.com</link>', styles["body"]))
+    section_pdf(story, styles, "Selected", "projects")
+    for project in selected_projects(profile, compact):
+        link = project_link(project)
+        story.append(Paragraph(escape(project["name"] + ": " + project["resumeSummary"]) + f' <link href="https://{link}">{link}</link>', styles["body"]))
     section_pdf(story, styles, "Technical", "skills")
     for group in profile["skillGroups"]:
         story.append(Paragraph(f'<b>{group["label"]}:</b> {", ".join(group["items"])}', styles["body"]))
@@ -337,8 +351,10 @@ def build_text(profile: dict, compact: bool, markdown: bool = True) -> str:
             lines += ["", role["summary"]]
         highlights = role["compactHighlights"] if compact else role["highlights"]
         lines += ["", *["- " + text for text in highlights]]
-    project = next(p for p in profile["projects"] if p["slug"] == "portfolio-career-content-system")
-    lines += ["", "## Selected project", "", project["name"] + ": " + project["resumeSummary"], project["repository"], "", "## Technical skills"]
+    lines += ["", "## Selected projects"]
+    for project in selected_projects(profile, compact):
+        lines += ["", project["name"] + ": " + project["resumeSummary"], project["repository"]]
+    lines += ["", "## Technical skills"]
     lines += [g["label"] + ": " + ", ".join(g["items"]) for g in profile["skillGroups"]]
     lines += ["", "## Education"]
     lines += [e["credential"] + " in " + e["field"] + " | " + e["institution"] + " | " + readable_date(e["end"]) for e in profile["education"]]

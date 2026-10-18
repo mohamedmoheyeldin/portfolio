@@ -10,7 +10,7 @@
     "summary": "Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal healthcare, banking, and e-commerce. Integrate health-provider claim-status APIs, write React features, and built Data Generator & File Processing, which replaced hours of daily test-data prep with a 5-minute run. Work directly with stakeholders from first requirements conversations through demos and adoption.",
     "detailedSummary": [
       "Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal healthcare, banking, and e-commerce. Integrate health-provider claim-status APIs, write React features, and built Data Generator & File Processing, which replaced hours of daily test-data prep with a 5-minute run. Work directly with stakeholders from first requirements conversations through demos and adoption.",
-      "Most at home in federal and healthcare programs, where production data is off-limits, environments are restricted, and the people using the system need to be in the room. Work with stakeholders to clarify requirements and acceptance criteria, weigh technical constraints, demo changes, and help teams adopt the tools I build. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST APIs, Tableau dashboards, and CI workflows. Use AI coding assistants for development, debugging, and refactoring."
+      "Most at home in federal and healthcare programs, where production data is off-limits, environments are restricted, and the people using the system need to be in the room. Work with stakeholders to clarify requirements and acceptance criteria, weigh technical constraints, demo changes, and help teams adopt the tools I build. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST APIs, Tableau dashboards, and CI workflows. Built a Claude-based claims document assistant with human review, and use AI coding assistants for development, debugging, and refactoring."
     ],
     "links": [
       {
@@ -73,6 +73,7 @@
       {
         "label": "AI-assisted engineering",
         "items": [
+          "Claude API",
           "GitHub Copilot",
           "VS Code",
           "GPT models",
@@ -127,8 +128,7 @@
           "Investigated application-to-service integration through browser automation and Postman REST API checks, validating schemas, service contracts, and data-dependent behavior to surface discrepancies.",
           "Validated OIDC, Okta MFA, and SSO workflows, troubleshooting authentication behavior across application scenarios and capturing evidence for failure investigation.",
           "Connected GitHub Actions and AWS test environments into repeatable delivery workflows, making execution results and diagnostic artifacts available to engineering teams.",
-          "Used AWS EC2, S3, and Aurora resources to support test environments; combined network stubbing, headless testing, and parallel execution to isolate dependencies and reproduce scenarios.",
-          "Investigated user-facing issues across browsers, devices, and resolutions with Applitools Eyes and browser automation evidence, using screenshots, videos, retries, and run durations to trace failures."
+          "Used AWS EC2, S3, and Aurora resources to support test environments; combined network stubbing, headless testing, and parallel execution to isolate dependencies and reproduce scenarios."
         ],
         "customer": null,
         "compactHighlights": [
@@ -148,7 +148,6 @@
         "highlights": [
           "Translated business and functional requirements into test plans, acceptance criteria, and traceable scenarios with developers, analysts, and product owners.",
           "Performed exploratory, functional, and regression testing of banking web applications, investigating behavior across customer workflows and platforms.",
-          "Validated responsive and cross-browser behavior across Chrome, Firefox, Safari, and Edge to identify inconsistent user experiences.",
           "Created reproducible Jira defect reports with environment details and business impact; collaborated with developers to investigate causes and verify fixes.",
           "Used SQL data checks alongside application validation to investigate discrepancies and verify expected results.",
           "Supported smoke, regression, and sanity checks across development, QA, UAT, and staging environments, including deployment checks and hotfix verification."
@@ -413,6 +412,10 @@
           {
             "slug": "federal-quality-delivery-system",
             "label": "VA Claims Workflows: the application work"
+          },
+          {
+            "slug": "claims-document-assistant",
+            "label": "Claims Document Assistant: built on the same referral fields"
           }
         ],
         "experienceId": "booz-allen-hamilton",
@@ -420,6 +423,81 @@
           "value": "Under 5 min",
           "label": "for a full development database or up to 10,000 records, replacing hours of data prep each day (user-reported)."
         }
+      },
+      {
+        "slug": "claims-document-assistant",
+        "kind": "independent",
+        "context": "AI document workflow",
+        "role": "Designer and engineer",
+        "period": "2026",
+        "name": "Claims Document Assistant",
+        "description": "An AI assistant that reads claim PDFs with Claude, pulls out 17 fields, flags missing or invalid information with fixed rules, and drafts the status reply for a person to review and approve.",
+        "challenge": "Claims examiners read every submitted document by hand to find the fields they need, check what is missing or wrong, and write back to the billing office. Documents arrive as forms, cover letters, and shorthand notes, so template-based extraction breaks as soon as the layout changes.",
+        "audience": "Claims-processing teams that review submitted documents and reply to billing offices, and the engineers who would evaluate an assistant like this before using it on real data.",
+        "approach": [
+          "Send each claim PDF to Claude as a document block, with structured outputs constraining the answer to a fixed 17-field claim schema and an instruction to return null rather than guess.",
+          "Validate the extracted fields with deterministic rules, not the model: required fields, NPI check digits, ICD-10 and CPT formats, date order, expired referrals, and non-positive amounts.",
+          "Draft a short status reply from the rule findings, with a template fallback when no API key is set or the model call fails.",
+          "Queue every result for a person: the reviewer sees the PDF beside the fields, edits fields or the draft, then approves, escalates, or rejects. Corrections are re-validated and every decision is logged.",
+          "Route declined requests to manual review instead of returning an empty result.",
+          "Generate 60 labelled synthetic claim PDFs in three layouts, using the referral fields from Data Generator & File Processing, and score extractors against that ground truth."
+        ],
+        "outcome": "The assistant extracts, checks, and drafts replies end to end on synthetic data, and nothing goes out until a reviewer approves it. A 26-test suite covers the validation rules, the exact request sent to Claude, refusal handling, reply drafts, and the review queue. Claude's extraction accuracy has not been measured yet; the repository includes the evaluation command that will produce it.",
+        "repository": "https://github.com/mohamedmoheyeldin/claims-document-assistant",
+        "repositoryVisibility": "public",
+        "technologies": [
+          "Claude API",
+          "TypeScript",
+          "Structured outputs",
+          "Node.js",
+          "Zod",
+          "Human-in-the-loop review"
+        ],
+        "highlights": [
+          "17 claim fields extracted from PDFs with Claude",
+          "Deterministic rules decide what is missing or invalid",
+          "Status reply drafted for review, never sent automatically",
+          "Review queue with audit log of every correction",
+          "60 synthetic claims in three layouts with ground truth",
+          "26 automated tests that run without an API key"
+        ],
+        "systems": [
+          "A generator produces seeded synthetic claim PDFs and their ground truth; every page is stamped as a synthetic test document.",
+          "The Claude extractor sends the PDF as a document block with a JSON schema. An offline rules extractor serves as a baseline and as a fallback without an API key.",
+          "A validation module applies the business rules; a drafting module writes the reply from the findings.",
+          "A local review server shows the queue, records each decision with the reviewer's name and changed fields in an append-only audit log, and writes only approved replies to an outbox."
+        ],
+        "decisions": [
+          "The model extracts and drafts, but rules decide whether a claim is complete, so the outcome is predictable and testable.",
+          "A person approves every reply; the assistant never sends anything itself.",
+          "Synthetic data only. Using real claims would also need a provider agreement covering protected health information, access control on the review queue, retention rules, and an evaluation on a labelled sample of real documents.",
+          "Accuracy is reported only from the evaluation against ground truth. The rules baseline is published; Claude's results will be added once the evaluation runs with an API key."
+        ],
+        "relevance": "This is the kind of AI build I would bring to a healthcare or government team: the model handles messy documents, rules and a person stay in control, and every claim about accuracy comes from a measured evaluation.",
+        "evidence": [
+          {
+            "label": "Browse the source",
+            "detail": "The public repository has the extractor, validation rules, review queue, synthetic data generator, evaluation script, and test suite, with a screenshot of the review queue in the README.",
+            "href": "https://github.com/mohamedmoheyeldin/claims-document-assistant"
+          },
+          {
+            "label": "Measured results",
+            "detail": "The README publishes the offline rules baseline. Claude extraction accuracy is not yet measured, so no AI accuracy figure is claimed here.",
+            "href": "https://github.com/mohamedmoheyeldin/claims-document-assistant#measured-results"
+          }
+        ],
+        "relatedProjects": [
+          {
+            "slug": "ccrs-test-data-tooling",
+            "label": "Data Generator & File Processing: where the referral fields come from"
+          }
+        ],
+        "experienceId": null,
+        "metric": {
+          "value": "17 fields",
+          "label": "extracted from each claim PDF, with every reply held for human approval; tested on 60 synthetic claims."
+        },
+        "resumeSummary": "Claude API assistant that extracts 17 fields from claim PDFs, flags gaps with fixed rules, and drafts replies a reviewer approves; 26 tests."
       },
       {
         "slug": "portfolio-career-content-system",

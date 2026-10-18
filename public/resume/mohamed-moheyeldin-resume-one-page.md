@@ -36,16 +36,16 @@ Software QA Engineer | Sep 2015 – Nov 2018
 
 - Translated banking requirements into acceptance criteria; used SQL and reproducible Jira reports to investigate data issues and verify releases across QA, UAT, and staging.
 
-## Selected project
+## Selected projects
 
-Portfolio & Career Content System: Built a React/Untitled UI portfolio from validated JSON, with shared PDF/Word generation and static deployment packaging for Cloudflare.
-https://github.com/mohamedmoheyeldin/portfolio
+Claims Document Assistant: Claude API assistant that extracts 17 fields from claim PDFs, flags gaps with fixed rules, and drafts replies a reviewer approves; 26 tests.
+https://github.com/mohamedmoheyeldin/claims-document-assistant
 
 ## Technical skills
 Application development: React, TypeScript, JavaScript, Java, Reusable components
 Data and integration: SQL, MySQL, JSON, REST APIs, Postman, Tableau, SQL Server, Oracle, MongoDB
 Delivery and quality: Playwright, GitHub Actions, Git, Jira, Jenkins, AWS EC2/S3/Aurora test environments
-AI-assisted engineering: GitHub Copilot, VS Code, GPT models, Claude, Gemini
+AI-assisted engineering: Claude API, GitHub Copilot, VS Code, GPT models, Claude, Gemini
 
 ## Education
 Bachelor's degree in Computer Science | American College of Commerce and Technology | May 2014
