@@ -353,53 +353,55 @@
       {
         "slug": "ccrs-test-data-tooling",
         "kind": "career",
-        "context": "Internal data tooling",
-        "role": "Application developer and maintainer",
+        "context": "Test data tooling",
+        "role": "Builder and maintainer",
         "period": "Ongoing",
         "name": "Data Generator & File Processing",
-        "description": "A JavaScript/Electron desktop application I built so developers and QA can create realistic referral data from scratch when production data can't be used in test environments, then package and upload it.",
-        "challenge": "Production data can't be used in the team's lower environments, so developers and QA needed a repeatable way to create large volumes of realistic referral data from scratch and tailor it to their own workflows and use cases.",
-        "audience": "Developers and QA teams who need realistic referral data to build and test healthcare workflows without production records.",
+        "description": "A Windows desktop app I built that generates realistic synthetic healthcare referral data on demand, then validates, packages, and uploads it, so developers and QA never need production records.",
+        "challenge": "Production data can't be used in test environments, so the team spent hours each day preparing data by hand and keeping a database in every environment. Developers and QA needed realistic referral records they could create on demand and tailor to each test.",
+        "audience": "Developers and QA teams who need realistic healthcare referral data to build and test workflows without production records.",
         "approach": [
-          "Independently built and continue to maintain Data Generator & File Processing for generating and editing referral data.",
-          "Provide a desktop workflow for editing existing JSON, generating new files, and preparing combined data and gzip packages.",
-          "Support uploads to configured targets, with explicit status and retry handling for failed destinations.",
-          "Ship versioned Windows releases through a GitHub Actions workflow, with in-app release notes, a user guide, and a stakeholder overview.",
-          "Added Excel file processing with duplicate detection as a second workflow when the team's needs grew.",
-          "Demonstrate updates, troubleshoot daily use, and document workflows so teammates can use and extend the tool."
+          "Built a generator that creates referral batches from one template, with unique referral numbers and patient IDs, current or custom dates, and facility, care package, and payment codes kept within valid reference lists.",
+          "Added processing for existing referral files: rewrite identities, dates, and reference values without touching the source files.",
+          "Automated batch handling: rename outputs, combine them into one master JSON, gzip the batch, and export a manifest with SHA-256 checksums.",
+          "Check the schema before processing and validate outputs against the selected reference values.",
+          "Upload results over SFTP to saved environment profiles, one target at a time, with remote size checks, per-target status, and retries for failed targets.",
+          "Added a second workflow when the team's needs grew: duplicate detection for the public HHS-OIG exclusion list (LEIE) Excel export, with example validation SQL.",
+          "Ship it like a product: versioned Windows installers built by GitHub Actions, in-app release notes, a user guide, and syntax, smoke, regression, and end-to-end UI tests."
         ],
         "outcome": "User-reported: the whole team uses Data Generator & File Processing daily. Work that took hours each day, plus keeping a database in every environment, now takes under 5 minutes for a full development database or up to 10,000 custom records, and developers rely on the same generated data in place of production records.",
         "repository": "https://github.com/mohamedmoheyeldin/data-generator-file-processing",
         "repositoryVisibility": "public",
         "technologies": [
-          "JavaScript",
           "Electron",
+          "Node.js",
+          "JavaScript",
           "JSON",
           "SFTP",
           "GitHub Actions"
         ],
         "highlights": [
-          "Realistic data where production data can't be used",
-          "Referral data generation and editing",
-          "Versioned releases, user guide, and stakeholder overview",
-          "Second workflow added as team needs grew"
+          "Full development database in under 5 minutes, used daily by the team",
+          "Up to 10,000 custom referral records per run",
+          "Validation, checksums, and SFTP delivery built in",
+          "Versioned installers, user guide, and automated tests"
         ],
         "systems": [
-          "Electron provides the desktop window, dialogs, and IPC between the renderer and backend logic.",
-          "The file workflow reads and writes referral JSON and produces combined data and gzip archives.",
-          "Uploads use configured targets through SFTP or WinSCP. This is a desktop file-processing workflow; the claims application is a separate project.",
-          "The repository documents a Windows installer and a GitHub Actions release workflow. No internal targets or upload settings are published here."
+          "Electron provides the desktop window, dialogs, and IPC between the interface and the Node.js processing logic.",
+          "One neutral referral template and JSON reference catalogs (facilities, care packages, payment authority codes) drive generation and validation.",
+          "Batch output is combined, gzipped, and described by a checksum manifest; SFTP upload profiles hold no credentials, which are imported at runtime and stored per user with OS encryption.",
+          "A GitHub Actions workflow builds the Windows installer; syntax, smoke, and regression checks run on any OS, and an end-to-end test drives the real Electron UI."
         ],
         "decisions": [
-          "A desktop application supports local file selection, processing, and packaging; it also requires Windows installation and update handling.",
-          "A sequential upload queue attempts each destination once per run, continues after a failure, and offers explicit retries for failed destinations.",
-          "Completion reporting distinguishes completed destinations from transfer-byte progress; SFTP completion checks the remote file size."
+          "Every generated value is clearly synthetic (SSNs start with 999, phone numbers use 555-0xx, emails use example.com), so output can't be mistaken for a real person.",
+          "A desktop app keeps file selection, processing, and packaging local; the cost is Windows installation and update handling, solved with versioned installers and in-app release notes.",
+          "The upload queue tries each target once per run, keeps going after a failure, and offers explicit retries; completion checks the remote file size rather than trusting the transfer."
         ],
-        "relevance": "This is how I handle a recurring team need: build a tool for it, connect it to the data and systems it touches, and keep supporting it as people use it.",
+        "relevance": "This is how I handle a recurring team need: find where people lose time, build a tool for it, connect it to the systems it touches, and keep supporting it as the team relies on it.",
         "evidence": [
           {
             "label": "Browse the source",
-            "detail": "The public repository and its README document the Electron UI/backend separation, JSON editing and generation, gzip packaging, upload handling, and the release workflow.",
+            "detail": "The public repository's README and docs cover the generator, file processing, validation, checksum manifest, SFTP upload, LEIE workflow, installer build, and test suite. All data in it is synthetic.",
             "href": "https://github.com/mohamedmoheyeldin/data-generator-file-processing"
           },
           {
@@ -621,7 +623,10 @@
         "repositoryVisibility": "unavailable",
         "relatedProjects": [],
         "experienceId": "chick-fil-a",
-        "metric": null
+        "metric": {
+          "value": "4 check types",
+          "label": "browser, API, visual, and SSO login checks run together through GitHub Actions on AWS test environments."
+        }
       },
       {
         "slug": "banking-risk-validation",
@@ -675,7 +680,10 @@
         "repositoryVisibility": "unavailable",
         "relatedProjects": [],
         "experienceId": "ally-bank",
-        "metric": null
+        "metric": {
+          "value": "4 browsers · 4 environments",
+          "label": "Chrome, Firefox, Safari, and Edge checked, with release checks across development, QA, UAT, and staging."
+        }
       }
     ],
     "provenance": {
