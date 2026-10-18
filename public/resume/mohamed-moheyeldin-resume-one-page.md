@@ -7,7 +7,7 @@ mohamedmoheyeldin.jobs@gmail.com | https://www.linkedin.com/in/moheyeldin/ | htt
 
 ## Professional profile
 
-Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal, banking, and e-commerce. Work directly with stakeholders from first requirements conversations through demos and feedback. Write React features and built Data Generator & File Processing, which gives developers and QA realistic data where production data can't be used.
+Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal healthcare, banking, and e-commerce. Integrate health-provider claim-status APIs, write React features, and built Data Generator & File Processing, which replaced hours of daily test-data prep with a 5-minute run. Work directly with stakeholders from first requirements conversations through demos and adoption.
 
 ## Professional experience
 
@@ -17,11 +17,11 @@ Forward Deployed Engineer (FDE) | Dec 2020 – Present
 
 Customer: U.S. Department of Veterans Affairs (VA)
 
-- Work directly with VA stakeholders on a healthcare claims platform: define requirements, lead demos each release cycle since 2022, and join working sessions with claims processors and VA users on production issues.
-- Integrate claim-status APIs with health providers so staff, providers, and veterans see live status by role; created a claims framework that notifies the right party so claims keep moving.
+- Integrate claim-status APIs with health providers so VA staff, providers, and veterans see live status by role; created a claims framework that notifies the right party so claims keep moving.
+- Built Data Generator & File Processing, used daily by the team: a full dev database or 10,000 records in under 5 minutes instead of hours; also built a Playwright framework.
+- Work directly with VA stakeholders: define requirements, lead demos each release cycle since 2022, and join working sessions with claims processors and VA users on production issues.
 - Enabled the team to use Tableau and built custom VA and internal dashboards, now the main view of server health and system status.
 - Contribute React, TypeScript, and JavaScript features; trace data issues across frontend, backend, MySQL.
-- Built Data Generator & File Processing (used daily; full dev database in under 5 minutes) and a Playwright framework that helps reduce production bugs.
 
 ### Chick-fil-A Corporate — Atlanta, GA
 

@@ -87,6 +87,9 @@ export function Header({ name, headline, location, path }: { name: string; headl
           >
             Experience
           </NavItemBase>
+          <NavItemBase type="link" href={href("#work-with-me")}>
+            Work with me
+          </NavItemBase>
         </nav>
         <div className="header-contact">
           <ThemeToggle />
@@ -126,6 +129,7 @@ function MobileMenu({ path }: { path: string }) {
               <nav className="flex flex-col gap-1" aria-label="Mobile navigation">
                 <NavItemBase type="link" href={root} current={path === "/"}>Home</NavItemBase>
                 <NavItemBase type="link" href={href("experience/")} current={path.includes("/experience")}>Experience</NavItemBase>
+                <NavItemBase type="link" href={href("#work-with-me")}>Work with me</NavItemBase>
               </nav>
             </SlideoutMenu.Content>
             <SlideoutMenu.Footer className="flex flex-col gap-3">
@@ -287,6 +291,11 @@ function ResumeConnection({ project }: { project: Project }) {
   </dl>;
 }
 
+// One headline number per project. Only documented or user-reported figures go in career.json.
+function ProjectMetric({ metric }: { metric: NonNullable<Project["metric"]> }) {
+  return <div className="project-metric"><strong>{metric.value}</strong> <span>{metric.label}</span></div>;
+}
+
 function ProjectCard({ project }: { project: Project }) {
   const target = href(`experience/#project-${project.slug}`);
   return (
@@ -303,18 +312,12 @@ function ProjectCard({ project }: { project: Project }) {
         </Button>
       </h3>
       <p>{project.description}</p>
+      {project.metric && <ProjectMetric metric={project.metric} />}
       <Tags items={project.technologies.slice(0, 4)} />
       <Button className="project-card-link" color="link-color" href={target} iconTrailing={ArrowRight} aria-label={`Read the ${projectDisplayName(project)} case study`}>
         Read case study
       </Button>
     </article>
-  );
-}
-
-function orderedProjects(projects: Project[]) {
-  return [...projects].sort(
-    (a, b) =>
-      Number(a.kind === "independent") - Number(b.kind === "independent"),
   );
 }
 
@@ -325,7 +328,7 @@ export function Home({ profile }: { profile: Profile }) {
         <BackgroundPattern pattern="grid" size="lg" className="absolute top-0 left-1/2 -z-10 -translate-x-1/2 max-md:hidden" />
         <div className="hero-copy">
           <BadgeGroup className="mb-6 w-fit max-w-full cursor-default text-left" theme="modern" color="success" addonText="Open to FDE roles" iconTrailing={null}>
-            {profile.experienceYears} years<span className="max-sm:hidden"> · Federal, e-commerce &amp; banking</span>
+            {profile.experienceYears} years<span className="max-sm:hidden"> · Federal healthcare, e-commerce &amp; banking</span>
           </BadgeGroup>
           <h1>
             Forward Deployed Engineer <span>building software with the people who use it.</span>
@@ -348,10 +351,9 @@ export function Home({ profile }: { profile: Profile }) {
             </p>
         </header>
         <div className="project-grid">
-          {orderedProjects(profile.projects)
-            .map((p) => (
-              <ProjectCard key={p.slug} project={p} />
-            ))}
+          {profile.projects.map((p) => (
+            <ProjectCard key={p.slug} project={p} />
+          ))}
         </div>
       </section>
       <section className="section shell profile-centered" aria-labelledby="how-i-work-heading">
@@ -376,13 +378,14 @@ export function Home({ profile }: { profile: Profile }) {
         <div className="resume-summary">
           <p>
             After {profile.experienceYears} years in development and quality
-            engineering across federal, e-commerce, and banking, I trace a
+            engineering across federal healthcare, e-commerce, and banking, I trace a
             problem through the whole system, from what a user sees to the data
             behind it.
           </p>
         </div>
       </section>
       <EngineeringToolkit profile={profile} />
+      <WorkWithMe />
       <Contact />
     </>
   );
@@ -732,7 +735,7 @@ export function Work({ profile }: { profile: Profile }) {
           </h1>
           <p>
             My roles, the projects I have worked on, and the tools I have
-            built, across federal, e-commerce, and banking.
+            built, across federal healthcare, e-commerce, and banking.
           </p>
         </div>
       </section>
@@ -749,7 +752,7 @@ export function Work({ profile }: { profile: Profile }) {
       <section className="section shell" id="experience-projects">
         <header className="section-heading-centered">
           <h2>Experience &amp; Projects</h2>
-          <p className="section-intro">{profile.experienceYears} years across federal, e-commerce, and banking. The work is below.</p>
+          <p className="section-intro">{profile.experienceYears} years across federal healthcare, e-commerce, and banking. The work is below.</p>
         </header>
         <ProjectExplorer profile={profile} />
       </section>
@@ -884,6 +887,7 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
   const outcome = <section id="outcome" tabIndex={-1}>
       {!embedded && <p className="eyebrow">03 / Outcome</p>}
       <h2>{embedded ? "My contribution & results" : "What changed."}</h2>
+      {project.metric && <ProjectMetric metric={project.metric} />}
       <p>{project.outcome}</p>
       <ul className="outcomes">
         {project.highlights.map((h) => (
@@ -1047,6 +1051,81 @@ function ProjectPager({ project }: { project: Project }) {
         <span className="flex flex-col"><span className="text-xs font-medium text-tertiary">Next project</span>{projectDisplayName(next)}</span>
       </Button>
     </nav>
+  );
+}
+
+const auditSteps = [
+  { title: "Week 1: map the workflow", text: "I sit with the people who run one workflow, such as intake, claims, documents, or reporting, and trace where the time goes, where the data lives, and what access rules apply." },
+  { title: "Week 2: rank the options", text: "I test where AI helps and where it does not, using synthetic or approved data, and weigh each option against your systems, data handling rules, and team." },
+  { title: "Handoff: a plan you can act on", text: "You get a written report with ranked opportunities, risks, and a scoped first build, plus a walkthrough with your team." },
+];
+
+const hiringFits = [
+  "Defense-tech and public-sector AI companies hiring Forward Deployed Engineers",
+  "AI teams inside federal contractors",
+  "Healthcare and government programs with restricted environments and sensitive data",
+];
+
+// Two ways to work together: an FDE role, or a fixed-scope audit for organizations that want AI but can't hire for it yet.
+function WorkWithMe() {
+  const auditEmail = `${email}?subject=${encodeURIComponent("AI workflow audit")}`;
+  return (
+    <section className="section shell" id="work-with-me" aria-labelledby="work-with-me-heading">
+      <header className="section-heading-centered">
+        <p className="eyebrow">Work with me</p>
+        <h2 id="work-with-me-heading">Federal and healthcare work is where I fit best.</h2>
+        <p className="section-intro">
+          Since 2020 I have worked on a VA healthcare claims platform, where production data is off-limits and the
+          people using the system shape what gets built. That is the work I want more of.
+        </p>
+      </header>
+      <div className="offer-grid">
+        <article className="offer-card offer-card-featured" aria-labelledby="audit-heading">
+          <div className="offer-card-header">
+            <FeaturedIcon icon={SearchLg} color="brand" theme="light" size="lg" />
+            <Badge color="brand" size="md">For organizations</Badge>
+          </div>
+          <h3 id="audit-heading">AI workflow audit</h3>
+          <p className="offer-terms">2 weeks · fixed price</p>
+          <p>
+            For mid-size healthcare organizations and government contractors that want to use AI but can't hire a team for it yet.
+          </p>
+          <ol className="offer-steps">
+            {auditSteps.map(({ title, text }) => (
+              <li key={title}>
+                <Check aria-hidden="true" />
+                <span><strong>{title}.</strong> {text}</span>
+              </li>
+            ))}
+          </ol>
+          <div className="offer-actions">
+            <Button href={auditEmail} size="lg" iconLeading={Mail01}>Ask about an audit</Button>
+            <span>The price is quoted after a short intro call.</span>
+          </div>
+        </article>
+        <article className="offer-card" aria-labelledby="hiring-heading">
+          <div className="offer-card-header">
+            <FeaturedIcon icon={Briefcase01} color="gray" theme="modern" size="lg" />
+            <Badge color="gray" size="md">For hiring teams</Badge>
+          </div>
+          <h3 id="hiring-heading">Forward Deployed Engineer roles</h3>
+          <p>
+            I work directly with customers, integrate the systems they depend on, and build the tools their teams use every day.
+          </p>
+          <ul className="offer-steps">
+            {hiringFits.map((fit) => (
+              <li key={fit}>
+                <Check aria-hidden="true" />
+                <span>{fit}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="offer-actions">
+            <Button href={email} size="lg" color="secondary" iconLeading={Mail01}>Talk about a role</Button>
+          </div>
+        </article>
+      </div>
+    </section>
   );
 }
 

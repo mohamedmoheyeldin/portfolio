@@ -7,9 +7,9 @@ mohamedmoheyeldin.jobs@gmail.com | https://www.linkedin.com/in/moheyeldin/ | htt
 
 ## Professional profile
 
-Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal, banking, and e-commerce. Work directly with stakeholders from first requirements conversations through demos and feedback. Write React features and built Data Generator & File Processing, which gives developers and QA realistic data where production data can't be used.
+Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal healthcare, banking, and e-commerce. Integrate health-provider claim-status APIs, write React features, and built Data Generator & File Processing, which replaced hours of daily test-data prep with a 5-minute run. Work directly with stakeholders from first requirements conversations through demos and adoption.
 
-Work with stakeholders to clarify requirements and acceptance criteria, weigh technical constraints, demo changes, and help teams adopt the tools I build. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST API validation, Tableau dashboards, and CI workflows. Use AI coding assistants for development, debugging, and refactoring.
+Most at home in federal and healthcare programs, where production data is off-limits, environments are restricted, and the people using the system need to be in the room. Work with stakeholders to clarify requirements and acceptance criteria, weigh technical constraints, demo changes, and help teams adopt the tools I build. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST APIs, Tableau dashboards, and CI workflows. Use AI coding assistants for development, debugging, and refactoring.
 
 ## Professional experience
 
@@ -21,16 +21,16 @@ Customer: U.S. Department of Veterans Affairs (VA)
 
 Work directly with VA stakeholders on a healthcare claims platform with two frontends sharing a database, supporting claim submission, provider updates, claim progress and status tracking, and payment visibility.
 
+- Work with health providers to integrate APIs with the VA system so live claim statuses display for VA staff, providers, and veterans based on their role; the VA side previously had no continuously updated claim status.
+- Responded to stakeholder questions about stalled claims and process gaps by creating a claims framework that notifies the right party when a claim needs extra work, keeping claims moving and giving better tracking of every claim.
+- Built and continue to enhance Data Generator & File Processing because production data can't be used in VA lower environments. The team used to spend hours each day preparing data and keeping a database in every environment; now anyone can generate a full development database or up to 10,000 custom records in under 5 minutes, and the whole team uses it daily.
+- Run the tool like a product: versioned Windows releases built through GitHub Actions, in-app release notes, a user guide, a stakeholder overview, and release updates for the team; added Excel file processing with duplicate detection as a second workflow when team needs grew.
+- Enabled the team to use Tableau for requests and system information so any user can build their own dashboard; built custom dashboards for VA and internal users and, through repeated VA stakeholder discussions, expanded Tableau into the main way to monitor server health and system status.
+- Contribute React, TypeScript, and JavaScript features that turn stakeholder feedback into improvements to the claims application.
 - Work directly with VA stakeholders to map healthcare claims workflows, clarify technical and operational constraints, and define requirements and acceptance criteria for claim submission, provider updates, status tracking, and payment visibility.
 - Lead the stakeholder demonstrations at the end of each release cycle and program increment (since 2022) and all discussions with VA stakeholders; gather feedback on daily workflows and refine implementations around user needs.
 - Join working sessions with health-provider claims processors and, at times, VA end users on issues reported in production, to see the full picture and keep future work pointed in the right direction.
-- Work with health providers to integrate APIs with the VA system so live claim statuses display for VA staff, providers, and veterans based on their role; the VA side previously had no continuously updated claim status.
-- Responded to stakeholder questions about stalled claims and process gaps by creating a claims framework that notifies the right party when a claim needs extra work, keeping claims moving and giving better tracking of every claim.
-- Enabled the team to use Tableau for requests and system information so any user can build their own dashboard; built custom dashboards for VA and internal users and, through repeated VA stakeholder discussions, expanded Tableau into the main way to monitor server health and system status.
-- Contribute React, TypeScript, and JavaScript features that turn stakeholder feedback into improvements to the claims application.
 - Investigate defects and data discrepancies across frontend, backend, and MySQL data; coordinate with developers and stakeholders to resolve delivery dependencies, and document progress, blockers, and operational impact in Jira.
-- Built and continue to enhance Data Generator & File Processing because production data can't be used in VA lower environments. The team used to spend hours each day preparing data and keeping a database in every environment; now anyone can generate a full development database or up to 10,000 custom records in under 5 minutes, and the whole team uses it daily.
-- Run the tool like a product: versioned Windows releases built through GitHub Actions, in-app release notes, a user guide, a stakeholder overview, and release updates for the team; added Excel file processing with duplicate detection as a second workflow when team needs grew.
 - Evaluated alternatives to legacy automation and helped select Playwright, weighing maintainability, reuse, authentication, and restricted environment access; developed a reusable smoke and regression framework that helps QA and developers reduce production bugs and deliver stakeholder requests faster.
 - Use GitHub Copilot in VS Code for development, debugging, refactoring, and test creation; use Gemini, GPT models, and Claude to explore implementation approaches.
 

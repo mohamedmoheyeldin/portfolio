@@ -7,10 +7,10 @@
     "experienceYears": 11,
     "experienceAsOf": "2026-09",
     "heroTitle": "Forward Deployed Engineer building software with the people who use it.",
-    "summary": "Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal, banking, and e-commerce. Work directly with stakeholders from first requirements conversations through demos and feedback. Write React features and built Data Generator & File Processing, which gives developers and QA realistic data where production data can't be used.",
+    "summary": "Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal healthcare, banking, and e-commerce. Integrate health-provider claim-status APIs, write React features, and built Data Generator & File Processing, which replaced hours of daily test-data prep with a 5-minute run. Work directly with stakeholders from first requirements conversations through demos and adoption.",
     "detailedSummary": [
-      "Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal, banking, and e-commerce. Work directly with stakeholders from first requirements conversations through demos and feedback. Write React features and built Data Generator & File Processing, which gives developers and QA realistic data where production data can't be used.",
-      "Work with stakeholders to clarify requirements and acceptance criteria, weigh technical constraints, demo changes, and help teams adopt the tools I build. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST API validation, Tableau dashboards, and CI workflows. Use AI coding assistants for development, debugging, and refactoring."
+      "Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal healthcare, banking, and e-commerce. Integrate health-provider claim-status APIs, write React features, and built Data Generator & File Processing, which replaced hours of daily test-data prep with a 5-minute run. Work directly with stakeholders from first requirements conversations through demos and adoption.",
+      "Most at home in federal and healthcare programs, where production data is off-limits, environments are restricted, and the people using the system need to be in the room. Work with stakeholders to clarify requirements and acceptance criteria, weigh technical constraints, demo changes, and help teams adopt the tools I build. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST APIs, Tableau dashboards, and CI workflows. Use AI coding assistants for development, debugging, and refactoring."
     ],
     "links": [
       {
@@ -91,26 +91,26 @@
         "end": null,
         "summary": "Work directly with VA stakeholders on a healthcare claims platform with two frontends sharing a database, supporting claim submission, provider updates, claim progress and status tracking, and payment visibility.",
         "highlights": [
+          "Work with health providers to integrate APIs with the VA system so live claim statuses display for VA staff, providers, and veterans based on their role; the VA side previously had no continuously updated claim status.",
+          "Responded to stakeholder questions about stalled claims and process gaps by creating a claims framework that notifies the right party when a claim needs extra work, keeping claims moving and giving better tracking of every claim.",
+          "Built and continue to enhance Data Generator & File Processing because production data can't be used in VA lower environments. The team used to spend hours each day preparing data and keeping a database in every environment; now anyone can generate a full development database or up to 10,000 custom records in under 5 minutes, and the whole team uses it daily.",
+          "Run the tool like a product: versioned Windows releases built through GitHub Actions, in-app release notes, a user guide, a stakeholder overview, and release updates for the team; added Excel file processing with duplicate detection as a second workflow when team needs grew.",
+          "Enabled the team to use Tableau for requests and system information so any user can build their own dashboard; built custom dashboards for VA and internal users and, through repeated VA stakeholder discussions, expanded Tableau into the main way to monitor server health and system status.",
+          "Contribute React, TypeScript, and JavaScript features that turn stakeholder feedback into improvements to the claims application.",
           "Work directly with VA stakeholders to map healthcare claims workflows, clarify technical and operational constraints, and define requirements and acceptance criteria for claim submission, provider updates, status tracking, and payment visibility.",
           "Lead the stakeholder demonstrations at the end of each release cycle and program increment (since 2022) and all discussions with VA stakeholders; gather feedback on daily workflows and refine implementations around user needs.",
           "Join working sessions with health-provider claims processors and, at times, VA end users on issues reported in production, to see the full picture and keep future work pointed in the right direction.",
-          "Work with health providers to integrate APIs with the VA system so live claim statuses display for VA staff, providers, and veterans based on their role; the VA side previously had no continuously updated claim status.",
-          "Responded to stakeholder questions about stalled claims and process gaps by creating a claims framework that notifies the right party when a claim needs extra work, keeping claims moving and giving better tracking of every claim.",
-          "Enabled the team to use Tableau for requests and system information so any user can build their own dashboard; built custom dashboards for VA and internal users and, through repeated VA stakeholder discussions, expanded Tableau into the main way to monitor server health and system status.",
-          "Contribute React, TypeScript, and JavaScript features that turn stakeholder feedback into improvements to the claims application.",
           "Investigate defects and data discrepancies across frontend, backend, and MySQL data; coordinate with developers and stakeholders to resolve delivery dependencies, and document progress, blockers, and operational impact in Jira.",
-          "Built and continue to enhance Data Generator & File Processing because production data can't be used in VA lower environments. The team used to spend hours each day preparing data and keeping a database in every environment; now anyone can generate a full development database or up to 10,000 custom records in under 5 minutes, and the whole team uses it daily.",
-          "Run the tool like a product: versioned Windows releases built through GitHub Actions, in-app release notes, a user guide, a stakeholder overview, and release updates for the team; added Excel file processing with duplicate detection as a second workflow when team needs grew.",
           "Evaluated alternatives to legacy automation and helped select Playwright, weighing maintainability, reuse, authentication, and restricted environment access; developed a reusable smoke and regression framework that helps QA and developers reduce production bugs and deliver stakeholder requests faster.",
           "Use GitHub Copilot in VS Code for development, debugging, refactoring, and test creation; use Gemini, GPT models, and Claude to explore implementation approaches."
         ],
         "customer": "U.S. Department of Veterans Affairs (VA)",
         "compactHighlights": [
-          "Work directly with VA stakeholders on a healthcare claims platform: define requirements, lead demos each release cycle since 2022, and join working sessions with claims processors and VA users on production issues.",
-          "Integrate claim-status APIs with health providers so staff, providers, and veterans see live status by role; created a claims framework that notifies the right party so claims keep moving.",
+          "Integrate claim-status APIs with health providers so VA staff, providers, and veterans see live status by role; created a claims framework that notifies the right party so claims keep moving.",
+          "Built Data Generator & File Processing, used daily by the team: a full dev database or 10,000 records in under 5 minutes instead of hours; also built a Playwright framework.",
+          "Work directly with VA stakeholders: define requirements, lead demos each release cycle since 2022, and join working sessions with claims processors and VA users on production issues.",
           "Enabled the team to use Tableau and built custom VA and internal dashboards, now the main view of server health and system status.",
-          "Contribute React, TypeScript, and JavaScript features; trace data issues across frontend, backend, MySQL.",
-          "Built Data Generator & File Processing (used daily; full dev database in under 5 minutes) and a Playwright framework that helps reduce production bugs."
+          "Contribute React, TypeScript, and JavaScript features; trace data issues across frontend, backend, MySQL."
         ],
         "id": "booz-allen-hamilton"
       },
@@ -277,7 +277,7 @@
         "role": "Forward Deployed Engineer",
         "period": "2020–Present",
         "name": "VA Claims Workflows",
-        "description": "Work with VA stakeholders and health providers on a healthcare claims platform with two frontends sharing a database, supporting claim submission, provider updates, live claim status, and payment visibility.",
+        "description": "Integrated health-provider claim-status APIs, built a claims-tracking framework and Tableau monitoring, and shipped React features on a VA healthcare claims platform, working directly with stakeholders and claims processors.",
         "challenge": "VA stakeholders needed claim submission, provider updates, and payment visibility to work reliably across two frontends sharing a database. The VA side had no continuously updated claim status, claims could stall without anyone knowing why, and there was no single view of system and server health.",
         "approach": [
           "Work directly with VA stakeholders to clarify claims workflows, requirements, acceptance criteria, and operational constraints.",
@@ -293,21 +293,22 @@
         "outcome": "User-reported: live claim status now displays in the VA system for staff, providers, and veterans by role, where it was not continuously updated before; a claims framework notifies the right party so claims keep moving and are easier to track; and Tableau dashboards give VA internal staff a full view of system and server health. The Playwright framework helps QA and developers reduce production bugs and deliver stakeholder requests faster. These are not independently measured benchmarks.",
         "repository": null,
         "technologies": [
+          "API integration",
           "React",
           "TypeScript",
+          "Tableau",
           "JavaScript",
           "MySQL",
-          "Playwright",
-          "Tableau",
-          "API integration"
+          "Playwright"
         ],
         "highlights": [
-          "Stakeholder discovery, working sessions, and acceptance criteria",
           "Live claim status through health-provider API integration",
           "Claims framework that keeps claims moving",
           "Tableau dashboards for system and server health",
+          "React, TypeScript, and MySQL delivery",
+          "Stakeholder discovery, working sessions, and acceptance criteria",
           "Demonstrations every release cycle and program increment",
-          "React, MySQL, and Playwright delivery"
+          "Playwright smoke and regression framework"
         ],
         "audience": "VA staff, health-provider claims processors, veterans, and the engineering teams supporting healthcare claims workflows.",
         "systems": [
@@ -344,7 +345,11 @@
             "label": "Data Generator & File Processing: the separate test-data tool"
           }
         ],
-        "experienceId": "booz-allen-hamilton"
+        "experienceId": "booz-allen-hamilton",
+        "metric": {
+          "value": "3 user roles",
+          "label": "VA staff, providers, and veterans now see live claim status, where none was continuously updated before (user-reported)."
+        }
       },
       {
         "slug": "ccrs-test-data-tooling",
@@ -410,113 +415,11 @@
             "label": "VA Claims Workflows: the application work"
           }
         ],
-        "experienceId": "booz-allen-hamilton"
-      },
-      {
-        "slug": "ecommerce-feedback-platform",
-        "kind": "career",
-        "context": "Enterprise e-commerce environment",
-        "role": "Software Engineer in Test",
-        "period": "2018–2020",
-        "name": "Chick-fil-A Corporate",
-        "description": "Browser, API, visual, and SSO login tests, plus AWS environments and CI, set up to work together.",
-        "challenge": "Tests covered browsers, APIs, visual checks, SSO login, and cloud-hosted environments. Running them as separate suites made the results hard to trust as a whole.",
-        "approach": [
-          "Designed modular browser smoke and regression suites with parallel execution, network stubbing, and flaky-test mitigation.",
-          "Built API coverage with Postman and browser automation using contract tests, schema validation, and dynamic data assertions.",
-          "Integrated Applitools Eyes across resolutions, devices, and browsers and automated OIDC and Okta MFA flows.",
-          "Connected GitHub Actions, execution evidence, and AWS resources for repeatable execution and investigation."
-        ],
-        "outcome": "Feedback came earlier in delivery, and the browser, API, visual, login, and environment evidence was there when someone had to investigate a failure or decide on a release.",
-        "repository": null,
-        "technologies": [
-          "JavaScript",
-          "Postman",
-          "Applitools",
-          "GitHub Actions",
-          "AWS",
-          "Okta"
-        ],
-        "highlights": [
-          "Modular smoke and regression automation",
-          "API contract and schema validation",
-          "Cross-browser visual regression coverage",
-          "Automated enterprise authentication workflows"
-        ],
-        "audience": "E-commerce engineering teams investigating application failures and deciding whether changes were ready to release.",
-        "systems": [
-          "Browser automation and Postman exercised REST service contracts, schemas, and data-dependent application behavior.",
-          "OIDC, Okta MFA, and SSO added authentication dependencies to end-user workflows.",
-          "GitHub Actions supplied execution evidence; AWS EC2, S3, and Aurora supported test environments."
-        ],
-        "decisions": [
-          "Network stubbing isolated application behavior from external dependencies; checks against real services were still needed to investigate integration failures.",
-          "Headless and parallel execution supported repeatable feedback, while screenshots, video, retries, and timings supplied context when a run failed."
-        ],
-        "relevance": "Tracing problems through APIs, login, the application, and cloud environments built the cross-system debugging I use on customer-facing work.",
-        "evidence": [
-          {
-            "label": "Documented engineering outputs",
-            "detail": "The career record documents reusable JavaScript tooling, REST checks, authentication investigations, and CI diagnostic artifacts. Employer repositories and run artifacts are private; no performance improvement percentage is claimed.",
-            "href": null
-          }
-        ],
-        "repositoryVisibility": "unavailable",
-        "relatedProjects": [],
-        "experienceId": "chick-fil-a"
-      },
-      {
-        "slug": "banking-risk-validation",
-        "kind": "career",
-        "context": "Consumer banking environment",
-        "role": "Software QA Engineer",
-        "period": "2015–2018",
-        "name": "Ally Bank",
-        "description": "Test planning and validation for banking applications, from requirements through exploratory testing, browser checks, SQL data checks, and release readiness.",
-        "challenge": "Customer journeys in the banking apps spanned many browsers, platforms, and environments, and some scenarios carried more risk than others.",
-        "approach": [
-          "Created test plans, acceptance criteria, and traceable coverage aligned with business and functional requirements.",
-          "Combined exploratory, functional, regression, cross-browser, and responsive testing across the delivery lifecycle.",
-          "Connected UI behavior with SQL data checks, pre- and post-deployment validation, hotfix verification, and production monitoring.",
-          "Documented defects with reproduction paths, business impact, environment details, and verified fixes."
-        ],
-        "outcome": "Testing produced clear evidence about customer risk, technical behavior, and release readiness, with follow-up after deployment.",
-        "repository": null,
-        "technologies": [
-          "Exploratory Testing",
-          "SQL",
-          "Jira",
-          "Cross-browser Testing",
-          "Risk-Based Testing",
-          "Release Validation"
-        ],
-        "highlights": [
-          "Risk-aligned test planning and acceptance coverage",
-          "Cross-browser and responsive customer-journey validation",
-          "UI-to-database verification",
-          "Pre-deployment, hotfix, and production follow-through"
-        ],
-        "audience": "Banking developers, analysts, and product owners who needed traceable evidence for customer workflows and release decisions.",
-        "systems": [
-          "Browser workflows were checked against business requirements and acceptance criteria.",
-          "SQL checks connected application results to underlying data; Jira captured reproduction steps, environment details, and business impact.",
-          "Validation spanned development, QA, UAT, and staging, including deployment and hotfix checks."
-        ],
-        "decisions": [
-          "Risk-based coverage focused investigation on customer and business impact; exploratory work supplemented repeatable regression scenarios.",
-          "Reproducible defect reports connected a symptom to its environment and data, giving developers enough context to investigate and verify a fix."
-        ],
-        "relevance": "Gathering requirements, checking data with SQL, and writing clear handoffs are what I use now to take a customer problem to a working solution.",
-        "evidence": [
-          {
-            "label": "Documented delivery responsibilities",
-            "detail": "The career record documents SQL validation, reproducible Jira reports, and release checks. No public banking code, customer data, or defect screenshots are available.",
-            "href": null
-          }
-        ],
-        "repositoryVisibility": "unavailable",
-        "relatedProjects": [],
-        "experienceId": "ally-bank"
+        "experienceId": "booz-allen-hamilton",
+        "metric": {
+          "value": "Under 5 min",
+          "label": "for a full development database or up to 10,000 records, replacing hours of data prep each day (user-reported)."
+        }
       },
       {
         "slug": "portfolio-career-content-system",
@@ -582,7 +485,119 @@
         "resumeSummary": "Built a React/Untitled UI portfolio from validated JSON, with shared PDF/Word generation and static deployment packaging for Cloudflare.",
         "repositoryVisibility": "public",
         "relatedProjects": [],
-        "experienceId": null
+        "experienceId": null,
+        "metric": {
+          "value": "7 resume files",
+          "label": "and this website all come from one validated career record."
+        }
+      },
+      {
+        "slug": "ecommerce-feedback-platform",
+        "kind": "career",
+        "context": "Enterprise e-commerce environment",
+        "role": "Software Engineer in Test",
+        "period": "2018–2020",
+        "name": "Chick-fil-A Corporate",
+        "description": "Built reusable JavaScript tooling that connected browser, API, visual, and SSO login checks with GitHub Actions and AWS test environments.",
+        "challenge": "Tests covered browsers, APIs, visual checks, SSO login, and cloud-hosted environments. Running them as separate suites made the results hard to trust as a whole.",
+        "approach": [
+          "Designed modular browser smoke and regression suites with parallel execution, network stubbing, and flaky-test mitigation.",
+          "Built API coverage with Postman and browser automation using contract tests, schema validation, and dynamic data assertions.",
+          "Integrated Applitools Eyes across resolutions, devices, and browsers and automated OIDC and Okta MFA flows.",
+          "Connected GitHub Actions, execution evidence, and AWS resources for repeatable execution and investigation."
+        ],
+        "outcome": "Feedback came earlier in delivery, and the browser, API, visual, login, and environment evidence was there when someone had to investigate a failure or decide on a release.",
+        "repository": null,
+        "technologies": [
+          "JavaScript",
+          "Postman",
+          "Applitools",
+          "GitHub Actions",
+          "AWS",
+          "Okta"
+        ],
+        "highlights": [
+          "Modular smoke and regression automation",
+          "API contract and schema validation",
+          "Cross-browser visual regression coverage",
+          "Automated enterprise authentication workflows"
+        ],
+        "audience": "E-commerce engineering teams investigating application failures and deciding whether changes were ready to release.",
+        "systems": [
+          "Browser automation and Postman exercised REST service contracts, schemas, and data-dependent application behavior.",
+          "OIDC, Okta MFA, and SSO added authentication dependencies to end-user workflows.",
+          "GitHub Actions supplied execution evidence; AWS EC2, S3, and Aurora supported test environments."
+        ],
+        "decisions": [
+          "Network stubbing isolated application behavior from external dependencies; checks against real services were still needed to investigate integration failures.",
+          "Headless and parallel execution supported repeatable feedback, while screenshots, video, retries, and timings supplied context when a run failed."
+        ],
+        "relevance": "Tracing problems through APIs, login, the application, and cloud environments built the cross-system debugging I use on customer-facing work.",
+        "evidence": [
+          {
+            "label": "Documented engineering outputs",
+            "detail": "The career record documents reusable JavaScript tooling, REST checks, authentication investigations, and CI diagnostic artifacts. Employer repositories and run artifacts are private; no performance improvement percentage is claimed.",
+            "href": null
+          }
+        ],
+        "repositoryVisibility": "unavailable",
+        "relatedProjects": [],
+        "experienceId": "chick-fil-a",
+        "metric": null
+      },
+      {
+        "slug": "banking-risk-validation",
+        "kind": "career",
+        "context": "Consumer banking environment",
+        "role": "Software QA Engineer",
+        "period": "2015–2018",
+        "name": "Ally Bank",
+        "description": "Test planning and validation for banking applications, from requirements through exploratory testing, browser checks, SQL data checks, and release readiness.",
+        "challenge": "Customer journeys in the banking apps spanned many browsers, platforms, and environments, and some scenarios carried more risk than others.",
+        "approach": [
+          "Created test plans, acceptance criteria, and traceable coverage aligned with business and functional requirements.",
+          "Combined exploratory, functional, regression, cross-browser, and responsive testing across the delivery lifecycle.",
+          "Connected UI behavior with SQL data checks, pre- and post-deployment validation, hotfix verification, and production monitoring.",
+          "Documented defects with reproduction paths, business impact, environment details, and verified fixes."
+        ],
+        "outcome": "Testing produced clear evidence about customer risk, technical behavior, and release readiness, with follow-up after deployment.",
+        "repository": null,
+        "technologies": [
+          "Exploratory Testing",
+          "SQL",
+          "Jira",
+          "Cross-browser Testing",
+          "Risk-Based Testing",
+          "Release Validation"
+        ],
+        "highlights": [
+          "Risk-aligned test planning and acceptance coverage",
+          "Cross-browser and responsive customer-journey validation",
+          "UI-to-database verification",
+          "Pre-deployment, hotfix, and production follow-through"
+        ],
+        "audience": "Banking developers, analysts, and product owners who needed traceable evidence for customer workflows and release decisions.",
+        "systems": [
+          "Browser workflows were checked against business requirements and acceptance criteria.",
+          "SQL checks connected application results to underlying data; Jira captured reproduction steps, environment details, and business impact.",
+          "Validation spanned development, QA, UAT, and staging, including deployment and hotfix checks."
+        ],
+        "decisions": [
+          "Risk-based coverage focused investigation on customer and business impact; exploratory work supplemented repeatable regression scenarios.",
+          "Reproducible defect reports connected a symptom to its environment and data, giving developers enough context to investigate and verify a fix."
+        ],
+        "relevance": "Gathering requirements, checking data with SQL, and writing clear handoffs are what I use now to take a customer problem to a working solution.",
+        "evidence": [
+          {
+            "label": "Documented delivery responsibilities",
+            "detail": "The career record documents SQL validation, reproducible Jira reports, and release checks. No public banking code, customer data, or defect screenshots are available.",
+            "href": null
+          }
+        ],
+        "repositoryVisibility": "unavailable",
+        "relatedProjects": [],
+        "experienceId": "ally-bank",
+        "metric": null
       }
     ],
     "provenance": {
@@ -590,7 +605,7 @@
       "referenceRepository": "https://github.com/mohamedmoheyeldin/mohamedmoheyeldin.github.io",
       "sourceSnapshotDate": "2025-10-13",
       "importedOn": "2026-08-13",
-      "policy": "Career facts reconciled with the user-confirmed VA account and FDE career claim register. On 2026-10-02, the user corrected the Booz Allen title to Forward Deployed Engineer (FDE) for the website and all resume formats. Employment dates and documented responsibilities remain unchanged; no production AI or unsupported metrics claimed."
+      "policy": "Career facts reconciled with the user-confirmed VA account and FDE career claim register. On 2026-10-02, the user corrected the Booz Allen title to Forward Deployed Engineer (FDE) for the website and all resume formats. Employment dates and documented responsibilities remain unchanged; no production AI claimed; project metrics are limited to documented or user-reported figures."
     },
     "heroSummary": "At Booz Allen Hamilton I work on a VA healthcare claims platform, and I spend much of my time with the people who use it: finding out what they need, building it, showing them, and adjusting based on their feedback."
   }
