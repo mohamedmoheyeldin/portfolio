@@ -1,6 +1,6 @@
 # Portfolio — mohamedmoheyeldin.com
 
-React 19 + Vite 8 portfolio and multi-format resume platform (free Untitled UI components, Tailwind CSS v4), prerendered to static HTML and deployed to Cloudflare at https://mohamedmoheyeldin.com/. Shared defaults: `C:\Projects\CLAUDE.md`. The detailed project rules are at the end of this file; where they are more specific, they take priority over this summary.
+React 19 + Vite 8 portfolio and multi-format resume platform (free Untitled UI components, Tailwind CSS v4), prerendered to static HTML and deployed to Cloudflare at https://mohamedmoheyeldin.com/. Shared defaults: the global `~/.claude/CLAUDE.md`. The detailed project rules are at the end of this file; where they are more specific, they take priority over this summary.
 
 ## Setup
 
@@ -31,6 +31,11 @@ CI (`.github/workflows/ci.yml`, "Quality gates") runs `pnpm quality` on Node 24 
 - `public/resume/` — generated resume outputs; `docs/` — architecture, provenance, Cloudflare, Untitled UI notes
 - `wrangler.jsonc` — Cloudflare Worker `portfolio` (static assets from `./dist`, custom domain)
 - `.mcp.json` — project-scoped Untitled UI MCP for Claude Code (development tooling only; no credentials)
+
+## Code map and notes
+
+- Graphify map: if `graphify-out/` exists, read `graphify-out/GRAPH_REPORT.md` or run `graphify query "..."` / `graphify affected "..."` before multi-file changes, then open the real files before editing. Git hooks rebuild it on every commit. Never commit `graphify-out/`.
+- Keep `README.md` and the matching `docs/` file current in the same change, and update the Obsidian project notes (decisions, todo) after meaningful work, as the global instructions describe.
 
 ## Boundaries
 
