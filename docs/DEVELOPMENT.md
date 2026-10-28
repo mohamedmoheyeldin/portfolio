@@ -44,3 +44,12 @@ Resume content uses `compactHighlights` and `highlights` in the shared career re
 Install Python 3.10+ and the document-only requirements with `python -m pip install -r scripts/requirements-resume.txt`. Run `pnpm install --frozen-lockfile`, then `pnpm resume:generate`. The generator reads the current Untitled UI light-theme tokens, Inter fonts, and career JSON and replaces all seven files under `public/resume`: both PDF, DOCX, and Markdown variants plus job-board text. Verified credentials share issuer and date metadata in print, with a public verification link on each title. Run `pnpm build:cloudflare` afterward so local downloads serve the new files.
 
 Visually inspect both PDFs and render the DOCX files with an available document renderer before claiming Word pagination is verified. Python document packages are separate from the website dependencies.
+
+## Code map and project notes
+
+The project is maintained with Claude Code, a Graphify code map, and Obsidian notes (see "How this project is maintained" in the README).
+
+- Build the map once with `graphify extract . --code-only` (or `/graphify .` inside Claude Code), then run `graphify hook install` so it is rebuilt after every commit, checkout, and merge.
+- Before a multi-file change, check impact with `graphify affected "<symbol>"` or `graphify query "<question>"`. The map is for orientation; read the real files before editing.
+- `graphify-out/` is local output and is ignored by Git.
+- Update README.md and the relevant document in this folder in the same pull request as the change.

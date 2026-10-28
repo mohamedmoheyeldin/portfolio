@@ -11,3 +11,4 @@ tmp/
 !.dev.vars.example
 workers/studio/worker-configuration.d.ts
 __pycache__/
+graphify-out/

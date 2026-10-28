@@ -514,7 +514,8 @@
           "Designed a schema-validated career record consumed by every presentation channel.",
           "Rebuilt the portfolio on the official Untitled UI React and Vite stack, preserving static pages, content validation, and resume downloads.",
           "Generated separate PDF and DOCX formats from the same factual source while preserving channel-appropriate layout.",
-          "Added strict diagnostics, static production builds, subpath packaging checks, and explicit deployment configuration."
+          "Added strict diagnostics, static production builds, subpath packaging checks, and explicit deployment configuration.",
+          "Maintain the codebase with Claude Code, a Graphify knowledge graph rebuilt on every commit, and linked Obsidian project notes, so each change starts from a current map of the code and a record of earlier decisions."
         ],
         "outcome": "One publishing workflow keeps the site and every resume format in sync.",
         "repository": "https://github.com/mohamedmoheyeldin/portfolio",
@@ -525,7 +526,10 @@
           "Tailwind CSS",
           "TypeScript",
           "GitHub Actions",
-          "Cloudflare"
+          "Cloudflare",
+          "Claude Code",
+          "Graphify",
+          "Obsidian"
         ],
         "highlights": [
           "Designed one structured content architecture for every career presentation channel.",
@@ -542,7 +546,8 @@
         "decisions": [
           "Static rendering keeps content available before JavaScript runs and avoids a service/database to operate. Career changes require a rebuild.",
           "One factual record reduces content drift. Web and print use separate layouts because native documents cannot run React components.",
-          "Cloudflare and GitHub Pages need different asset bases. Both builds are checked; configuration alone does not prove a production deployment."
+          "Cloudflare and GitHub Pages need different asset bases. Both builds are checked; configuration alone does not prove a production deployment.",
+          "Documentation is part of each change: Claude Code checks the Graphify map before multi-file edits and updates the repository docs and Obsidian decision notes alongside the code."
         ],
         "relevance": "A public example of how I handle data contracts, UI, document generation, and deployment. My API and integration work is described in the work projects.",
         "evidence": [
