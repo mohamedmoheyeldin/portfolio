@@ -609,7 +609,7 @@
   /* The finale: the close is the one teal sheet on the site, lit from the top corner. */
   .closing-sheet.tide { background: radial-gradient(48rem 28rem at 92% -10%, var(--accent-soft), transparent 70%), var(--surface); border-color: var(--line-strong); }
   .closing-address { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-4); }
-  .closing-address a { font-size: clamp(1.25rem, 0.4rem + 3.6vw, 3.75rem); font-weight: 600; letter-spacing: -0.03em; color: var(--accent); text-decoration-thickness: 1.5px; text-underline-offset: 0.18em; overflow-wrap: anywhere; }
+  .closing-address a { font-size: clamp(1.125rem, 0.4rem + 1.6vw, 2.25rem); font-weight: 600; letter-spacing: -0.03em; color: var(--accent); text-decoration-thickness: 1.5px; text-underline-offset: 0.18em; overflow-wrap: anywhere; }
   .closing-address a:hover { color: var(--accent-hover); }
   /* Email drafts by intent, under the main action */
   .intents { display: grid; gap: var(--s-3); width: 100%; margin-top: var(--s-2); }
