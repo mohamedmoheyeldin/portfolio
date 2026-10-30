@@ -66,6 +66,11 @@
     --lh-head: 1.15;
     --lh-body: 1.6;
     --track-display: -0.032em;
+    /* One display voice for every large number and poster heading (r024 coherence pass) */
+    --track-poster: -0.045em;
+    --weight-display: 650;
+    --lh-poster: 0.95;
+    --rule-heavy: 3px;
     --track-head: -0.02em;
     --track-label: 0.02em;
     --measure: 66ch;
@@ -230,8 +235,8 @@
   .section-head { display: grid; gap: var(--s-4); margin-bottom: clamp(var(--s-8), 4vw, var(--s-16)); }
   .section-head h2 { max-width: 22ch; }
   /* Editorial voice: every section opens with a poster-scale head under a heavy teal rule. */
-  .section-head { position: relative; padding-top: var(--s-6); border-top: 4px solid var(--accent); }
-  .section-head h2 { font-size: var(--t-4xl); font-weight: 650; line-height: 0.98; letter-spacing: -0.04em; max-width: 18ch; }
+  .section-head { position: relative; padding-top: var(--s-6); border-top: var(--rule-heavy) solid var(--accent); }
+  .section-head h2 { font-size: var(--t-4xl); font-weight: var(--weight-display); line-height: 0.98; letter-spacing: var(--track-poster); max-width: 18ch; }
   .section-head--split > :last-child { font-size: var(--t-lg); }
   .section-head--split { grid-template-columns: minmax(0, 1fr); align-items: end; }
   @media (min-width: 860px) {
@@ -318,7 +323,7 @@
   .menu-format, .file-list .menu-format { font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-3); }
 
   /* The floating island header */
-  .masthead { position: sticky; top: 0; z-index: 50; padding: var(--s-3) var(--gutter) 0; pointer-events: none; height: 0; }
+  .masthead { position: sticky; top: 0; z-index: 50; padding: var(--s-3) var(--gutter) 0; margin-bottom: calc(-1 * var(--s-3)); pointer-events: none; height: 0; }
   .island {
     pointer-events: auto;
     display: flex; align-items: center; gap: var(--s-4);
@@ -456,7 +461,7 @@
   .cover-index .num { grid-area: num; color: var(--accent); }
   .cover-index a > svg { grid-area: arrow; width: 1.25rem; height: 1.25rem; color: var(--accent); transition: transform var(--t-ui) var(--ease-out); }
   .cover-index a:hover > svg { transform: translateX(4px); }
-  .cover-index-metric { grid-area: metric; font-size: var(--t-3xl); font-weight: 650; line-height: 0.95; letter-spacing: -0.045em; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .cover-index-metric { grid-area: metric; font-size: clamp(1.75rem, 0.9rem + 2.3vw, 3rem); color: var(--ink); white-space: nowrap; }
   .cover-index-name { grid-area: name; font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-2); letter-spacing: var(--track-label); text-transform: uppercase; }
   @media (max-width: 699px) {
     .cover-index ol { grid-template-columns: 1fr; gap: 0; border-bottom: 0; }
@@ -473,7 +478,6 @@
   /* The case deck */
   /* The work sits on a teal-tinted drafting ground: the cover's grid, carried down under the dark case files. */
   .deck { padding-block: var(--section) 0; background-color: var(--accent-soft); background-image: linear-gradient(var(--accent-line-faint) 1px, transparent 1px), linear-gradient(90deg, var(--accent-line-faint) 1px, transparent 1px); background-size: 100% 6rem, 6rem 100%; border-block: 1px solid var(--accent-line); }
-  .deck .section-head h2 { font-size: clamp(3rem, 0.6rem + 7vw, 8rem); letter-spacing: -0.05em; }
   .deck .section-head .lede { color: var(--ink); }
   .deck-stack { --stacking: 0; display: grid; gap: var(--s-10); padding-bottom: var(--section); }
   .sheet-anchor { display: block; height: 0; }
@@ -505,7 +509,7 @@
   /* Dark case files on the light page: each sheet is a night panel with its result set at display scale. */
   .sheet-body.night { background: radial-gradient(40rem 22rem at 0% 0%, var(--glow), transparent 70%), var(--surface); border-color: var(--line-strong); }
   .sheet-tab.night { background: var(--surface); border-color: var(--line-strong); color: var(--ink); }
-  .sheet-lead .result-value { font-size: var(--t-3xl); font-weight: 650; letter-spacing: -0.04em; }
+  .sheet-lead .result-value { font-size: var(--t-3xl); }
   .project-links { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-5); }
   @media (min-width: 900px) {
     .sheet-body { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(var(--s-8), 3.5vw, var(--s-16)); }
@@ -542,14 +546,18 @@
 
   /* More work */
   .more { padding-top: var(--section); }
+  /* One display voice: every large number, poster employer name and the footer name share weight, tracking and leading. */
+  .sheet-lead .result-value, .cover-index-metric, .ledger-value, .toolkit-count-value, .career .timeline-body h3, .footer-mark a {
+    font-weight: var(--weight-display); line-height: var(--lh-poster); letter-spacing: var(--track-poster); font-variant-numeric: tabular-nums;
+  }
   /* Earlier and supporting work: a results ledger. Each row leads with its result at display size under a heavy rule. */
   .ledger { list-style: none; padding: 0; border-bottom: 1px solid var(--line-strong); }
-  .ledger-row article { display: grid; gap: var(--s-3) var(--s-8); padding-block: clamp(var(--s-8), 4vw, var(--s-12)); border-top: 3px solid var(--ink); }
+  .ledger-row article { display: grid; gap: var(--s-3) var(--s-8); padding-block: clamp(var(--s-8), 4vw, var(--s-12)); border-top: var(--rule-heavy) solid var(--ink); }
   @media (min-width: 900px) { .ledger-row article { grid-template-columns: 7rem minmax(0, 1.25fr) minmax(0, 1fr); align-items: start; } }
   .ledger-meta { display: grid; gap: var(--s-1); font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-3); letter-spacing: var(--track-label); text-transform: uppercase; }
   .ledger-meta .num { font-size: var(--t-lg); color: var(--accent); }
   .ledger-result { display: grid; gap: var(--s-2); }
-  .ledger-value { font-size: var(--t-4xl); font-weight: 650; line-height: 0.95; letter-spacing: -0.045em; color: var(--accent); font-variant-numeric: tabular-nums; text-wrap: balance; }
+  .ledger-value { font-size: var(--t-4xl); color: var(--accent); text-wrap: balance; }
   .ledger-text { display: grid; gap: var(--s-3); }
   .ledger-text h3 { font-size: var(--t-xl); }
   .ledger-text h3 a { text-decoration: none; }
@@ -582,7 +590,7 @@
   /* The stance: one statement at poster scale on a dark band, with the competencies from the record under it. */
   .stance { padding-block: clamp(var(--s-16), 10vw, calc(var(--section) * 1.4)); background-image: radial-gradient(50rem 30rem at 12% 110%, var(--glow), transparent 70%); }
   .stance-label { color: var(--accent); margin-bottom: var(--s-6); }
-  .stance-line { font-size: clamp(1.75rem, 0.6rem + 3.6vw, 4.25rem); font-weight: 600; line-height: 1.06; letter-spacing: -0.035em; max-width: 26ch; text-wrap: balance; }
+  .stance-line { font-size: clamp(1.75rem, 0.6rem + 3.6vw, 4.25rem); font-weight: var(--weight-display); line-height: 1.04; letter-spacing: var(--track-poster); max-width: 26ch; text-wrap: balance; }
   .stance-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: clamp(var(--s-8), 4vw, var(--s-12)); }
   .stance-list li { padding: var(--s-2) var(--s-4); border: 1px solid var(--accent-line); border-radius: var(--r-pill); color: var(--ink-2); font-size: var(--t-sm); }
 
@@ -620,11 +628,11 @@
   /* Career on the home page: each role is a chapter under a heavy rule, the employer set at display size. */
   .career .timeline { gap: 0; }
   .career .timeline::before, .career .timeline-item::before { display: none; }
-  .career .timeline-item { grid-template-columns: minmax(0, 1fr); gap: var(--s-4); padding-block: var(--s-8) var(--s-10); border-top: 3px solid var(--ink); }
+  .career .timeline-item { grid-template-columns: minmax(0, 1fr); gap: var(--s-4); padding-block: var(--s-8) var(--s-10); border-top: var(--rule-heavy) solid var(--ink); }
   .career .timeline-item.is-current { border-top-color: var(--accent); }
   .career .timeline-body { padding-left: 0; max-width: none; }
   .career .timeline-when { font-size: var(--t-xs); letter-spacing: var(--track-label); text-transform: uppercase; padding-top: 0; }
-  .career .timeline-body h3 { font-size: clamp(2rem, 1rem + 3vw, 3.75rem); font-weight: 650; line-height: 1; letter-spacing: -0.04em; }
+  .career .timeline-body h3 { font-size: clamp(2rem, 1rem + 3vw, 3.75rem); }
   .career .is-current .timeline-body h3 { color: var(--accent); }
   .career .timeline-body .where { font-family: var(--font-mono); font-size: var(--t-xs); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
   .career .timeline-body .summary { font-size: var(--t-lg); line-height: 1.5; }
@@ -669,6 +677,7 @@
   .toolkit-title { font-size: var(--t-3xl); letter-spacing: var(--track-display); line-height: var(--lh-display); }
   .toolkit-wall { display: grid; border-bottom: 1px solid var(--line-strong); }
   .toolkit-row { display: grid; gap: var(--s-3) var(--s-8); padding-block: var(--s-6); border-top: 1px solid var(--line-strong); }
+  .toolkit-row:first-child { border-top: var(--rule-heavy) solid var(--ink); }
   @media (min-width: 900px) { .toolkit-row { grid-template-columns: 14rem minmax(0, 1fr); align-items: baseline; } }
   .toolkit-row dt { color: var(--accent); }
   .toolkit-words { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-1) 0; font-size: var(--t-xl); font-weight: 600; letter-spacing: var(--track-head); line-height: 1.3; }
@@ -678,7 +687,7 @@
   .toolkit-proof { display: grid; gap: var(--s-4) var(--s-10); align-items: end; }
   @media (min-width: 900px) { .toolkit-proof { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); } }
   .toolkit-count { display: flex; align-items: baseline; gap: var(--s-4); flex-wrap: wrap; }
-  .toolkit-count-value { font-size: var(--t-4xl); font-weight: 650; line-height: 0.9; letter-spacing: -0.045em; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .toolkit-count-value { font-size: var(--t-4xl); color: var(--accent); }
   .toolkit-count-label { font-size: var(--t-lg); font-weight: 600; max-width: 26ch; line-height: 1.25; }
   .toolkit-foot { color: var(--ink-2); }
   /* The Experience page keeps the grid of tag groups */
@@ -699,7 +708,7 @@
   }
   @media (min-width: 1000px) { .closing-sheet { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); } }
   .closing-main { display: grid; gap: var(--s-6); justify-items: start; align-content: start; }
-  .closing-main h2 { font-size: var(--t-4xl); font-weight: 650; line-height: 0.98; letter-spacing: -0.04em; max-width: 14ch; }
+  .closing-main h2 { font-size: var(--t-4xl); font-weight: var(--weight-display); line-height: 0.98; letter-spacing: var(--track-poster); max-width: 14ch; }
   /* The finale: the close is the one teal sheet on the site, lit from the top corner. */
   .closing-sheet.tide { background: radial-gradient(48rem 28rem at 92% -10%, var(--accent-soft), transparent 70%), var(--surface); border-color: var(--line-strong); }
   .closing-address { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-4); }
@@ -747,7 +756,7 @@
   .footer-cols a svg { width: 1em; height: 1em; flex: none; }
   .footer-cols a:hover { color: var(--accent); }
   .footer-mark { padding-block: var(--s-6); border-block: 1px solid var(--line-strong); }
-  .footer-mark a { display: block; font-size: clamp(2.5rem, -0.2rem + 8.4vw, 9.5rem); font-weight: 650; line-height: 0.92; letter-spacing: -0.05em; color: var(--ink); text-decoration: none; text-wrap: balance; }
+  .footer-mark a { display: block; font-size: clamp(2.5rem, -0.2rem + 8.4vw, 9.5rem); color: var(--ink); text-decoration: none; text-wrap: balance; }
   .footer-mark a:hover { color: var(--accent); }
   .footer-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-4); padding-top: var(--s-6); }
   .footer-links a { color: var(--ink); }
