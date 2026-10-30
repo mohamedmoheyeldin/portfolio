@@ -718,7 +718,9 @@
   @media (min-width: 700px) { .footer-cols { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   .footer-cols .label { color: var(--accent); margin-bottom: var(--s-3); }
   .footer-cols ul { list-style: none; padding: 0; display: grid; gap: var(--s-2); }
-  .footer-cols a { display: inline-flex; align-items: center; gap: var(--s-1); min-height: 1.75rem; color: var(--ink); font-size: var(--t-base); text-decoration: none; overflow-wrap: anywhere; }
+  .footer-cols a { display: inline-flex; align-items: center; gap: var(--s-1); min-height: 1.75rem; color: var(--ink); font-size: var(--t-base); text-decoration: none; white-space: nowrap; }
+  .footer-cols a[href^="mailto:"] { white-space: normal; overflow-wrap: anywhere; }
+  .footer-cols a svg { width: 1em; height: 1em; flex: none; }
   .footer-cols a:hover { color: var(--accent); }
   .footer-mark { padding-block: var(--s-6); border-block: 1px solid var(--line-strong); }
   .footer-mark a { display: block; font-size: clamp(2.5rem, -0.2rem + 8.4vw, 9.5rem); font-weight: 650; line-height: 0.92; letter-spacing: -0.05em; color: var(--ink); text-decoration: none; text-wrap: balance; }
