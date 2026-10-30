@@ -56,6 +56,22 @@ export function CaseStudy({ project }: { project: Project }) {
               <div><dt className="label">Evidence</dt><dd>{evidence}</dd></div>
             </dl>
           </div>
+          {project.metric && (
+            <div className="wrap">
+              <section className="case-outcome" aria-labelledby="case-outcome-heading">
+                <h2 className="label" id="case-outcome-heading">The outcome</h2>
+                <p className="case-outcome-value">{project.metric.value}</p>
+                <div className="case-outcome-text">
+                  <p>{metricLabel(project)}</p>
+                  <EvidenceTag project={project} />
+                </div>
+                <nav className="case-outcome-jump" aria-label="Jump to">
+                  <a className="link-arrow" href="#approach">How I did it<ArrowRight /></a>
+                  <a className="link-arrow" href="#outcome">What changed<ArrowRight /></a>
+                </nav>
+              </section>
+            </div>
+          )}
         </header>
 
         <Part id="challenge" title="The problem">

@@ -653,7 +653,14 @@
   @media (min-width: 1000px) { .case-grid { grid-template-columns: minmax(0, 3fr) minmax(0, 8fr); gap: var(--s-16); } }
   .case-title { font-size: var(--t-xl); }
   .case-body { display: grid; gap: var(--s-8); min-width: 0; }
-  .case-body > .label, .case-body h3.label { margin-bottom: calc(var(--s-4) * -1); }
+  .case-body > .label, .case-body > h3.label { margin-bottom: calc(var(--s-4) * -1); }
+  .two-col h3.label { margin-bottom: var(--s-3); }
+  /* The outcome, first: a case study opens on its result and where the evidence comes from. */
+  .case-outcome { display: grid; gap: var(--s-3) var(--s-10); align-items: center; margin-top: var(--s-12); padding: var(--s-8); background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: var(--r-3); box-shadow: var(--e2), var(--edge); }
+  @media (min-width: 900px) { .case-outcome { grid-template-columns: auto minmax(0, 1fr) auto; } .case-outcome .label { grid-column: 1 / -1; } }
+  .case-outcome-value { font-size: clamp(2.5rem, 1.6rem + 3.6vw, 4.75rem); font-weight: 600; line-height: var(--lh-display); letter-spacing: var(--track-display); color: var(--accent); text-wrap: balance; overflow-wrap: anywhere; }
+  .case-outcome-text { display: grid; gap: var(--s-3); justify-items: start; max-width: 52ch; color: var(--ink-2); font-size: var(--t-lg); line-height: 1.5; }
+  .case-outcome-jump { display: grid; gap: var(--s-2); }
   .outcome-grid { display: grid; gap: var(--s-8); }
   @media (min-width: 1100px) { .outcome-grid { grid-template-columns: minmax(0, 1fr) 18rem; } }
   .outcome-grid ul { display: grid; gap: var(--s-2); padding-left: var(--s-5); list-style: disc; color: var(--ink-2); }
