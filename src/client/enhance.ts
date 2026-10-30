@@ -123,7 +123,8 @@ function initMenus() {
 /**
  * The case deck stacks its sheets (sticky, each leaving its tab showing) only where every sheet fits the screen
  * below the header. CSS decides the screen sizes that can stack; this measures the content at the current size and
- * fonts, and lays the sheets out one after another when any sheet would be clipped.
+ * fonts. Stacked sheets share one height, the tallest sheet's own content (so tall screens get no empty space), and
+ * the sheets are laid out one after another when that height would not fit under the header.
  */
 function initDeck() {
   const deck = document.querySelector<HTMLElement>("[data-deck]");
@@ -131,9 +132,14 @@ function initDeck() {
   const bodies = Array.from(deck.querySelectorAll<HTMLElement>(".sheet-body"));
   const measure = () => {
     deck.classList.remove("is-flow");
+    deck.style.removeProperty("--sheet-h");
     if (getComputedStyle(deck).getPropertyValue("--stacking").trim() !== "1") return;
-    const clipped = bodies.some((body) => body.scrollHeight > body.clientHeight + 1);
-    deck.classList.toggle("is-flow", clipped);
+    deck.classList.add("is-measuring");
+    const tallest = Math.max(...bodies.map((body) => body.offsetHeight));
+    deck.classList.remove("is-measuring");
+    const room = bodies[0]!.clientHeight;
+    if (tallest > room + 1) deck.classList.add("is-flow");
+    else deck.style.setProperty("--sheet-h", `${tallest}px`);
   };
   let frame = 0;
   const schedule = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(measure); };

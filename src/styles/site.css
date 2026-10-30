@@ -430,7 +430,9 @@
     .js .deck-stack:not(.is-flow) :is(.sheet-tab, .sheet-body) { pointer-events: auto; }
     .js .deck-stack:not(.is-flow) .sheet-anchor:not(:first-child) { margin-top: 14vh; }
     .js .deck-stack:not(.is-flow) .deck-hold { height: 22vh; margin-top: 0; }
-    .js .deck-stack:not(.is-flow) .sheet-body { height: calc(100vh - var(--stick) - var(--tab-h) - var(--s-6)); overflow: hidden; box-shadow: var(--e3); }
+    /* --sheet-h is the tallest sheet's content, set by enhance.ts; the screen below the header is the ceiling. */
+    .js .deck-stack:not(.is-flow) .sheet-body { height: min(var(--sheet-h, 100vh), calc(100vh - var(--stick) - var(--tab-h) - var(--s-6))); overflow: hidden; box-shadow: var(--e3); }
+    .js .deck-stack.is-measuring .sheet-body { height: auto; }
     /* html already pads anchors by --stick plus one step; take the step back so a sheet lands exactly where it sticks. */
     .js .deck-stack:not(.is-flow) .sheet-anchor { scroll-margin-top: calc(var(--s-4) * -1); }
     .js .deck-stack:not(.is-flow) .sheet-body { padding: clamp(var(--s-5), 2.2vw, var(--s-8)); }
