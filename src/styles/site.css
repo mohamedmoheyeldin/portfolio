@@ -441,22 +441,30 @@
   }
   .cover-index { margin-top: auto; padding-top: clamp(var(--s-10), 6vh, var(--s-16)); }
   .cover-index ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-2); border-bottom: 1px solid var(--line-strong); }
+  /* The case files as the cover's bottom edge: each tab leads with its result at display size, then the case name. */
   .cover-index a {
-    display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-1) var(--s-3); align-items: baseline;
-    height: 100%; padding: var(--s-4) var(--s-5) var(--s-5);
-    border: 1px solid var(--line); border-bottom: 0; border-radius: var(--r-3) var(--r-3) 0 0;
-    background: var(--surface); text-decoration: none; box-shadow: var(--e1);
+    position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "num arrow" "metric metric" "name name"; gap: var(--s-2) var(--s-3); align-content: start;
+    height: 100%; padding: var(--s-5) var(--s-6) var(--s-6);
+    border: 1px solid var(--line-strong); border-bottom: 0; border-radius: var(--r-3) var(--r-3) 0 0;
+    background: var(--surface-glass); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); text-decoration: none; box-shadow: var(--e1);
     transition: transform var(--t-ui) var(--ease-out), border-color var(--t-fast);
   }
+  .cover-index a::before { content: ""; position: absolute; inset: -1px -1px auto; height: 3px; border-radius: var(--r-3) var(--r-3) 0 0; background: var(--accent); }
   .cover-index a:hover { color: var(--ink); border-color: var(--accent-line); transform: translateY(-4px); }
-  .cover-index-name { font-weight: 600; }
-  .cover-index-metric { grid-column: 2; font-family: var(--font-mono); font-size: var(--t-xs); color: var(--accent); letter-spacing: var(--track-label); text-transform: uppercase; }
+  .cover-index .num { grid-area: num; color: var(--accent); }
+  .cover-index a > svg { grid-area: arrow; width: 1.25rem; height: 1.25rem; color: var(--accent); transition: transform var(--t-ui) var(--ease-out); }
+  .cover-index a:hover > svg { transform: translateX(4px); }
+  .cover-index-metric { grid-area: metric; font-size: var(--t-3xl); font-weight: 650; line-height: 0.95; letter-spacing: -0.045em; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .cover-index-name { grid-area: name; font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-2); letter-spacing: var(--track-label); text-transform: uppercase; }
   @media (max-width: 699px) {
     .cover-index ol { grid-template-columns: 1fr; gap: 0; border-bottom: 0; }
     .cover-index li + li a { border-radius: 0; }
     .cover-index li:last-child a { border-bottom: 1px solid var(--line); border-radius: 0 0 var(--r-3) var(--r-3); }
     .cover-index li:first-child:last-child a { border-radius: var(--r-3); }
     .cover-index a { box-shadow: none; padding: var(--s-3) var(--s-4); }
+    .cover-index a { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "num metric arrow" "num name arrow"; gap: var(--s-1) var(--s-3); align-items: center; }
+    .cover-index-metric { font-size: var(--t-xl); }
+    .cover-index li + li a::before { display: none; }
     .cover-index a:hover { transform: none; }
   }
 

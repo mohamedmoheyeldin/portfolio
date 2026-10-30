@@ -78,8 +78,9 @@ function Cover({ profile, featured }: { profile: Profile; featured: Project[] })
             <li key={project.slug}>
               <a href={`#entry-${project.slug}`}>
                 <span className="num">{projectNumber(project)}</span>
-                <span className="cover-index-name">{tabName(project)}</span>
                 <span className="cover-index-metric">{project.metric?.value}</span>
+                <span className="cover-index-name">{tabName(project)}</span>
+                <ArrowRight />
               </a>
             </li>
           ))}
