@@ -19,7 +19,7 @@ function Part({ id, title, children, tint }: { id: string; title: string; childr
 
 const walkthroughSteps = [
   ["Edit the data", "Content lives in src/content/career.json. Required fields and unique project slugs are checked before a build."],
-  ["Render the pages", "React renders every page to HTML at build time with a custom design system. The published site ships no React; a small script adds the theme switch, the menus, the case deck guard and the page self-test."],
+  ["Render the pages", "React renders every page to HTML at build time with a custom design system. The published site ships no React; a small script adds the theme switch, the menus, the hero diagram picker and the page self-test."],
   ["Generate the resumes", "pnpm resume:generate builds every resume format from the same record."],
   ["Check and build", "pnpm verify checks types, content, the production build, and GitHub Pages paths. pnpm build:cloudflare rebuilds for the root path."],
   ["Deploy", "wrangler.jsonc points Cloudflare Static Assets at dist. Merging to main starts the production build."],

@@ -1,12 +1,12 @@
 /*
  * The only JavaScript the published site ships. Pages are complete HTML without it; this adds:
- * the theme toggle, copy-address buttons, the current section in the header, menu positioning and closing, the case
- * deck guard (stacking only where every sheet fits the screen), and the self-test runner.
+ * the theme toggle, copy-address buttons, the current section in the header, menu positioning and closing, the hero
+ * schematic's part picker, and the self-test runner.
  */
 import { checks, observeVitals, type CheckResult } from "@/lib/selftest";
 
 const root = document.documentElement;
-const themeColors = { light: "#eef0f3", dark: "#0b0d10" } as const;
+const themeColors = { light: "#f6f7f7", dark: "#07090a" } as const;
 const reducedMotion = () => !matchMedia("(prefers-reduced-motion: no-preference)").matches;
 
 function setTheme(dark: boolean) {
@@ -121,31 +121,41 @@ function initMenus() {
 }
 
 /**
- * The case deck stacks its sheets (sticky, each leaving its tab showing) only where every sheet fits the screen
- * below the header. CSS decides the screen sizes that can stack; this measures the content at the current size and
- * fonts. Stacked sheets share one height, the tallest sheet's own content (so tall screens get no empty space), and
- * the sheets are laid out one after another when that height would not fit under the header.
+ * The hero schematic: the list under the diagram becomes a picker. Picking a part (click, focus, or pointing at it in
+ * the diagram) shows its text and lights it in both layouts. Where motion is welcome it steps through the parts twice
+ * on its own, in time with the signal on the paths, and stops for good as soon as the visitor touches it.
  */
-function initDeck() {
-  const deck = document.querySelector<HTMLElement>("[data-deck]");
-  if (!deck) return;
-  const bodies = Array.from(deck.querySelectorAll<HTMLElement>(".sheet-body"));
-  const measure = () => {
-    deck.classList.remove("is-flow");
-    deck.style.removeProperty("--sheet-h");
-    if (getComputedStyle(deck).getPropertyValue("--stacking").trim() !== "1") return;
-    deck.classList.add("is-measuring");
-    const tallest = Math.max(...bodies.map((body) => body.offsetHeight));
-    deck.classList.remove("is-measuring");
-    const room = bodies[0]!.clientHeight;
-    if (tallest > room + 1) deck.classList.add("is-flow");
-    else deck.style.setProperty("--sheet-h", `${tallest}px`);
+function initSchematic() {
+  const figure = document.querySelector<HTMLElement>("[data-schematic]");
+  if (!figure) return;
+  const buttons = Array.from(figure.querySelectorAll<HTMLButtonElement>(".node-btn"));
+  const count = buttons.length;
+  const select = (n: number) => {
+    figure.dataset.active = String(n);
+    for (const button of buttons) {
+      const on = button.dataset.node === String(n);
+      button.setAttribute("aria-expanded", String(on));
+      document.getElementById(button.getAttribute("aria-controls")!)!.hidden = !on;
+    }
+    figure.querySelectorAll<SVGGElement>(".sn[data-node]").forEach((g) => g.classList.toggle("is-on", g.dataset.node === String(n)));
   };
-  let frame = 0;
-  const schedule = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(measure); };
-  measure();
-  document.fonts?.ready.then(schedule);
-  addEventListener("resize", schedule);
+  let timer = 0;
+  const stop = () => { clearInterval(timer); timer = 0; };
+  for (const button of buttons) {
+    const pick = () => { stop(); select(Number(button.dataset.node)); };
+    button.addEventListener("click", pick);
+    button.addEventListener("focus", pick);
+  }
+  figure.querySelectorAll<SVGGElement>(".sn[data-node]").forEach((g) => g.addEventListener("pointerenter", () => { stop(); select(Number(g.dataset.node)); }));
+  figure.classList.add("is-picker");
+  select(1);
+  if (reducedMotion()) return;
+  let step = 1;
+  timer = window.setInterval(() => {
+    step += 1;
+    if (step > count * 2) { stop(); select(1); return; }
+    select(((step - 1) % count) + 1);
+  }, 2600);
 }
 
 const marks: Record<CheckResult["state"], string> = { pass: "✓", fail: "✕", skip: "–" };
@@ -199,7 +209,7 @@ initTheme();
 initCopy();
 initCurrentSection();
 initMenus();
-initDeck();
+initSchematic();
 initSelfTest();
 // The Scrollcraft harness waits for this before walking the page.
 root.classList.add("sc-ready");

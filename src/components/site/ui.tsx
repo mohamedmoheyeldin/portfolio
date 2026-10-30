@@ -4,7 +4,7 @@ import { type Project, evidenceSource, resumeFile } from "./shared";
 
 /*
  * Small, dependency-free primitives. Everything here renders to static HTML at build time; behaviour that needs
- * JavaScript (theme, copy, menus, the case deck, the self-test) is attached by src/client/enhance.ts
+ * JavaScript (theme, copy, menus, the schematic, the self-test) is attached by src/client/enhance.ts
  * through data attributes.
  */
 
@@ -80,6 +80,118 @@ export function EvidenceTag({ project }: { project: Project }) {
   const source = evidenceSource(project);
   const tone = source === "User-reported" ? " evidence--reported" : source === "Public source" ? " evidence--public" : "";
   return <span className={`evidence${tone}`}>{source}</span>;
+}
+
+/*
+ * The signature: a working diagram of the VA Claims Workflows design. The six parts are the documented steps and
+ * "alongside" entries in flows.ts (the source fields are noted there). Two SVG layouts share one geometry table: wide
+ * (beside the hero copy) and tall (phones). The SVGs are decorative; the list under them carries every part as text,
+ * and enhance.ts turns it into a picker that lights the matching part and runs a signal along the paths.
+ */
+type Box = { n: number; x: number; y: number; w: number; h: number; lines: string[] };
+type Layout = {
+  view: [number, number]; boxes: Box[]; roles: { x: number; y: number; w: number; h: number }[]; pills: Box[];
+  ui: [number, number, number][]; db: [number, number]; signal: string[]; trunk: string;
+};
+const roleNames = ["VA staff", "Providers", "Veterans"];
+const layouts: Record<"wide" | "tall", Layout> = {
+  wide: {
+    view: [640, 372],
+    boxes: [{ n: 1, x: 16, y: 140, w: 152, h: 88, lines: ["Health-provider", "APIs"] }, { n: 2, x: 232, y: 112, w: 176, h: 144, lines: ["Claims platform"] }],
+    ui: [[250, 162, 66], [326, 162, 66]], db: [320, 226],
+    roles: [56, 174, 292].map((y) => ({ x: 468, y, w: 156, h: 52 })),
+    pills: [
+      { n: 4, x: 16, y: 316, w: 140, h: 40, lines: ["Claims framework"] },
+      { n: 5, x: 168, y: 316, w: 116, h: 40, lines: ["Tableau"] },
+      { n: 6, x: 296, y: 316, w: 136, h: 40, lines: ["Playwright"] },
+    ],
+    signal: ["M168,184 H232", "M408,184 C438,184 438,82 468,82", "M408,184 C438,184 438,200 468,200", "M408,184 C438,184 438,318 468,318"],
+    trunk: "M320,256 V286 M86,286 H364 M86,286 V316 M226,286 V316 M364,286 V316",
+  },
+  tall: {
+    view: [380, 420],
+    boxes: [{ n: 1, x: 90, y: 8, w: 200, h: 60, lines: ["Health-provider APIs"] }, { n: 2, x: 70, y: 104, w: 240, h: 128, lines: ["Claims platform"] }],
+    ui: [[92, 160, 94], [194, 160, 94]], db: [190, 208],
+    roles: [34, 138, 242].map((x) => ({ x, y: 276, w: 104, h: 48 })),
+    pills: [
+      { n: 4, x: 34, y: 368, w: 104, h: 44, lines: ["Claims", "framework"] },
+      { n: 5, x: 138, y: 368, w: 104, h: 44, lines: ["Tableau"] },
+      { n: 6, x: 242, y: 368, w: 104, h: 44, lines: ["Playwright"] },
+    ],
+    signal: ["M190,68 V104", "M190,232 C190,256 86,252 86,276", "M190,232 V276", "M190,232 C190,256 294,252 294,276"],
+    trunk: "M70,168 H16 V352 H294 M86,352 V368 M190,352 V368 M294,352 V368",
+  },
+};
+
+function SchematicSvg({ layout }: { layout: "wide" | "tall" }) {
+  const l = layouts[layout];
+  return (
+    <svg className={`schematic-svg schematic-svg--${layout}`} viewBox={`0 0 ${l.view[0]} ${l.view[1]}`} aria-hidden="true" focusable="false">
+      <path className="sn-trunk" d={l.trunk} />
+      {l.signal.map((d) => <path key={d} className="sn-path" d={d} />)}
+      {l.signal.map((d, i) => <path key={`s${d}`} className={`sn-signal sn-signal--${i === 0 ? "in" : "out"}`} d={d} pathLength={100} />)}
+      {l.boxes.map((box) => (
+        <g key={box.n} className="sn" data-node={box.n}>
+          <rect className="sn-box" x={box.x} y={box.y} width={box.w} height={box.h} rx="12" />
+          <text className="sn-num" x={box.x + 14} y={box.y + 22}>{String(box.n).padStart(2, "0")}</text>
+          {box.lines.map((line, i) => <text key={line} className="sn-title" x={box.x + 14} y={box.y + 44 + i * 17}>{line}</text>)}
+        </g>
+      ))}
+      <g className="sn sn-inner" data-node={2}>
+        {l.ui.map(([x, y, w]) => (
+          <g key={x}><rect className="sn-chip" x={x} y={y} width={w} height="26" rx="6" /><text className="sn-mono" x={x + w / 2} y={y + 17} textAnchor="middle">Frontend</text></g>
+        ))}
+        <ellipse className="sn-chip" cx={l.db[0]} cy={l.db[1] + 14} rx="30" ry="7" />
+        <path className="sn-chip" d={`M${l.db[0] - 30},${l.db[1]} V${l.db[1] + 14} M${l.db[0] + 30},${l.db[1]} V${l.db[1] + 14}`} />
+        <ellipse className="sn-chip sn-chip--top" cx={l.db[0]} cy={l.db[1]} rx="30" ry="7" />
+        <text className="sn-mono" x={l.db[0] + 40} y={l.db[1] + 12}>DB</text>
+      </g>
+      <g className="sn" data-node={3}>
+        {l.roles.map((role, i) => (
+          <g key={roleNames[i]}>
+            <rect className="sn-box" x={role.x} y={role.y} width={role.w} height={role.h} rx="10" />
+            <circle className="sn-live" cx={role.x + 15} cy={role.y + role.h / 2} r="4" />
+            <text className="sn-title" x={role.x + 27} y={role.y + role.h / 2 + 5}>{roleNames[i]}</text>
+          </g>
+        ))}
+      </g>
+      {l.pills.map((pill) => (
+        <g key={pill.n} className="sn sn--beside" data-node={pill.n}>
+          <rect className="sn-box sn-box--pill" x={pill.x} y={pill.y} width={pill.w} height={pill.h} rx={pill.h / 2} />
+          {pill.lines.map((line, i) => (
+            <text key={line} className="sn-label" x={pill.x + pill.w / 2} y={pill.y + pill.h / 2 + 4.5 + (i - (pill.lines.length - 1) / 2) * 15} textAnchor="middle">{line}</text>
+          ))}
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+export function Schematic() {
+  const flow = flows["federal-quality-delivery-system"]!;
+  const parts = [...flow.steps, ...(flow.beside ?? [])];
+  return (
+    <figure className="schematic" data-schematic>
+      <div className="schematic-stage">
+        <SchematicSvg layout="wide" />
+        <SchematicSvg layout="tall" />
+      </div>
+      <figcaption className="schematic-cap">
+        <span className="label label--accent">VA Claims Workflows</span>
+        <span>A diagram of the documented design, not a capture.<span className="js-only"> Pick a part to read it.</span></span>
+      </figcaption>
+      <ol className="schematic-key">
+        {parts.map((part, i) => (
+          <li key={part.title} data-node={i + 1}>
+            <button className="node-btn" type="button" id={`node-btn-${i + 1}`} aria-controls={`node-text-${i + 1}`} data-node={i + 1}>
+              <span className="num">{String(i + 1).padStart(2, "0")}</span>{part.title}
+            </button>
+            <p className="node-text" id={`node-text-${i + 1}`}>{part.text}</p>
+          </li>
+        ))}
+      </ol>
+    </figure>
+  );
 }
 
 /**

@@ -1,5 +1,17 @@
 # Testing
 
+## October 30, 2026 signal redesign
+
+Run from `C:\Projects\scrollcraft\workspace\builds\portfolio-signal` against the root build served locally (headless Brave Origin, `playwright-core`, `axe-core` and `lighthouse` from the workspace). pnpm was not on PATH, so the package scripts were run directly with Node: `tsc --noEmit`, `scripts/validate-content.mjs`, `scripts/build.mjs`, `scripts/build.mjs --pages` and `scripts/check-pages-build.mjs` (the same steps `pnpm verify` runs). All passed.
+
+**Functional suite (`functional.mjs`): 17 of 17 passed.** The casebook suite with its two deck checks replaced by two schematic checks: six documented parts; exactly one part expanded, shown and lit at a time; click, keyboard focus and pointing at a part of the diagram each select it, and the picker stays where the visitor left it; it advances on its own with motion and not with reduced motion; the wide diagram shows on desktop and the tall one on a phone; all six parts are readable without JavaScript. The work check now follows a hero result to its tile (landing just under the top bar) and counts six tiles with figures. Everything else as before: headings, titles and console errors on six pages; navigation; theme (`theme-color` now `#f6f7f7`); the four resume files; contact routes and copy; the self-test at four widths in both themes and against planted defects; keyboard; the phone menu; no-JS; reduced motion (the schematic's resting-invisible signal paths excluded from the opacity sweep); an overflow and CLS sweep at 375 to 1920px; credential images; axe-core WCAG 2.0/2.1/2.2 A and AA plus best practice in both themes, on a phone and with the menu open.
+
+Defects the runs and the screenshot review found, all fixed: the picker's colour transitions ran with reduced motion on (moved inside the motion guard); tile anchors were offset twice (`scroll-padding` plus `scroll-margin`); arrows between figure chips sat inside the next chip; the hero claim ran to six lines at 1440px and pushed the actions below the fold (scale reduced); the case study's "How the pieces fit" labels overlapped their lists (a negative margin meant for direct children matched nested labels); the close showed the ZIP code (a regex escaped twice).
+
+**Lighthouse (local lab run, home page, not field data):** mobile 100 / 100 / 100 / 100 (performance, accessibility, best practices, SEO), LCP 0.8 s, CLS 0, TBT 0 ms; desktop 100 / 100 / 100 / 100, LCP 0.2 s, CLS 0.029, TBT 0 ms.
+
+**Visual review:** first-screen and full-page shots of home, Experience and a case study in light and dark at 1440x900 and 390x844, plus section crops of the hero, work grid, career bar, close and case-study parts. Not checked: real phones, Firefox and Safari, screen readers beyond axe, field data.
+
 ## October 30, 2026 casebook redesign
 
 Run from `C:\Projects\scrollcraft\workspace\builds\portfolio-deck` against `dist` served on port 4600 (headless Brave Origin, `playwright-core`, `axe-core` and `lighthouse` from the workspace). pnpm was not on PATH in the session that built it, so the package scripts were run directly with Node 26: `tsc --noEmit`, `scripts/validate-content.mjs`, `scripts/build.mjs`, `scripts/build.mjs --pages` and `scripts/check-pages-build.mjs` (the same steps `pnpm verify` runs).

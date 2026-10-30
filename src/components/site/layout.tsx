@@ -12,24 +12,25 @@ const navLinks = (place: Place) => [
 ];
 
 /**
- * The header is a floating island: the name, three routes, the theme switch and the one action. On the home page the
- * route for the section in view is marked (enhance.ts). Below 860px the routes move into a native popover menu that
- * also lists every resume file.
+ * The header is a full-width bar: the name and role, three routes, the theme switch and the one action, with a thin
+ * line under it that fills as the page is read. It is clear over the hero and gains a ground once the page moves.
+ * On the home page the route for the section in view is marked (enhance.ts). Below 860px the routes move into a
+ * native popover menu that also lists every resume file.
  */
 function Header({ place }: { place: Place }) {
   const links = navLinks(place);
   return (
-    <header className="masthead">
-      <div className="island">
-        <a className="island-name" href={root} aria-current={place === "home" ? "page" : undefined}>
-          Mohamed Moheyeldin<span className="island-role" aria-hidden="true">{profile.headline}</span>
+    <header className="topbar">
+      <div className="wrap topbar-row">
+        <a className="wordmark" href={root} aria-current={place === "home" ? "page" : undefined}>
+          <span className="wordmark-mark" aria-hidden="true" />Mohamed Moheyeldin<span className="wordmark-role" aria-hidden="true">{profile.headline}</span>
         </a>
-        <nav aria-label="Main" className="island-nav nav-wide">
+        <nav aria-label="Main" className="topbar-nav nav-wide">
           <ul className="nav-links">
             {links.map((link) => <li key={link.label}><a href={link.href} aria-current={link.current ? "page" : undefined}>{link.label}</a></li>)}
           </ul>
         </nav>
-        <div className="island-tools">
+        <div className="topbar-tools">
           <button className="btn btn--quiet btn--icon theme-toggle js-only" type="button" data-theme-toggle aria-label="Switch theme">
             <Moon className="icon-moon" /><Sun className="icon-sun" />
           </button>
@@ -51,6 +52,7 @@ function Header({ place }: { place: Place }) {
           </span>
         </div>
       </div>
+      <span className="topbar-progress" aria-hidden="true" />
     </header>
   );
 }
@@ -62,54 +64,52 @@ const auditSteps = [
 ] as const;
 
 /**
- * The close of every page is the last sheet laid on the deck: a tab that reads "Next step", the question, the address
- * set large as the action, the direct routes and every resume file, then the audit offer for teams.
+ * The close of every page is a teal band: the question, the address set large with a copy button, Email me and the
+ * resume menu; the direct routes and every resume file beside them; the audit offer for teams across the foot.
  */
 function Close() {
   return (
-    <section className="closing" id="contact" aria-labelledby="contact-heading" data-sc-act="close">
-      <div className="wrap">
-        <p className="sheet-tab sheet-tab--close" aria-hidden="true"><span className="num">Next step</span></p>
-        <div className="closing-sheet">
-          <div className="closing-main">
-            <h2 id="contact-heading">Have a workflow your users are fighting with?</h2>
-            <p className="lede">I'm open to Forward Deployed Engineer roles. Email is the fastest way to reach me.</p>
-            <p className="closing-address">
-              <a href={roleEmail} id="contact-address"><span className="sr-only">Email </span>{emailAddress}</a>
-              <button className="copy-btn js-only" type="button" data-copy={emailAddress} aria-describedby="contact-address"><Copy /><span>Copy</span></button>
-            </p>
-            <div className="actions">
-              <a className="btn btn--primary btn--lg" href={roleEmail}><Mail />Email me</a>
-              <ResumeMenu id="resume-menu-close" size="lg" />
-            </div>
+    <section className="close-band" id="contact" aria-labelledby="contact-heading" data-sc-act="close">
+      <div className="wrap close-grid">
+        <div className="close-main">
+          <p className="label">Next step</p>
+          <h2 id="contact-heading">Have a workflow your users are fighting with?</h2>
+          <p className="lede">I'm open to Forward Deployed Engineer roles. Email is the fastest way to reach me.</p>
+          <p className="close-address">
+            <a href={roleEmail} id="contact-address"><span className="sr-only">Email </span>{emailAddress}</a>
+            <button className="copy-btn js-only" type="button" data-copy={emailAddress} aria-describedby="contact-address"><Copy /><span>Copy</span></button>
+          </p>
+          <div className="actions">
+            <a className="btn btn--invert btn--lg" href={roleEmail}><Mail />Email me</a>
+            <ResumeMenu id="resume-menu-close" size="lg" />
           </div>
-          <div className="closing-side">
-            <div>
-              <p className="label" id="closing-routes">Elsewhere</p>
-              <ul className="route-list" aria-labelledby="closing-routes">
-                <li><a href={linkedInUrl}><LinkedIn />LinkedIn<ArrowUpRight /></a></li>
-                <li><a href={gitHubUrl}><GitHub />GitHub<ArrowUpRight /></a></li>
-              </ul>
-            </div>
-            <div>
-              <p className="label" id="close-resume-files">Resume files</p>
-              <ul className="file-list" aria-labelledby="close-resume-files">
-                {resumeOptions.map((option) => <li key={option.href}><a href={option.href}>{option.label}<span className="menu-format">{option.format}</span></a></li>)}
-              </ul>
-            </div>
-            <p className="muted">Based in {profile.location.replace(/\s\d{5}$/, "")}.</p>
-          </div>
-          <section className="audit" aria-labelledby="audit-heading" id="work-with-me">
-            <div className="audit-intro">
-              <h3 id="audit-heading">For teams: a two-week AI workflow audit</h3>
-              <p>Fixed price, quoted after a short intro call. For teams that want AI in a real workflow but don't have the people to scope it yet.</p>
-              <p><a className="link-arrow" href={`${email}?subject=${encodeURIComponent("AI workflow audit")}`}>Ask about the audit<ArrowUpRight /></a></p>
-            </div>
-            <ol className="audit-steps">
-              {auditSteps.map(([label, title, text]) => <li key={label}><span className="label">{label}</span><h4>{title}</h4><p>{text}</p></li>)}
-            </ol>
-          </section>
         </div>
+        <div className="close-side">
+          <div>
+            <p className="label" id="closing-routes">Elsewhere</p>
+            <ul className="route-list" aria-labelledby="closing-routes">
+              <li><a href={linkedInUrl}><LinkedIn />LinkedIn<ArrowUpRight /></a></li>
+              <li><a href={gitHubUrl}><GitHub />GitHub<ArrowUpRight /></a></li>
+            </ul>
+          </div>
+          <div>
+            <p className="label" id="close-resume-files">Resume files</p>
+            <ul className="file-list" aria-labelledby="close-resume-files">
+              {resumeOptions.map((option) => <li key={option.href}><a href={option.href}>{option.label}<span className="menu-format">{option.format}</span></a></li>)}
+            </ul>
+          </div>
+          <p className="close-where">Based in {profile.location.replace(/\s\d{5}$/, "")}.</p>
+        </div>
+        <section className="audit" aria-labelledby="audit-heading" id="work-with-me">
+          <div className="audit-intro">
+            <h3 id="audit-heading">For teams: a two-week AI workflow audit</h3>
+            <p>Fixed price, quoted after a short intro call. For teams that want AI in a real workflow but don't have the people to scope it yet.</p>
+            <p><a className="link-arrow" href={`${email}?subject=${encodeURIComponent("AI workflow audit")}`}>Ask about the audit<ArrowUpRight /></a></p>
+          </div>
+          <ol className="audit-steps">
+            {auditSteps.map(([label, title, text]) => <li key={label}><span className="label">{label}</span><h4>{title}</h4><p>{text}</p></li>)}
+          </ol>
+        </section>
       </div>
     </section>
   );
@@ -120,7 +120,7 @@ function Footer() {
     <footer className="site-footer">
       <div className="wrap">
         <div className="footer-row">
-          <p>© {new Date().getFullYear()} {profile.name}. Set in IBM Plex Sans and IBM Plex Mono.</p>
+          <p>© {new Date().getFullYear()} {profile.name}. Set in Instrument Sans and Geist Mono.</p>
           <p className="footer-links">
             <a href={href("experience/portfolio-career-content-system/#selftest")}>Test this page</a>
             <a href={href("experience/portfolio-career-content-system/")}>How this site is built</a>

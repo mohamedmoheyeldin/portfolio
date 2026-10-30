@@ -46,9 +46,9 @@ $env:SCROLLCRAFT_CHROME = "C:\Program Files\BraveSoftware\Brave-Origin\Applicati
 cd C:\Projects\scrollcraft\workspace
 node ..\scroll-craft\scripts\doctor.mjs
 node ..\scroll-craft\scripts\serve.mjs --root C:\Projects\portfolio\dist --port 4600
-node ..\scroll-craft\scripts\shoot.mjs --url http://127.0.0.1:4600/ --out builds\portfolio-deck\lab\desk
-node builds\portfolio-deck\functional.mjs   # navigation, theme, resumes, contact, work, the case deck and its guard, self-test (4 widths x 2 themes), planted defects, keyboard, phone, no-JS, reduced motion, overflow + CLS sweep, credentials, axe
-node builds\portfolio-deck\snap.mjs builds\portfolio-deck\shots http://127.0.0.1:4600 / /experience/   # screenshots, both themes, desktop and phone
+node ..\scroll-craft\scripts\shoot.mjs --url http://127.0.0.1:4600/ --out builds\portfolio-signal\lab\desk
+node builds\portfolio-signal\functional.mjs   # navigation, theme, resumes, contact, work, the schematic picker and its fallbacks, self-test (4 widths x 2 themes), planted defects, keyboard, phone, no-JS, reduced motion, overflow + CLS sweep, credentials, axe
+node builds\portfolio-signal\snap.mjs builds\portfolio-signal\shots http://127.0.0.1:4600 / /experience/   # screenshots, both themes, desktop and phone
 ```
 
 ## Dependency compatibility

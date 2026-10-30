@@ -4,17 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#eef0f3" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b0d10" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f6f7f7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#07090a" media="(prefers-color-scheme: dark)" />
     <!-- Before first paint: the saved or system theme, so the page never flashes the wrong one. -->
     <!-- The "js" class lets CSS show controls that need JavaScript and start the load animations. -->
     <!-- A saved choice also overrides the browser chrome color, which otherwise follows the system. -->
-    <script>var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))d.classList.add('dark-mode');if(t)document.querySelectorAll('meta[name=theme-color]').forEach(function(m){m.content=t==='dark'?'#0b0d10':'#eef0f3'})}catch(e){}</script>
+    <script>var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))d.classList.add('dark-mode');if(t)document.querySelectorAll('meta[name=theme-color]').forEach(function(m){m.content=t==='dark'?'#07090a':'#f6f7f7'})}catch(e){}</script>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" />
     <link rel="manifest" href="%BASE_URL%site.webmanifest" />
     <!-- Self-hosted fonts (see site.css). Preload both faces used on the first screen. -->
-    <link rel="preload" href="/src/assets/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/src/assets/fonts/ibm-plex-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/src/assets/fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/src/assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <title>Mohamed Moheyeldin</title>
     <!--page-meta-->
   </head>

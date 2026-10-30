@@ -1,5 +1,5 @@
 /*
- * System diagrams for the three featured projects, drawn as pipelines on the case sheets and case studies. Every step restates a
+ * System diagrams for the three featured projects: the hero schematic (VA Claims Workflows) and the pipelines on the case studies. Every step restates a
  * documented `approach` or `systems` entry in career.json for that project (the source field is noted per step);
  * they are diagrams of the documented design, not screenshots or measurements.
  */

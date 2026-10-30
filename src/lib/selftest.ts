@@ -171,7 +171,7 @@ export const checks: Check[] = [
   {
     id: "targets", name: "Buttons and menu links are at least 24 by 24 px",
     run: () => {
-      const targets = Array.from(document.querySelectorAll(".btn, button, .nav-links a, .menu a, .cover-index a, .sheet-tab, .toc a")).filter(visible).filter((el) => el.getClientRects().length);
+      const targets = Array.from(document.querySelectorAll(".btn, button, .nav-links a, .menu a, .proof a, .tile-src, .toc a")).filter(visible).filter((el) => el.getClientRects().length);
       const small = targets.filter((el) => { const r = el.getBoundingClientRect(); return r.width < 24 || r.height < 24; });
       return small.length ? fail(`${small.length} too small`, small.map((el) => accessibleName(el)).join(", ")) : pass(plural(targets.length, "target"));
     },
