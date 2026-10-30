@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { Tabs } from "@/components/application/tabs/tabs";
 import {
   ArrowUpRight,
@@ -137,7 +137,7 @@ function MobileMenu({ path }: { path: string }) {
             <SlideoutMenu.Footer className="flex flex-col gap-3">
               <Button href={resumeFile("one-page", "pdf")} download color="secondary" iconLeading={Download01}>One-page resume</Button>
               <Button href={resumePdf} download color="secondary" iconLeading={Download01}>Full resume</Button>
-              <Button href={email} iconLeading={Mail01}>Get in touch</Button>
+              <Button href={roleEmail} iconLeading={Mail01}>Email me</Button>
             </SlideoutMenu.Footer>
           </>
         )}
@@ -236,8 +236,8 @@ export function Footer({ name, headline }: { name: string; headline: string }) {
       <div className="shell trademark-notice" role="note" aria-label="Professional references and intellectual property notice">
         <p>
           References to employers, clients, customers, government agencies, projects,
-          products, and services—including names, trademarks, and other
-          identifiers—are used solely to identify and describe my professional
+          products, and services (including names, trademarks, and other
+          identifiers) are used solely to identify and describe my professional
           experience, contributions, and the tools I have used. All third-party
           trademarks and other intellectual property remain the property
           of their respective owners. Their inclusion does not imply sponsorship,
@@ -301,18 +301,13 @@ function ProjectMetric({ metric }: { metric: NonNullable<Project["metric"]> }) {
   return <div className="project-metric"><strong>{metric.value}</strong> <span>{metric.label}</span></div>;
 }
 
-// Numbered section label for the home page sections.
-function SectionLabel({ index, children }: { index: number; children: string }) {
-  return <p className="eyebrow section-label"><span aria-hidden="true">{String(index).padStart(2, "0")}</span>{children}</p>;
-}
-
-// The whole card is clickable through the title link; "Read case study" stays as a visible affordance.
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+// Every project uses the same label schema (result, problem, what I did, built with), like labels in a collection.
+// The whole card opens the case study through the title link; the links row sits above that.
+function ProjectCard({ project }: { project: Project }) {
   const target = href(`experience/#project-${project.slug}`);
+  const problem = project.challenge.split(/(?<=\.)\s/)[0];
   return (
-    <article className="project-card reveal">
-      <span className="project-card-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-      {/* Outcome first: the documented headline number leads the card. */}
+    <article className="project-card reveal-wipe">
       {project.metric && <div className="project-card-outcome">
         <strong>{project.metric.value}</strong>
         <span>{project.metric.label}</span>
@@ -328,89 +323,97 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           {projectDisplayName(project)}
         </Button>
       </h3>
-      <p className="project-card-role"><User01 aria-hidden="true" />My role: {project.role}</p>
-      <p>{project.description}</p>
-      <Tags items={project.technologies.slice(0, 4)} />
-      <Button className="project-card-link" color="link-color" href={target} iconTrailing={ArrowRight} aria-label={`Read the ${projectDisplayName(project)} case study`}>
-        Read case study
-      </Button>
+      <dl className="project-label">
+        <div><dt>Problem</dt><dd>{problem}</dd></div>
+        <div><dt>What I did</dt><dd>{project.description}</dd></div>
+        <div><dt>My role</dt><dd>{project.role}</dd></div>
+        <div><dt>Built with</dt><dd>{project.technologies.slice(0, 5).join(" · ")}</dd></div>
+      </dl>
+      <div className="project-card-links">
+        <Button color="link-color" href={target} iconTrailing={ArrowRight} aria-label={`Read the ${projectDisplayName(project)} case study`}>
+          Read case study
+        </Button>
+        {project.repository && project.repositoryVisibility === "public" && (
+          <Button color="link-gray" href={project.repository} iconLeading={GitHub} iconTrailing={ArrowUpRight} aria-label={`${projectDisplayName(project)} source on GitHub`}>
+            Source
+          </Button>
+        )}
+      </div>
     </article>
   );
 }
 
 export function Home({ profile }: { profile: Profile }) {
+  const currentRole = profile.experience.find((role) => !role.end) ?? profile.experience[0]!;
   return (
     <>
       {/* The hero band always uses the dark tokens, so every Untitled UI component inside keeps its dark-theme contrast. */}
+      {/* Three planes (grid, copy, snapshot card) drift at different rates as the hero scrolls away; see global.css. */}
       <section className="hero-band dark-mode relative isolate overflow-hidden" id="professional-profile">
-        <BackgroundPattern pattern="grid" size="lg" className="hero-band-pattern absolute top-0 right-0 -z-10 max-md:hidden" />
+        <div className="hero-plane-back absolute inset-0 -z-10 max-md:hidden" aria-hidden="true">
+          <BackgroundPattern pattern="grid" size="lg" className="hero-band-pattern absolute top-0 right-0" />
+        </div>
         <div className="shell home-hero">
         <div className="hero-split">
-          <div className="hero-copy">
+          <div className="hero-copy hero-plane-mid">
             <BadgeGroup className="mb-6 w-fit max-w-full cursor-default text-left" theme="modern" color="success" addonText="Open to FDE roles" iconTrailing={null}>
-              {profile.experienceYears} years<span className="max-sm:hidden"> · Federal healthcare, e-commerce &amp; banking</span>
+<span className="max-sm:hidden">{currentRole.professionalTitle ?? currentRole.title}{" "}at{" "}</span>{currentRole.employer}
             </BadgeGroup>
             <h1>
-              Forward Deployed Engineer <span>building software with the people who use it.</span>
+              Software built with the people <span>who use it.</span>
             </h1>
             <p>
-              {profile.heroSummary}
+              {profile.experienceYears} years building and testing software across federal healthcare, e-commerce, and banking: integrations, internal tools, test automation, and CI/CD.
             </p>
             <div className="hero-buttons hero-actions">
-              <Button size="xl" href={roleEmail} iconLeading={Mail01}>Email me about a role</Button>
+              <Button size="xl" href={roleEmail} iconLeading={Mail01}>Email me</Button>
               <ResumeMenu variant="hero" />
+              <Button color="link-color" size="xl" href="#selected-work" iconTrailing={ArrowRight}>See the work</Button>
             </div>
-            <Button className="hero-work-link" color="link-color" size="lg" href={href("experience/#experience-projects")} iconTrailing={ArrowRight}>View my work</Button>
           </div>
           <HiringSnapshot profile={profile} />
         </div>
-        <HeroTrust profile={profile} />
         </div>
       </section>
+      <TrustStrip profile={profile} />
       <RoleFit profile={profile} />
       <section className="section-band" id="selected-work" aria-labelledby="selected-work-heading">
         <div className="section shell">
           <header className="section-heading-centered reveal">
-            <SectionLabel index={2}>Selected work</SectionLabel>
-            <h2 id="selected-work-heading">Projects, from problem to result.</h2>
+            <h2 id="selected-work-heading">{profile.projects.length} projects, from problem to result.</h2>
             <p className="section-intro">
-              What I built, who it was for, and the decisions along the way.
+              Each one shows the problem, what I did, what it was built with, and the result. The case study has the decisions and evidence.
             </p>
           </header>
           <div className="project-grid">
-            {profile.projects.map((p, index) => (
-              <ProjectCard key={p.slug} project={p} index={index} />
+            {profile.projects.map((p) => (
+              <ProjectCard key={p.slug} project={p} />
             ))}
           </div>
         </div>
       </section>
-      <section className="section shell profile-centered" aria-labelledby="how-i-work-heading">
-        <header className="section-heading-centered reveal">
-          <SectionLabel index={3}>How I work</SectionLabel>
+      {/* Split layout: the heading holds still on wide screens while the four steps scroll past it. */}
+      <section className="section shell process-split" aria-labelledby="how-i-work-heading">
+        <header className="process-intro">
           <h2 id="how-i-work-heading">Start with the people using it.</h2>
-          <p className="section-intro">
-            Most of my work is connecting systems, building small tools, and
-            working closely with the people who use them.
+          <p>
+            After {profile.experienceYears} years in development and quality
+            engineering, I trace a problem through the whole system, from what a
+            user sees to the data behind it.
           </p>
+          <Button color="link-color" href={href("experience/#approach")} iconTrailing={ArrowRight}>How I approach the work</Button>
         </header>
         <ol className="process-steps">
           {processSteps.map(({ icon, title, text }, index) => (
             <li key={title} className="reveal">
-              <FeaturedIcon icon={icon} color="brand" theme="light" size="lg" />
-              <span className="process-step-number">Step {index + 1}</span>
-              <h3>{title}</h3>
-              <p>{text}</p>
+              <span className="process-step-number" aria-hidden="true">{index + 1}</span>
+              <div>
+                <h3><FeaturedIcon icon={icon} color="brand" theme="light" size="sm" />{title}</h3>
+                <p>{text}</p>
+              </div>
             </li>
           ))}
         </ol>
-        <div className="resume-summary">
-          <p>
-            After {profile.experienceYears} years in development and quality
-            engineering across federal healthcare, e-commerce, and banking, I trace a
-            problem through the whole system, from what a user sees to the data
-            behind it.
-          </p>
-        </div>
       </section>
       <EngineeringToolkit profile={profile} />
       <WorkWithMe />
@@ -465,12 +468,13 @@ function HiringSnapshot({ profile }: { profile: Profile }) {
 // What Forward Deployed Engineer postings ask for, each matched to documented work in the career record.
 // Evidence lines restate career.json highlights; add no numbers that are not already there.
 const roleFitRows = [
-  { icon: MessageChatCircle, requirement: "Work directly with customers and end users", evidence: "Discovery, working sessions, and acceptance criteria with VA stakeholders and claims processors, with a demo every release cycle and program increment.", slug: "federal-quality-delivery-system" },
-  { icon: GitBranch01, requirement: "Integrate with customer systems, APIs, and data", evidence: "Live claim status through health-provider API integration, plus Tableau dashboards for system and server health.", slug: "federal-quality-delivery-system" },
-  { icon: Code02, requirement: "Ship production software, not prototypes", evidence: "React, TypeScript, and MySQL features delivered on a VA healthcare claims platform.", slug: "federal-quality-delivery-system" },
-  { icon: File06, requirement: "Build the tools a team relies on", evidence: "A desktop app that builds a full development database in under 5 minutes, used daily by the team, with installers, a user guide, and tests.", slug: "ccrs-test-data-tooling" },
-  { icon: CheckVerified01, requirement: "Put AI into a real workflow, safely", evidence: "Claude extracts 17 fields from claim PDFs, fixed rules decide what is missing, and a person approves every reply. 26 automated tests.", slug: "claims-document-assistant" },
-  { icon: SearchLg, requirement: "Debug across the whole system", evidence: "Browser, API, visual, and SSO login checks connected through GitHub Actions and AWS test environments.", slug: "ecommerce-feedback-platform" },
+  { icon: MessageChatCircle, requirement: "Work directly with customers and end users", short: "Customers and end users", evidence: "Discovery, working sessions, and acceptance criteria with VA stakeholders and claims processors, with a demo every release cycle and program increment.", slug: "federal-quality-delivery-system" },
+  { icon: GitBranch01, requirement: "Integrate with customer systems, APIs, and data", short: "Systems, APIs, and data", evidence: "Live claim status through health-provider API integration, plus Tableau dashboards for system and server health.", slug: "federal-quality-delivery-system" },
+  { icon: Code02, requirement: "Ship production software, not prototypes", short: "Production software", evidence: "React, TypeScript, and MySQL features delivered on a VA healthcare claims platform.", slug: "federal-quality-delivery-system" },
+  { icon: File06, requirement: "Build the tools a team relies on", short: "Tools a team relies on", evidence: "A desktop app that builds a full development database in under 5 minutes, used daily by the team, with installers, a user guide, and tests.", slug: "ccrs-test-data-tooling" },
+  { icon: CheckVerified01, requirement: "Put AI into a real workflow, safely", short: "AI in a real workflow", evidence: "Claude extracts 17 fields from claim PDFs, fixed rules decide what is missing, and a person approves every reply. 26 automated tests.", slug: "claims-document-assistant" },
+  { icon: ShieldTick, requirement: "Automate testing and release checks", short: "Test and release automation", evidence: "A Playwright smoke and regression framework on the VA claims platform, and modular smoke and regression automation in e-commerce.", slug: "ecommerce-feedback-platform" },
+  { icon: SearchLg, requirement: "Debug across the whole system", short: "Whole-system debugging", evidence: "Browser, API, visual, and SSO login checks connected through GitHub Actions and AWS test environments.", slug: "ecommerce-feedback-platform" },
 ];
 
 const jobDescriptionEmail = `${email}?subject=${encodeURIComponent("Job description: Forward Deployed Engineer")}&body=${encodeURIComponent("Hi Mohamed,\n\nHere is the role I'm hiring for:\n\nCompany:\nRole:\nLink or pasted description:\n\n")}`;
@@ -480,17 +484,20 @@ function RoleFit({ profile }: { profile: Profile }) {
     const project = profile.projects.find((item) => item.slug === row.slug);
     return project ? [{ ...row, project }] : [];
   });
+  // Signature move: each requirement row names a view timeline, and its line in the ledger card ticks on as that row
+  // passes the middle of the screen. Without scroll-driven animation support (or with reduced motion) every line shows ticked.
+  const timelines = rows.map((_, index) => `--fit-${index}`);
   return (
     <section className="section shell" id="role-fit" aria-labelledby="role-fit-heading">
-      <header className="section-heading-centered reveal">
-        <SectionLabel index={1}>Role fit</SectionLabel>
+      <header className="section-heading-lead reveal">
+        <p className="eyebrow">Role fit</p>
         <h2 id="role-fit-heading">What FDE roles ask for, and where I have done it.</h2>
         <p className="section-intro">Each line links to the case study behind it, so you can check the work instead of taking my word for it.</p>
       </header>
-      <div className="role-fit">
+      <div className="role-fit" style={{ timelineScope: timelines.join(", ") } as CSSProperties}>
         <ul className="role-fit-list">
-          {rows.map(({ icon, requirement, evidence, project }) => (
-            <li key={requirement} className="reveal">
+          {rows.map(({ icon, requirement, evidence, project }, index) => (
+            <li key={requirement} style={{ viewTimelineName: timelines[index] } as CSSProperties}>
               <FeaturedIcon icon={icon} color="brand" theme="light" size="md" />
               <div className="role-fit-requirement">
                 <h3>{requirement}</h3>
@@ -503,8 +510,12 @@ function RoleFit({ profile }: { profile: Profile }) {
           ))}
         </ul>
         <aside className="role-fit-cta" aria-labelledby="role-fit-cta-heading">
-          <FeaturedIcon icon={Mail01} color="brand" theme="dark" size="lg" />
           <h3 id="role-fit-cta-heading">Hiring for one of these?</h3>
+          <ul className="fit-ledger" aria-label="Requirements matched on this page">
+            {rows.map(({ requirement, short }, index) => (
+              <li key={requirement} style={{ animationTimeline: timelines[index] } as CSSProperties}><Check aria-hidden="true" />{short}</li>
+            ))}
+          </ul>
           <p>Send me the job description. I will reply with how my work lines up with it, point by point, including anything I have not done yet.</p>
           <div className="role-fit-cta-actions">
             <Button href={jobDescriptionEmail} size="xl" iconLeading={Mail01}>Send a job description</Button>
@@ -580,8 +591,8 @@ function ProjectExplorer({ profile }: { profile: Profile }) {
   return <section className="work-explorer" aria-label="Project explorer">
       <nav className="project-selector" aria-label="Choose a project">
         <p className="sr-only">Projects &amp; employment</p>
-        {projects.map((item, index) => <ExplorerChoice compact key={item.slug} id={`project-${item.slug}`} href={href(`experience/${item.slug}/`)}
-          index={index} outcome={item.metric?.value}
+        {projects.map((item) => <ExplorerChoice compact key={item.slug} id={`project-${item.slug}`} href={href(`experience/${item.slug}/`)}
+          outcome={item.metric?.value}
           title={projectDisplayName(item)}
           description={profile.experience.find((role) => role.id === item.experienceId)?.employer ?? "Independent project"}
           active={item.slug === selected}
@@ -724,7 +735,6 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
   return <section className={detailed ? "toolkit-full" : "expertise-section toolkit-overview"} id="engineering-toolkit" aria-labelledby="toolkit-heading">
     <div className="section shell">
       <header className="section-heading-centered reveal">
-        {!detailed && <SectionLabel index={4}>Core expertise</SectionLabel>}
         <h2 id="toolkit-heading">{detailed ? "The tools behind the work." : "Engineering toolkit."}</h2>
         <p className="section-intro">{detailed ? "From business workflows and requirements to implementation, integration, and release checks." : "The tools and practices I use day to day."}</p>
       </header>
@@ -764,13 +774,13 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
   </section>;
 }
 
-// Bottom of the hero band: employers and end customer as text (no logos), then verified credentials by issuer.
-function HeroTrust({ profile }: { profile: Profile }) {
+// Directly under the hero: employers and end customer as text (no logos), then verified credentials by issuer.
+function TrustStrip({ profile }: { profile: Profile }) {
   const employers = [...new Set(profile.experience.map((role) => role.employer))];
   const customers = [...new Set(profile.experience.flatMap((role) => (role.customer ? [role.customer] : [])))];
   const issuers = profile.verifiedCredentials.reduce<Map<string, number>>((counts, credential) => counts.set(credential.issuer, (counts.get(credential.issuer) ?? 0) + 1), new Map());
   return (
-    <div className="hero-trust">
+    <div className="shell hero-trust">
       <section aria-labelledby="hero-employers-heading">
         <h2 id="hero-employers-heading">Where I have worked</h2>
         <ul className="hero-employers">
@@ -818,7 +828,7 @@ function CredentialStrip({ profile }: { profile: Profile }) {
             <div className="credential-preview">
               <img
                 src={/^https:/.test(image.src) ? image.src : `${root}${image.src}`}
-                alt={`${credential.name} — ${credential.issuer} credential`}
+                alt={`${credential.name}, ${credential.issuer} credential`}
                 width={image.width}
                 height={image.height}
                 loading="lazy"
@@ -866,7 +876,7 @@ function WorkHistory({ profile }: { profile: Profile }) {
               <FeaturedIcon className="work-timeline-icon" icon={Briefcase01} color={role.end ? "gray" : "brand"} theme="modern" size="md" />
               <div className="work-timeline-card">
                 <p className="work-timeline-dates">
-                  <time dateTime={role.start}>{formatCareerDate(role.start)}</time> — {role.end ? <time dateTime={role.end}>{formatCareerDate(role.end)}</time> : "Present"}
+                  <time dateTime={role.start}>{formatCareerDate(role.start)}</time> – {role.end ? <time dateTime={role.end}>{formatCareerDate(role.end)}</time> : "Present"}
                   {!role.end && <Badge className="ml-2" color="success" size="sm">Current</Badge>}
                 </p>
                 <h3>{role.professionalTitle ?? role.title}</h3>
@@ -1141,7 +1151,7 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
             {role ? <>
               <div><span className="eyebrow">Employer &amp; role</span>
                 <strong className="project-employer">{role.employer}</strong>
-                <p>{role.professionalTitle ?? role.title} · {formatCareerDate(role.start)} — {formatCareerDate(role.end)}</p>
+                <p>{role.professionalTitle ?? role.title} · {formatCareerDate(role.start)} – {formatCareerDate(role.end)}</p>
               </div>
               {role.customer && <div><span className="eyebrow">End customer</span><EndCustomer customer={role.customer} /></div>}
             </> : <p>Independent project · Designed and developed by me · {project.period}</p>}
@@ -1254,7 +1264,6 @@ function WorkWithMe() {
   return (
     <section className="section shell" id="work-with-me" aria-labelledby="work-with-me-heading">
       <header className="section-heading-centered reveal">
-        <SectionLabel index={5}>Work with me</SectionLabel>
         <h2 id="work-with-me-heading">Put AI to work where your people already are.</h2>
         <p className="section-intro">
           Hire me as a Forward Deployed Engineer, or start with a two-week AI workflow audit. Either way, I work alongside the
@@ -1287,7 +1296,7 @@ function WorkWithMe() {
             </ul>
           </div>
           <div className="offer-actions">
-            <Button href={workEmail} size="lg" iconLeading={Mail01}>Start a conversation</Button>
+            <Button href={workEmail} size="lg" iconLeading={Mail01}>Email me</Button>
           </div>
         </div>
       </article>
@@ -1302,7 +1311,6 @@ export function Contact() {
       <BackgroundPattern pattern="grid" size="lg" className="contact-pattern absolute top-1/2 left-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 max-md:hidden" />
       <div className="shell contact-inner">
         <div className="contact-copy reveal">
-          <p className="eyebrow">Contact</p>
           <h2 id="contact-heading">Have a role or a workflow problem? <span>Let's talk.</span></h2>
           <p>
             If you have an integration problem or a Forward Deployed Engineer
@@ -1312,7 +1320,7 @@ export function Contact() {
         <div className="contact-actions">
           <div className="contact-buttons">
             <Button href={roleEmail} size="xl" iconLeading={Mail01}>
-              Email me about a role
+              Email me
             </Button>
             <ResumeMenu variant="hero" />
             <Button href={linkedInUrl} size="xl" color="tertiary" iconLeading={LinkedIn}>
