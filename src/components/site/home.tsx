@@ -156,7 +156,7 @@ function Sheet({ project }: { project: Project }) {
   );
 }
 
-/** The other three projects as an index: what it was, the result and its evidence, and the case study link. */
+/** The other three projects as a results ledger: the result set at display size, then what it was, its evidence and the case study link. */
 function MoreWork({ projects }: { projects: Project[] }) {
   return (
     <section className="section more" aria-labelledby="more-heading" data-sc-act="more">
@@ -165,27 +165,29 @@ function MoreWork({ projects }: { projects: Project[] }) {
           <h2 id="more-heading">Earlier and supporting work</h2>
           <p><a className="link-arrow" href={href("experience/#projects")}>All six case studies<ArrowRight /></a></p>
         </div>
-        <ul className="work-cards">
+        <ol className="ledger">
           {projects.map((project) => (
-            <li className="work-card" key={project.slug} id={`entry-${project.slug}`}>
+            <li className="ledger-row" key={project.slug} id={`entry-${project.slug}`}>
               <article aria-labelledby={`${project.slug}-title`}>
-                <p className="meta"><span className="num">{projectNumber(project)}</span><span>{project.period}</span></p>
+                <p className="ledger-meta"><span className="num">{projectNumber(project)}</span><span>{project.period}</span></p>
                 {project.metric && (
-                  <div className="work-card-result">
-                    <p className="result-value">{project.metric.value}</p>
+                  <div className="ledger-result">
+                    <p className="ledger-value">{project.metric.value}</p>
                     <p className="result-label">{metricLabel(project)}</p>
                   </div>
                 )}
-                <h3 id={`${project.slug}-title`}><a href={caseStudyHref(project)}>{projectDisplayName(project)}</a></h3>
-                <p className="work-card-desc">{project.description}</p>
-                <p className="work-card-foot">
-                  <EvidenceTag project={project} />
-                  <a className="link-arrow" href={caseStudyHref(project)}>Case study<span className="sr-only">: {projectDisplayName(project)}</span><ArrowRight /></a>
-                </p>
+                <div className="ledger-text">
+                  <h3 id={`${project.slug}-title`}><a href={caseStudyHref(project)}>{projectDisplayName(project)}</a></h3>
+                  <p className="ledger-desc">{project.description}</p>
+                  <p className="ledger-foot">
+                    <EvidenceTag project={project} />
+                    <a className="link-arrow" href={caseStudyHref(project)}>Case study<span className="sr-only">: {projectDisplayName(project)}</span><ArrowRight /></a>
+                  </p>
+                </div>
               </article>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
     </section>
   );

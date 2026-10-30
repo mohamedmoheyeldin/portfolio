@@ -524,19 +524,21 @@
 
   /* More work */
   .more { padding-top: 0; }
-  /* Earlier and supporting work: three result-first cards, the same white sheets as the cases */
-  .work-cards { list-style: none; padding: 0; display: grid; gap: var(--s-4); }
-  @media (min-width: 900px) { .work-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-6); } }
-  .work-card article { height: 100%; display: grid; grid-template-rows: auto auto auto 1fr auto; gap: var(--s-3); padding: var(--s-6); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-3); box-shadow: var(--e1), var(--edge); transition: border-color var(--t-ui) var(--ease-out), box-shadow var(--t-ui) var(--ease-out); }
-  .work-card article:hover { border-color: var(--accent-line); box-shadow: var(--e2), var(--edge); }
-  .work-card-result { display: grid; gap: var(--s-1); padding-bottom: var(--s-4); border-bottom: 1px solid var(--line); }
-  .work-card .result-value { font-size: var(--t-2xl); }
-  .work-card .result-label { font-size: var(--t-sm); }
-  .work-card h3 { font-size: var(--t-lg); }
-  .work-card h3 a { text-decoration: none; }
-  .work-card h3 a:hover { text-decoration: underline; }
-  .work-card-desc { color: var(--ink-2); font-size: var(--t-sm); }
-  .work-card-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-3); padding-top: var(--s-3); }
+  /* Earlier and supporting work: a results ledger. Each row leads with its result at display size under a heavy rule. */
+  .ledger { list-style: none; padding: 0; border-bottom: 1px solid var(--line-strong); }
+  .ledger-row article { display: grid; gap: var(--s-3) var(--s-8); padding-block: clamp(var(--s-8), 4vw, var(--s-12)); border-top: 3px solid var(--ink); }
+  @media (min-width: 900px) { .ledger-row article { grid-template-columns: 7rem minmax(0, 1.25fr) minmax(0, 1fr); align-items: start; } }
+  .ledger-meta { display: grid; gap: var(--s-1); font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-3); letter-spacing: var(--track-label); text-transform: uppercase; }
+  .ledger-meta .num { font-size: var(--t-lg); color: var(--accent); }
+  .ledger-result { display: grid; gap: var(--s-2); }
+  .ledger-value { font-size: var(--t-4xl); font-weight: 650; line-height: 0.95; letter-spacing: -0.045em; color: var(--accent); font-variant-numeric: tabular-nums; text-wrap: balance; }
+  .ledger-text { display: grid; gap: var(--s-3); }
+  .ledger-text h3 { font-size: var(--t-xl); }
+  .ledger-text h3 a { text-decoration: none; }
+  .ledger-text h3 a:hover { text-decoration: underline; }
+  .ledger-desc { color: var(--ink-2); }
+  .ledger-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-3); padding-top: var(--s-2); }
+  .ledger-row article:hover .ledger-value { color: var(--accent-hover); }
 
   /* Tenure chart: one bar per role, to scale, above the career timeline */
   .tenure { display: grid; gap: var(--s-3); margin-bottom: var(--s-16); padding: var(--s-6); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-3); box-shadow: var(--e1), var(--edge); }
@@ -841,7 +843,7 @@
 
     @supports (animation-timeline: view()) {
       /* Sections rise as they enter; the pipeline rail and the career rail draw as they pass. */
-      .section-head, .work-card article, .cap-loop li, .cap-return, .toolkit, .timeline-item, .closing-sheet, .sheet-tab--close, .case-body, .cred {
+      .section-head, .ledger-row article, .cap-loop li, .cap-return, .toolkit, .timeline-item, .closing-sheet, .sheet-tab--close, .case-body, .cred {
         animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 55%;
       }
       .pipe-steps::before, .timeline::before { animation: draw linear both; animation-timeline: view(); animation-range: entry 10% cover 50%; }
