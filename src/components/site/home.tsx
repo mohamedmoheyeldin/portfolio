@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { ArrowRight, ArrowUpRight, Mail01 } from "@untitledui/icons";
 import { Button } from "@/components/base/buttons/button";
 import GitHub from "@/components/foundations/social-icons/github";
@@ -195,19 +195,63 @@ function MethodChapter({ profile }: { profile: Profile }) {
   );
 }
 
+/** The industry each role served, as the site already states it: federal healthcare, e-commerce and banking. */
+const roleDomains: Record<string, string> = {
+  "booz-allen-hamilton": "Federal healthcare claims",
+  "chick-fil-a": "E-commerce",
+  "ally-bank": "Banking",
+};
+
+type Role = Profile["experience"][number];
+const monthsBetween = (start: string, end: string) => {
+  const [startYear, startMonth] = start.split("-").map(Number) as [number, number];
+  const [endYear, endMonth] = end.split("-").map(Number) as [number, number];
+  return Math.max(1, (endYear - startYear) * 12 + (endMonth - startMonth));
+};
+/** The record's own "as of" date ends the current role, so the prerendered page does not drift with the build clock. */
+const roleMonths = (role: Role, asOf: string) => monthsBetween(role.start, role.end ?? asOf);
+const tenure = (months: number) => {
+  const years = Math.floor(months / 12);
+  const rest = months % 12;
+  return [years && `${years} yr${years > 1 ? "s" : ""}`, rest && `${rest} mo`].filter(Boolean).join(" ");
+};
+
+/**
+ * The career at a glance: one bar from the first role to now, each role's segment as wide as its tenure.
+ * A plain ordered list underneath, so it reads in order without CSS.
+ */
+function CareerSpan({ roles, asOf }: { roles: Role[]; asOf: string }) {
+  const ordered = [...roles].reverse();
+  const total = ordered.reduce((sum, role) => sum + roleMonths(role, asOf), 0);
+  return (
+    <ol className="career-span" aria-label="Career span, oldest role first">
+      {ordered.map((role) => {
+        const months = roleMonths(role, asOf);
+        return (
+          <li key={role.id} style={{ flexGrow: months, "--span": (months / total).toFixed(3) } as CSSProperties} className={role.end ? undefined : "career-span-current"}>
+            <span className="career-span-bar" aria-hidden="true" />
+            <strong>{role.employer}</strong>
+            <span>{role.professionalTitle ?? role.title}</span>
+            <span className="career-span-years">{role.start.slice(0, 4)} to {role.end ? role.end.slice(0, 4) : "now"} · {tenure(months)}</span>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
 /** The career, newest first. Large years drift in the margin; scope widens from role to role. Shared with Experience. */
 export function CareerChapter({ profile, number, detailed = false }: { profile: Profile; number: number; detailed?: boolean }) {
-  const ladder = [...profile.experience].reverse();
   return (
     <section className="chapter chapter-career" id={detailed ? "work-history" : "career"} aria-labelledby="career-heading" data-anchor data-sc-act="parallax">
       <ChapterOpener number={number} title={detailed ? "Work history" : "Career"} id="career-heading">
-        <p className="career-ladder">
-          {ladder.map((role, index) => <span key={role.id}>{index > 0 && <span aria-hidden="true" className="career-arrow">→</span>}<strong>{role.professionalTitle ?? role.title}</strong> {role.employer}, {role.start.slice(0, 4)}</span>)}
-        </p>
+        <p>{profile.experienceYears} years with {new Set(profile.experience.map((role) => role.employer)).size} employers, in one direction: from checking software to building it with the people who use it.</p>
       </ChapterOpener>
+      <CareerSpan roles={profile.experience} asOf={profile.experienceAsOf} />
       <ol className="roles">
         {profile.experience.map((role) => {
           const projects = profile.projects.filter((project) => project.experienceId === role.id);
+          const stack = [...new Set(projects.flatMap((project) => project.technologies))].slice(0, 8);
           return (
             <li key={role.id} className="role" data-anchor>
               <p className="role-year" aria-hidden="true">{role.start.slice(0, 4)}</p>
@@ -215,6 +259,11 @@ export function CareerChapter({ profile, number, detailed = false }: { profile: 
                 <p className="role-dates"><time dateTime={role.start}>{formatCareerDate(role.start)}</time> to {role.end ? <time dateTime={role.end}>{formatCareerDate(role.end)}</time> : "present"} · {role.location}</p>
                 <h3>{role.professionalTitle ?? role.title}, {role.employer}</h3>
                 {role.customer && <p className="role-customer">End customer: {role.customer === veteransAffairsName ? <a href="https://en.wikipedia.org/wiki/United_States_Department_of_Veterans_Affairs">{role.customer}</a> : role.customer}</p>}
+                <dl className="role-scope">
+                  <div><dt>Tenure</dt><dd>{tenure(roleMonths(role, profile.experienceAsOf))}</dd></div>
+                  {roleDomains[role.id] && <div><dt>Domain</dt><dd>{roleDomains[role.id]}</dd></div>}
+                  {stack.length > 0 && <div><dt>Stack in these projects</dt><dd>{stack.join(", ")}</dd></div>}
+                </dl>
                 <p className="role-summary">{role.summary}</p>
                 <ul className="role-highlights">
                   {role.highlights.map((highlight, index) => <li key={highlight} data-detail={index < 3 && !detailed ? "standard" : "full"}>{highlight}</li>)}

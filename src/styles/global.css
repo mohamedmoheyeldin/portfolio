@@ -309,9 +309,24 @@
   @media (max-width: 560px) { .method-row { grid-template-columns: minmax(0, 1fr); } }
 
   /* Chapter 3: career. */
-  .career-ladder { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: var(--text-md); color: var(--color-text-secondary); }
-  .career-ladder strong { color: var(--pf-ink); font-weight: 600; }
-  .career-arrow { margin-right: 14px; color: var(--pf-accent); }
+  /* Career span: one bar from the first role to now, each segment as wide as the role's tenure (flex-grow = months). */
+  .career-span { display: flex; gap: 4px; list-style: none; margin: 0 0 clamp(32px, 5vw, 56px); padding: 0; }
+  .career-span li { flex-basis: 0; min-width: 0; display: flex; flex-direction: column; gap: 2px; font-size: var(--text-sm); line-height: 1.4; color: var(--pf-ink-soft); }
+  .career-span-bar { display: block; height: 10px; margin-bottom: 12px; border-radius: 2px; background: var(--pf-rule-strong); opacity: 0.28; transform-origin: left; }
+  .career-span-current .career-span-bar { background: var(--color-fg-brand-primary); opacity: 1; }
+  .career-span strong { font-size: var(--text-md); color: var(--pf-ink); }
+  .career-span-years { font-variant-numeric: tabular-nums; }
+  /* Role scope: tenure, domain and the stack its projects used, as a short ruled row. */
+  .role-scope { display: flex; flex-wrap: wrap; gap: 12px 32px; margin: 16px 0 20px; padding-block: 12px; border-block: 1px solid var(--pf-rule); }
+  .role-scope > div { min-width: 0; }
+  .role-scope > div:last-child { flex: 1 1 260px; }
+  .role-scope dt { font-size: 0.6875rem; line-height: 1rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-quaternary); }
+  .role-scope dd { margin: 2px 0 0; font-size: var(--text-sm); line-height: 1.5; color: var(--pf-ink); }
+  @media (max-width: 720px) {
+    .career-span { flex-direction: column; gap: 16px; }
+    .career-span li { flex-grow: 0 !important; }
+    .career-span-bar { width: calc(var(--span, 1) * 100%); margin-bottom: 6px; }
+  }
   .roles { list-style: none; margin: 0; padding: 0; }
   .role { display: grid; grid-template-columns: var(--pf-margin) minmax(0, 1fr); column-gap: 32px; padding-block: clamp(32px, 4vw, 48px); border-top: 1px solid var(--pf-rule); overflow: clip; }
   .role-year { font-family: var(--pf-serif); font-size: clamp(2.25rem, 3.6vw, 3.5rem); line-height: 1; color: var(--color-text-quaternary); font-variant-numeric: lining-nums; }
@@ -500,6 +515,7 @@
     .folio-progress { display: block; }
     .folio-progress::after { animation: pf-draw linear both; animation-timeline: scroll(root block); }
     .evidence-rule { animation: pf-draw linear both; animation-timeline: view(); animation-range: entry 60% cover 45%; }
+    .career-span-bar { animation: pf-draw linear both; animation-timeline: view(); animation-range: entry 80% cover 35%; }
     .pipeline li::after { animation: pf-draw linear both; animation-timeline: --pipeline; }
     .pipeline li:nth-child(1)::after { animation-range: cover 18% cover 30%; }
     .pipeline li:nth-child(2)::after { animation-range: cover 26% cover 38%; }
