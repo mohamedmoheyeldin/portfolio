@@ -147,6 +147,30 @@
     background-color: var(--paper);
     color: var(--ink);
   }
+
+  /* Tide: a deep teal ground for the finale. Same token names, so the close's parts need no colour rules of their own.
+     Every ink clears 6.2:1 on every ground here. */
+  .tide {
+    color-scheme: dark;
+    --paper: #05352f;
+    --grid: #063a33;
+    --surface: #073f37;
+    --surface-2: #0a4a41;
+    --ink: #f1fbf8;
+    --ink-2: #c9e9e1;
+    --ink-3: #a3d6ca;
+    --line: #1a5e53;
+    --line-strong: #2b7468;
+    --accent: #8ff0d8;
+    --accent-hover: #b6f6e6;
+    --accent-ink: #04221c;
+    --accent-soft: #0d5649;
+    --accent-line: #2f8d7b;
+    --e3: 0 -20px 48px -26px rgb(0 0 0 / 0.5), 0 30px 60px -30px rgb(5 53 47 / 0.6);
+    --edge: inset 0 1px 0 rgb(255 255 255 / 0.06);
+    --weight-body: 420;
+    color: var(--ink);
+  }
 }
 
 @layer base {
@@ -581,9 +605,11 @@
   }
   @media (min-width: 1000px) { .closing-sheet { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); } }
   .closing-main { display: grid; gap: var(--s-6); justify-items: start; align-content: start; }
-  .closing-main h2 { font-size: var(--t-3xl); line-height: var(--lh-display); letter-spacing: var(--track-display); max-width: 16ch; }
+  .closing-main h2 { font-size: var(--t-4xl); font-weight: 650; line-height: 0.98; letter-spacing: -0.04em; max-width: 14ch; }
+  /* The finale: the close is the one teal sheet on the site, lit from the top corner. */
+  .closing-sheet.tide { background: radial-gradient(48rem 28rem at 92% -10%, var(--accent-soft), transparent 70%), var(--surface); border-color: var(--line-strong); }
   .closing-address { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-4); }
-  .closing-address a { font-size: clamp(1.0625rem, 0.75rem + 1.4vw, 1.75rem); font-weight: 500; letter-spacing: -0.015em; color: var(--accent); text-decoration-thickness: 1.5px; text-underline-offset: 0.18em; overflow-wrap: anywhere; }
+  .closing-address a { font-size: clamp(1.25rem, 0.4rem + 3.6vw, 3.75rem); font-weight: 600; letter-spacing: -0.03em; color: var(--accent); text-decoration-thickness: 1.5px; text-underline-offset: 0.18em; overflow-wrap: anywhere; }
   .closing-address a:hover { color: var(--accent-hover); }
   /* Email drafts by intent, under the main action */
   .intents { display: grid; gap: var(--s-3); width: 100%; margin-top: var(--s-2); }

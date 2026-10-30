@@ -79,8 +79,8 @@ function Close() {
   return (
     <section className="closing" id="contact" aria-labelledby="contact-heading" data-sc-act="close">
       <div className="wrap">
-        <p className="sheet-tab sheet-tab--close" aria-hidden="true"><span className="num">Next step</span></p>
-        <div className="closing-sheet">
+        <p className="sheet-tab sheet-tab--close tide" aria-hidden="true"><span className="num">Next step</span></p>
+        <div className="closing-sheet tide">
           <div className="closing-main">
             <h2 id="contact-heading">Have a workflow your users are fighting with?</h2>
             <p className="lede">I'm open to Forward Deployed Engineer roles. Email is the fastest way to reach me.</p>
