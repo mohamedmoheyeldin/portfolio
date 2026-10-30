@@ -72,7 +72,7 @@ This is the canonical React/Vite portfolio and multi-format resume platform. Rea
 
 - `main` is the production portfolio branch. Keep Application Studio planning and implementation on `application-studio`; do not merge or deploy that branch to the production domain without an explicit release request. Its public-demo and private-owner APIs must use separate credentials and enforce owner authorization on the backend. A client mode flag never grants access.
 
-- Keep the presentation restrained: no custom mock browser illustrations, code artwork, tilted cards, floating notes, or monogram artwork. Diagrams restate documented fields and say so. Use pnpm exclusively for package operations. Untitled UI, React Aria and Tailwind were removed in the October 30, 2026 split redesign at the user's request for a complete reinvention; do not reintroduce a component library without a clear reason.
+- Bold visual moves are welcome: confident layout, poster-scale type, dark and colored sections, and a striking signature section. Keep it honest: no fake product screenshots or mock UIs presented as real work, and diagrams restate documented fields and say so. Use pnpm exclusively for package operations. Untitled UI, React Aria and Tailwind were removed in the October 30, 2026 split redesign at the user's request for a complete reinvention; do not reintroduce a component library without a clear reason.
 
 - Keep `@types/node` on Node 24 to match the runtime.
 - Work natively from `C:\Projects\portfolio`; do not introduce WSL, Docker, a local AI model, or a .NET SDK unless explicitly requested.
