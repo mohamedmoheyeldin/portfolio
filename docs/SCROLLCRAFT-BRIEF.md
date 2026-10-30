@@ -47,7 +47,7 @@ Grammar rules kept: no fixed marketing bar (a static masthead plus a folio in th
 | Act | Feeling | What causes it |
 |---|---|---|
 | Title page | Oriented | A name, a role and a plain two-line claim on paper, the lines set in one by one |
-| The work (peak) | Convinced | The lead case study opens as a full spread; the evidence rule draws under each result as it passes |
+| The work (peak) | Convinced | A hard cut to the white surface and a one-line-per-project register, then the lead case study opens as a full spread; the evidence rule draws under each result as it passes |
 | Method | Calm | Five stages in one ruled row, no motion beyond a quiet rise |
 | Career | Perspective | Large year numerals in the margin drift slower than the text beside them |
 | Index | Practical | A dense two-column back-of-book index, every entry a link |

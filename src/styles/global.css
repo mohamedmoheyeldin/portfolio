@@ -33,6 +33,8 @@
     color-scheme: light;
     --pf-ground: color-mix(in oklab, var(--color-brand-50) 28%, var(--color-white));
     --pf-surface: var(--color-white);
+    /* The deeper paper that the method and index chapters land on, for a visible hard cut between chapters. */
+    --pf-band: color-mix(in oklab, var(--color-brand-100) 42%, var(--color-white));
     --pf-ink: var(--color-text-primary);
     --pf-ink-soft: var(--color-text-tertiary);
     --pf-rule: var(--color-border-secondary);
@@ -57,6 +59,7 @@
     --pf-ink-soft: var(--color-text-tertiary);
     --pf-ground: color-mix(in oklab, var(--color-brand-950) 26%, var(--color-neutral-950));
     --pf-surface: color-mix(in oklab, var(--color-brand-900) 18%, var(--color-neutral-900));
+    --pf-band: color-mix(in oklab, var(--color-brand-950) 40%, var(--color-neutral-950));
     --pf-rule: color-mix(in oklab, var(--color-brand-400) 18%, var(--color-neutral-800));
     --pf-rule-strong: color-mix(in oklab, var(--color-brand-300) 45%, var(--color-neutral-400));
     --pf-edge: color-mix(in oklab, var(--color-white) 9%, transparent);
@@ -201,6 +204,35 @@
   @media (max-width: 720px) {
     .chapter-opener { grid-template-columns: minmax(0, 1fr); }
     .chapter-number { grid-row: auto; margin-bottom: 12px; font-size: 3rem; }
+  }
+
+  /*
+   * Chapter grounds. Chaptered editorial lands each chapter on its own ground with a hard cut: the work and the career
+   * sit on the brighter surface, the method and the index on the paper ground. The band runs edge to edge (under the
+   * folio too) with a clipped spread shadow, so the chapter's own box and the folio grid are untouched.
+   */
+  .chapter-work, .chapter-career { background: var(--pf-surface); box-shadow: 0 0 0 100vmax var(--pf-surface); clip-path: inset(0 -100vmax); }
+  .chapter-method, .chapter-index { background: var(--pf-band); box-shadow: 0 0 0 100vmax var(--pf-band); clip-path: inset(0 -100vmax); }
+  .chapter-work + .chapter, .chapter-career + .chapter, .chapter-method + .chapter { border-top-color: transparent; }
+
+  /* Chapter 1 register: every project on one line, each a jump link to its entry. */
+  .register { margin: 0 0 clamp(48px, 7vw, 88px); border-top: 1px solid var(--pf-rule-strong); }
+  .register ol { list-style: none; margin: 0; padding: 0; }
+  .register li { border-bottom: 1px solid var(--pf-rule); }
+  .register a { display: grid; grid-template-columns: var(--pf-margin) minmax(0, 1fr) auto; column-gap: 32px; align-items: baseline; min-height: 48px; padding-block: 14px; color: var(--pf-ink); text-decoration: none; transition: background-color 150ms var(--pf-ease); }
+  .register-number { font-variant-numeric: tabular-nums; font-size: var(--text-sm); color: var(--pf-accent); }
+  .register-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; font-family: var(--pf-serif); font-size: var(--text-xl); line-height: 1.3; }
+  .register-context { font-family: var(--font-body); font-size: var(--text-sm); color: var(--pf-ink-soft); }
+  .register-result { font-size: var(--text-sm); font-weight: 600; font-variant-numeric: tabular-nums; color: var(--pf-ink); text-align: right; }
+  .register a:focus-visible { outline: 2px solid var(--color-fg-brand-primary); outline-offset: 2px; }
+  @media (hover: hover) and (pointer: fine) {
+    .register a:hover { background: color-mix(in oklab, var(--pf-accent) 7%, transparent); }
+    .register a:hover .register-name { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  }
+  @media (max-width: 720px) {
+    .register a { grid-template-columns: 2.5em minmax(0, 1fr); column-gap: 12px; row-gap: 2px; }
+    .register-name { font-size: var(--text-lg); }
+    .register-result { grid-column: 2; text-align: left; color: var(--pf-accent); }
   }
 
   /* Chapter 1: project entries. Lead and trail spreads alternate anchors; the rest sit in a ruled list. */

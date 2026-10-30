@@ -79,12 +79,35 @@ function WorkChapter({ profile }: { profile: Profile }) {
       <ChapterOpener number={1} title="The work" id="work-heading">
         <p>{profile.projects.length} projects. Each says what was wrong, what I did, what changed, and where the evidence comes from: public source, a user report, or documented responsibilities.</p>
       </ChapterOpener>
+      <ProjectRegister projects={profile.projects} />
       {featured.map((project, index) => <ProjectEntry key={project.slug} project={project} number={`1.${index + 1}`} layout={index === 1 ? "trail" : "lead"} />)}
       <div className="entry-list">
         <h3 className="entry-list-heading">Also in this chapter</h3>
         {more.map((project, index) => <ProjectEntry key={project.slug} project={project} number={`1.${index + 4}`} layout="row" />)}
       </div>
     </section>
+  );
+}
+
+/**
+ * The chapter's register: every project on one line (number, name, who it was for, headline result), each a jump
+ * link to its entry. A recruiter can read the whole chapter here at Skim depth, and it works without JavaScript.
+ */
+function ProjectRegister({ projects }: { projects: Project[] }) {
+  return (
+    <nav className="register" aria-label="Projects in this chapter">
+      <ol>
+        {projects.map((project, index) => (
+          <li key={project.slug}>
+            <a href={`#entry-${project.slug}`}>
+              <span className="register-number" aria-hidden="true">1.{index + 1}</span>
+              <span className="register-name">{projectDisplayName(project)}<span className="register-context">{projectContext(project)}</span></span>
+              {project.metric && <span className="register-result">{project.metric.value}</span>}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
   );
 }
 
