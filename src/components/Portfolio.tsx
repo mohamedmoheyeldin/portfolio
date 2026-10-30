@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Tabs } from "@/components/application/tabs/tabs";
 import {
   ArrowUpRight,
@@ -301,10 +301,17 @@ function ProjectMetric({ metric }: { metric: NonNullable<Project["metric"]> }) {
   return <div className="project-metric"><strong>{metric.value}</strong> <span>{metric.label}</span></div>;
 }
 
-function ProjectCard({ project }: { project: Project }) {
+// Numbered section label for the home page sections.
+function SectionLabel({ index, children }: { index: number; children: string }) {
+  return <p className="eyebrow section-label"><span aria-hidden="true">{String(index).padStart(2, "0")}</span>{children}</p>;
+}
+
+// The whole card is clickable through the title link; "Read case study" stays as a visible affordance.
+function ProjectCard({ project, index }: { project: Project; index: number }) {
   const target = href(`experience/#project-${project.slug}`);
   return (
-    <article className="project-card">
+    <article className="project-card reveal">
+      <span className="project-card-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
       <div className="card-kicker">
         <Badge color={project.kind === "independent" ? "brand" : "gray"} size="md">
           {project.kind === "independent" ? "Independent project" : project.context.replace(veteransAffairsName, "VA")}
@@ -312,7 +319,7 @@ function ProjectCard({ project }: { project: Project }) {
         <span>{project.period}</span>
       </div>
       <h3>
-        <Button color="link-gray" className="text-left text-xl font-semibold whitespace-normal text-primary" href={target}>
+        <Button color="link-gray" className="project-card-title static text-left text-display-xs font-semibold tracking-tight whitespace-normal text-primary" href={target}>
           {projectDisplayName(project)}
         </Button>
       </h3>
@@ -329,8 +336,10 @@ function ProjectCard({ project }: { project: Project }) {
 export function Home({ profile }: { profile: Profile }) {
   return (
     <>
-      <section className="shell home-hero relative isolate overflow-hidden" id="professional-profile">
-        <BackgroundPattern pattern="grid" size="lg" className="absolute top-0 left-1/2 -z-10 -translate-x-1/2 max-md:hidden" />
+      {/* The hero band always uses the dark tokens, so every Untitled UI component inside keeps its dark-theme contrast. */}
+      <section className="hero-band dark-mode relative isolate overflow-hidden" id="professional-profile">
+        <BackgroundPattern pattern="grid" size="lg" className="hero-band-pattern absolute top-0 right-0 -z-10 max-md:hidden" />
+        <div className="shell home-hero">
         <div className="hero-split">
           <div className="hero-copy">
             <BadgeGroup className="mb-6 w-fit max-w-full cursor-default text-left" theme="modern" color="success" addonText="Open to FDE roles" iconTrailing={null}>
@@ -350,25 +359,29 @@ export function Home({ profile }: { profile: Profile }) {
           </div>
           <HiringSnapshot profile={profile} />
         </div>
+        <HeroTrust profile={profile} />
+        </div>
       </section>
-      <CredentialSummary profile={profile} />
       <RoleFit profile={profile} />
-      <section className="section shell">
-        <header className="section-heading-centered">
-            <h2>Selected work</h2>
-            <p>
+      <section className="section-band" id="selected-work" aria-labelledby="selected-work-heading">
+        <div className="section shell">
+          <header className="section-heading-centered reveal">
+            <SectionLabel index={2}>Selected work</SectionLabel>
+            <h2 id="selected-work-heading">Projects, from problem to result.</h2>
+            <p className="section-intro">
               What I built, who it was for, and the decisions along the way.
             </p>
-        </header>
-        <div className="project-grid">
-          {profile.projects.map((p) => (
-            <ProjectCard key={p.slug} project={p} />
-          ))}
+          </header>
+          <div className="project-grid">
+            {profile.projects.map((p, index) => (
+              <ProjectCard key={p.slug} project={p} index={index} />
+            ))}
+          </div>
         </div>
       </section>
       <section className="section shell profile-centered" aria-labelledby="how-i-work-heading">
-        <header className="section-heading-centered">
-          <p className="eyebrow">How I work</p>
+        <header className="section-heading-centered reveal">
+          <SectionLabel index={3}>How I work</SectionLabel>
           <h2 id="how-i-work-heading">Start with the people using it.</h2>
           <p className="section-intro">
             Most of my work is connecting systems, building small tools, and
@@ -377,7 +390,7 @@ export function Home({ profile }: { profile: Profile }) {
         </header>
         <ol className="process-steps">
           {processSteps.map(({ icon, title, text }, index) => (
-            <li key={title}>
+            <li key={title} className="reveal">
               <FeaturedIcon icon={icon} color="brand" theme="light" size="lg" />
               <span className="process-step-number">Step {index + 1}</span>
               <h3>{title}</h3>
@@ -464,15 +477,15 @@ function RoleFit({ profile }: { profile: Profile }) {
   });
   return (
     <section className="section shell" id="role-fit" aria-labelledby="role-fit-heading">
-      <header className="section-heading-centered">
-        <p className="eyebrow">Role fit</p>
+      <header className="section-heading-centered reveal">
+        <SectionLabel index={1}>Role fit</SectionLabel>
         <h2 id="role-fit-heading">What FDE roles ask for, and where I have done it.</h2>
         <p className="section-intro">Each line links to the case study behind it, so you can check the work instead of taking my word for it.</p>
       </header>
       <div className="role-fit">
         <ul className="role-fit-list">
           {rows.map(({ icon, requirement, evidence, project }) => (
-            <li key={requirement}>
+            <li key={requirement} className="reveal">
               <FeaturedIcon icon={icon} color="brand" theme="light" size="md" />
               <div className="role-fit-requirement">
                 <h3>{requirement}</h3>
@@ -697,8 +710,8 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
   }, [displayGroups.length]);
   return <section className={detailed ? "toolkit-full" : "expertise-section toolkit-overview"} id="engineering-toolkit" aria-labelledby="toolkit-heading">
     <div className="section shell">
-      <header className="section-heading-centered">
-        {!detailed && <p className="eyebrow">Core expertise</p>}
+      <header className="section-heading-centered reveal">
+        {!detailed && <SectionLabel index={4}>Core expertise</SectionLabel>}
         <h2 id="toolkit-heading">{detailed ? "The tools behind the work." : "Engineering toolkit."}</h2>
         <p className="section-intro">{detailed ? "From business workflows and requirements to implementation, integration, and release checks." : "The tools and practices I use day to day."}</p>
       </header>
@@ -738,23 +751,34 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
   </section>;
 }
 
-function CredentialSummary({ profile }: { profile: Profile }) {
+// Bottom of the hero band: employers and end customer as text (no logos), then verified credentials by issuer.
+function HeroTrust({ profile }: { profile: Profile }) {
+  const employers = [...new Set(profile.experience.map((role) => role.employer))];
+  const customers = [...new Set(profile.experience.flatMap((role) => (role.customer ? [role.customer] : [])))];
   const issuers = profile.verifiedCredentials.reduce<Map<string, number>>((counts, credential) => counts.set(credential.issuer, (counts.get(credential.issuer) ?? 0) + 1), new Map());
-  if (!issuers.size) return null;
   return (
-    <section className="shell credential-summary" aria-labelledby="credential-summary-heading">
-      <h2 id="credential-summary-heading">Verified credentials</h2>
-      <ul>
-        {Array.from(issuers, ([issuer, count]) => (
-          <li key={issuer}>
-            <BadgeWithIcon type="modern" color="gray" size="lg" iconLeading={CheckVerified01}>
-              {issuer} · {count} {count === 1 ? "credential" : "credentials"}
-            </BadgeWithIcon>
-          </li>
-        ))}
-      </ul>
-      <Button color="link-color" size="sm" href={href("experience/#learning")} iconTrailing={ArrowRight}>See all credentials</Button>
-    </section>
+    <div className="hero-trust">
+      <section aria-labelledby="hero-employers-heading">
+        <h2 id="hero-employers-heading">Where I have worked</h2>
+        <ul className="hero-employers">
+          {employers.map((employer) => <li key={employer}>{employer}</li>)}
+        </ul>
+        {customers.length > 0 && <p>End customer: {customers.join(", ")}</p>}
+      </section>
+      {issuers.size > 0 && <section aria-labelledby="hero-credentials-heading">
+        <h2 id="hero-credentials-heading">Verified credentials</h2>
+        <ul className="hero-credentials">
+          {Array.from(issuers, ([issuer, count]) => (
+            <li key={issuer}>
+              <BadgeWithIcon type="modern" color="gray" size="lg" iconLeading={CheckVerified01}>
+                {issuer} · {count} {count === 1 ? "credential" : "credentials"}
+              </BadgeWithIcon>
+            </li>
+          ))}
+        </ul>
+        <Button color="link-color" size="sm" href={href("experience/#learning")} iconTrailing={ArrowRight}>See all credentials</Button>
+      </section>}
+    </div>
   );
 }
 
@@ -843,8 +867,9 @@ export function Work({ profile }: { profile: Profile }) {
   }, new Map());
   return (
     <>
-      <section className="page-hero shell about-hero">
-        <div>
+      <section className="hero-band dark-mode relative isolate overflow-hidden">
+        <BackgroundPattern pattern="grid" size="lg" className="hero-band-pattern absolute top-0 right-0 -z-10 max-md:hidden" />
+        <div className="page-hero shell about-hero">
           <h1>
             Work history
             {" "}
@@ -856,7 +881,7 @@ export function Work({ profile }: { profile: Profile }) {
           </p>
         </div>
       </section>
-      <div className="shell page-sections">
+      <div className="shell page-sections page-sections-overlap">
         <nav className="flex max-w-full gap-1 overflow-x-auto rounded-xl bg-secondary_alt p-1.5 ring-1 ring-secondary ring-inset" aria-label="On this page">
           {[["experience-projects", "Projects"], ["work-history", "Work history"], ["approach", "Approach"], ["engineering-toolkit", "Skills"], ["learning", "Learning"]].map(([id, label]) => (
             <a key={id} href={`#${id}`} className="rounded-md px-3 py-2 text-sm font-semibold whitespace-nowrap text-quaternary outline-focus-ring transition duration-100 ease-linear hover:bg-primary_alt hover:text-secondary hover:shadow-sm focus-visible:outline-2 focus-visible:-outline-offset-2">
@@ -1070,6 +1095,7 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
   return (
     <>
       <article className={embedded ? "embedded-case" : undefined}>
+        <CaseHeroBand embedded={embedded}>
         <header className={embedded ? "case-hero" : "case-hero shell"}>
           {!embedded && <Button
             href={href("experience/")}
@@ -1107,6 +1133,7 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
           </div> : repositoryLink}
           {project.repositoryVisibility === "private" && <p>Private source. GitHub access requires repository permission.</p>}
         </header>
+        </CaseHeroBand>
         <div className={embedded ? "case-body" : "shell case-body"}>
           {!embedded && <aside>
             <p className="eyebrow">Inside this project</p>
@@ -1142,6 +1169,11 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
       {!embedded && <Contact />}
     </>
   );
+}
+
+// Standalone case studies open in the dark hero band; the embedded Experience panel stays in the page theme.
+function CaseHeroBand({ embedded, children }: { embedded: boolean; children: ReactNode }) {
+  return embedded ? <>{children}</> : <div className="hero-band dark-mode">{children}</div>;
 }
 
 // Clipboard copy needs JavaScript, so the button appears only after hydration; the mailto link always works.
@@ -1188,8 +1220,8 @@ function WorkWithMe() {
   const workEmail = `${email}?subject=${encodeURIComponent("Working together")}`;
   return (
     <section className="section shell" id="work-with-me" aria-labelledby="work-with-me-heading">
-      <header className="section-heading-centered">
-        <p className="eyebrow">Work with me</p>
+      <header className="section-heading-centered reveal">
+        <SectionLabel index={5}>Work with me</SectionLabel>
         <h2 id="work-with-me-heading">Put AI to work where your people already are.</h2>
         <p className="section-intro">
           Hire me as a Forward Deployed Engineer, or start with a two-week AI workflow audit. Either way, I work alongside the
@@ -1232,11 +1264,13 @@ function WorkWithMe() {
 
 export function Contact() {
   return (
-    <section className="contact-section">
+    // Like the hero band, the contact band always uses the dark tokens.
+    <section className="contact-section dark-mode relative isolate overflow-hidden" aria-labelledby="contact-heading">
+      <BackgroundPattern pattern="grid" size="lg" className="contact-pattern absolute top-1/2 left-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 max-md:hidden" />
       <div className="shell contact-inner">
-        <div>
+        <div className="contact-copy reveal">
           <p className="eyebrow">Contact</p>
-          <h2>Get in touch.</h2>
+          <h2 id="contact-heading">Have a role or a workflow problem? <span>Let's talk.</span></h2>
           <p>
             If you have an integration problem or a Forward Deployed Engineer
             role, send me an email.
@@ -1244,10 +1278,11 @@ export function Contact() {
         </div>
         <div className="contact-actions">
           <div className="contact-buttons">
-            <Button href={email} size="xl" iconLeading={Mail01}>
-              Get in touch
+            <Button href={roleEmail} size="xl" iconLeading={Mail01}>
+              Email me about a role
             </Button>
-            <Button href={linkedInUrl} size="xl" color="secondary" iconLeading={LinkedIn}>
+            <ResumeMenu variant="hero" />
+            <Button href={linkedInUrl} size="xl" color="tertiary" iconLeading={LinkedIn}>
               Message me on LinkedIn
             </Button>
           </div>
