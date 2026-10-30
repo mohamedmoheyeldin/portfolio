@@ -358,6 +358,12 @@
   .cover-social svg { width: 1rem; height: 1rem; }
   @media (max-width: 420px) { .cover-facts { grid-template-columns: 1fr; } }
   /* The tops of the three case sheets, at the foot of the first screen */
+  /* The claim, proven: three numbered proofs under the cover, one per clause of the h1. */
+  .cover-fit { list-style: none; display: grid; gap: var(--s-4); margin-top: clamp(var(--s-8), 5vh, var(--s-12)); }
+  @media (min-width: 760px) { .cover-fit { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-6); } }
+  .cover-fit li { display: grid; align-content: start; gap: var(--s-2); padding: var(--s-5) var(--s-5) var(--s-6); background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: var(--r-3); box-shadow: var(--e1), var(--edge); font-size: var(--t-sm); color: var(--ink-2); }
+  .cover-fit .num { font-family: var(--font-mono); font-size: var(--t-xs); color: var(--accent); letter-spacing: var(--track-label); }
+  .cover-fit-title { font-size: var(--t-lg); font-weight: var(--weight-head); letter-spacing: var(--track-head); line-height: var(--lh-head); color: var(--ink); }
   .cover-index { margin-top: auto; padding-top: clamp(var(--s-10), 6vh, var(--s-16)); }
   .cover-index ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-2); border-bottom: 1px solid var(--line-strong); }
   .cover-index a {
@@ -624,6 +630,9 @@
     .js .cover-main > :nth-child(3) { animation-delay: 160ms; }
     .js .cover-main > :nth-child(4) { animation-delay: 220ms; }
     .js .cover-facts { animation: rise 0.8s 280ms var(--ease-out) both; }
+    .js .cover-fit li { animation: rise 0.8s 340ms var(--ease-out) both; }
+    .js .cover-fit li:nth-child(2) { animation-delay: 400ms; }
+    .js .cover-fit li:nth-child(3) { animation-delay: 460ms; }
     .js .cover-index li { animation: tab-up 0.7s var(--ease-out) both; }
     .js .cover-index li:nth-child(1) { animation-delay: 420ms; }
     .js .cover-index li:nth-child(2) { animation-delay: 500ms; }

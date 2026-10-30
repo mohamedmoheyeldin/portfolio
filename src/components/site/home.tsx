@@ -62,6 +62,15 @@ function Cover({ profile, featured }: { profile: Profile; featured: Project[] })
           <div><dt className="label">Elsewhere</dt><dd className="cover-social"><a href={linkedInUrl}><LinkedIn />LinkedIn</a><a href={gitHubUrl}><GitHub />GitHub</a></dd></div>
         </dl>
       </div>
+      {/* The claim in the h1, proven in three parts. Each line restates documented Booz Allen highlights in career.json. */}
+      <ol className="wrap cover-fit" aria-label="The claim, with evidence">
+        {/* highlights[7], highlights[8] */}
+        <li><span className="num">01</span><p className="cover-fit-title">Works with the people who use it</p><p>Leads the stakeholder demo at the end of every release cycle since 2022 and joins working sessions with claims processors.</p></li>
+        {/* highlights[2] and the profile summary */}
+        <li><span className="num">02</span><p className="cover-fit-title">Builds what they need</p><p>Turned hours of daily test-data prep into a 5-minute run with Data Generator &amp; File Processing, used by the whole team daily.</p></li>
+        {/* experienceYears; highlights[10] */}
+        <li><span className="num">03</span><p className="cover-fit-title">Tests it before they do</p><p>{profile.experienceYears} years in development and quality engineering. Helped select Playwright and built the reusable smoke and regression framework.</p></li>
+      </ol>
       <nav className="wrap cover-index" aria-label="Case files">
         <ol>
           {featured.map((project) => (
