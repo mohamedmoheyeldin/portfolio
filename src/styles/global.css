@@ -179,6 +179,8 @@
   .title-page-compact h1, .title-page-case h1 { max-width: 20ch; font-size: clamp(2.25rem, 4.8vw, 4.25rem); line-height: 1.04; }
   .title-dek { margin-top: 24px; max-width: 40ch; font-size: clamp(1.125rem, 1.5vw, 1.375rem); line-height: 1.5; color: var(--color-text-secondary); }
   .title-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 36px; }
+  .title-elsewhere { margin-top: 20px; font-size: var(--text-md); color: var(--pf-ink-soft); }
+  .title-elsewhere a { color: var(--pf-ink); text-decoration: underline; text-decoration-color: var(--pf-rule-strong); text-decoration-thickness: 1px; text-underline-offset: 4px; }
   .imprint { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 168px), 1fr)); gap: 20px 32px; margin: clamp(48px, 7vw, 88px) 0 0; padding-top: 20px; border-top: 1px solid var(--pf-rule-strong); }
   .imprint dt { font-size: 0.6875rem; line-height: 1rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-quaternary); }
   .imprint dd { margin: 6px 0 0; font-size: var(--text-sm); line-height: 1.55; color: var(--color-text-secondary); }

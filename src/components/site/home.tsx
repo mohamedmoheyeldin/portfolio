@@ -4,7 +4,7 @@ import { Button } from "@/components/base/buttons/button";
 import GitHub from "@/components/foundations/social-icons/github";
 import { formatCareerDate, veteransAffairsName } from "@/lib/career";
 import { DepthNote, Page, ResumeMenu } from "./chrome";
-import { type Chapter, type Profile, type Project, caseStudyHref, evidenceSource, href, metricLabel, projectContext, projectDisplayName, roleEmail } from "./shared";
+import { type Chapter, type Profile, type Project, caseStudyHref, gitHubUrl, linkedInUrl, evidenceSource, href, metricLabel, projectContext, projectDisplayName, roleEmail } from "./shared";
 
 const chapters: Chapter[] = [
   { id: "introduction", label: "Introduction" },
@@ -38,6 +38,7 @@ function TitlePage({ profile }: { profile: Profile }) {
         <ResumeMenu variant="hero" />
         <Button size="xl" color="link-color" href={roleEmail} iconLeading={Mail01}>Email me</Button>
       </div>
+      <p className="title-elsewhere">Also on <a href={linkedInUrl}>LinkedIn</a> and <a href={gitHubUrl}>GitHub</a>, where {profile.projects.filter((project) => project.repository && project.repositoryVisibility === "public").length} of these projects have public source.</p>
       <Imprint profile={profile} />
       <DepthNote />
     </section>
