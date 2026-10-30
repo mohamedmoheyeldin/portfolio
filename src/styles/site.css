@@ -602,6 +602,28 @@
 
   /* Experience */
   .timeline--full .bullets { margin-top: var(--s-2); }
+  /* Skills with proof: tools against the six projects */
+  .proof { display: grid; gap: var(--s-4); margin-block: var(--s-10) var(--s-12); }
+  .proof figcaption { display: grid; gap: var(--s-1); }
+  .proof-title { font-size: var(--t-xl); font-weight: var(--weight-head); letter-spacing: var(--track-head); color: var(--ink); }
+  .proof-note { font-size: var(--t-sm); color: var(--ink-3); }
+  .proof-scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-3); box-shadow: var(--e1), var(--edge); }
+  .proof-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .proof-table { width: 100%; min-width: 46rem; border-collapse: collapse; font-size: var(--t-sm); }
+  .proof-table th, .proof-table td { padding: var(--s-2) var(--s-3); border-bottom: 1px solid var(--line); text-align: left; }
+  .proof-table thead th { vertical-align: bottom; font-weight: 400; padding-block: var(--s-4) var(--s-3); }
+  .proof-table thead a { display: grid; gap: 0.125rem; color: var(--ink-2); text-decoration: none; max-width: 9rem; line-height: 1.3; }
+  .proof-table thead a:hover { color: var(--accent); }
+  .proof-table thead .num { font-family: var(--font-mono); font-size: var(--t-xs); color: var(--accent); }
+  .proof-project { font-size: var(--t-xs); }
+  .proof-table thead th:first-child, .proof-table thead th:last-child { font-family: var(--font-mono); font-size: var(--t-xs); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
+  .proof-table tbody th[scope="row"] { font-weight: 500; color: var(--ink); white-space: nowrap; }
+  .proof-group th { padding-top: var(--s-5); font-family: var(--font-mono); font-size: var(--t-xs); font-weight: 400; letter-spacing: var(--track-label); text-transform: uppercase; color: var(--accent); background: var(--surface-2); }
+  .proof-table td { color: var(--ink-3); }
+  .proof-dot { display: inline-block; width: 0.75rem; height: 0.75rem; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); vertical-align: middle; }
+  .proof-count { font-family: var(--font-mono); color: var(--ink-2); }
+  .proof-table tbody tr:last-child > * { border-bottom: 0; }
+  .toolkit-all { margin-bottom: var(--s-4); }
   .project-table { width: 100%; border-collapse: collapse; font-size: var(--t-base); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-3); overflow: hidden; }
   .project-table th { text-align: left; font-family: var(--font-mono); font-size: var(--t-xs); font-weight: 400; letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); padding: var(--s-3) var(--s-5); border-bottom: 1px solid var(--line); }
   .project-table td { padding: var(--s-4) var(--s-5); border-bottom: 1px solid var(--line); vertical-align: baseline; color: var(--ink-2); }

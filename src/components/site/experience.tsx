@@ -1,7 +1,7 @@
 import credentialImages from "@/content/credential-images.json";
 import { formatCareerDate } from "@/lib/career";
 import { Page } from "./layout";
-import { type Profile, caseStudyHref, evidenceSource, projectDisplayName, projectNumber, roleEmail, root } from "./shared";
+import { type Profile, caseStudyHref, evidenceSource, projectDisplayName, projectNumber, roleEmail, root, toolKey } from "./shared";
 import { ArrowRight, ArrowUpRight, Label, Mail, ResumeMenu, Tags } from "./ui";
 
 const sections = [["roles", "Roles"], ["projects", "Projects"], ["skills", "Skills"], ["learning", "Credentials and education"]] as const;
@@ -83,6 +83,8 @@ export function Work({ profile }: { profile: Profile }) {
         <div className="wrap">
           <div className="section-head"><h2 id="skills-heading">Skills</h2></div>
           <ul className="competencies" aria-label="Competencies">{profile.competencies.map((item) => <li key={item}>{item}</li>)}</ul>
+          <SkillProof profile={profile} />
+          <h3 className="label toolkit-all">The whole toolkit</h3>
           <dl className="toolkit-grid">
             {profile.skillGroups.map((group) => <div key={group.label}><dt>{group.label}</dt><dd><Tags items={group.items} label={group.label} /></dd></div>)}
           </dl>
@@ -133,5 +135,55 @@ export function Work({ profile }: { profile: Profile }) {
         </div>
       </section>
     </Page>
+  );
+}
+
+/**
+ * Skills with proof: every tool in the skill groups that a project's technologies list names (same name, compared
+ * case-insensitively), against the six projects. A dot means the project record lists that tool; nothing is inferred.
+ */
+function SkillProof({ profile }: { profile: Profile }) {
+  const projects = profile.projects;
+  const uses = (tool: string, project: Profile["projects"][number]) => project.technologies.some((tech) => toolKey(tech) === toolKey(tool));
+  const groups = profile.skillGroups
+    .map((group) => ({ label: group.label, items: group.items.filter((tool) => projects.some((project) => uses(tool, project))) }))
+    .filter((group) => group.items.length);
+  return (
+    <figure className="proof" aria-labelledby="proof-caption">
+      <figcaption id="proof-caption">
+        <span className="proof-title">Where each tool shows up in the work</span>
+        <span className="proof-note">A dot means that project's record lists the tool. Columns link to the case studies.</span>
+      </figcaption>
+      <div className="proof-scroll" role="region" aria-labelledby="proof-caption" tabIndex={0}>
+        <table className="proof-table">
+          <thead>
+            <tr>
+              <th scope="col">Tool</th>
+              {projects.map((project) => (
+                <th scope="col" key={project.slug}><a href={caseStudyHref(project)} title={projectDisplayName(project)}><span className="num">{projectNumber(project)}</span><span className="proof-project">{projectDisplayName(project)}</span></a></th>
+              ))}
+              <th scope="col">Projects</th>
+            </tr>
+          </thead>
+          {groups.map((group) => (
+            <tbody key={group.label}>
+              <tr className="proof-group"><th scope="rowgroup" colSpan={projects.length + 2}>{group.label}</th></tr>
+              {group.items.map((tool) => {
+                const count = projects.filter((project) => uses(tool, project)).length;
+                return (
+                  <tr key={tool}>
+                    <th scope="row">{tool}</th>
+                    {projects.map((project) => (
+                      <td key={project.slug}>{uses(tool, project) ? <span className="proof-dot"><span className="sr-only">Used in {projectDisplayName(project)}</span></span> : <span className="sr-only">Not listed</span>}</td>
+                    ))}
+                    <td className="proof-count">{count}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          ))}
+        </table>
+      </div>
+    </figure>
   );
 }
