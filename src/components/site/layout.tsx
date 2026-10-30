@@ -65,6 +65,16 @@ const auditSteps = [
  * The close of every page is the last sheet laid on the deck: a tab that reads "Next step", the question, the address
  * set large as the action, the direct routes and every resume file, then the audit offer for teams.
  */
+/** Email drafts by intent: the visitor picks why they are writing and the mail app opens with a subject and an outline. */
+const intents = [
+  ["I'm hiring a Forward Deployed Engineer", "Opens a draft with the role questions I'd ask first", "Forward Deployed Engineer role",
+    "Hi Mohamed,\n\nI'm hiring for a Forward Deployed Engineer role.\n\nCompany:\nTeam and customers:\nLocation or remote:\nA good time for a call:\n\nThanks,"],
+  ["My team wants the AI workflow audit", "Opens a draft for the two-week audit", "AI workflow audit",
+    "Hi Mohamed,\n\nWe'd like to talk about the two-week AI workflow audit.\n\nThe workflow:\nWho uses it today:\nWhat we've tried:\n\nThanks,"],
+  ["I have a question about your work", "Opens a draft that names the case study", "Question about your work",
+    "Hi Mohamed,\n\nI read your case study on:\n\nMy question:\n\nThanks,"],
+] as const;
+
 function Close() {
   return (
     <section className="closing" id="contact" aria-labelledby="contact-heading" data-sc-act="close">
@@ -81,6 +91,20 @@ function Close() {
             <div className="actions">
               <a className="btn btn--primary btn--lg" href={roleEmail}><Mail />Email me</a>
               <ResumeMenu id="resume-menu-close" size="lg" />
+            </div>
+            <div className="intents">
+              <p className="label" id="intents-label">Or start with a draft</p>
+              <ul className="intent-list" aria-labelledby="intents-label">
+                {intents.map(([title, note, subject, body]) => (
+                  <li key={title}>
+                    <a href={`${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`}>
+                      <span className="intent-title">{title}</span>
+                      <span className="intent-note">{note}</span>
+                      <ArrowUpRight />
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
           <div className="closing-side">
