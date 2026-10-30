@@ -60,6 +60,7 @@
     --t-xl: clamp(1.3125rem, 1.15rem + 0.7vw, 1.75rem);
     --t-2xl: clamp(1.75rem, 1.35rem + 1.7vw, 2.75rem);
     --t-3xl: clamp(2.25rem, 1.45rem + 3.4vw, 4.5rem);
+    --t-4xl: clamp(2.5rem, 0.9rem + 5.4vw, 6rem);
     --lh-display: 1.02;
     --lh-head: 1.15;
     --lh-body: 1.6;
@@ -201,6 +202,10 @@
   .section--tint { background: var(--grid); }
   .section-head { display: grid; gap: var(--s-4); margin-bottom: clamp(var(--s-8), 4vw, var(--s-16)); }
   .section-head h2 { max-width: 22ch; }
+  /* Editorial voice: every section opens with a poster-scale head under a heavy teal rule. */
+  .section-head { position: relative; padding-top: var(--s-6); border-top: 4px solid var(--accent); }
+  .section-head h2 { font-size: var(--t-4xl); font-weight: 650; line-height: 0.98; letter-spacing: -0.04em; max-width: 18ch; }
+  .section-head--split > :last-child { font-size: var(--t-lg); }
   .section-head--split { grid-template-columns: minmax(0, 1fr); align-items: end; }
   @media (min-width: 860px) {
     .section-head--split { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--s-12); }
