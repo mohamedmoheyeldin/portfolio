@@ -450,15 +450,19 @@
 
   /* More work */
   .more { padding-top: 0; }
-  .rows { border-top: 1px solid var(--line-strong); }
-  .row article { display: grid; gap: var(--s-3) var(--s-8); padding-block: var(--s-8); border-bottom: 1px solid var(--line); }
-  @media (min-width: 900px) { .row article { grid-template-columns: 10rem minmax(0, 1fr) minmax(0, 18rem); } }
-  .row h3 { font-size: var(--t-xl); margin-bottom: var(--s-2); }
-  .row h3 a { text-decoration: none; }
-  .row h3 a:hover { text-decoration: underline; }
-  .row-main p { color: var(--ink-2); max-width: 62ch; }
-  .row-side { display: grid; gap: var(--s-2); align-content: start; }
-  .row .meta { padding-top: 0.45rem; }
+  /* Earlier and supporting work: three result-first cards, the same white sheets as the cases */
+  .work-cards { list-style: none; padding: 0; display: grid; gap: var(--s-4); }
+  @media (min-width: 900px) { .work-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-6); } }
+  .work-card article { height: 100%; display: grid; grid-template-rows: auto auto auto 1fr auto; gap: var(--s-3); padding: var(--s-6); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-3); box-shadow: var(--e1), var(--edge); transition: border-color var(--t-ui) var(--ease-out), box-shadow var(--t-ui) var(--ease-out); }
+  .work-card article:hover { border-color: var(--accent-line); box-shadow: var(--e2), var(--edge); }
+  .work-card-result { display: grid; gap: var(--s-1); padding-bottom: var(--s-4); border-bottom: 1px solid var(--line); }
+  .work-card .result-value { font-size: var(--t-2xl); }
+  .work-card .result-label { font-size: var(--t-sm); }
+  .work-card h3 { font-size: var(--t-lg); }
+  .work-card h3 a { text-decoration: none; }
+  .work-card h3 a:hover { text-decoration: underline; }
+  .work-card-desc { color: var(--ink-2); font-size: var(--t-sm); }
+  .work-card-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-3); padding-top: var(--s-3); }
 
   /* Tenure chart: one bar per role, to scale, above the career timeline */
   .tenure { display: grid; gap: var(--s-3); margin-bottom: var(--s-16); padding: var(--s-6); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-3); box-shadow: var(--e1), var(--edge); }
@@ -726,7 +730,7 @@
 
     @supports (animation-timeline: view()) {
       /* Sections rise as they enter; the pipeline rail and the career rail draw as they pass. */
-      .section-head, .row article, .cap-loop li, .cap-return, .toolkit, .timeline-item, .closing-sheet, .sheet-tab--close, .case-body, .cred {
+      .section-head, .work-card article, .cap-loop li, .cap-return, .toolkit, .timeline-item, .closing-sheet, .sheet-tab--close, .case-body, .cred {
         animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 55%;
       }
       .pipe-steps::before, .timeline::before { animation: draw linear both; animation-timeline: view(); animation-range: entry 10% cover 50%; }

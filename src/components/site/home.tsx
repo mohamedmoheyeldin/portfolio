@@ -164,19 +164,23 @@ function MoreWork({ projects }: { projects: Project[] }) {
           <h2 id="more-heading">Earlier and supporting work</h2>
           <p><a className="link-arrow" href={href("experience/#projects")}>All six case studies<ArrowRight /></a></p>
         </div>
-        <ul className="rows">
+        <ul className="work-cards">
           {projects.map((project) => (
-            <li className="row" key={project.slug} id={`entry-${project.slug}`}>
+            <li className="work-card" key={project.slug} id={`entry-${project.slug}`}>
               <article aria-labelledby={`${project.slug}-title`}>
                 <p className="meta"><span className="num">{projectNumber(project)}</span><span>{project.period}</span></p>
-                <div className="row-main">
-                  <h3 id={`${project.slug}-title`}><a href={caseStudyHref(project)}>{projectDisplayName(project)}</a></h3>
-                  <p>{project.description}</p>
-                </div>
-                <div className="row-side">
-                  {project.metric && <><p className="result-value result-value--sm">{project.metric.value}</p><p className="result-label">{metricLabel(project)}</p></>}
+                {project.metric && (
+                  <div className="work-card-result">
+                    <p className="result-value">{project.metric.value}</p>
+                    <p className="result-label">{metricLabel(project)}</p>
+                  </div>
+                )}
+                <h3 id={`${project.slug}-title`}><a href={caseStudyHref(project)}>{projectDisplayName(project)}</a></h3>
+                <p className="work-card-desc">{project.description}</p>
+                <p className="work-card-foot">
                   <EvidenceTag project={project} />
-                </div>
+                  <a className="link-arrow" href={caseStudyHref(project)}>Case study<span className="sr-only">: {projectDisplayName(project)}</span><ArrowRight /></a>
+                </p>
               </article>
             </li>
           ))}
