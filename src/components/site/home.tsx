@@ -322,15 +322,22 @@ function Capabilities({ profile }: { profile: Profile }) {
         </ol>
         <p className="cap-return"><span aria-hidden="true" className="cap-return-mark" />Back to step 01: each demo brings new questions from the people using the software.</p>
         <div className="toolkit">
-          <h3 className="label">Tools I use</h3>
-          <dl className="toolkit-grid">
-            {profile.skillGroups.map((group) => <div key={group.label}><dt>{group.label}</dt><dd><Tags items={group.items} label={group.label} /></dd></div>)}
+          <h3 className="toolkit-title">Tools I use</h3>
+          <dl className="toolkit-wall">
+            {profile.skillGroups.map((group) => (
+              <div className="toolkit-row" key={group.label}>
+                <dt className="label">{group.label}</dt>
+                <dd><ul className="toolkit-words" aria-label={group.label}>{group.items.map((item) => <li key={item}>{item}</li>)}</ul></dd>
+              </div>
+            ))}
           </dl>
-          <p className="toolkit-foot">
-            {profile.verifiedCredentials.length} verified credentials from {issuers.slice(0, -1).join(", ")} and {issuers.at(-1)}.{" "}
-            {education && <>{education.credential} in {education.field}. </>}
-            <a className="link-arrow" href={href("experience/#learning")}>See the credentials<ArrowRight /></a>
-          </p>
+          <div className="toolkit-proof">
+            <p className="toolkit-count"><span className="toolkit-count-value">{profile.verifiedCredentials.length}</span><span className="toolkit-count-label">verified credentials from {issuers.slice(0, -1).join(", ")} and {issuers.at(-1)}</span></p>
+            <p className="toolkit-foot">
+              {education && <>{education.credential} in {education.field}. </>}
+              <a className="link-arrow" href={href("experience/#learning")}>See the credentials<ArrowRight /></a>
+            </p>
+          </div>
         </div>
       </div>
     </section>
