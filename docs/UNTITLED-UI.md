@@ -20,10 +20,11 @@ The imported components use React Aria and Tailwind v4. Local composition is in 
 | --- | --- |
 | Primary navigation and case-study section links | Upstream `NavItemBase` |
 | Experience disclosure triggers | Upstream `NavItemBase` collapsible variant inside native `details` |
-| Resume version choice (header, hero, footer) | Upstream `Dropdown` with `Button` trigger; plain link to the full resume before hydration |
+| Resume version choice (header, hero, footer, phone contact bar) | Upstream `Dropdown` with `Button` trigger; plain link to the full resume before hydration |
 | Calls to action, downloads, project titles, footer and social links | Upstream `Button` including link variants |
 | Skills, project labels and location | Upstream `Badge` and `BadgeWithDot` |
 | Expertise, resume and hero icon tiles | Upstream `FeaturedIcon` |
+| Home hiring snapshot and phone contact bar | Local layout built from `FeaturedIcon`, `Button` and `ButtonUtility`; facts read from the career record |
 | Colors, typography scale, interaction styles | Upstream theme tokens and component utilities |
 
 Remaining local composition consists of page sections, content cards and the accessibility skip link. Decorative artwork and mock interfaces have been removed. Semantic headings, lists, sections, and native disclosure containers remain HTML. No paid marketing templates are used, and no numerical coverage percentage is claimed: this is a component-level inventory, not a percentage of DOM elements or source lines.
@@ -34,7 +35,7 @@ The repository retains strict TypeScript configuration. `definedProps` omits und
 
 Navigation applies the same optional-prop adaptation. The empty-state source retains its root, header, featured icon, content, title, description, and footer; unused file-icon, background-pattern, illustration, and avatar variants were omitted to avoid unused dependencies. Its title is an `h3` and content is a `div`, preserving the surrounding page's heading hierarchy and single main landmark. Layout CSS is in `@layer components`, below upstream utilities, and obsolete custom control selectors have been removed.
 
-The prerendered React application hydrates in the browser. Portfolio content renders static React output through React server rendering at build time. Navigation, project content, case studies, and downloads remain usable without JavaScript. The homepage shows all project cards in career-record order, with built and integrated work ahead of testing work; a project's optional `metric` renders as a callout on its card and in its outcome section. A "Work with me" section before Contact pairs the AI workflow audit offer with FDE role fit, built from featured icons, badges, and buttons; the header links to it. The Experience page uses project selection and section controls to display one project at a time; search and category filters remain removed. Preserve direct project routes and no-JavaScript fallback links.
+The prerendered React application hydrates in the browser. Portfolio content renders static React output through React server rendering at build time. Navigation, project content, case studies, and downloads remain usable without JavaScript. The homepage shows all project cards in career-record order, with built and integrated work ahead of testing work; a project's optional `metric` renders as a callout on its card and in its outcome section. The home hero is split: the pitch with an "Email me about a role" primary button (pre-filled subject) and the resume menu on the left, and a "Hiring snapshot" card on the right listing the current role, experience since the first role, location, education and verified-credential count, all computed from the career record, plus email, copy, LinkedIn and GitHub. It stacks under the pitch below 1000px. At phone width a fixed bar keeps "Email me" and the resume menu one tap away on every page; both are plain links without JavaScript and the bar is hidden in print. A "Work with me" section before Contact pairs the AI workflow audit offer with FDE role fit, built from featured icons, badges, and buttons; the header links to it. The Experience page uses project selection and section controls to display one project at a time; search and category filters remain removed. Preserve direct project routes and no-JavaScript fallback links.
 
 ## Review and deployment
 

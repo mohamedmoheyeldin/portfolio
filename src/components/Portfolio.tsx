@@ -26,6 +26,8 @@ import {
   Menu02,
   Briefcase01,
   ChevronDown,
+  MarkerPin01,
+  User01,
 } from "@untitledui/icons";
 import { Button, type Props as ButtonComponentProps } from "@/components/base/buttons/button";
 import { Badge, BadgeWithIcon } from "@/components/base/badges/badges";
@@ -50,6 +52,7 @@ const root = `${import.meta.env.BASE_URL.replace(/\/?$/, "")}/`;
 const href = (path = "") => `${root}${path}`;
 const resumeFile = (version: "one-page" | "detailed", format: "pdf" | "docx") => href(`resume/mohamed-moheyeldin-resume-${version}.${format}`);
 const resumePdf = resumeFile("detailed", "pdf");
+const roleEmail = `${email}?subject=${encodeURIComponent("Forward Deployed Engineer role")}`;
 const linkedInUrl = "https://www.linkedin.com/in/moheyeldin/";
 const gitHubUrl = "https://github.com/mohamedmoheyeldin";
 
@@ -145,22 +148,23 @@ function MobileMenu({ path }: { path: string }) {
 }
 
 // Lets visitors pick the one-page or full resume. Without JavaScript the trigger stays a plain link to the full resume.
-function ResumeMenu({ variant, format = "pdf" }: { variant: "header" | "hero" | "footer"; format?: "pdf" | "docx" }) {
+function ResumeMenu({ variant, format = "pdf" }: { variant: "header" | "hero" | "footer" | "bar"; format?: "pdf" | "docx" }) {
   const [ready, setReady] = useState(false);
   useEffect(() => setReady(true), []);
-  const label = variant === "footer" ? (format === "pdf" ? "PDF" : "Word") : "Download resume";
+  const label = variant === "footer" ? (format === "pdf" ? "PDF" : "Word") : variant === "bar" ? "Resume" : "Download resume";
   const download = variant !== "footer" || format === "docx";
   const button = {
     header: { className: "max-[720px]:hidden", color: "secondary", size: "sm", iconLeading: Download01 },
     hero: { color: "secondary", size: "xl", iconLeading: Download01 },
     footer: { color: "link-gray" },
+    bar: { color: "secondary", size: "md", iconLeading: Download01 },
   } as const;
   if (!ready) return <Button {...button[variant]} href={resumeFile("detailed", format)} download={download}>{label}</Button>;
   const formatName = format === "pdf" ? "PDF" : "Word";
   return (
     <Dropdown.Root>
       <Button {...button[variant]} iconTrailing={ChevronDown} {...(variant === "footer" && { "aria-label": `Resume as ${formatName}` })}>{label}</Button>
-      <Dropdown.Popover placement={variant === "header" ? "bottom end" : "bottom start"}>
+      <Dropdown.Popover placement={variant === "header" ? "bottom end" : variant === "bar" ? "top end" : "bottom start"}>
         <Dropdown.Menu aria-label={`Choose a ${formatName} resume`}>
           <Dropdown.Item href={resumeFile("one-page", format)} download={download} addon="1 page" textValue="One-page resume">One-page resume</Dropdown.Item>
           <Dropdown.Item href={resumeFile("detailed", format)} download={download} addon="2 pages" textValue="Full resume">Full resume</Dropdown.Item>
@@ -187,6 +191,7 @@ function ThemeToggle() {
 export function Footer({ name, headline }: { name: string; headline: string }) {
   return (
     <footer className="site-footer">
+      <MobileActionBar />
       <div className="shell footer-top">
         <div className="footer-brand">
           <Button color="link-gray" size="lg" href={root}>
@@ -326,20 +331,24 @@ export function Home({ profile }: { profile: Profile }) {
     <>
       <section className="shell home-hero relative isolate overflow-hidden" id="professional-profile">
         <BackgroundPattern pattern="grid" size="lg" className="absolute top-0 left-1/2 -z-10 -translate-x-1/2 max-md:hidden" />
-        <div className="hero-copy">
-          <BadgeGroup className="mb-6 w-fit max-w-full cursor-default text-left" theme="modern" color="success" addonText="Open to FDE roles" iconTrailing={null}>
-            {profile.experienceYears} years<span className="max-sm:hidden"> · Federal healthcare, e-commerce &amp; banking</span>
-          </BadgeGroup>
-          <h1>
-            Forward Deployed Engineer <span>building software with the people who use it.</span>
-          </h1>
-          <p>
-            {profile.heroSummary}
-          </p>
-          <div className="hero-buttons hero-actions">
-            <Button size="xl" href={href("experience/#experience-projects")} iconTrailing={ArrowRight}>View my work</Button>
-            <ResumeMenu variant="hero" />
+        <div className="hero-split">
+          <div className="hero-copy">
+            <BadgeGroup className="mb-6 w-fit max-w-full cursor-default text-left" theme="modern" color="success" addonText="Open to FDE roles" iconTrailing={null}>
+              {profile.experienceYears} years<span className="max-sm:hidden"> · Federal healthcare, e-commerce &amp; banking</span>
+            </BadgeGroup>
+            <h1>
+              Forward Deployed Engineer <span>building software with the people who use it.</span>
+            </h1>
+            <p>
+              {profile.heroSummary}
+            </p>
+            <div className="hero-buttons hero-actions">
+              <Button size="xl" href={roleEmail} iconLeading={Mail01}>Email me about a role</Button>
+              <ResumeMenu variant="hero" />
+            </div>
+            <Button className="hero-work-link" color="link-color" size="lg" href={href("experience/#experience-projects")} iconTrailing={ArrowRight}>View my work</Button>
           </div>
+          <HiringSnapshot profile={profile} />
         </div>
       </section>
       <CredentialSummary profile={profile} />
@@ -388,6 +397,59 @@ export function Home({ profile }: { profile: Profile }) {
       <WorkWithMe />
       <Contact />
     </>
+  );
+}
+
+// The facts a recruiter screens for first, all read from the career record, with the fastest ways to reach out.
+function HiringSnapshot({ profile }: { profile: Profile }) {
+  const current = profile.experience.find((role) => !role.end) ?? profile.experience[0]!;
+  const firstStart = profile.experience.reduce((earliest, role) => (role.start < earliest ? role.start : earliest), current.start);
+  const degree = profile.education[0];
+  const facts = [
+    { icon: Briefcase01, label: "Current role", value: current.professionalTitle ?? current.title, detail: `${current.employer} · since ${formatCareerDate(current.start)}` },
+    { icon: Award01, label: "Experience", value: `${profile.experienceYears} years`, detail: `Since ${formatCareerDate(firstStart)} · federal healthcare, e-commerce & banking` },
+    { icon: MarkerPin01, label: "Based in", value: profile.location.replace(/\s+\d{5}(?:-\d{4})?$/, ""), detail: "Open to Forward Deployed Engineer roles" },
+    ...(degree ? [{ icon: BookOpen01, label: "Education", value: `${degree.credential}, ${degree.field}`, detail: degree.institution }] : []),
+    { icon: CheckVerified01, label: "Verified credentials", value: String(profile.verifiedCredentials.length), detail: [...new Set(profile.verifiedCredentials.map((credential) => credential.issuer))].join(", ") },
+  ];
+  return (
+    <aside className="hiring-snapshot" aria-labelledby="hiring-snapshot-heading">
+      <div className="hiring-snapshot-header">
+        <FeaturedIcon icon={User01} color="brand" theme="light" size="md" />
+        <div>
+          <h2 id="hiring-snapshot-heading">Hiring snapshot</h2>
+          <p>The short version, before you open the resume.</p>
+        </div>
+      </div>
+      <dl className="hiring-facts">
+        {facts.map(({ icon: Icon, label, value, detail }) => (
+          <div key={label}>
+            <dt><Icon aria-hidden="true" />{label}</dt>
+            <dd><strong>{value}</strong><span>{detail}</span></dd>
+          </div>
+        ))}
+      </dl>
+      <div className="hiring-snapshot-footer">
+        <div className="flex min-w-0 items-center gap-1">
+          <Button className="min-w-0 whitespace-normal break-all text-left" href={roleEmail} color="link-color" size="sm">{emailAddress}</Button>
+          <CopyEmail />
+        </div>
+        <div className="flex gap-2">
+          <ButtonUtility color="secondary" size="sm" icon={LinkedIn} tooltip="LinkedIn" href={linkedInUrl} />
+          <ButtonUtility color="secondary" size="sm" icon={GitHub} tooltip="GitHub" href={gitHubUrl} />
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+// Phone-width contact bar: email and resume stay one tap away while scrolling. Both work without JavaScript.
+function MobileActionBar() {
+  return (
+    <div className="mobile-action-bar" role="region" aria-label="Quick contact">
+      <Button href={roleEmail} size="md" iconLeading={Mail01}>Email me</Button>
+      <ResumeMenu variant="bar" />
+    </div>
   );
 }
 

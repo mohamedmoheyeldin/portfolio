@@ -805,4 +805,39 @@ h1 > span {
   .offer-panel-footer { padding: 24px; }
   .offer-panel-intro h3 { font-size: var(--text-display-xs); line-height: var(--text-display-xs--line-height); }
 }
+
+/* Home: split hero with the hiring snapshot card and a phone-width quick contact bar. */
+.hero-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 460px); gap: 56px; align-items: center; text-align: left; }
+.hero-split .hero-copy h1 { max-width: 640px; }
+.hero-split .hero-copy > p { margin-inline: 0; }
+.hero-split .hero-actions { justify-content: flex-start; }
+.hero-work-link { margin-top: 20px; }
+@media (max-width: 720px) { .hero-split .hero-buttons > * { flex: 1 1 140px; } }
+.hiring-snapshot { position: relative; overflow: hidden; border: 1px solid var(--color-border-secondary); border-radius: 16px; background: var(--color-bg-primary); box-shadow: var(--shadow-xl); }
+.hiring-snapshot::before { content: ""; position: absolute; inset: 0 0 auto; height: 4px; background: var(--color-fg-brand-primary); }
+.hiring-snapshot-header { display: flex; align-items: center; gap: 14px; padding: 28px 24px 20px; }
+.hiring-snapshot-header h2 { margin: 0; font-size: var(--text-lg); line-height: var(--text-lg--line-height); font-weight: 600; letter-spacing: normal; }
+.hiring-snapshot-header p { margin: 2px 0 0; font-size: var(--text-sm); line-height: var(--text-sm--line-height); color: var(--color-text-tertiary); }
+.hiring-facts { margin: 0; padding: 0 24px; }
+.hiring-facts > div { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 12px; padding-block: 14px; border-top: 1px solid var(--color-border-secondary); }
+.hiring-facts dt { display: flex; align-items: flex-start; gap: 8px; font-size: var(--text-sm); line-height: var(--text-sm--line-height); font-weight: 500; color: var(--color-text-tertiary); }
+.hiring-facts dt svg { width: 16px; height: 16px; flex: none; margin-top: 2px; color: var(--color-fg-brand-primary); }
+.hiring-facts dd { display: flex; flex-direction: column; gap: 2px; margin: 0; min-width: 0; }
+.hiring-facts dd strong { font-size: var(--text-sm); line-height: var(--text-sm--line-height); font-weight: 600; color: var(--color-text-primary); }
+.hiring-facts dd span { font-size: var(--text-xs); line-height: var(--text-xs--line-height); color: var(--color-text-tertiary); }
+.hiring-snapshot-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 8px; padding: 16px 24px; border-top: 1px solid var(--color-border-secondary); background: var(--color-bg-secondary); }
+.mobile-action-bar { display: none; }
+@media (max-width: 1000px) {
+  .hero-split { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .hiring-snapshot { width: 100%; max-width: 640px; }
+}
+@media (max-width: 720px) {
+  .mobile-action-bar { position: fixed; inset: auto 0 0; z-index: 40; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); border-top: 1px solid var(--color-border-secondary); background: var(--color-bg-primary); box-shadow: var(--shadow-lg); }
+  .mobile-action-bar > * { width: 100%; }
+  .site-footer { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
+}
+@media (max-width: 480px) {
+  .hiring-facts > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+}
+@media print { .mobile-action-bar, .hiring-snapshot-footer { display: none; } }
 }

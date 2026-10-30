@@ -39,7 +39,7 @@ The web presentation uses Untitled UI's light theme, blue accents, Inter loaded 
 
 `career.json` → `scripts/generate-resumes.py` → PDF / DOCX downloads
 
-The repository publishes one-page and detailed PDF/DOCX artifacts from the canonical content source through the dedicated resume generator. Web, PDF, and Word may format and select facts differently, but career history remains owned by the shared record. The site has no separate Resume page: the header and home hero "Download resume" buttons and the footer's PDF and Word links each open a menu to choose the one-page or detailed version (without JavaScript they link to the detailed file), and `/resume/` redirects to the detailed PDF for older links.
+The repository publishes one-page and detailed PDF/DOCX artifacts from the canonical content source through the dedicated resume generator. Web, PDF, and Word may format and select facts differently, but career history remains owned by the shared record. The site has no separate Resume page: the header and home hero "Download resume" buttons, the phone-width contact bar's "Resume" button, and the footer's PDF and Word links each open a menu to choose the one-page or detailed version (without JavaScript they link to the detailed file), and `/resume/` redirects to the detailed PDF for older links.
 
 Case studies also validate audience, systems, decisions, evidence links, and FDE relevance. Evidence distinguishes user-reported career results from public source code. The portfolio walkthrough documents static rendering and explicitly states that no runtime API or database exists.
 
