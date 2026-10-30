@@ -352,6 +352,7 @@ export function Home({ profile }: { profile: Profile }) {
         </div>
       </section>
       <CredentialSummary profile={profile} />
+      <RoleFit profile={profile} />
       <section className="section shell">
         <header className="section-heading-centered">
             <h2>Selected work</h2>
@@ -440,6 +441,60 @@ function HiringSnapshot({ profile }: { profile: Profile }) {
         </div>
       </div>
     </aside>
+  );
+}
+
+// What Forward Deployed Engineer postings ask for, each matched to documented work in the career record.
+// Evidence lines restate career.json highlights; add no numbers that are not already there.
+const roleFitRows = [
+  { icon: MessageChatCircle, requirement: "Work directly with customers and end users", evidence: "Discovery, working sessions, and acceptance criteria with VA stakeholders and claims processors, with a demo every release cycle and program increment.", slug: "federal-quality-delivery-system" },
+  { icon: GitBranch01, requirement: "Integrate with customer systems, APIs, and data", evidence: "Live claim status through health-provider API integration, plus Tableau dashboards for system and server health.", slug: "federal-quality-delivery-system" },
+  { icon: Code02, requirement: "Ship production software, not prototypes", evidence: "React, TypeScript, and MySQL features delivered on a VA healthcare claims platform.", slug: "federal-quality-delivery-system" },
+  { icon: File06, requirement: "Build the tools a team relies on", evidence: "A desktop app that builds a full development database in under 5 minutes, used daily by the team, with installers, a user guide, and tests.", slug: "ccrs-test-data-tooling" },
+  { icon: CheckVerified01, requirement: "Put AI into a real workflow, safely", evidence: "Claude extracts 17 fields from claim PDFs, fixed rules decide what is missing, and a person approves every reply. 26 automated tests.", slug: "claims-document-assistant" },
+  { icon: SearchLg, requirement: "Debug across the whole system", evidence: "Browser, API, visual, and SSO login checks connected through GitHub Actions and AWS test environments.", slug: "ecommerce-feedback-platform" },
+];
+
+const jobDescriptionEmail = `${email}?subject=${encodeURIComponent("Job description: Forward Deployed Engineer")}&body=${encodeURIComponent("Hi Mohamed,\n\nHere is the role I'm hiring for:\n\nCompany:\nRole:\nLink or pasted description:\n\n")}`;
+
+function RoleFit({ profile }: { profile: Profile }) {
+  const rows = roleFitRows.flatMap((row) => {
+    const project = profile.projects.find((item) => item.slug === row.slug);
+    return project ? [{ ...row, project }] : [];
+  });
+  return (
+    <section className="section shell" id="role-fit" aria-labelledby="role-fit-heading">
+      <header className="section-heading-centered">
+        <p className="eyebrow">Role fit</p>
+        <h2 id="role-fit-heading">What FDE roles ask for, and where I have done it.</h2>
+        <p className="section-intro">Each line links to the case study behind it, so you can check the work instead of taking my word for it.</p>
+      </header>
+      <div className="role-fit">
+        <ul className="role-fit-list">
+          {rows.map(({ icon, requirement, evidence, project }) => (
+            <li key={requirement}>
+              <FeaturedIcon icon={icon} color="brand" theme="light" size="md" />
+              <div className="role-fit-requirement">
+                <h3>{requirement}</h3>
+                <p>{evidence}</p>
+              </div>
+              <Button className="role-fit-link whitespace-normal text-left" color="link-color" size="sm" href={href(`experience/${project.slug}/`)} iconTrailing={ArrowRight} aria-label={`${requirement}: read the ${projectDisplayName(project)} case study`}>
+                {projectDisplayName(project)}
+              </Button>
+            </li>
+          ))}
+        </ul>
+        <aside className="role-fit-cta" aria-labelledby="role-fit-cta-heading">
+          <FeaturedIcon icon={Mail01} color="brand" theme="dark" size="lg" />
+          <h3 id="role-fit-cta-heading">Hiring for one of these?</h3>
+          <p>Send me the job description. I will reply with how my work lines up with it, point by point, including anything I have not done yet.</p>
+          <div className="role-fit-cta-actions">
+            <Button href={jobDescriptionEmail} size="xl" iconLeading={Mail01}>Send a job description</Button>
+            <ResumeMenu variant="hero" />
+          </div>
+        </aside>
+      </div>
+    </section>
   );
 }
 

@@ -840,4 +840,26 @@ h1 > span {
   .hiring-facts > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
 }
 @media print { .mobile-action-bar, .hiring-snapshot-footer { display: none; } }
+
+/* Home: role fit. FDE requirements matched to case studies, beside a job-description call to action. */
+.role-fit { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 360px); gap: 32px; align-items: start; text-align: left; }
+.role-fit-list { margin: 0; padding: 0; list-style: none; border: 1px solid var(--color-border-secondary); border-radius: 16px; background: var(--color-bg-primary); box-shadow: var(--shadow-sm); }
+.role-fit-list li { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 200px); gap: 16px; align-items: start; padding: 20px var(--card-padding); }
+.role-fit-list li + li { border-top: 1px solid var(--color-border-secondary); }
+.role-fit-requirement h3 { margin: 0; font-size: var(--text-md); line-height: var(--text-md--line-height); font-weight: 600; letter-spacing: normal; color: var(--color-text-primary); }
+.role-fit-requirement p { margin: 4px 0 0; font-size: var(--text-sm); line-height: var(--text-sm--line-height); color: var(--color-text-tertiary); }
+.role-fit-link { justify-self: end; margin-top: 2px; }
+.role-fit-cta { position: sticky; top: calc(var(--site-header-height, 72px) + 24px); display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 32px var(--card-padding); border-radius: 16px; background: var(--color-bg-brand-section); box-shadow: var(--shadow-xl); }
+.role-fit-cta h3 { margin: 8px 0 0; font-size: var(--text-display-xs); line-height: var(--text-display-xs--line-height); letter-spacing: -0.02em; color: var(--color-text-primary_on-brand); }
+.role-fit-cta p { margin: 0; font-size: var(--text-md); line-height: var(--text-md--line-height); color: var(--color-text-tertiary_on-brand); }
+.role-fit-cta-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+@media (max-width: 1000px) {
+  .role-fit { grid-template-columns: minmax(0, 1fr); }
+  .role-fit-cta { position: static; }
+}
+@media (max-width: 640px) {
+  .role-fit-list li { grid-template-columns: auto minmax(0, 1fr); padding: 16px; }
+  .role-fit-link { grid-column: 2; justify-self: start; margin-top: 0; }
+  .role-fit-cta-actions > * { flex: 1 1 140px; }
+}
 }
