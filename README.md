@@ -8,11 +8,12 @@
 ![Cloudflare](https://img.shields.io/badge/hosted%20on-Cloudflare-F38020?logo=cloudflare&logoColor=white)
 ![Docs](https://img.shields.io/badge/docs-Claude%20Code%20%C2%B7%20Graphify%20%C2%B7%20Obsidian-7C3AED)
 
-A Vite 8 portfolio with React 19, free Untitled UI components, Tailwind CSS v4, and a shared career record for the website and resume library.
+> [!NOTE]
+> A prerendered React 19 + Vite 8 portfolio, set as an editorial feature with a site-wide reading-depth control, built on free Untitled UI components and one schema-validated career record that also generates every resume format.
 
 ## Status
 
-The current portfolio includes Home, Experience with project and toolkit explorers, five case studies, and a resume library with PDF, Word, Markdown, and plain-text formats. The portfolio itself is featured as an independent engineering project.
+The portfolio includes Home (title page, The work, How the work is checked, Career, Index of tools), Experience with project and toolkit explorers, six case studies, and a resume library with PDF, Word, Markdown, and plain-text formats. Every page has a Skim / Read / Full reading-depth control and light (paper) and dark (night) editions. The portfolio itself is featured as an independent engineering project. The October 2026 editorial redesign is on the `NewIU` branch; see [the Scrollcraft brief](docs/SCROLLCRAFT-BRIEF.md).
 
 `main` is the production branch for `https://mohamedmoheyeldin.com/`. Future Application Studio work belongs on `application-studio` and is not part of the current production release.
 
@@ -41,7 +42,8 @@ flowchart LR
 - `scripts/validate-content.mjs` — schema validation
 - `src/styles/theme.css` — upstream Untitled UI theme
 - `src/styles/global.css` — responsive portfolio layouts and typography
-- `src/components/Portfolio.tsx` — React page composition and interactive work explorer
+- `src/components/site/` — pages (`home`, `experience`, `case-study`) and shared chrome (`chrome`: masthead, folio, reading-depth control, colophon); `Portfolio.tsx` re-exports them
+- `src/assets/fonts/` — self-hosted Inter and Newsreader subsets
 - `src/components/base/` — free Untitled UI source components
 
 - `scripts/build.mjs` — canonical, social, icon, and structured metadata
@@ -60,7 +62,7 @@ pnpm test:pages         # GitHub Pages subpath packaging check
 pnpm verify             # Complete local gate (alias for pnpm quality)
 ```
 
-The quality gate validates TypeScript and content schemas, builds the site, and checks GitHub Pages subpath packaging. Browser test dependencies and suites have been removed. Navigation, filtering, downloads, responsive layouts, and accessibility require separate browser review.
+The quality gate validates TypeScript and content schemas, builds the site, and checks GitHub Pages subpath packaging. Browser checks (Playwright functional suite, axe-core WCAG 2.2 AA, Lighthouse, and the Scrollcraft scroll harness) run headless from the Scrollcraft workspace outside this repo, so the app's dependency tree stays free of test runners. Results and limits are in [Testing](docs/TESTING.md).
 
 See [Development](docs/DEVELOPMENT.md) and [Testing](docs/TESTING.md) for contributor workflow and test-layer details.
 
@@ -85,6 +87,7 @@ flowchart LR
 | [Graphify](https://pypi.org/project/graphifyy/) | A knowledge graph of the codebase, rebuilt by git hooks on every commit. Used to check what a change affects before editing. Output lives in `graphify-out/`, which is ignored by Git. |
 | [Obsidian](https://obsidian.md) | Linked project notes: architecture summary, decisions with their reasons, and an open todo list, alongside my other projects. |
 | [GitHub](https://github.com/mohamedmoheyeldin/portfolio) | Pull requests run the quality gates; merges to `main` deploy through Cloudflare. |
+| [Scrollcraft](https://github.com/nateherkai/scroll-craft) | Design process for the redesign (brief, grammar, feeling curve, signature move) and its scroll-verification harness. Installed once per machine as a personal Claude Code skill; nothing from it ships in the site. See [Development](docs/DEVELOPMENT.md#scrollcraft). |
 
 ## Documentation map
 
@@ -95,6 +98,7 @@ flowchart LR
 | [Testing](docs/TESTING.md) | Quality gates and what they cover |
 | [Content provenance](docs/CONTENT_PROVENANCE.md) | Where career facts come from and what may be published |
 | [Design brief](docs/DESIGN_BRIEF.md) | Visual direction |
+| [Scrollcraft brief](docs/SCROLLCRAFT-BRIEF.md) | Journey, feeling curve, score, signature move, research references |
 | [Untitled UI](docs/UNTITLED-UI.md) | Upstream components and local adaptations |
 | [Cloudflare](docs/CLOUDFLARE.md) | Production hosting and deployment |
 | [Dependencies](docs/DEPENDENCIES.md) | Why each dependency is here |

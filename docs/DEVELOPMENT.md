@@ -22,12 +22,31 @@ For fast feedback, run `pnpm check` while editing. Use `pnpm verify` before hand
 - `src/content/career.json` is the canonical draft career record and must remain schema-valid.
 - `scripts/build.mjs` owns shared page metadata and structure.
 - Reuse `src/components/` and `src/styles/` rather than creating route-local variants for shared behavior.
-- All routes use the same `Header` in `Portfolio.tsx`: a 92px desktop bar aligned to the 1200px content shell, with stable scrollbar space. Keep navigation spacing in the shared stylesheet; at narrow widths the brand and links stack consistently.
+- All routes share the chrome in `src/components/site/chrome.tsx`: a static masthead, the `Page` wrapper (folio with contents and the reading-depth control in the margin from 1200px, a reading bar at the bottom edge below that), and the colophon. Pages pass their chapter list to `Page`; mark blocks the depth control may hide with `data-detail="standard"` or `"full"`, and blocks the reader's place should stick to with `data-anchor`.
 - Untitled UI components live under `src/components/base/`; the portfolio uses the free MIT source distribution only. See `docs/UNTITLED-UI.md` for provenance.
 - Use `pnpm dev --host 127.0.0.1 --port 4322` for a local review server. Stop the running Vite process with Ctrl+C before reusing its port.
 - Development and preview servers do not open a browser. Share the local URL and let the user open it. Browser automation requires an explicit request; the configured Chrome DevTools connection uses a separate temporary Brave Origin profile.
 - After `pnpm verify`, restore the root deployment build with `pnpm build:cloudflare` because the final check builds `/portfolio/` output.
 - Keep public content confidentiality-safe and supported by the canonical data; do not invent metrics or claims.
+
+## Scrollcraft
+
+The design follows the Scrollcraft skill (`scroll-craft` 0.3.1). It is installed once per machine, outside this repository:
+
+- Source: `C:\Projects\scrollcraft\scroll-craft` (an unmodified copy of upstream `plugins/nateherk-design/skills/scroll-craft` at `75d81f7`; maintenance notes in `C:\Projects\scrollcraft\START-HERE.txt`).
+- Claude Code loads it as a personal skill through the junction `%USERPROFILE%\.claude\skills\scroll-craft`. Invoke it with `/scroll-craft`. Do not also install the `nateherk-design` plugin; that loads a second copy.
+- Workspace: `C:\Projects\.scrollcraft.json` points at `C:\Projects\scrollcraft\workspace` (builds, lab shots, `FINGERPRINTS.md`, and `playwright-core`, `axe-core` and `lighthouse` for verification). This repo carries none of them.
+- No engine files are copied into the site. The portfolio uses the skill's process and taste floor with native CSS; its sections carry `data-sc-act` markers and the page adds `html.sc-ready` after hydration so the skill's `shoot.mjs` harness can walk them.
+
+Preflight and harness (set `SCROLLCRAFT_CHROME` to Brave, the only Chromium browser on this machine):
+
+```powershell
+$env:SCROLLCRAFT_CHROME = "C:\Program Files\BraveSoftware\Brave-Origin\Application\brave.exe"
+cd C:\Projects\scrollcraft\workspace
+node ..\scroll-craft\scripts\doctor.mjs
+node ..\scroll-craft\scripts\serve.mjs --root C:\Projects\portfolio\dist --port 4600
+node ..\scroll-craft\scripts\shoot.mjs --url http://127.0.0.1:4600/ --out lab\portfolio-editorial\desktop
+```
 
 ## Dependency compatibility
 

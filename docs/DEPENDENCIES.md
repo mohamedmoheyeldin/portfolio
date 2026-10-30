@@ -10,7 +10,9 @@ https://github.com/untitleduico/untitledui-vite-starter-kit/blob/main/package.js
 - `vite`, `@vitejs/plugin-react`: official starter build and development pipeline.
 - `typescript`, `@types/react`, `@types/react-dom`, `@types/node`: compiler and type definitions; Node types match this project's Node 24 runtime.
 
-Astro, its adapter/checker, Fontsource, cross-env, Wrangler, and browser test runners have been removed from the application dependency tree. Cloudflare deployment uses `pnpm dlx wrangler@4.144.0` separately. Inter loads with the Google Fonts link used by the official starter. No dependency was added for prerendering, content validation, routing, or MCP.
+Astro, its adapter/checker, Fontsource, cross-env, Wrangler, and browser test runners have been removed from the application dependency tree. Cloudflare deployment uses `pnpm dlx wrangler@4.144.0` separately. Fonts are self-hosted files, not packages: Latin WOFF2 subsets of Inter (text) and Newsreader (display, roman and italic) from Google Fonts under the SIL Open Font License 1.1, in `src/assets/fonts/` (130 KB in total, fingerprinted by Vite and preloaded). They replaced the render-blocking Google Fonts stylesheet in the October 30, 2026 redesign. No dependency was added for prerendering, content validation, routing, MCP, or motion: scroll effects and view transitions are native CSS.
+
+The redesign removed four vendored Untitled UI sources it no longer renders: the badge group, featured icon, grid background pattern and cloud illustration. Browser verification tools (Playwright, axe-core, Lighthouse) live in the Scrollcraft workspace outside this repository; see [TESTING.md](TESTING.md).
 
 The portfolio keeps a small local route composition and build-time React prerenderer so its existing URLs, metadata, sitemap, downloads, and no-JavaScript content remain available. These content-specific files are local code, not represented as upstream templates.
 

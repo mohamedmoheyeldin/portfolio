@@ -21,7 +21,8 @@ const expectations = [
 ];
 
 for (const project of JSON.parse(career)[0].projects) {
-  expectations.push([home, `href="/portfolio/experience/#project-${project.slug}"`]);
+  expectations.push([home, `href="/portfolio/experience/${project.slug}/"`]);
+  expectations.push([home, `id="entry-${project.slug}"`]);
   expectations.push([work, `href="/portfolio/experience/${project.slug}/"`]);
 }
 expectations.push([work, 'aria-label="Choose a project"']);

@@ -1,4 +1,4 @@
-import { Home, Work, CaseStudy, NotFound, Header, Footer } from '@/components/Portfolio';
+import { Home, Work, CaseStudy, NotFound, Masthead, Colophon } from '@/components/Portfolio';
 
 import { profile } from '@/lib/career';
 export const routes = ['/', '/experience/', ...profile.projects.map(p => `/experience/${p.slug}/`)];
@@ -11,5 +11,5 @@ export function routeInfo(path: string) {
 export function App({path}: {path: string}) {
   const {project} = routeInfo(path);
   const content = path === '/' ? <Home profile={profile}/> : path === '/experience/' ? <Work profile={profile}/> : project ? <CaseStudy project={project}/> : <NotFound/>;
-  return <><a className="skip-link" href="#main-content">Skip to content</a><Header name={profile.name} headline={profile.headline} location={profile.location} path={path}/><main id="main-content">{content}</main><Footer name={profile.name} headline={profile.headline}/></>;
+  return <><a className="skip-link" href="#main-content">Skip to content</a><Masthead name={profile.name} headline={profile.headline} path={path}/><main id="main-content">{content}</main><Colophon name={profile.name}/></>;
 }
