@@ -100,12 +100,11 @@ export function Header({ name, headline, location, path }: { name: string; headl
           <ResumeMenu variant="header" />
           <Button
             className="max-[720px]:hidden"
-            href={email}
-            color="secondary"
+            href={roleEmail}
             size="sm"
             iconLeading={Mail01}
           >
-            Get in touch
+            Email me
           </Button>
         </div>
       </div>
@@ -148,7 +147,7 @@ function MobileMenu({ path }: { path: string }) {
 }
 
 // Lets visitors pick the one-page or full resume. Without JavaScript the trigger stays a plain link to the full resume.
-function ResumeMenu({ variant, format = "pdf" }: { variant: "header" | "hero" | "footer" | "bar"; format?: "pdf" | "docx" }) {
+function ResumeMenu({ variant, format = "pdf" }: { variant: "header" | "hero" | "footer" | "bar" | "aside"; format?: "pdf" | "docx" }) {
   const [ready, setReady] = useState(false);
   useEffect(() => setReady(true), []);
   const label = variant === "footer" ? (format === "pdf" ? "PDF" : "Word") : variant === "bar" ? "Resume" : "Download resume";
@@ -158,13 +157,14 @@ function ResumeMenu({ variant, format = "pdf" }: { variant: "header" | "hero" | 
     hero: { color: "secondary", size: "xl", iconLeading: Download01 },
     footer: { color: "link-gray" },
     bar: { color: "secondary", size: "md", iconLeading: Download01 },
+    aside: { color: "secondary", size: "sm", iconLeading: Download01 },
   } as const;
   if (!ready) return <Button {...button[variant]} href={resumeFile("detailed", format)} download={download}>{label}</Button>;
   const formatName = format === "pdf" ? "PDF" : "Word";
   return (
     <Dropdown.Root>
       <Button {...button[variant]} iconTrailing={ChevronDown} {...(variant === "footer" && { "aria-label": `Resume as ${formatName}` })}>{label}</Button>
-      <Dropdown.Popover placement={variant === "header" ? "bottom end" : variant === "bar" ? "top end" : "bottom start"}>
+      <Dropdown.Popover placement={variant === "header" ? "bottom end" : variant === "bar" ? "top end" : variant === "aside" ? "bottom" : "bottom start"}>
         <Dropdown.Menu aria-label={`Choose a ${formatName} resume`}>
           <Dropdown.Item href={resumeFile("one-page", format)} download={download} addon="1 page" textValue="One-page resume">One-page resume</Dropdown.Item>
           <Dropdown.Item href={resumeFile("detailed", format)} download={download} addon="2 pages" textValue="Full resume">Full resume</Dropdown.Item>
@@ -323,6 +323,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           {projectDisplayName(project)}
         </Button>
       </h3>
+      <p className="project-card-role"><User01 aria-hidden="true" />My role: {project.role}</p>
       <p>{project.description}</p>
       {project.metric && <ProjectMetric metric={project.metric} />}
       <Tags items={project.technologies.slice(0, 4)} />
@@ -1144,6 +1145,11 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
             <NavItemBase type="link" href="#evidence">05　Evidence</NavItemBase>
             <NavItemBase type="link" href="#toolkit">06　The toolkit</NavItemBase>
             {project.slug === "portfolio-career-content-system" && <NavItemBase type="link" href="#walkthrough">07　Walkthrough</NavItemBase>}
+            <div className="case-aside-cta">
+              <p>Need this kind of work on your team?</p>
+              <Button href={`${email}?subject=${encodeURIComponent(`About ${projectDisplayName(project)}`)}`} size="sm" iconLeading={Mail01}>Email me</Button>
+              <ResumeMenu variant="aside" />
+            </div>
           </aside>}
           <div className="project-detail-content">
             {interactive ? <Tabs selectedKey={section} onSelectionChange={(key) => setSection(String(key))}>

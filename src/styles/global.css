@@ -939,6 +939,21 @@ h1 > span {
   .project-card-index { top: 16px; right: 20px; font-size: var(--text-display-md); }
 }
 
+.project-card > p.project-card-role { display: flex; align-items: center; gap: 6px; margin: 4px 0 0; font-size: var(--text-sm); line-height: var(--text-sm--line-height); font-weight: 500; color: var(--color-text-secondary); }
+.project-card-role svg { width: 16px; height: 16px; flex: none; color: var(--color-fg-brand-primary); }
+/* Standalone case studies: a hiring prompt under the "Inside this project" links. */
+.case-aside-cta { display: flex; flex-direction: column; align-items: stretch; gap: 8px; margin-top: 16px; padding: 16px; border: 1px solid var(--color-border-secondary); border-radius: 12px; background: var(--color-bg-secondary); }
+.case-aside-cta p { margin: 0 0 4px; font-size: var(--text-sm); line-height: var(--text-sm--line-height); font-weight: 600; color: var(--color-text-primary); }
+/* Phone header: one compact row. With JavaScript the menu button carries the links; without it the inline links stay. */
+@media (max-width: 720px) {
+  .header-inner { min-height: 64px; padding-block: 12px; }
+  .header-inner .wordmark-caption, .header-inner .header-location { display: none; }
+  .header-contact { top: 50%; translate: 0 -50%; }
+  .js .header-inner nav { display: none; }
+  html.js { --site-header-height: 64px; }
+  .case-aside-cta { width: 100%; }
+}
+
 /* Motion is progressive: content is fully visible without it, and none of it runs for reduced-motion visitors. */
 @media (prefers-reduced-motion: no-preference) {
   .hero-band .hero-copy > *, .hero-band .hiring-snapshot, .hero-band .page-hero > * { animation: rise-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both; }
