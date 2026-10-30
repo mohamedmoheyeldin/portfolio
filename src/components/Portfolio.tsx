@@ -312,6 +312,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
     <article className="project-card reveal">
       <span className="project-card-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+      {/* Outcome first: the documented headline number leads the card. */}
+      {project.metric && <div className="project-card-outcome">
+        <strong>{project.metric.value}</strong>
+        <span>{project.metric.label}</span>
+      </div>}
       <div className="card-kicker">
         <Badge color={project.kind === "independent" ? "brand" : "gray"} size="md">
           {project.kind === "independent" ? "Independent project" : project.context.replace(veteransAffairsName, "VA")}
@@ -325,7 +330,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       </h3>
       <p className="project-card-role"><User01 aria-hidden="true" />My role: {project.role}</p>
       <p>{project.description}</p>
-      {project.metric && <ProjectMetric metric={project.metric} />}
       <Tags items={project.technologies.slice(0, 4)} />
       <Button className="project-card-link" color="link-color" href={target} iconTrailing={ArrowRight} aria-label={`Read the ${projectDisplayName(project)} case study`}>
         Read case study
@@ -522,22 +526,29 @@ function MobileActionBar() {
   );
 }
 
-function ExplorerChoice({ title, description, active, compact = false, ...props }: {
+function ExplorerChoice({ title, description, active, compact = false, index, outcome, ...props }: {
   title: string;
   description: string;
   active: boolean;
   /** Shorter rows for the vertical project menu. */
   compact?: boolean;
+  /** Optional menu number and headline outcome, used by the project menu. */
+  index?: number;
+  outcome?: string;
   href: string;
   id?: string;
   onClick: NonNullable<ButtonComponentProps["onClick"]>;
 }) {
   return <Button {...props} color="tertiary"
-    className={`${compact ? "py-3" : "h-full min-h-28 py-4"} w-full items-start justify-start rounded-lg px-4 whitespace-normal text-left ring-1 ring-inset max-sm:min-h-0 [&>[data-text]]:w-full ${active ? "bg-brand-primary_alt text-brand-secondary ring-brand hover:bg-brand-primary_alt" : "bg-primary text-secondary ring-secondary hover:bg-secondary hover:ring-primary"}`}
+    className={`${compact ? "py-3" : "h-full min-h-28 py-4"} w-full items-start justify-start rounded-lg px-4 whitespace-normal text-left ring-1 ring-inset max-sm:min-h-0 [&>[data-text]]:w-full ${active ? "bg-brand-primary_alt text-brand-secondary shadow-md ring-brand hover:bg-brand-primary_alt" : "bg-primary text-secondary ring-secondary hover:bg-secondary hover:ring-primary"}`}
     aria-current={active ? "true" : undefined}>
-    <span className="flex w-full min-w-0 flex-col gap-2">
-      <span>{title}</span>
-      <span className={`text-xs leading-5 font-normal ${active ? "text-brand-secondary" : "text-tertiary"}`}>{description}</span>
+    <span className="flex w-full min-w-0 gap-3">
+      {index !== undefined && <span aria-hidden="true" className={`pt-0.5 text-xs font-semibold tabular-nums ${active ? "text-brand-secondary" : "text-quaternary"}`}>{String(index + 1).padStart(2, "0")}</span>}
+      <span className="flex min-w-0 flex-1 flex-col gap-1.5">
+        <span>{title}</span>
+        <span className={`text-xs leading-5 font-normal ${active ? "text-brand-secondary" : "text-tertiary"}`}>{description}</span>
+        {outcome && <span className={`text-sm font-semibold ${active ? "text-brand-secondary" : "text-primary"}`}>{outcome}</span>}
+      </span>
     </span>
   </Button>;
 }
@@ -569,7 +580,8 @@ function ProjectExplorer({ profile }: { profile: Profile }) {
   return <section className="work-explorer" aria-label="Project explorer">
       <nav className="project-selector" aria-label="Choose a project">
         <p className="sr-only">Projects &amp; employment</p>
-        {projects.map((item) => <ExplorerChoice compact key={item.slug} id={`project-${item.slug}`} href={href(`experience/${item.slug}/`)}
+        {projects.map((item, index) => <ExplorerChoice compact key={item.slug} id={`project-${item.slug}`} href={href(`experience/${item.slug}/`)}
+          index={index} outcome={item.metric?.value}
           title={projectDisplayName(item)}
           description={profile.experience.find((role) => role.id === item.experienceId)?.employer ?? "Independent project"}
           active={item.slug === selected}
@@ -841,21 +853,36 @@ function WorkHistory({ profile }: { profile: Profile }) {
         <p className="eyebrow">Work history</p>
         <h2 id="work-history-heading">Where I have worked.</h2>
       </header>
+      {/* Years on the left rail, the role as a card on the right, with links to the projects from that role. */}
       <ol className="work-timeline">
-        {profile.experience.map((role) => (
-          <li key={role.id}>
-            <FeaturedIcon icon={Briefcase01} color={role.end ? "gray" : "brand"} theme="modern" size="md" />
-            <div>
-              <p className="work-timeline-dates">
-                <time dateTime={role.start}>{formatCareerDate(role.start)}</time> — {role.end ? <time dateTime={role.end}>{formatCareerDate(role.end)}</time> : "Present"}
-              </p>
-              <h3>{role.professionalTitle ?? role.title}</h3>
-              <p className="work-timeline-employer">{role.employer} · {role.location}</p>
-              {role.customer && <p className="work-timeline-customer">End customer: {role.customer}</p>}
-              <p>{role.summary}</p>
-            </div>
-          </li>
-        ))}
+        {profile.experience.map((role) => {
+          const roleProjects = profile.projects.filter((project) => project.experienceId === role.id);
+          return (
+            <li key={role.id} className="reveal">
+              <div className="work-timeline-years" aria-hidden="true">
+                <span>{role.start.slice(0, 4)}</span>
+                <span>{role.end ? role.end.slice(0, 4) : "Now"}</span>
+              </div>
+              <FeaturedIcon className="work-timeline-icon" icon={Briefcase01} color={role.end ? "gray" : "brand"} theme="modern" size="md" />
+              <div className="work-timeline-card">
+                <p className="work-timeline-dates">
+                  <time dateTime={role.start}>{formatCareerDate(role.start)}</time> — {role.end ? <time dateTime={role.end}>{formatCareerDate(role.end)}</time> : "Present"}
+                  {!role.end && <Badge className="ml-2" color="success" size="sm">Current</Badge>}
+                </p>
+                <h3>{role.professionalTitle ?? role.title}</h3>
+                <p className="work-timeline-employer">{role.employer} · {role.location}</p>
+                {role.customer && <p className="work-timeline-customer">End customer: {role.customer}</p>}
+                <p>{role.summary}</p>
+                {roleProjects.length > 0 && <div className="work-timeline-projects">
+                  <span>Projects in this role</span>
+                  {roleProjects.map((project) => (
+                    <Button key={project.slug} className="whitespace-normal text-left" color="link-color" size="sm" href={href(`experience/${project.slug}/`)} iconTrailing={ArrowRight}>{projectDisplayName(project)}</Button>
+                  ))}
+                </div>}
+              </div>
+            </li>
+          );
+        })}
       </ol>
     </section>
   );

@@ -273,7 +273,7 @@ h1 > span {
 .project-card-title::after { content: ""; position: absolute; inset: 0; z-index: 0; }
 .project-card-link { position: relative; z-index: 1; }
 .project-card-index { position: absolute; top: 20px; right: 28px; z-index: -1; font-size: var(--text-display-lg); line-height: 1; font-weight: 600; letter-spacing: -0.04em; color: var(--color-bg-tertiary); font-variant-numeric: tabular-nums; }
-.project-card .card-kicker { padding-right: 72px; }
+.project-card-outcome { display: flex; flex-direction: column; gap: 6px; width: 100%; margin-bottom: 20px; padding: 0 64px 20px 0; border-bottom: 1px solid var(--color-border-secondary); }
 .project-card h3 { margin: 4px 0 0; }.project-card-link { margin-top: auto; padding-top: 16px; }
 .card-kicker {
   width: 100%;
@@ -779,9 +779,9 @@ h1 > span {
 @media (max-width: 560px) { .process-steps { grid-template-columns: minmax(0, 1fr); } }
 /* Experience: on-page section links, work history timeline, and case-study pager. */
 .page-sections { display: flex; justify-content: center; padding-bottom: 32px; }
-.work-timeline { list-style: none; padding: 0; margin: 0 auto; max-width: 760px; display: grid; gap: 0; }
-.work-timeline li { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 20px; padding-bottom: 36px; }
-.work-timeline li:not(:last-child)::before { content: ""; position: absolute; left: 19px; top: 48px; bottom: 8px; width: 2px; background: var(--color-border-secondary); }
+.work-timeline { list-style: none; padding: 0; margin: 0 auto; max-width: 960px; display: grid; gap: 24px; }
+.work-timeline li { position: relative; display: grid; grid-template-columns: 112px auto minmax(0, 1fr); gap: 24px; align-items: start; }
+.work-timeline li:not(:last-child)::before { content: ""; position: absolute; left: calc(112px + 24px + 23px); top: 56px; bottom: -16px; width: 2px; background: linear-gradient(var(--color-border-brand), var(--color-border-secondary)); }
 .work-timeline h3 { margin: 2px 0 0; font-size: var(--text-lg); line-height: var(--text-lg--line-height); }
 .work-timeline p { margin: 0; font-size: var(--text-md); line-height: var(--text-md--line-height); color: var(--color-text-tertiary); }
 .work-timeline .work-timeline-dates { font-size: var(--text-sm); line-height: var(--text-sm--line-height); font-weight: 600; color: var(--color-text-brand-secondary); }
@@ -953,6 +953,30 @@ h1 > span {
   html.js { --site-header-height: 64px; }
   .case-aside-cta { width: 100%; }
 }
+
+/* Outcome-first project cards: the documented headline number leads, in large brand type. */
+.project-card-outcome strong { font-size: var(--text-display-md); line-height: 1.05; font-weight: 600; letter-spacing: -0.035em; color: var(--color-text-brand-secondary); font-variant-numeric: tabular-nums; }
+.project-card-outcome span { max-width: 52ch; font-size: var(--text-sm); line-height: var(--text-sm--line-height); color: var(--color-text-tertiary); }
+/* Experience work history: year rail, timeline icon, role card with links to that role's projects. */
+.work-timeline-years { display: flex; flex-direction: column; align-items: flex-end; padding-top: 6px; font-variant-numeric: tabular-nums; }
+.work-timeline-years span:first-child { font-size: var(--text-display-xs); line-height: var(--text-display-xs--line-height); font-weight: 600; letter-spacing: -0.02em; color: var(--color-text-primary); }
+.work-timeline-years span:last-child { font-size: var(--text-sm); line-height: var(--text-sm--line-height); color: var(--color-text-tertiary); }
+.work-timeline-icon { position: relative; z-index: 1; }
+.work-timeline-card { min-width: 0; padding: var(--card-padding); border: 1px solid var(--color-border-secondary); border-radius: 16px; background: var(--color-bg-primary); box-shadow: var(--shadow-xs); transition: box-shadow 200ms ease, border-color 200ms ease; }
+.work-timeline-card:hover { box-shadow: var(--shadow-lg); border-color: var(--color-border-primary); }
+.work-timeline .work-timeline-dates { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.work-timeline-projects { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--color-border-secondary); }
+.work-timeline-projects > span { width: 100%; font-size: var(--text-xs); line-height: var(--text-xs--line-height); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-quaternary); }
+@media (max-width: 720px) {
+  .work-timeline li { grid-template-columns: auto minmax(0, 1fr); gap: 16px; }
+  .work-timeline-years { display: none; }
+  .work-timeline li:not(:last-child)::before { left: 23px; }
+  .work-timeline-card { padding: 20px; }
+  .project-card-outcome { padding-right: 56px; }
+  .project-card-outcome strong { font-size: var(--text-display-sm); }
+}
+/* Typography identity: Inter's single-storey a and open digits, with tighter display headings. */
+body { font-feature-settings: "cv11", "ss01"; }
 
 /* Motion is progressive: content is fully visible without it, and none of it runs for reduced-motion visitors. */
 @media (prefers-reduced-motion: no-preference) {
