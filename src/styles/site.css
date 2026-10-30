@@ -612,6 +612,17 @@
   .is-current .timeline-when { color: var(--accent); }
   .timeline-body { display: grid; gap: var(--s-3); max-width: 70ch; }
   .timeline-body h3 { font-size: var(--t-xl); }
+  /* Career on the home page: each role is a chapter under a heavy rule, the employer set at display size. */
+  .career .timeline { gap: 0; }
+  .career .timeline::before, .career .timeline-item::before { display: none; }
+  .career .timeline-item { grid-template-columns: minmax(0, 1fr); gap: var(--s-4); padding-block: var(--s-8) var(--s-10); border-top: 3px solid var(--ink); }
+  .career .timeline-item.is-current { border-top-color: var(--accent); }
+  .career .timeline-body { padding-left: 0; max-width: none; }
+  .career .timeline-when { font-size: var(--t-xs); letter-spacing: var(--track-label); text-transform: uppercase; padding-top: 0; }
+  .career .timeline-body h3 { font-size: clamp(2rem, 1rem + 3vw, 3.75rem); font-weight: 650; line-height: 1; letter-spacing: -0.04em; }
+  .career .is-current .timeline-body h3 { color: var(--accent); }
+  .career .timeline-body .where { font-family: var(--font-mono); font-size: var(--t-xs); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
+  .career .timeline-body .summary { font-size: var(--t-lg); line-height: 1.5; }
   .where { font-size: var(--t-sm); color: var(--ink-3); font-weight: 500; }
   .summary { color: var(--ink); }
 
