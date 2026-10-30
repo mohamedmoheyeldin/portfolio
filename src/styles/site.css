@@ -551,6 +551,21 @@
     .tenure-label { grid-column: auto; display: grid; gap: 0; }
     .tenure-axis { margin-left: calc(17rem + var(--s-4)); }
   }
+  /* Career as a split page: the claim holds still on the left while the roles scroll past on the right. */
+  @media (min-width: 1100px) {
+    .career > .wrap { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(var(--s-12), 5vw, var(--s-20)); align-items: start; }
+    .career .section-head { grid-column: 1; grid-row: 1 / span 2; position: sticky; top: var(--stick); margin-bottom: 0; }
+    .career .section-head--split { grid-template-columns: minmax(0, 1fr); gap: var(--s-6); }
+    .career .section-head--split > :last-child { justify-self: start; }
+    .career .section-head h2 { font-size: clamp(2.75rem, 0.8rem + 4.2vw, 5.25rem); }
+    .career .tenure, .career .timeline { grid-column: 2; }
+    .career .tenure-row { grid-template-columns: 11rem minmax(0, 1fr) auto; }
+    .career .tenure-axis { margin-left: calc(11rem + var(--s-4)); }
+    .career .timeline::before { left: calc(8.5rem + var(--s-8) / 2); }
+    .career .timeline-item { grid-template-columns: 8.5rem minmax(0, 1fr); }
+    .career .timeline-item::before { left: calc(8.5rem + var(--s-8) / 2 - 0.3125rem); }
+  }
+
   /* Career timeline */
   .timeline { position: relative; display: grid; gap: var(--s-12); }
   .timeline-item { position: relative; display: grid; gap: var(--s-3); }
