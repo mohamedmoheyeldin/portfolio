@@ -603,11 +603,11 @@
   /* Experience */
   .timeline--full .bullets { margin-top: var(--s-2); }
   /* Skills with proof: tools against the six projects */
-  .proof { display: grid; gap: var(--s-4); margin-block: var(--s-10) var(--s-12); }
+  .proof { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-4); min-width: 0; margin-block: var(--s-10) var(--s-12); }
   .proof figcaption { display: grid; gap: var(--s-1); }
   .proof-title { font-size: var(--t-xl); font-weight: var(--weight-head); letter-spacing: var(--track-head); color: var(--ink); }
   .proof-note { font-size: var(--t-sm); color: var(--ink-3); }
-  .proof-scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-3); box-shadow: var(--e1), var(--edge); }
+  .proof-scroll { position: relative; overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-3); box-shadow: var(--e1), var(--edge); }
   .proof-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .proof-table { width: 100%; min-width: 46rem; border-collapse: collapse; font-size: var(--t-sm); }
   .proof-table th, .proof-table td { padding: var(--s-2) var(--s-3); border-bottom: 1px solid var(--line); text-align: left; }
