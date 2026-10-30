@@ -501,12 +501,25 @@
   .summary { color: var(--ink); }
 
   /* Capabilities */
-  .cap-grid { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r-4); overflow: hidden; }
-  @media (min-width: 640px) { .cap-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 1000px) { .cap-grid { grid-template-columns: repeat(3, 1fr); } }
-  .cap-grid li { display: grid; gap: var(--s-3); align-content: start; padding: clamp(var(--s-5), 2.2vw, var(--s-8)); background: var(--surface); }
-  .cap-grid h3::before { content: ""; display: block; width: 1.5rem; height: 2px; margin-bottom: var(--s-4); background: var(--accent); }
-  .cap-grid p { color: var(--ink-2); font-size: var(--t-sm); line-height: 1.65; }
+  /* What I bring as a loop: six stations on a rail, three per row on wide screens, then the return to step 01. */
+  .cap-loop { list-style: none; padding: 0; display: grid; gap: var(--s-10) var(--s-6); }
+  @media (min-width: 640px) { .cap-loop { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1000px) { .cap-loop { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .cap-loop li { position: relative; display: grid; gap: var(--s-3); align-content: start; }
+  .cap-node { position: relative; display: flex; align-items: center; gap: var(--s-3); padding-bottom: var(--s-3); }
+  /* The rail: a line from each node to the next, drawn under the node */
+  .cap-node::after { content: ""; position: absolute; left: 2.75rem; top: 1.25rem; height: 2px; background: var(--accent-line); z-index: 0; }
+  .cap-node::after { right: 0; }
+  @media (min-width: 640px) and (max-width: 999.98px) { .cap-loop li:nth-child(2n + 1) .cap-node::after { right: calc(-1 * var(--s-6)); } }
+  @media (min-width: 1000px) { .cap-loop li:not(:nth-child(3n)) .cap-node::after { right: calc(-1 * var(--s-6)); } }
+  .cap-loop li:last-child .cap-node::after { right: 0; background: linear-gradient(90deg, var(--accent-line), transparent); }
+  .cap-node .num { position: relative; z-index: 1; display: grid; place-items: center; width: 2.5rem; height: 2.5rem; flex: none; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); color: var(--accent); font-family: var(--font-mono); font-size: var(--t-sm); }
+  .cap-loop li:first-child .num { background: var(--accent); color: var(--accent-ink); }
+  .cap-verb { position: relative; z-index: 1; padding: 0 var(--s-2); background: var(--paper); font-family: var(--font-mono); font-size: var(--t-xs); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--accent); }
+  .cap-loop h3 { font-size: var(--t-xl); }
+  .cap-loop p:not(.cap-node) { color: var(--ink-2); font-size: var(--t-sm); line-height: 1.65; max-width: 42ch; }
+  .cap-return { display: flex; align-items: center; gap: var(--s-3); margin-top: var(--s-10); padding: var(--s-4) var(--s-5); border: 1px dashed var(--accent-line); border-radius: var(--r-3); color: var(--ink-2); font-size: var(--t-sm); }
+  .cap-return-mark { width: 1.25rem; height: 1.25rem; flex: none; border: 2px solid var(--accent); border-right-color: transparent; border-radius: 50%; }
   .toolkit { display: grid; gap: var(--s-6); margin-top: var(--s-16); }
   .toolkit-grid { display: grid; gap: var(--s-6) var(--s-8); }
   @media (min-width: 700px) { .toolkit-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -666,7 +679,7 @@
 
     @supports (animation-timeline: view()) {
       /* Sections rise as they enter; the pipeline rail and the career rail draw as they pass. */
-      .section-head, .row article, .cap-grid li, .toolkit, .timeline-item, .closing-sheet, .sheet-tab--close, .case-body, .cred {
+      .section-head, .row article, .cap-loop li, .cap-return, .toolkit, .timeline-item, .closing-sheet, .sheet-tab--close, .case-body, .cred {
         animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 55%;
       }
       .pipe-steps::before, .timeline::before { animation: draw linear both; animation-timeline: view(); animation-range: entry 10% cover 50%; }

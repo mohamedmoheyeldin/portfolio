@@ -264,17 +264,17 @@ function Tenure({ profile }: { profile: Profile }) {
  */
 const capabilities = [
   // Booz Allen highlights[6], highlights[8]
-  ["Customer discovery", "Requirements and acceptance criteria mapped with VA stakeholders; working sessions with claims processors and VA users on production issues."],
+  ["Listen", "Customer discovery", "Requirements and acceptance criteria mapped with VA stakeholders; working sessions with claims processors and VA users on production issues."],
   // Booz Allen highlights[0]
-  ["System integration", "Health-provider claim-status APIs integrated with the VA system, so staff, providers and veterans each see live status for their role."],
+  ["Connect", "System integration", "Health-provider claim-status APIs integrated with the VA system, so staff, providers and veterans each see live status for their role."],
   // Booz Allen highlights[5], highlights[9]
-  ["Application development", "React, TypeScript and JavaScript features on the claims application, and data issues traced across frontend, backend and MySQL."],
+  ["Build", "Application development", "React, TypeScript and JavaScript features on the claims application, and data issues traced across frontend, backend and MySQL."],
   // Booz Allen highlights[2], highlights[3]
-  ["Workflow automation", "Data Generator & File Processing, run like a product: versioned installers from GitHub Actions, release notes and a user guide."],
+  ["Automate", "Workflow automation", "Data Generator & File Processing, run like a product: versioned installers from GitHub Actions, release notes and a user guide."],
   // Booz Allen highlights[10]; Chick-fil-A highlights[1], highlights[2]
-  ["Test automation", "Helped select Playwright and built the reusable smoke and regression framework; earlier, REST contract checks and Okta and SSO flows run through GitHub Actions."],
+  ["Prove", "Test automation", "Helped select Playwright and built the reusable smoke and regression framework; earlier, REST contract checks and Okta and SSO flows run through GitHub Actions."],
   // Booz Allen highlights[7], highlights[4]
-  ["Demos and enablement", "The stakeholder demo at the end of every release cycle since 2022, and Tableau set up so any user can build a dashboard."],
+  ["Show", "Demos and enablement", "The stakeholder demo at the end of every release cycle since 2022, and Tableau set up so any user can build a dashboard."],
 ] as const;
 
 function Capabilities({ profile }: { profile: Profile }) {
@@ -283,12 +283,20 @@ function Capabilities({ profile }: { profile: Profile }) {
   return (
     <section className="section capabilities" id="approach" aria-labelledby="approach-heading" data-sc-act="capabilities">
       <div className="wrap">
-        <div className="section-head">
-          <h2 id="approach-heading">What I bring to a team.</h2>
+        <div className="section-head section-head--split">
+          <h2 id="approach-heading">What I bring: a loop, not a handoff.</h2>
+          <p className="lede">Six things I do on a team, in the order they happen on a release. The last step, the demo, starts the next round of questions.</p>
         </div>
-        <ul className="cap-grid">
-          {capabilities.map(([title, text]) => <li key={title}><h3>{title}</h3><p>{text}</p></li>)}
-        </ul>
+        <ol className="cap-loop">
+          {capabilities.map(([verb, title, text], i) => (
+            <li key={title}>
+              <p className="cap-node"><span className="num">{String(i + 1).padStart(2, "0")}</span><span className="cap-verb">{verb}</span></p>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </li>
+          ))}
+        </ol>
+        <p className="cap-return"><span aria-hidden="true" className="cap-return-mark" />Back to step 01: each demo brings new questions from the people using the software.</p>
         <div className="toolkit">
           <h3 className="label">Tools I use</h3>
           <dl className="toolkit-grid">
