@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { profile } from "@/lib/career";
-import { email, emailAddress, gitHubUrl, href, linkedInUrl, root, roleEmail } from "./shared";
-import { ArrowUpRight, Copy, GitHub, LinkedIn, Mail, Menu, Moon, ResumeMenu, Sun, resumeOptions } from "./ui";
+import { email, emailAddress, gitHubUrl, href, linkedInUrl, resumeFile, root, roleEmail } from "./shared";
+import { ArrowUpRight, Copy, Download, GitHub, LinkedIn, Mail, Menu, Moon, ResumeMenu, Sun, resumeOptions } from "./ui";
 
 export type Place = "home" | "experience" | "case" | "other";
 
@@ -176,6 +176,20 @@ function Footer() {
   );
 }
 
+/**
+ * The phone dock: once the first screen has scrolled away, the two actions a recruiter wants sit at the thumb, until
+ * the closing sheet (which has the same actions) comes into view. Phones only, and only with JavaScript (enhance.ts
+ * shows and hides it); without JavaScript the header menu and the close carry the same links.
+ */
+function Dock() {
+  return (
+    <nav className="dock js-only" aria-label="Quick contact" data-dock>
+      <a className="btn btn--primary" href={roleEmail}><Mail />Email me</a>
+      <a className="btn" href={resumeFile("one-page", "pdf")}><Download />Resume PDF</a>
+    </nav>
+  );
+}
+
 export function Page({ place, children }: { place: Place; children: ReactNode }) {
   return (
     <>
@@ -184,6 +198,7 @@ export function Page({ place, children }: { place: Place; children: ReactNode })
       <main id="main-content" tabIndex={-1}>{children}</main>
       <Close />
       <Footer />
+      <Dock />
     </>
   );
 }

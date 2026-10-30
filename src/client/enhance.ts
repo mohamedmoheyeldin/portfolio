@@ -125,6 +125,27 @@ function initMenus() {
  * below the header. CSS decides the screen sizes that can stack; this measures the content at the current size and
  * fonts, and lays the sheets out one after another when any sheet would be clipped.
  */
+/** The phone dock shows once the first screen is gone and hides again when the closing sheet is in view. */
+function initDock() {
+  const dock = document.querySelector<HTMLElement>("[data-dock]");
+  const first = document.querySelector("main > :first-child");
+  const close = document.getElementById("contact");
+  if (!dock || !first || !close || !("IntersectionObserver" in window)) return;
+  const seen = new Map<Element, boolean>([[first, true], [close, false]]);
+  const update = () => {
+    const show = !seen.get(first) && !seen.get(close);
+    dock.classList.toggle("is-shown", show);
+    dock.inert = !show;
+  };
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) seen.set(entry.target, entry.isIntersecting);
+    update();
+  });
+  observer.observe(first);
+  observer.observe(close);
+  update();
+}
+
 function initDeck() {
   const deck = document.querySelector<HTMLElement>("[data-deck]");
   if (!deck) return;
@@ -194,6 +215,7 @@ initCopy();
 initCurrentSection();
 initMenus();
 initDeck();
+initDock();
 initSelfTest();
 // The Scrollcraft harness waits for this before walking the page.
 root.classList.add("sc-ready");

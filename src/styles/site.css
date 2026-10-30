@@ -566,6 +566,14 @@
   .audit-steps p { font-size: var(--t-sm); color: var(--ink-2); }
 
   /* Footer */
+  /* The phone dock: fixed at the bottom on narrow screens, shown by enhance.ts between the cover and the close */
+  .dock { display: none; }
+  @media (max-width: 859px) {
+    .dock { position: fixed; z-index: 40; left: var(--s-3); right: var(--s-3); bottom: calc(var(--s-3) + env(safe-area-inset-bottom, 0px)); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-2); padding: var(--s-2); background: var(--island-bg); -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4); border: 1px solid var(--line); border-radius: var(--r-pill); box-shadow: var(--e2), var(--edge); transform: translateY(calc(100% + var(--s-8))); visibility: hidden; }
+    .dock.is-shown { transform: none; visibility: visible; }
+    .dock .btn { justify-content: center; min-height: 2.75rem; }
+    .js .site-footer { padding-bottom: calc(var(--s-16) + var(--s-12)); }
+  }
   .site-footer { padding-block: var(--s-10) var(--s-16); border-top: 1px solid var(--line); font-size: var(--t-sm); color: var(--ink-3); }
   .footer-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-4); }
   .footer-links { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-6); }
@@ -661,6 +669,7 @@
 @layer motion {
   /* The resting state is the visible state; everything below only runs when motion is welcome. */
   @media (prefers-reduced-motion: no-preference) {
+    .dock { transition: transform 0.35s var(--ease-out), visibility 0.35s; }
     @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes tab-up { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
     @keyframes draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
