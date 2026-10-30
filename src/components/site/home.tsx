@@ -35,12 +35,12 @@ function Cover({ profile, featured }: { profile: Profile; featured: Project[] })
   const current = profile.experience[0]!;
   const first = profile.experience[profile.experience.length - 1]!;
   return (
-    <section className="cover" aria-labelledby="cover-heading" data-sc-act="cover">
+    <section className="cover night" aria-labelledby="cover-heading" data-sc-act="cover">
       <div className="wrap cover-top">
         <p className="status"><span className="status-dot" aria-hidden="true" />Open to {profile.headline} roles</p>
         <h1 id="cover-heading">
           <span className="cover-name">{profile.name}</span>
-          <span className="cover-claim">I work with the people who use the software, build what they need, and test it before they do.</span>
+          <span className="cover-claim">I work with the people who use the software, <em>build what they need</em>, and test it before they do.</span>
         </h1>
       </div>
       <div className="wrap cover-grid">

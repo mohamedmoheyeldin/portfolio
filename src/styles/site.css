@@ -118,6 +118,34 @@
     --weight-body: 420;
     --lh-body: 1.65;
   }
+
+  /* Night: a dark ground for chosen sections in both themes. It re-scopes the same token names, so every
+     component inside reads correctly without its own dark rules. Values match the dark theme. */
+  .night {
+    color-scheme: dark;
+    --paper: #0b0d10;
+    --grid: #101318;
+    --surface: #15191f;
+    --surface-2: #1b2028;
+    --ink: #eef1f5;
+    --ink-2: #c4cbd4;
+    --ink-3: #939eab;
+    --line: #262c35;
+    --line-strong: #39414c;
+    --accent: #46d4b8;
+    --accent-hover: #74e2cc;
+    --accent-ink: #04221c;
+    --accent-soft: #0f2a25;
+    --accent-line: #22695b;
+    --e1: 0 1px 2px rgb(0 0 0 / 0.5);
+    --e2: 0 12px 28px -12px rgb(0 0 0 / 0.7), 0 2px 4px rgb(0 0 0 / 0.4);
+    --edge: inset 0 1px 0 rgb(255 255 255 / 0.05);
+    --weight-body: 420;
+    --glow: rgb(70 212 184 / 0.16);
+    --surface-glass: rgb(21 25 31 / 0.72);
+    background-color: var(--paper);
+    color: var(--ink);
+  }
 }
 
 @layer base {
@@ -343,10 +371,15 @@
 @layer pages {
   /* Cover: fills the first screen so the case tabs sit on its bottom edge */
   .cover { display: flex; flex-direction: column; min-height: 100svh; padding-top: calc(var(--island-h) + clamp(var(--s-10), 9vh, var(--s-20))); }
+  /* The night cover: the first screen is dark in both themes, lit by one teal glow behind the claim. */
+  .cover.night { position: relative; isolation: isolate; overflow: clip; padding-bottom: var(--s-6); background-image: radial-gradient(60rem 36rem at 78% 8%, var(--glow), transparent 70%), linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: auto, 100% 6rem, 6rem 100%; background-position: 0 0, 0 -1px, -1px 0; }
+  .cover.night .cover-name { color: var(--accent); font-family: var(--font-mono); font-size: var(--t-sm); letter-spacing: var(--track-label); text-transform: uppercase; }
+  .cover.night .cover-fit li { background: var(--surface-glass); backdrop-filter: blur(6px); }
   .cover-top { display: grid; gap: var(--s-6); justify-items: start; }
   .cover h1 { display: grid; gap: var(--s-3); }
   .cover-name { font-size: var(--t-lg); font-weight: 500; letter-spacing: -0.005em; color: var(--ink-2); }
-  .cover-claim { font-size: clamp(2.25rem, 1.15rem + 3.7vw, 4.25rem); font-weight: 600; line-height: var(--lh-display); letter-spacing: var(--track-display); color: var(--ink); max-width: 23ch; }
+  .cover-claim { font-size: clamp(2.5rem, 0.9rem + 6.4vw, 7rem); font-weight: 650; line-height: 0.98; letter-spacing: -0.042em; color: var(--ink); max-width: 17ch; text-wrap: balance; }
+  .cover-claim em { font-style: normal; color: var(--accent); }
   .cover-grid { display: grid; gap: var(--s-10); align-items: start; margin-top: clamp(var(--s-8), 5vh, var(--s-12)); }
   @media (min-width: 1000px) { .cover-grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--s-16); } }
   .cover-main { display: grid; gap: var(--s-6); justify-items: start; }
