@@ -85,7 +85,7 @@ function Close() {
             <h2 id="contact-heading">Have a workflow your users are fighting with?</h2>
             <p className="lede">I'm open to Forward Deployed Engineer roles. Email is the fastest way to reach me.</p>
             <p className="closing-address">
-              <a href={roleEmail} id="contact-address"><span className="sr-only">Email </span>{emailAddress}</a>
+              <a href={roleEmail} id="contact-address"><span className="sr-only">Email </span>{emailAddress.split("@")[0]}<wbr />@{emailAddress.split("@")[1]}</a>
               <button className="copy-btn js-only" type="button" data-copy={emailAddress} aria-describedby="contact-address"><Copy /><span>Copy</span></button>
             </p>
             <div className="actions">
