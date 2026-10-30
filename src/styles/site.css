@@ -476,6 +476,10 @@
   .sheet-head h3 a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
   .sheet-desc { color: var(--ink-2); max-width: 60ch; }
   .sheet-lead .result { padding-top: var(--s-6); border-top: 1px solid var(--line); }
+  /* Dark case files on the light page: each sheet is a night panel with its result set at display scale. */
+  .sheet-body.night { background: radial-gradient(40rem 22rem at 0% 0%, var(--glow), transparent 70%), var(--surface); border-color: var(--line-strong); }
+  .sheet-tab.night { background: var(--surface); border-color: var(--line-strong); color: var(--ink); }
+  .sheet-lead .result-value { font-size: var(--t-3xl); font-weight: 650; letter-spacing: -0.04em; }
   .project-links { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-5); }
   @media (min-width: 900px) {
     .sheet-body { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(var(--s-8), 3.5vw, var(--s-16)); }

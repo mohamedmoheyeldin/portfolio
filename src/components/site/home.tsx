@@ -118,12 +118,12 @@ function Sheet({ project }: { project: Project }) {
     <>
       <span className="sheet-anchor" id={`entry-${project.slug}`} />
       <article className="sheet" aria-labelledby={`${project.slug}-title`}>
-        <a className="sheet-tab" href={`#entry-${project.slug}`}>
+        <a className="sheet-tab night" href={`#entry-${project.slug}`}>
           <span className="num">{projectNumber(project)}</span>
           <span className="sheet-tab-name">{tabName(project)}</span>
           <span className="sr-only">, start of this case</span>
         </a>
-        <div className="sheet-body">
+        <div className="sheet-body night">
           <div className="sheet-lead">
             <header className="sheet-head">
               <p className="meta"><span>{project.period}</span><span>{project.role}</span></p>
