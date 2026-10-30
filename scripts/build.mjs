@@ -17,7 +17,7 @@ try {
     const {title, description} = routeInfo(path);
     const canonical = `${site}${base}${path.slice(1)}`;
     const social = '<meta name="twitter:card" content="summary">';
-    const schema = path === '/' ? `<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'ProfilePage',url:canonical,name:title,description,mainEntity:{'@type':'Person',name:profile.name,jobTitle:profile.headline,sameAs:['https://www.linkedin.com/in/moheyeldin/','https://github.com/mohamedmoheyeldin']}}).replaceAll('<','\\u003c')}</script>` : '';
+    const schema = path === '/' ? `<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'ProfilePage',url:canonical,name:title,description,mainEntity:{'@type':'Person',name:profile.name,jobTitle:profile.headline,worksFor:{'@type':'Organization',name:profile.experience[0].employer},knowsAbout:profile.competencies,sameAs:['https://www.linkedin.com/in/moheyeldin/','https://github.com/mohamedmoheyeldin']}}).replaceAll('<','\\u003c')}</script>` : '';
     const notFound = path === '/404.html';
     const indexing = notFound ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${canonical}">`;
     const meta = `<meta name="description" content="${escape(description)}">${indexing}<meta property="og:type" content="website"><meta property="og:site_name" content="Mohamed Moheyeldin"><meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape(description)}">${notFound ? '' : `<meta property="og:url" content="${canonical}">`}${social}${schema}`;

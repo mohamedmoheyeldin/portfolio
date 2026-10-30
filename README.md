@@ -9,11 +9,11 @@
 ![Docs](https://img.shields.io/badge/docs-Claude%20Code%20%C2%B7%20Graphify%20%C2%B7%20Obsidian-7C3AED)
 
 > [!NOTE]
-> A prerendered React 19 + Vite 8 portfolio, set as an editorial feature with a site-wide reading-depth control, built on free Untitled UI components and one schema-validated career record that also generates every resume format.
+> A prerendered React 19 + Vite 8 portfolio, set as a typographic poster where any tool name traces itself through the work, built on free Untitled UI components and one schema-validated career record that also generates every resume format.
 
 ## Status
 
-The portfolio includes Home (title page, The work, How the work is checked, Career, Index of tools), Experience with project and toolkit explorers, six case studies, and a resume library with PDF, Word, Markdown, and plain-text formats. Every page has a Skim / Read / Full reading-depth control and light (paper) and dark (night) editions. The portfolio itself is featured as an independent engineering project. The October 2026 editorial redesign is on the `NewIU` branch; see [the Scrollcraft brief](docs/SCROLLCRAFT-BRIEF.md).
+The portfolio includes Home (the poster, facts, Selected work, How the work is checked, Career, Stack), Experience with project and toolkit explorers, six case studies, and a resume library with PDF, Word, Markdown, and plain-text formats. Every tool name on the home page is a trace control, and both light and dark themes are designed separately. The portfolio itself is featured as an independent engineering project. The October 2026 poster redesign is on the `NewIU` branch; see [the Scrollcraft brief](docs/SCROLLCRAFT-BRIEF.md).
 
 `main` is the production branch for `https://mohamedmoheyeldin.com/`. Future Application Studio work belongs on `application-studio` and is not part of the current production release.
 
@@ -42,8 +42,8 @@ flowchart LR
 - `scripts/validate-content.mjs` — schema validation
 - `src/styles/theme.css` — upstream Untitled UI theme
 - `src/styles/global.css` — responsive portfolio layouts and typography
-- `src/components/site/` — pages (`home`, `experience`, `case-study`) and shared chrome (`chrome`: masthead, folio, reading-depth control, colophon); `Portfolio.tsx` re-exports them
-- `src/assets/fonts/` — self-hosted Inter and Newsreader subsets
+- `src/components/site/` — pages (`home`, `experience`, `case-study`) and shared chrome (`chrome`: masthead, dock and index sheet, closing plate) and the tool trace (`trace`); `Portfolio.tsx` re-exports them
+- `src/assets/fonts/` — self-hosted Archivo and Inter subsets
 - `src/components/base/` — free Untitled UI source components
 
 - `scripts/build.mjs` — canonical, social, icon, and structured metadata

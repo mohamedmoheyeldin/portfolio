@@ -1,5 +1,4 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { Radio, RadioGroup } from "react-aria-components";
 import { ArrowUpRight, Check, ChevronDown, Copy01, Download01, Mail01, Menu02, Moon01, Sun } from "@untitledui/icons";
 import { Button } from "@/components/base/buttons/button";
 import { ButtonUtility } from "@/components/base/buttons/button-utility";
@@ -8,7 +7,8 @@ import { SlideoutMenu } from "@/components/application/slideout-menus/slideout-m
 import { NavItemBase } from "@/components/application/app-navigation/base-components/nav-item";
 import GitHub from "@/components/foundations/social-icons/github";
 import LinkedIn from "@/components/foundations/social-icons/linkedin";
-import { type Chapter, type Depth, depths, email, emailAddress, gitHubUrl, href, linkedInUrl, resumeFile, roleEmail, root } from "./shared";
+import { TraceProvider } from "./trace";
+import { type Chapter, email, emailAddress, gitHubUrl, href, linkedInUrl, resumeFile, roleEmail, root } from "./shared";
 
 const useHydrated = () => {
   const [ready, setReady] = useState(false);
@@ -16,24 +16,29 @@ const useHydrated = () => {
   return ready;
 };
 
-/** The masthead scrolls away with the title page; on wide screens the folio takes over navigation. */
+/**
+ * The masthead is static and scrolls away. On the home page it sits on the blue plate as the top line of the poster
+ * and leaves the name to the wordmark below it; elsewhere it carries the name. After it leaves, the dock takes over.
+ */
 export function Masthead({ name, headline, path }: { name: string; headline: string; path: string }) {
+  const home = path === "/";
+  // Pages that open on the plate (home and the case studies) carry the masthead on it too.
+  const plate = home || /^\/experience\/[^/]+\/$/.test(path);
   return (
-    <header className="masthead">
+    <header className={plate ? "masthead plate" : "masthead"}>
       <div className="shell masthead-inner">
         <a className="masthead-name" href={root}>
-          <span>{name}</span>
+          <span className={home ? "sr-only" : undefined}>{name}</span>
           <span className="masthead-role">{headline}</span>
         </a>
         <nav className="masthead-nav" aria-label="Primary navigation">
-          <a href={path === "/" ? "#work" : href("#work")}>Work</a>
+          <a href={home ? "#work" : href("#work")}>Work</a>
           <a href={href("experience/")} aria-current={path.startsWith("/experience/") ? "page" : undefined}>Experience</a>
           <a href="#contact">Contact</a>
         </nav>
         <div className="masthead-actions">
           <ThemeToggle />
           <ResumeMenu variant="masthead" />
-          <Button className="max-[720px]:hidden" href={roleEmail} size="sm" iconLeading={Mail01}>Email me</Button>
         </div>
       </div>
     </header>
@@ -45,7 +50,7 @@ function ThemeToggle() {
   const [dark, setDark] = useState<boolean | null>(null);
   useEffect(() => setDark(document.documentElement.classList.contains("dark-mode")), []);
   if (dark === null) return <span className="theme-toggle-placeholder" aria-hidden="true" />;
-  return <ButtonUtility color="tertiary" size="sm" icon={dark ? Sun : Moon01} tooltip={dark ? "Switch to light mode" : "Switch to dark mode"} tooltipPlacement="bottom"
+  return <ButtonUtility className="theme-toggle plate-ghost" color="tertiary" size="sm" icon={dark ? Sun : Moon01} tooltip={dark ? "Switch to light mode" : "Switch to dark mode"} tooltipPlacement="bottom"
     onPress={() => {
       const next = !dark;
       document.documentElement.classList.toggle("dark-mode", next);
@@ -55,22 +60,21 @@ function ThemeToggle() {
 }
 
 // Lets visitors pick the one-page or full resume. Without JavaScript the trigger stays a plain link to the full resume.
-export function ResumeMenu({ variant, format = "pdf" }: { variant: "masthead" | "hero" | "folio" | "colophon"; format?: "pdf" | "docx" }) {
+export function ResumeMenu({ variant, format = "pdf" }: { variant: "masthead" | "hero" | "closing"; format?: "pdf" | "docx" }) {
   const ready = useHydrated();
   const formatName = format === "pdf" ? "PDF" : "Word";
-  const label = variant === "colophon" ? formatName : "Resume";
+  const label = variant === "closing" ? formatName : "Resume";
   const button = {
-    masthead: { className: "max-[720px]:hidden", color: "secondary", size: "sm", iconLeading: Download01 },
-    hero: { color: "secondary", size: "xl", iconLeading: Download01 },
-    folio: { color: "link-gray", size: "sm", iconLeading: Download01 },
+    masthead: { className: "plate-ghost max-[560px]:hidden", color: "tertiary", size: "sm", iconLeading: Download01 },
+    hero: { color: "tertiary", size: "xl", iconLeading: Download01, className: "plate-ghost ring-1 ring-inset ring-(--pf-plate-rule)" },
     // Set inside a sentence, so it takes the sentence's size and weight rather than the button scale.
-    colophon: { className: "text-[length:inherit]! text-(--pf-accent)! font-normal! underline decoration-1 underline-offset-[0.2em]", color: "link-color", size: "md" },
+    closing: { className: "text-[length:inherit]! font-semibold! underline decoration-1 underline-offset-[0.2em]", color: "link-color", size: "md" },
   } as const;
   if (!ready) return <Button {...button[variant]} href={resumeFile("detailed", format)} download>{label}</Button>;
   return (
     <Dropdown.Root>
       <Button {...button[variant]} iconTrailing={ChevronDown} aria-label={`Download resume as ${formatName}`}>{label}</Button>
-      <Dropdown.Popover placement={variant === "masthead" ? "bottom end" : variant === "folio" ? "right" : "bottom start"}>
+      <Dropdown.Popover placement={variant === "masthead" ? "bottom end" : "bottom start"}>
         <Dropdown.Menu aria-label={`Choose a ${formatName} resume`}>
           <Dropdown.Item href={resumeFile("one-page", format)} download addon="1 page" textValue="One-page resume">One-page resume</Dropdown.Item>
           <Dropdown.Item href={resumeFile("detailed", format)} download addon="2 pages" textValue="Full resume">Full resume</Dropdown.Item>
@@ -78,70 +82,6 @@ export function ResumeMenu({ variant, format = "pdf" }: { variant: "masthead" | 
       </Dropdown.Popover>
     </Dropdown.Root>
   );
-}
-
-const isDepth = (value: unknown): value is Depth => depths.some((depth) => depth.id === value);
-
-/**
- * The signature move: one reading depth for the whole site. The inline script in index.html applies the saved
- * depth before first paint. Changing it keeps the block at the top of the screen in place, so the reader never loses
- * their spot, and every control on the page stays in sync through the "depthchange" event.
- */
-function useDepth() {
-  const [depth, setDepthState] = useState<Depth | null>(null);
-  useEffect(() => {
-    const read = () => {
-      const value = document.documentElement.dataset.read;
-      setDepthState(isDepth(value) ? value : "full");
-    };
-    read();
-    window.addEventListener("depthchange", read);
-    return () => window.removeEventListener("depthchange", read);
-  }, []);
-  const setDepth = (next: Depth) => {
-    // Keep the visible block nearest the top of the screen fixed: the smallest, closest anchor, not its chapter.
-    const anchor = [...document.querySelectorAll<HTMLElement>("[data-anchor]")]
-      .map((element) => ({ element, rect: element.getBoundingClientRect() }))
-      .filter(({ rect }) => rect.height > 0 && rect.bottom > 80 && rect.top < window.innerHeight)
-      .sort((a, b) => Math.abs(a.rect.top) - Math.abs(b.rect.top))[0]?.element;
-    const before = anchor?.getBoundingClientRect().top ?? 0;
-    document.documentElement.dataset.read = next;
-    try { localStorage.setItem("read", next); } catch { /* storage can be unavailable */ }
-    const keepPlace = () => {
-      if (anchor && window.scrollY > 0) window.scrollTo({ top: window.scrollY + anchor.getBoundingClientRect().top - before, behavior: "instant" });
-    };
-    keepPlace();
-    window.dispatchEvent(new Event("depthchange"));
-    // Components that react to the change (the depth note) render after this; correct once more when they have.
-    requestAnimationFrame(keepPlace);
-  };
-  return [depth, setDepth] as const;
-}
-
-export function DepthControl({ compact = false }: { compact?: boolean }) {
-  const [depth, setDepth] = useDepth();
-  if (!depth) return null;
-  const current = depths.find((item) => item.id === depth)!;
-  return (
-    <div className={compact ? "depth-control depth-control-compact" : "depth-control"}>
-      <RadioGroup aria-label="How much to read" value={depth} onChange={(value) => isDepth(value) && setDepth(value)} orientation="horizontal" className="depth-options">
-        {!compact && <span className="folio-label" aria-hidden="true">How much to read</span>}
-        <div className="depth-segments">
-          {depths.map((item) => (
-            <Radio key={item.id} value={item.id} className="depth-option" aria-label={`${item.label}: ${item.description}`}>{item.label}</Radio>
-          ))}
-        </div>
-      </RadioGroup>
-      {!compact && <p className="depth-description" aria-live="polite">{current.description}.</p>}
-    </div>
-  );
-}
-
-/** Shown under a title page when the chosen depth hides some of it, with a one-tap way to see everything. */
-export function DepthNote() {
-  const [depth, setDepth] = useDepth();
-  if (!depth || depth === "full") return null;
-  return <p className="depth-note">You are reading the {depth === "brief" ? "skim" : "standard"} version. <button type="button" onClick={() => setDepth("full")}>Show everything</button></p>;
 }
 
 function useActiveChapter(chapters: Chapter[]) {
@@ -160,76 +100,73 @@ function useActiveChapter(chapters: Chapter[]) {
   return active;
 }
 
+/** The dock waits until the opening section has left the screen, so it never sits on top of the hero's own actions. */
+function useIntroGone() {
+  const [gone, setGone] = useState(false);
+  useEffect(() => {
+    const intro = document.getElementById("introduction");
+    if (!intro) return setGone(true);
+    const observer = new IntersectionObserver(([entry]) => setGone(!entry!.isIntersecting && entry!.boundingClientRect.top < 0), { rootMargin: "-25% 0px 0px 0px" });
+    observer.observe(intro);
+    return () => observer.disconnect();
+  }, []);
+  return gone;
+}
+
 /**
- * A page set as a printed feature: the folio sits in the margin on wide screens with the contents, the depth
- * control and the resume; on narrow screens it becomes a bar at the bottom edge. Chapter links work without JavaScript.
+ * A page of sections. With JavaScript it adds the dock (index and "Email me", bottom right) and the trace bar.
+ * Without it, the masthead links and the sections themselves are the navigation.
  */
 export function Page({ chapters, children }: { chapters: Chapter[]; children: ReactNode }) {
   const active = useActiveChapter(chapters);
   const ready = useHydrated();
-  const activeIndex = Math.max(0, chapters.findIndex((chapter) => chapter.id === active));
   return (
-    <div className="page">
-      <aside className="folio" aria-label="Contents">
-        <div className="folio-inner">
-          <p className="folio-label">Contents</p>
-          <ol className="folio-chapters">
-            {chapters.map((chapter, index) => (
-              <li key={chapter.id}>
-                <a href={`#${chapter.id}`} aria-current={ready && chapter.id === active ? "location" : undefined}>
-                  <span className="folio-number" aria-hidden="true">{index}</span>{chapter.label}
-                </a>
-              </li>
-            ))}
-          </ol>
-          <div className="folio-progress" aria-hidden="true" />
-          <DepthControl />
-          <div className="folio-links">
-            <ResumeMenu variant="folio" />
-            <Button color="link-gray" size="sm" href={roleEmail} iconLeading={Mail01}>Email me</Button>
-          </div>
-        </div>
-      </aside>
-      {ready && <FolioBar chapters={chapters} active={chapters[activeIndex]!} />}
-      <div className="page-body">{children}</div>
-    </div>
+    <TraceProvider>
+      <div className="page">{children}</div>
+      {ready && <Dock chapters={chapters} active={chapters.find((chapter) => chapter.id === active) ?? chapters[0]!} />}
+    </TraceProvider>
   );
 }
 
-function FolioBar({ chapters, active }: { chapters: Chapter[]; active: Chapter }) {
+function Dock({ chapters, active }: { chapters: Chapter[]; active: Chapter }) {
+  const shown = useIntroGone();
   return (
-    <div className="folio-bar" role="region" aria-label="Reading controls">
+    <div className="dock" role="region" aria-label="Page index and contact" data-shown={shown || undefined} inert={!shown || undefined}>
       <SlideoutMenu.Trigger>
-        <Button color="tertiary" size="sm" iconLeading={Menu02} className="folio-bar-contents" aria-label={`Contents. Current chapter: ${active.label}`}>
+        <Button color="tertiary" size="md" iconLeading={Menu02} className="dock-index" aria-label={`Index. Current section: ${active.label}`}>
           <span className="truncate">{active.label}</span>
         </Button>
         <SlideoutMenu isDismissable className="z-50">
           {({ close }) => (
             <>
-              <SlideoutMenu.Header onClose={close}><p className="text-lg font-semibold text-primary">Contents</p></SlideoutMenu.Header>
+              <SlideoutMenu.Header onClose={close}><p className="text-lg font-semibold text-primary">Index</p></SlideoutMenu.Header>
               <SlideoutMenu.Content role="presentation">
-                <nav aria-label="Chapters" className="sheet-section">
-                  <ol className="folio-chapters">
-                    {chapters.map((chapter, index) => (
-                      <li key={chapter.id}><a href={`#${chapter.id}`} onClick={close} aria-current={chapter.id === active.id ? "location" : undefined}><span className="folio-number" aria-hidden="true">{index}</span>{chapter.label}</a></li>
+                <nav aria-label="On this page" className="sheet-section">
+                  <p className="sheet-label">On this page</p>
+                  <ol className="sheet-chapters">
+                    {chapters.map((chapter) => (
+                      <li key={chapter.id}><a href={`#${chapter.id}`} onClick={close} aria-current={chapter.id === active.id ? "location" : undefined}>{chapter.label}</a></li>
                     ))}
                   </ol>
                 </nav>
                 <nav aria-label="Site" className="sheet-section flex flex-col gap-1">
+                  <p className="sheet-label">Pages</p>
                   <NavItemBase type="link" href={root}>Home</NavItemBase>
                   <NavItemBase type="link" href={href("experience/")}>Experience</NavItemBase>
+                  <NavItemBase type="link" href={linkedInUrl} icon={LinkedIn}>LinkedIn</NavItemBase>
+                  <NavItemBase type="link" href={gitHubUrl} icon={GitHub}>GitHub</NavItemBase>
                 </nav>
               </SlideoutMenu.Content>
               <SlideoutMenu.Footer className="flex flex-col gap-3">
-                <Button href={resumeFile("one-page", "pdf")} download color="secondary" iconLeading={Download01}>One-page resume</Button>
-                <Button href={resumeFile("detailed", "pdf")} download color="secondary" iconLeading={Download01}>Full resume</Button>
+                <Button href={resumeFile("one-page", "pdf")} download color="secondary" iconLeading={Download01}>One-page resume (PDF)</Button>
+                <Button href={resumeFile("detailed", "pdf")} download color="secondary" iconLeading={Download01}>Full resume (PDF)</Button>
                 <Button href={roleEmail} iconLeading={Mail01}>Email me</Button>
               </SlideoutMenu.Footer>
             </>
           )}
         </SlideoutMenu>
       </SlideoutMenu.Trigger>
-      <DepthControl compact />
+      <Button href={roleEmail} size="md" iconLeading={Mail01}>Email me</Button>
     </div>
   );
 }
@@ -239,7 +176,7 @@ export function CopyEmail() {
   const ready = useHydrated();
   const [copied, setCopied] = useState(false);
   if (!ready) return null;
-  return <ButtonUtility color="tertiary" size="xs" icon={copied ? Check : Copy01} tooltip={copied ? "Copied" : "Copy email address"}
+  return <ButtonUtility className="copy-email plate-ghost" color="tertiary" size="xs" icon={copied ? Check : Copy01} tooltip={copied ? "Copied" : "Copy email address"}
     onPress={() => navigator.clipboard?.writeText(emailAddress).then(() => setCopied(true), () => setCopied(false))} />;
 }
 
@@ -250,24 +187,20 @@ const auditSteps = [
 ] as const;
 
 /**
- * The close of every page: a hard cut to the opposite ground, the offer, and the ways to reach me set as running text.
- * It always uses the dark tokens so the Untitled UI components inside keep their dark-theme contrast.
+ * The close of every page: the blue plate again, and the one action at poster scale. It holds still; the resume,
+ * LinkedIn and GitHub follow as a sentence, then the audit offer and the small print.
  */
-export function Colophon({ name }: { name: string }) {
+export function Closing({ name }: { name: string }) {
   return (
-    <footer className="colophon dark-mode" id="contact" aria-labelledby="contact-heading">
-      <div className="shell colophon-inner">
+    <footer className="closing plate" id="contact" aria-labelledby="contact-heading" data-sc-act="plate">
+      <div className="shell closing-inner">
         <h2 id="contact-heading">Hiring a Forward Deployed Engineer, or have one workflow that needs fixing?</h2>
-        <p className="colophon-lede">
-          Email me at <a href={roleEmail}>{emailAddress}</a><CopyEmail />, or find me on <a href={linkedInUrl}>LinkedIn</a> and <a href={gitHubUrl}>GitHub</a>.
-          My resume comes in a one-page and a full version, as <ResumeMenu variant="colophon" format="pdf" /> or <ResumeMenu variant="colophon" format="docx" />.
+        <a className="closing-mail" href={roleEmail}>Email me<ArrowUpRight aria-hidden="true" /></a>
+        <p className="closing-lede">
+          <span className="closing-address">{emailAddress}<CopyEmail /></span> Or find me on <a href={linkedInUrl}>LinkedIn</a> and <a href={gitHubUrl}>GitHub</a>.
+          My resume comes in a one-page and a full version, as <ResumeMenu variant="closing" format="pdf" /> or <ResumeMenu variant="closing" format="docx" />.
         </p>
-        <div className="colophon-actions">
-          <Button href={roleEmail} size="xl" iconLeading={Mail01}>Email me</Button>
-          <ButtonUtility color="secondary" size="sm" icon={LinkedIn} tooltip="LinkedIn" href={linkedInUrl} />
-          <ButtonUtility color="secondary" size="sm" icon={GitHub} tooltip="GitHub" href={gitHubUrl} />
-        </div>
-        <section className="audit" aria-labelledby="audit-heading" id="work-with-me" data-detail="standard">
+        <section className="audit" aria-labelledby="audit-heading" id="work-with-me">
           <div>
             <p className="audit-kicker">For teams</p>
             <h3 id="audit-heading">A two-week AI workflow audit.</h3>
@@ -277,9 +210,9 @@ export function Colophon({ name }: { name: string }) {
             {auditSteps.map(([label, title, text]) => <li key={label}><span>{label}</span><h4>{title}</h4><p>{text}</p></li>)}
           </ol>
         </section>
-        <div className="colophon-small">
+        <div className="closing-small">
           {/* The prerendered year can lag the visitor's clock until the next build. */}
-          <p><span suppressHydrationWarning>© {new Date().getFullYear()} {name}.</span> Set in Newsreader and Inter. <a href={href("experience/portfolio-career-content-system/")}>How this site is built<ArrowUpRight aria-hidden="true" className="inline size-3.5 align-[-2px]" /></a></p>
+          <p><span suppressHydrationWarning>© {new Date().getFullYear()} {name}.</span> Set in Archivo and Inter. <a href={href("experience/portfolio-career-content-system/")}>How this site is built<ArrowUpRight aria-hidden="true" className="inline size-3.5 align-[-2px]" /></a></p>
           <details>
             <summary>Professional references and intellectual property notice</summary>
             <p>

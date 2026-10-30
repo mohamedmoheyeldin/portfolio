@@ -4,8 +4,8 @@ import { Tabs } from "@/components/application/tabs/tabs";
 import { Badge } from "@/components/base/badges/badges";
 import { Button } from "@/components/base/buttons/button";
 import { formatCareerDate, profile as careerProfile, veteransAffairsName } from "@/lib/career";
-import { DepthNote, Page } from "./chrome";
-import { type Chapter, type Depth, type Project, caseStudyHref, evidenceSource, href, metricLabel, projectDisplayName, roleFor } from "./shared";
+import { Page } from "./chrome";
+import { type Chapter, type Project, caseStudyHref, evidenceSource, href, metricLabel, projectDisplayName, projectVerb, roleFor } from "./shared";
 
 function EndCustomer({ customer }: { customer: string }) {
   return customer === veteransAffairsName
@@ -13,13 +13,20 @@ function EndCustomer({ customer }: { customer: string }) {
     : <>{customer}</>;
 }
 
-/** One case-study section. Standalone pages number it as a chapter and give it a reading depth; the embedded panel does neither. */
-function Part({ id, number, title, embedded, detail, children }: { id: string; number: number; title: string; embedded: boolean; detail?: Exclude<Depth, "brief">; children: ReactNode }) {
-  return (
-    <section id={id} tabIndex={-1} className={embedded ? "case-part" : "chapter case-part"} aria-labelledby={`${id}-heading`} data-anchor={embedded ? undefined : true} data-detail={embedded ? undefined : detail}>
-      {!embedded && <p className="chapter-number" aria-hidden="true">{number}</p>}
+/** One case-study section. Standalone pages set the heading in the left column beside the text; the embedded panel stacks them. */
+function Part({ id, title, embedded, children }: { id: string; title: string; embedded: boolean; children: ReactNode }) {
+  if (embedded) return (
+    <section id={id} tabIndex={-1} className="case-part" aria-labelledby={`${id}-heading`}>
       <h2 id={`${id}-heading`}>{title}</h2>
       {children}
+    </section>
+  );
+  return (
+    <section id={id} tabIndex={-1} className="chapter case-part" aria-labelledby={`${id}-heading`} data-anchor>
+      <div className="shell case-grid">
+        <h2 id={`${id}-heading`}>{title}</h2>
+        <div className="case-body">{children}</div>
+      </div>
     </section>
   );
 }
@@ -41,25 +48,24 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
     { id: "toolkit", label: "Tools used" },
     ...(walkthrough ? [{ id: "walkthrough", label: "Walkthrough" }] : []),
   ];
-  const n = (id: string) => chapters.findIndex((chapter) => chapter.id === id);
-  const challenge = <Part id={embedded ? "project-details-overview" : "challenge"} number={n("challenge")} title={embedded ? "The challenge" : "The problem"} embedded={embedded} detail="standard">
+  const challenge = <Part id={embedded ? "project-details-overview" : "challenge"} title={embedded ? "The challenge" : "The problem"} embedded={embedded}>
       <p>{project.challenge}</p>
       <p><strong>Who needed it:</strong> {project.audience}</p>
     </Part>;
-  const approach = <Part id={embedded ? "project-details-implementation" : "approach"} number={n("approach")} title="What I did" embedded={embedded} detail="standard">
+  const approach = <Part id={embedded ? "project-details-implementation" : "approach"} title="What I did" embedded={embedded}>
       <ol className="steps">{project.approach.map((step) => <li key={step}>{step}</li>)}</ol>
     </Part>;
-  const outcome = <Part id="outcome" number={n("outcome")} title={embedded ? "My contribution and results" : "What changed"} embedded={embedded}>
+  const outcome = <Part id="outcome" title={embedded ? "My contribution and results" : "What changed"} embedded={embedded}>
       {project.metric && <p className="case-metric"><strong>{project.metric.value}</strong> <span>{metricLabel(project)}</span></p>}
       <p>{project.outcome}</p>
-      <ul className="checks" data-detail={embedded ? undefined : "full"}>{project.highlights.map((highlight) => <li key={highlight}><Check aria-hidden="true" />{highlight}</li>)}</ul>
+      <ul className="checks">{project.highlights.map((highlight) => <li key={highlight}><Check aria-hidden="true" />{highlight}</li>)}</ul>
     </Part>;
-  const systems = <Part id="systems" number={n("systems")} title="Systems and trade-offs" embedded={embedded} detail="full">
+  const systems = <Part id="systems" title="Systems and trade-offs" embedded={embedded}>
       {project.systems.map((text) => <p key={text}>{text}</p>)}
       <h3>Constraints and trade-offs</h3>
       <ul className="plain-list">{project.decisions.map((text) => <li key={text}>{text}</li>)}</ul>
     </Part>;
-  const evidence = <Part id={embedded ? "project-details-evidence" : "evidence"} number={n("evidence")} title="What you can check" embedded={embedded}>
+  const evidence = <Part id={embedded ? "project-details-evidence" : "evidence"} title="What you can check" embedded={embedded}>
       <p className="evidence-tag"><span className="evidence-rule" aria-hidden="true" />Evidence: {evidenceSource(project)}</p>
       <dl className="evidence-list">
         {project.evidence.map((item) => <div key={item.label}>
@@ -79,10 +85,10 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
         </ul>
       </>}
     </Part>;
-  const toolkit = <Part id="toolkit" number={n("toolkit")} title="Tools used" embedded={embedded}>
+  const toolkit = <Part id="toolkit" title="Tools used" embedded={embedded}>
       <ul className="tags">{project.technologies.map((item) => <li key={item}><Badge color="gray" size="md">{item}</Badge></li>)}</ul>
     </Part>;
-  const walkthroughPart = walkthrough && <Part id="walkthrough" number={n("walkthrough")} title="How a content change reaches the site" embedded={embedded} detail="standard">
+  const walkthroughPart = walkthrough && <Part id="walkthrough" title="How a content change reaches the site" embedded={embedded}>
       <ol className="steps steps-titled">
         {[
           ["Edit the data", "Content lives in src/content/career.json. Required fields and unique project slugs are checked before a build."],
@@ -130,12 +136,19 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
   return (
     <Page chapters={chapters}>
       <article className="case" aria-labelledby="title-heading">
-        <header className="title-page title-page-case" id="introduction" data-anchor>
-          <a className="back-link" href={href("experience/")}><ArrowLeft aria-hidden="true" />All projects</a>
-          <p className="title-kicker">{project.kind === "career" ? "Work project" : "Independent project"} · {project.period}</p>
-          <h1 id="title-heading">{project.name}</h1>
-          <p className="title-dek">{project.description}</p>
-          <dl className="imprint">
+        <header className="title-page title-page-case plate" id="introduction" data-anchor data-sc-act="kinetic">
+          <div className="shell">
+            <a className="back-link" href={href("experience/")}><ArrowLeft aria-hidden="true" />All projects</a>
+            <p className="case-verb" aria-hidden="true">{projectVerb(project)}.</p>
+            <p className="title-kicker">{project.kind === "career" ? "Work project" : "Independent project"} · {project.period}</p>
+            <h1 id="title-heading">{project.name}</h1>
+            <p className="title-dek">{project.description}</p>
+            {repositoryLink && <div className="title-actions">{repositoryLink}</div>}
+            {project.repositoryVisibility === "private" && <p className="title-note">Private source. GitHub access requires repository permission.</p>}
+          </div>
+        </header>
+        <section className="facts" aria-label="Project facts">
+          <dl className="shell facts-list">
             <div><dt>My role</dt><dd>{project.role}</dd></div>
             <div><dt>Context</dt><dd>{project.context}</dd></div>
             {role ? <>
@@ -144,12 +157,9 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
             </> : <div><dt>Built by</dt><dd>Designed and developed by {careerProfile.name}</dd></div>}
             <div><dt>Evidence</dt><dd>{evidenceSource(project)}</dd></div>
           </dl>
-          {repositoryLink && <div className="title-actions">{repositoryLink}</div>}
-          {project.repositoryVisibility === "private" && <p>Private source. GitHub access requires repository permission.</p>}
-          <DepthNote />
-        </header>
+        </section>
         {challenge}{approach}{outcome}{systems}{evidence}{toolkit}{walkthroughPart}
-        <div className="shell-reading">{disclosure}</div>
+        <div className="shell">{disclosure}</div>
       </article>
       <ProjectPager project={project} />
     </Page>
@@ -162,7 +172,7 @@ function ProjectPager({ project }: { project: Project }) {
   const previous = projects[(index - 1 + projects.length) % projects.length]!;
   const next = projects[(index + 1) % projects.length]!;
   return (
-    <nav className="pager" aria-label="More projects">
+    <nav className="pager shell" aria-label="More projects">
       <a href={caseStudyHref(previous)} rel="prev"><span>Previous project</span><strong><ArrowLeft aria-hidden="true" />{projectDisplayName(previous)}</strong></a>
       <a href={caseStudyHref(next)} rel="next"><span>Next project</span><strong>{projectDisplayName(next)}<ArrowRight aria-hidden="true" /></strong></a>
     </nav>

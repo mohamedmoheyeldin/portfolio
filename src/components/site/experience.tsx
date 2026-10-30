@@ -3,7 +3,7 @@ import { ArrowRight, ArrowUpRight } from "@untitledui/icons";
 import { Badge } from "@/components/base/badges/badges";
 import { Button, type Props as ButtonComponentProps } from "@/components/base/buttons/button";
 import credentialImages from "@/content/credential-images.json";
-import { DepthNote, Page } from "./chrome";
+import { Page } from "./chrome";
 import { CaseStudy } from "./case-study";
 import { CareerChapter, ChapterOpener } from "./home";
 import { type Chapter, type Profile, href, projectDisplayName, root } from "./shared";
@@ -20,37 +20,42 @@ const chapters: Chapter[] = [
 export function Work({ profile }: { profile: Profile }) {
   return (
     <Page chapters={chapters}>
-      <section className="title-page title-page-compact" id="introduction" aria-labelledby="title-heading" data-anchor>
-        <p className="title-kicker">Experience</p>
-        <h1 id="title-heading">{profile.experienceYears} years of building software, and checking it holds up.</h1>
-        <p className="title-dek">My roles, the projects behind them, and the tools I use, across federal healthcare, e-commerce and banking.</p>
-        <CredentialStrip profile={profile} />
-        <DepthNote />
+      <section className="title-page" id="introduction" aria-labelledby="title-heading" data-anchor data-sc-act="kinetic">
+        <div className="shell">
+          <p className="title-kicker">Experience</p>
+          <h1 id="title-heading">{profile.experienceYears} years of building software, and checking it holds up.</h1>
+          <p className="title-dek">My roles, the projects behind them, and the tools I use, across federal healthcare, e-commerce and banking.</p>
+          <CredentialStrip profile={profile} />
+        </div>
       </section>
-      <section className="chapter" id="experience-projects" aria-labelledby="projects-heading" data-anchor>
-        <ChapterOpener number={1} title="Projects" id="projects-heading">
-          <p>Pick a project to read its overview, implementation and evidence here, or open the full case study.</p>
-        </ChapterOpener>
-        <ProjectExplorer profile={profile} />
+      <section className="chapter" id="experience-projects" aria-labelledby="projects-heading" data-anchor data-sc-act="reveal">
+        <div className="shell">
+          <ChapterOpener title="Projects" id="projects-heading">
+            <p>Pick a project to read its overview, implementation and evidence here, or open the full case study.</p>
+          </ChapterOpener>
+          <ProjectExplorer profile={profile} />
+        </div>
       </section>
-      <CareerChapter profile={profile} number={2} detailed />
-      <section className="chapter chapter-approach" id="approach" aria-labelledby="approach-heading" data-anchor>
-        <ChapterOpener number={3} title="How I approach the work" id="approach-heading" />
+      <CareerChapter profile={profile} detailed />
+      <section className="chapter chapter-band" id="approach" aria-labelledby="approach-heading" data-anchor data-sc-act="focus">
+        <div className="shell">
+        <ChapterOpener title="How I approach the work" id="approach-heading" />
         <div className="prose">
           <p>
             I work directly with stakeholders to learn how they work and what is getting in their way, then build the
             application features and internal tools that fix it. I stay involved after that: demos, troubleshooting, and user feedback.
           </p>
-          <p data-detail="standard">
+          <p>
             At Booz Allen Hamilton I work on a VA healthcare claims platform. I build React features, work with health providers
             and VA stakeholders, and investigate application and data issues. I also built and support Data Generator &amp; File
             Processing, a desktop app that creates referral test data, packages files, and uploads them for internal use.
           </p>
-          <p data-detail="standard">
+          <p>
             After {profile.experienceYears} years in software development and quality engineering across federal, banking, and
             e-commerce, I start by understanding the system, check that it behaves the way people expect, and make sure they can use
             the result. That is why I am focused on Forward Deployed Engineering.
           </p>
+        </div>
         </div>
       </section>
       <EngineeringToolkit profile={profile} />
@@ -111,7 +116,7 @@ function ProjectExplorer({ profile }: { profile: Profile }) {
   return <div className="explorer">
       <nav className="explorer-menu" aria-label="Choose a project">
         {projects.map((item, index) => <ExplorerChoice key={item.slug} id={`project-${item.slug}`} href={href(`experience/${item.slug}/`)}
-          index={`1.${index + 1}`}
+          index={String(index + 1).padStart(2, "0")}
           outcome={item.metric?.value}
           title={projectDisplayName(item)}
           description={profile.experience.find((role) => role.id === item.experienceId)?.employer ?? "Independent project"}
@@ -184,8 +189,9 @@ function EngineeringToolkit({ profile }: { profile: Profile }) {
     window.addEventListener("hashchange", syncCategory);
     return () => window.removeEventListener("hashchange", syncCategory);
   }, [groups.length]);
-  return <section className="chapter" id="engineering-toolkit" aria-labelledby="toolkit-heading" data-anchor>
-    <ChapterOpener number={4} title="The tools behind the work" id="toolkit-heading">
+  return <section className="chapter" id="engineering-toolkit" aria-labelledby="toolkit-heading" data-anchor data-sc-act="in">
+    <div className="shell">
+    <ChapterOpener title="The tools behind the work" id="toolkit-heading">
       <p>From business workflows and requirements to implementation, integration, and release checks.</p>
     </ChapterOpener>
     <div className="explorer">
@@ -212,6 +218,7 @@ function EngineeringToolkit({ profile }: { profile: Profile }) {
         </div>
         <Button className="whitespace-normal text-left" href="#experience-projects" color="link-color" iconTrailing={ArrowRight}>Explore the projects behind these skills</Button>
       </div>
+    </div>
     </div>
   </section>;
 }
@@ -249,8 +256,9 @@ function Learning({ profile }: { profile: Profile }) {
     return groups;
   }, new Map());
   return (
-    <section className="chapter" id="learning" aria-labelledby="learning-heading" data-anchor>
-      <ChapterOpener number={5} title="Learning" id="learning-heading" />
+    <section className="chapter chapter-band" id="learning" aria-labelledby="learning-heading" data-anchor data-sc-act="in">
+      <div className="shell">
+      <ChapterOpener title="Learning" id="learning-heading" />
       <div className="learning">
         <section aria-labelledby="education-heading">
           <h3 id="education-heading">Education</h3>
@@ -286,6 +294,7 @@ function Learning({ profile }: { profile: Profile }) {
             </div>
           )}
         </section>
+      </div>
       </div>
     </section>
   );

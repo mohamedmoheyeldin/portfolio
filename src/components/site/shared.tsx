@@ -14,7 +14,7 @@ export const href = (path = "") => `${root}${path}`;
 export const resumeFile = (version: "one-page" | "detailed", format: "pdf" | "docx") => href(`resume/mohamed-moheyeldin-resume-${version}.${format}`);
 export const caseStudyHref = (project: Project) => href(`experience/${project.slug}/`);
 
-/** A chapter of the current page, listed in the folio. */
+/** A section of the current page, listed in the index sheet. */
 export type Chapter = { id: string; label: string };
 
 export function projectDisplayName(project: Project) {
@@ -22,6 +22,20 @@ export function projectDisplayName(project: Project) {
   if (project.slug === "banking-risk-validation") return "Banking Risk-Based Validation System";
   return project.name.replace(veteransAffairsName, "VA");
 }
+
+/**
+ * The one verb that names what I did on each project, set at poster scale over its spread. Each restates the first
+ * clause of the project's description in career.json; it is a label, not a new claim.
+ */
+const projectVerbs: Record<string, string> = {
+  "federal-quality-delivery-system": "Integrated",
+  "ccrs-test-data-tooling": "Generated",
+  "claims-document-assistant": "Extracted",
+  "portfolio-career-content-system": "Published",
+  "ecommerce-feedback-platform": "Connected",
+  "banking-risk-validation": "Validated",
+};
+export const projectVerb = (project: Project) => projectVerbs[project.slug] ?? "Built";
 
 export const roleFor = (project: Project) => careerProfile.experience.find((role) => role.id === project.experienceId);
 
@@ -41,10 +55,5 @@ export function projectContext(project: Project) {
   return role ? `${role.employer}${role.customer ? `, for the ${role.customer.replace(veteransAffairsName, "VA")}` : ""}` : "Independent project";
 }
 
-/** Reading depth. Elements carry data-detail="standard" or "full"; the html element carries data-read. */
-export type Depth = "brief" | "standard" | "full";
-export const depths: { id: Depth; label: string; description: string }[] = [
-  { id: "brief", label: "Skim", description: "Headlines, results and links" },
-  { id: "standard", label: "Read", description: "Adds the problem and what I did" },
-  { id: "full", label: "Full", description: "Adds systems, trade-offs and evidence" },
-];
+/** Tool names compare case-insensitively, so "GitHub Actions" in a project and in a skill group are one entry. */
+export const toolKey = (name: string) => name.trim().toLowerCase();

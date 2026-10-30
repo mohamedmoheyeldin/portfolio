@@ -1,6 +1,22 @@
 # Testing
 
-## October 30, 2026 editorial redesign
+## October 30, 2026 poster redesign
+
+Browser tools stay out of this repository: `playwright-core`, `axe-core` and `lighthouse` are installed in the Scrollcraft workspace (`C:\Projects\scrollcraft\workspace`) and drive headless Brave Origin. Scripts: `builds\portfolio-poster\functional.mjs` and `builds\portfolio-poster\pages.mjs` (see `DEVELOPMENT.md`).
+
+**Repo gates.** `pnpm verify` (TypeScript strict, content schema, production build, GitHub Pages subpath packaging) and `pnpm build:cloudflare` passed on pnpm 11.22.0 / Node 26.12.1; `git diff --check` is clean. There is no linter, formatter or unit-test suite in this repo.
+
+**Functional suite: 14 of 14 passed.** One `h1` and no skipped heading levels on home, Experience and two case studies, with no console errors and no failed requests; masthead navigation with back/forward; theme follows the system, toggles, and the saved choice applies before any script module runs (checked with all JS requests blocked); both resume menus and all four PDF/DOCX files; email, LinkedIn and GitHub links in the closing plate on every page, and "Email me" is a mailto link; register jump, spread to case study, pager; the trace (Playwright lights the VA Claims spread and exactly one role, dims the banking project, lists jump links, syncs the chip in the spread, clears on Esc); the Experience explorer with hash and history; keyboard (skip link first, visible focus on the first 19 tab stops, a trace from Enter); phone (no dock over the poster, dock appears, index sheet jumps to Career without covering its heading, no horizontal overflow); no JavaScript (disclosures present, no dock, stack links tools to projects, plain resume link); reduced motion (no CSS animations, full opacity); axe-core WCAG 2.0/2.1/2.2 A and AA plus best practice in light and dark themes. The first run found one real defect, fixed: Label in Name on the home masthead link (`aria-label` did not contain its visible text).
+
+**Visual and responsive review.** Full-page screenshots at 1440 and 390px in light and dark, and first-screen shots at 375, 768, 1024 and 1920px, for home, Experience and the Claims Document Assistant case study; all were read. Defects found in the rendered output and fixed: tertiary buttons and the "Email me" link on the plate rendering dark (Untitled UI's `--text-color-*` aliases resolve at `:root`, so `.plate` restates them; tertiary controls use `.plate-ghost`); project verbs, the wordmark and "Email me" overflowing by 8 to 9px at 375 and 390px (phone sizes reduced); dead space beside long project text on wide screens (the result panel and role years are now sticky). Final sweep: no horizontal overflow at any width, CLS 0.001 or less on every page.
+
+**Scrollcraft harness.** `shoot.mjs` on home at 1440×900, 390×844 and with reduced motion: no dead scroll; frames read, including mid-wipe verbs and the method focus states.
+
+**Lighthouse (lab, local static server, not field data).** Mobile: home 99/100/100/100 (performance, accessibility, best practices, SEO), LCP 1.7s, CLS 0, TBT 0ms; case study 100 across, LCP 1.4s; Experience 98/100/100/100, LCP 1.8s, TBT 10ms. Desktop home 100 across, LCP 0.4s. JavaScript is 165 KB gzipped (171 KB before), CSS 20 KB, fonts 138 KB.
+
+**Not verified.** Real phones and touch scrolling; Firefox and Safari engines; screen readers beyond axe; INP (needs field data). Scroll-driven animation needs Chrome/Edge 115+, Safari 26+ or Firefox 159+; elsewhere the page shows its static state.
+
+## October 30, 2026 editorial redesign (superseded)
 
 The user explicitly asked for Playwright, visual, accessibility and Lighthouse testing for this redesign. The browser tools stay out of this repository: they are installed in the Scrollcraft workspace (`C:\Projects\scrollcraft\workspace`: `playwright-core`, `axe-core`, `lighthouse`) and drive headless Brave Origin (`C:\Program Files\BraveSoftware\Brave-Origin\Application\brave.exe`; there is no Chrome or Edge on this machine). No visible browser window was opened.
 

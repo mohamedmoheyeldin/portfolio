@@ -1,105 +1,102 @@
-# Scrollcraft brief: the editorial redesign
+# Scrollcraft brief: the poster redesign
 
 > [!NOTE]
-> Self-authored under explicit creative delegation. On 2026-10-30 the owner asked for a complete redesign that uses the Scrollcraft skill (`scroll-craft` 0.3.1, upstream `75d81f7`) and gave the agent creative authority. No interview answers or quotations are invented here. Every fact on the page comes from `src/content/career.json`.
+> Self-authored under explicit creative delegation. On 2026-10-30 the owner asked again for a complete, visibly bolder redesign using the Scrollcraft skill (`scroll-craft` 0.3.1, upstream `75d81f7`), chose "a new, bolder direction" over refining the editorial build, and later added "I want a better UI". No interview answers or quotations are invented here. Every fact on the page comes from `src/content/career.json`.
 
-This replaces the earlier gallery/catalog build on this branch (dark hero bands, hiring-snapshot card, role-fit ledger). That build is recorded as row 1 in the Scrollcraft fingerprint registry so this one could be gated against it.
+This is the third Scrollcraft build on `NewIU`. It replaces the editorial build (folio, reading-depth control, colophon), which replaced the gallery build. Both are rows in the fingerprint registry (`C:\Projects\scrollcraft\workspace\FINGERPRINTS.md`) and this build is gated against both.
 
 ## The eight topics (authored decisions)
 
 | Topic | Decision |
 |---|---|
-| Vibe | Precise, plain-spoken, printed. A technical report you trust because every claim names its source. References: a well-set engineering handbook, a newspaper's long-read layout, a test report's results table. |
-| Journey | Title page, then the work, then how the work is checked, then the career behind it, then the index of tools, then the colophon with the ways to get in touch. |
-| Energy | Calm at the title page, highest in the work, quiet through method and career, practical in the index, settled at the close. |
-| Feeling and the one moment | See the feeling curve. The moment: switching the page from the skim to the full write-up and watching every chapter change at once. |
-| One thing no other site does | Lets the visitor choose how much to read, once, for the whole site. |
-| Range | Editorial. Paper ground, a serif display face, a real measure, hairlines instead of cards. Not premium-minimal dark. |
-| One world or scenes | Distinct chapters with hard cuts. No continuous world. |
-| Assets | None to generate (no kie.ai, and the repo forbids generated artwork, logos and mock illustrations). Real assets: the career record, the case studies, and the official credential badge images. |
+| Vibe | Confident, plain, engineered. A poster you can read from across the room, backed by a report you can check up close. References: Swiss and constructivist type posters, a release notes page, a test run summary. |
+| Journey | The name, the facts, the work, how it is checked, the career, the stack, the close. |
+| Energy | Loud at the poster, loudest in the work (one verb per project at poster scale), quiet through method and career, practical at the stack, loud and still at the close. |
+| Feeling and the one moment | See the feeling curve. The moment: pressing a tool and watching the whole page answer where it was used. |
+| One thing no other site does | Lets a recruiter check any keyword on the resume against the work in one press. |
+| Range | Typographic poster on a cobalt plate. Not editorial, not premium-minimal dark. |
+| One world or scenes | Distinct sections with hard cuts. No continuous world. |
+| Assets | None to generate (kie.ai is not used; the repo forbids generated artwork, logos and mock interfaces). Real assets: the career record, the case studies, the official credential badges. |
 
-## Grammar: chaptered editorial
+## Grammar: typographic poster
 
-The visitor's question is "can this person do the work, and can I check it". The answer is long-form substance: problems, decisions, tests and evidence. That is what the chaptered editorial grammar is for.
+Type is the imagery. The site has no photographs and must not have mock interfaces, so scale contrast does the work media would do: the name at 16vw, then a 16px sentence; a verb at 15vw, then the evidence.
 
 Why the others lost:
 
+- **Gallery / catalog** and **chaptered editorial** are the two previous builds (rows 1 and 2).
 - **Filmic one-shot** and **continuous world** need footage or a generated world. There is none, by rule.
-- **Live surface** would need a real running product on the page. The site is static, and a fake test runner or dashboard is banned.
-- **Typographic poster** carries one sentence. A hiring decision needs evidence, not a slogan.
-- **Gallery / catalog** was the previous build. Using it again would fail the fingerprint gate.
-- **Split stage** needs a two-sided argument. A career is not a before-and-after.
-- **Rhythmic cutlist** suits energy brands. Short hard cuts would hide the evidence.
+- **Live surface** would need a real running product; a fake test runner or dashboard is banned.
+- **Split stage** needs one two-sided argument; a career is not a before and after.
+- **Rhythmic cutlist** suits energy brands; hard short cuts would hide the evidence.
 
-Grammar rules kept: no fixed marketing bar (a static masthead plus a folio in the margin), the hero is a title page with no media, hard changes of ground between chapters, media in its own column with a caption, no spotlight, no magnetic button, the close is a colophon with the call to action set as running text.
+Grammar rules kept: the wordmark is set in the composition, not as a 14px bar item; no scrub, no scrims, no tilt, no parallax on text, no card rail. One stated deviation: the grammar's default close is the quietest type on the site with a plain link. This close is "Email me" at poster scale instead, because the page's one job is that action; the rest of the close (resume, LinkedIn, GitHub, the audit offer) is set small as running text.
 
 ## Journey
 
-1. **Recognition.** Who he is, what he builds and checks (title page).
-2. **Proof (peak).** Six case studies: problem, what he did, how it was checked, the result and where the evidence lives (chapter 1, The work).
-3. **Method.** How quality is built in, from requirements to release evidence (chapter 2).
-4. **Perspective.** The career: three roles, each with a wider scope than the last (chapter 3).
-5. **Range.** Every tool, indexed to the projects that used it (chapter 4).
-6. **Commitment.** Email, resume, LinkedIn, GitHub (colophon).
+1. **Recognition.** The name, the claim, what he does, and the three actions (poster).
+2. **Screening.** Now, before, education, credentials, location (facts row).
+3. **Proof (peak).** Six projects: verb, result and evidence source, problem, role, decisions, tools, links (selected work).
+4. **Method.** Five habits of quality, each tied to a project.
+5. **Perspective.** Three roles, each wider in scope.
+6. **Range.** Every tool, sized by use, and each one traceable.
+7. **Commitment.** Email me, resume, LinkedIn, GitHub (close).
 
 ## Feeling curve
 
 | Act | Feeling | What causes it |
 |---|---|---|
-| Title page | Oriented | A name, a role and a plain two-line claim on paper, the lines set in one by one |
-| The work (peak) | Convinced | A hard cut to the white surface and a one-line-per-project register, then the lead case study opens as a full spread; the evidence rule draws under each result as it passes |
-| Method | Calm | Five stages in one ruled row, no motion beyond a quiet rise |
-| Career | Perspective | A span bar draws each role at the width of its tenure, then large year numerals in the margin drift slower than the text beside them |
-| Index | Practical | A dense two-column back-of-book index, every entry a link |
-| Colophon | Resolved | A hard cut to the dark ground. The page stops moving and holds the contact line |
+| Poster | Struck | The name across a cobalt field, its halves sliding in from opposite edges |
+| Facts | Oriented | A hard cut to white and one ruled row of plain facts |
+| Selected work (peak) | Convinced | Each project announced by one verb wiping in at poster scale, then the result and where its evidence lives, held beside the text while it is read |
+| Method | Calm | Five large lines, each at full ink only as it crosses the middle of the screen |
+| Career | Grounded | A span bar drawn at the width of each tenure, years held in the margin |
+| Stack | Curious | A wall of tool names at different sizes; pressing one lights the work |
+| Close | Resolved | The cobalt field again, one action at poster scale, holding still |
 
-**The peak:** the work. It has the most scroll room and the only drawn figure (the Claims Document Assistant pipeline).
-
-**Tell-someone sentence:** "It's the site where you choose how much to read, a skim or the full write-up, and the whole thing rearranges for you."
-
-**Authored silence:** none. Every screen carries copy.
+**Peak:** selected work. It has the most scroll room, six verbs at poster scale and the only drawn figure. **Tell-someone sentence:** "It's the site where you click any tool on his resume and it shows you exactly where he used it." **Authored silence:** none.
 
 ## Score
 
 | Beat | Device | Why |
 |---|---|---|
-| Title page | `in` (entrance stagger) | A title page is set, not animated; a short stagger is enough |
-| The work | `reveal` (clip-path wipe on each evidence rule) + drawn pipeline figure | Opening the evidence is a change of state; the figure draws because a pipeline is a sequence |
-| Method | `flow` (rise) | Quiet after the peak |
-| Career | `parallax` (year numerals at a slower rate) | Depth from rate difference on real dates, not decoration |
-| Index | `in` | Utility; motion would get in the way |
-| Colophon | Hard cut, static | The close holds still |
+| Poster | `kinetic` (two halves of the name from opposite edges) + recede on exit | The name is the image; it arrives, then steps back as the work starts |
+| Facts | static | A cut, not a move |
+| Selected work | `reveal` (clip-path wipe across each verb) + drawn evidence rules and pipeline | Each project is a change of subject; a wipe across letterforms is the grammar's reveal |
+| Method | `focus` (opacity by position) | One habit at a time, at reading pace, without pinning |
+| Career | `draw` (span bar) + wipe on years | Real tenure, drawn to scale |
+| Stack | `trace` (the signature) + `in` | Utility first; motion only on arrival |
+| Close | static plate | The close holds still |
 
-Five device families, none twice in a row. All motion is native CSS (`animation-timeline: view()`), runs only under `prefers-reduced-motion: no-preference` inside `@supports`, and never hides content: the resting state is the visible state.
+Five device families, none twice in a row, no pins, no scrub. All native CSS (`animation-timeline: view()`), only under `prefers-reduced-motion: no-preference` inside `@supports`; the resting state is the visible state.
 
-## Signature move: the reading-depth control
+## Signature move: the trace
 
-One control in the folio (the reading bar on phones), three stops: **Skim**, **Read** and **Full**. It regrades every chapter of every page at once.
-
-- **Skim**: headlines, the result line, the evidence label and the links.
-- **Read** (default): adds the problem, what he did, and the role.
-- **Full**: adds decisions, evidence, every career highlight, the systems and trade-offs on case studies, and the index entries no project names.
-
-It is stored in `localStorage`, applied before first paint by the inline script in `index.html` (no flash), and keeps the reader's place when it changes: the chapter at the top of the screen stays at the top. Without JavaScript the control is not shown and every detail renders.
+Every tool name on the page is a control. Press Playwright and the VA Claims Workflows spread and the Booz Allen Hamilton role light up with an accent edge, every other project dims, the same chip lights in each project that names it, and a bar lists the projects as jump links with the employers. Press again, the bar's close button or Esc to clear. It is computed from `technologies` in the career record, so it can only show what the record says. Without JavaScript the names are text and the stack links each tool to its projects.
 
 ## Fingerprint gate
 
-Against row 1 (the previous build): grammar differs (editorial vs gallery), nav differs (static masthead and margin folio vs fixed bar), hero differs (typographic title page vs dark parallax band with a snapshot card), act shape differs (six acts, `in, reveal, flow, parallax, in, cut` vs seven with two pins), close differs (colophon running text vs dark button band), signature differs. 6 of 6.
+| Dimension | This build | vs row 1 (gallery) | vs row 2 (editorial) |
+|---|---|---|---|
+| Grammar | Typographic poster | differs | differs |
+| Nav | Static masthead on the plate; a bottom-right dock (index sheet + Email me) after the poster | differs (fixed top bar) | differs (margin folio, phone reading bar) |
+| Hero | Name at composition scale on a full-bleed cobalt plate, kinetic halves | differs (dark parallax band + snapshot card) | differs (paper title page) |
+| Act shape | 7 acts, no pins: kinetic, static, reveal, focus, draw, trace, plate | differs (7 with two pins) | differs (6: in, reveal, flow, parallax, in, cut) |
+| Close | Cobalt plate, one action at poster scale, the rest as a sentence | differs (dark button band) | differs (colophon running text) |
+| Signature | Tool trace | differs | differs |
 
-## Feel check
-
-Scrolled cold in the rendered build, one word per act: title page *clear*, the work *substantial*, method *quiet*, career *grounded*, index *useful*, colophon *final*. Against the intended curve (oriented, convinced, calm, perspective, practical, resolved) the only gap was the career act, which first read as *crowded* because the year numerals overlapped the titles. The years moved into a shared margin column and the act now reads as intended. The peak is the longest chapter on the home page at every width tested and carries the only drawn figure.
+6 of 6 against each row. Shared with both: a static site, one blue hue and no photographic media, all fixed by the repo's rules; this build changes how the hue is used (a ground at both ends) and the type family.
 
 ## Verified, and not
 
-`shoot.mjs` found no dead scroll at desktop, phone or reduced motion, and the frames were read; the functional, axe and Lighthouse results are in [TESTING.md](TESTING.md). Real phones (iOS Safari, Android Chrome) and non-Chromium engines were not tested.
+Run headless from the Scrollcraft workspace; results in [TESTING.md](TESTING.md). Real phones (iOS Safari, Android Chrome) and non-Chromium engines were not tested.
 
 ## Research references
 
-- Scroll-driven animations: [MDN animation-timeline](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timeline), [caniuse](https://caniuse.com/mdn-css_properties_animation-timeline) (Chrome/Edge 115+, Safari 26+, Firefox 159+), [WebKit bug 327193](https://bugs.webkit.org/show_bug.cgi?id=327193) (`translate: none` keyframes), which is why the keyframes use explicit values.
-- Cross-document view transitions: [Chrome for Developers](https://developer.chrome.com/docs/web-platform/view-transitions/cross-document), [caniuse](https://caniuse.com/cross-document-view-transitions). Opted in only under `prefers-reduced-motion: no-preference`.
-- Core Web Vitals and fonts: [web.dev Web Vitals](https://web.dev/articles/vitals), [Optimize LCP](https://web.dev/articles/optimize-lcp), [font best practices](https://web.dev/articles/font-best-practices). These led to self-hosting, preloads, `font-display: swap` and metric-matched fallbacks.
-- WCAG 2.2: [2.4.11 Focus Not Obscured](https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html) (the reading bar sets `scroll-padding-bottom`), [2.5.8 Target Size](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html) (24px minimum on index references and controls), 2.5.3 Label in Name (no `aria-label` replaces visible link text).
-- Untitled UI: [dark mode](https://www.untitledui.com/react/docs/dark-mode) and [theming](https://www.untitledui.com/react/docs/theming): `.dark-mode` class, semantic tokens, full brand scale.
-- Hiring readers: [Nielsen Norman Group on portfolios](https://www.nngroup.com/articles/ux-design-portfolios/). Reviewers rarely read word for word and look for problem, role, constraints, process and outcome. This is the basis for the label schema, the evidence source on every result and the Skim depth. The source is about UX hiring; applying it to engineering hiring is an inference.
-- Claude Code skills: [code.claude.com/docs/en/skills](https://code.claude.com/docs/en/skills). A personal skill in `~/.claude/skills/<name>/SKILL.md` may be a link to a directory elsewhere, which is how the local Scrollcraft copy is loaded.
+- Scroll-driven animations: [MDN animation-timeline](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timeline) and [caniuse](https://caniuse.com/mdn-css_properties_animation-timeline); [WebKit bug 327193](https://bugs.webkit.org/show_bug.cgi?id=327193) is why keyframes never use `translate: none`.
+- Cross-document view transitions: [Chrome for Developers](https://developer.chrome.com/docs/web-platform/view-transitions/cross-document).
+- Fonts and vitals: [web.dev font best practices](https://web.dev/articles/font-best-practices), [Optimize LCP](https://web.dev/articles/optimize-lcp). The name is painted at once and only translated, so it is never a delayed LCP element.
+- Archivo: [Google Fonts](https://fonts.google.com/specimen/Archivo), SIL Open Font License 1.1, variable weight and width axes (the width axis is what lets one family carry both a 68% poster line and a 92% claim).
+- WCAG 2.2: [2.5.3 Label in Name](https://www.w3.org/WAI/WCAG22/Understanding/label-in-name) (caught by axe on the masthead name and fixed), [2.4.11 Focus Not Obscured](https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html) (`scroll-padding-bottom` reserves the phone dock), [2.5.8 Target Size](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html) (chips are at least 32px tall).
+- Toggle buttons: [WAI-ARIA APG button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/) (`aria-pressed` for the trace chips).
+- Untitled UI: [dark mode](https://www.untitledui.com/react/docs/dark-mode) and [theming](https://www.untitledui.com/react/docs/theming): semantic tokens re-scoped on a subtree, as `.dark-mode` does.

@@ -19,17 +19,17 @@ The imported components use React Aria and Tailwind v4. Local composition is in 
 | Surface | Implementation |
 | --- | --- |
 | Phone contents sheet and the site links in it | Upstream `SlideoutMenu` and `NavItemBase` |
-| Masthead links, folio chapters, chapter openers, imprint, index | Local semantic HTML (plain links and lists) styled with upstream tokens; Untitled nav items paint an opaque `bg-primary` that does not sit on the paper and night grounds |
-| Resume version choice (masthead, title page, folio, colophon) | Upstream `Dropdown` with `Button` trigger; plain link to the full resume before hydration |
+| Masthead links, section openers, facts row, register, stack wall | Local semantic HTML (plain links and lists) styled with upstream tokens; Untitled nav items paint an opaque `bg-primary` that does not sit on the plate |
+| Resume version choice (masthead, hero, closing plate) | Upstream `Dropdown` with `Button` trigger; plain link to the full resume before hydration |
 | Calls to action, downloads, case-study and source links, explorer choices | Upstream `Button` including link variants |
 | Theme toggle, copy email, LinkedIn and GitHub | Upstream `ButtonUtility` with tooltip |
 | Skills and tools | Upstream `Badge` |
 | Experience project detail sections | Upstream `Tabs` (underline type) |
-| Reading-depth control | React Aria `RadioGroup` and `Radio` (the library Untitled UI is built on) with local styles |
-| Colophon | Local layout carrying the upstream `.dark-mode` class, so the components inside use the upstream dark tokens in both site themes |
+| Trace chips | Native `<button aria-pressed>` toggles with local styles; the trace bar uses the upstream `ButtonUtility` close button |
+| Plate (hero, case-study opener, closing) | Local `.plate` scope that restates the upstream semantic tokens and utility aliases, so `Button` secondary renders white with blue type and link buttons render white; tertiary controls add the unlayered `.plate-ghost` rule |
 | Colors, typography scale, interaction styles | Upstream theme tokens and component utilities |
 
-Remaining local composition is page structure, the reading-depth control styling, the pipeline figure (an ordered list) and the accessibility skip link. There is no decorative artwork, mock interface or generated image. No paid marketing templates are used, and no numerical coverage percentage is claimed.
+Remaining local composition is page structure, the trace chips and bar, the pipeline figure (an ordered list) and the accessibility skip link. There is no decorative artwork, mock interface or generated image. No paid marketing templates are used, and no numerical coverage percentage is claimed.
 
 ## Local adaptations
 
@@ -39,7 +39,7 @@ Navigation applies the same optional-prop adaptation. The empty-state source ret
 
 The prerendered React application hydrates in the browser. Portfolio content renders static React output through React server rendering at build time. Navigation, project content, case studies, and downloads remain usable without JavaScript.
 
-Editorial redesign (October 30, 2026): every page is a `Page` with a folio and numbered chapters, opening on a title page and closing on the colophon; see `ARCHITECTURE.md` for the component map and `DESIGN_BRIEF.md` and `SCROLLCRAFT-BRIEF.md` for the design reasoning. Home: the title page (kicker, two-sentence headline, one-line standfirst, actions, then an imprint of current role, earlier roles, education, credentials and location read from the career record), chapter 1 The work (the first three projects as alternating spreads, the other three as a ruled list, one label schema for all six, the evidence source beside every result, Figure 1 on the Claims Document Assistant entry), chapter 2 How the work is checked (five stages, each linked to a project), chapter 3 Career (newest first, with the role ladder in the opener), chapter 4 Index of tools (every project tool with links to the entries that used it). The previous hero band, hiring snapshot, trust strip, role-fit ledger, project-card grid, toolkit overview, Work with me section and phone contact bar are removed; the AI workflow audit offer moved into the colophon.
+Poster redesign (October 30, 2026): every page opens on the blue plate or a title page, runs as full-width sections on alternating grounds, and closes on the plate with "Email me" at poster scale; see `ARCHITECTURE.md` for the component map and `DESIGN_BRIEF.md` and `SCROLLCRAFT-BRIEF.md` for the design reasoning. Home: the poster (the name at composition scale, the claim, one line of substance, See the work, the resume menu and Email me), a facts row read from the career record, Selected work (a register of all six projects, then one spread each led by its verb, with the result and its evidence source, problem, role, decisions and evidence in a disclosure, and Built with as trace chips; the pipeline figure on the Claims Document Assistant), How the work is checked (five habits at display scale), Career (span bar and roles) and Stack (every tool, sized by use, each a trace control). The editorial build's folio, reading-depth control, numbered chapters, index of tools and colophon are removed; the AI workflow audit offer is in the closing plate.
 
 ## Review and deployment
 
@@ -70,7 +70,7 @@ The Experience project and toolkit menus share an `ExplorerChoice` composition o
 
 ## Resume exports
 
-The web resume uses the imported Untitled UI React components. PDF and DOCX are native document formats, so their generator uses the same light-theme semantic colors and Inter rather than executing React components (the website pairs Inter with Newsreader; the documents keep Inter only). Colors resolve directly from `src/styles/theme.css` and installed Tailwind tokens on every generation; there is no second brand palette. Print-specific sizing keeps the compact PDF to one page.
+The web resume uses the imported Untitled UI React components. PDF and DOCX are native document formats, so their generator uses the same light-theme semantic colors and Inter rather than executing React components (the website pairs Inter with Archivo; the documents keep Inter only). Colors resolve directly from `src/styles/theme.css` and installed Tailwind tokens on every generation; there is no second brand palette. Print-specific sizing keeps the compact PDF to one page.
 
 Inter Regular and SemiBold are embedded in PDFs. DOCX specifies Inter; Word may substitute a font when Inter is unavailable. The two font files in `assets/fonts` are static instances (optical size 14; weights 400/600) of the Google Fonts Inter source, with its OFL license retained. They are used only for document generation and are not copied into the website bundle.
 
@@ -78,4 +78,4 @@ Both concise and detailed PDF and DOCX resumes center the name and tagline in th
 
 The Work explorer reuses upstream Button links for project selection and Tabs for detail sections. Layout composition is local; no additional UI package is installed. Existing project URLs remain readable without JavaScript.
 
-The earlier "Scrollcraft pass" on this branch (dark bands, role-fit ledger) was replaced by the editorial redesign above. Its fingerprint is kept in the Scrollcraft registry so later builds are gated against it.
+The earlier "Scrollcraft pass" on this branch (dark bands, role-fit ledger) was replaced by the editorial redesign, and that by the poster redesign above. Its fingerprint is kept in the Scrollcraft registry so later builds are gated against it.
