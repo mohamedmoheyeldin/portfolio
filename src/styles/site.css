@@ -712,10 +712,19 @@
     .dock .btn { justify-content: center; min-height: 2.75rem; }
     .js .site-footer { padding-bottom: calc(var(--s-16) + var(--s-12)); }
   }
-  .site-footer { padding-block: var(--s-10) var(--s-16); border-top: 1px solid var(--line); font-size: var(--t-sm); color: var(--ink-3); }
-  .footer-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-4); }
-  .footer-links { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-6); }
-  .footer-links a { display: inline-flex; align-items: center; min-height: 1.75rem; }
+  /* Footer: a night finale. Three link columns, the name set across the full width, then the small print. */
+  .site-footer { padding-block: clamp(var(--s-12), 6vw, var(--s-20)) var(--s-16); font-size: var(--t-sm); color: var(--ink-3); background-image: radial-gradient(50rem 26rem at 90% 100%, var(--glow), transparent 70%); }
+  .footer-cols { display: grid; gap: var(--s-8); padding-bottom: clamp(var(--s-10), 5vw, var(--s-16)); }
+  @media (min-width: 700px) { .footer-cols { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .footer-cols .label { color: var(--accent); margin-bottom: var(--s-3); }
+  .footer-cols ul { list-style: none; padding: 0; display: grid; gap: var(--s-2); }
+  .footer-cols a { display: inline-flex; align-items: center; gap: var(--s-1); min-height: 1.75rem; color: var(--ink); font-size: var(--t-base); text-decoration: none; overflow-wrap: anywhere; }
+  .footer-cols a:hover { color: var(--accent); }
+  .footer-mark { padding-block: var(--s-6); border-block: 1px solid var(--line-strong); }
+  .footer-mark a { display: block; font-size: clamp(2.5rem, -0.2rem + 8.4vw, 9.5rem); font-weight: 650; line-height: 0.92; letter-spacing: -0.05em; color: var(--ink); text-decoration: none; text-wrap: balance; }
+  .footer-mark a:hover { color: var(--accent); }
+  .footer-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-4); padding-top: var(--s-6); }
+  .footer-links a { color: var(--ink); }
   .site-footer details { margin-top: var(--s-6); max-width: 80ch; }
   .site-footer summary { display: inline-flex; align-items: center; min-height: 1.75rem; }
   .site-footer details p { margin-top: var(--s-3); }

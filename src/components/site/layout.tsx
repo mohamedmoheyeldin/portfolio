@@ -142,14 +142,37 @@ function Close() {
 
 function Footer() {
   return (
-    <footer className="site-footer">
+    <footer className="site-footer night">
       <div className="wrap">
+        <div className="footer-cols">
+          <nav aria-label="Footer">
+            <p className="label">Pages</p>
+            <ul>
+              <li><a href={href("#work")}>Work</a></li>
+              <li><a href={href("experience/")}>Experience</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </nav>
+          <div>
+            <p className="label">Elsewhere</p>
+            <ul>
+              <li><a href={email}>{emailAddress}</a></li>
+              <li><a href={linkedInUrl}>LinkedIn<ArrowUpRight /></a></li>
+              <li><a href={gitHubUrl}>GitHub<ArrowUpRight /></a></li>
+            </ul>
+          </div>
+          <div>
+            <p className="label">This site</p>
+            <ul className="footer-links">
+              <li><a href={href("experience/portfolio-career-content-system/#selftest")}>Test this page</a></li>
+              <li><a href={href("experience/portfolio-career-content-system/")}>How this site is built</a></li>
+            </ul>
+          </div>
+        </div>
+        <p className="footer-mark"><a href={root}>{profile.name}</a></p>
         <div className="footer-row">
           <p>© {new Date().getFullYear()} {profile.name}. Set in IBM Plex Sans and IBM Plex Mono.</p>
-          <p className="footer-links">
-            <a href={href("experience/portfolio-career-content-system/#selftest")}>Test this page</a>
-            <a href={href("experience/portfolio-career-content-system/")}>How this site is built</a>
-          </p>
+          <p>{profile.headline}</p>
         </div>
         <details>
           <summary>Professional references and intellectual property notice</summary>
