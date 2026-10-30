@@ -875,6 +875,26 @@
   .check[data-state="fail"] .check-value { color: var(--fail); }
   .check-detail { grid-column: 2 / -1; font-size: var(--t-xs); color: var(--fail); overflow-wrap: anywhere; }
   .selftest-foot { font-size: var(--t-sm); }
+
+  /* Phones (r025): the same poster voice as wide screens, one column, comfortable targets. */
+  @media (max-width: 639.98px) {
+    .section-head h2 { font-size: clamp(2.6rem, 1rem + 8vw, 3.5rem); }
+    .cap-loop { gap: 0; border-top: var(--rule-heavy) solid var(--ink); }
+    .cap-loop li { padding-block: var(--s-6); border-bottom: 1px solid var(--line-strong); }
+    .cap-node { padding: 0; gap: var(--s-3); align-items: baseline; }
+    .cap-loop li .cap-node::after { display: none; }
+    .cap-node .num { width: auto; height: auto; border: 0; background: none; color: var(--accent); font-size: var(--t-sm); }
+    .cap-loop li:first-child .num { background: none; color: var(--accent); }
+    .cap-verb { padding: 0; background: none; font-family: var(--font-text); font-size: clamp(2.5rem, 1rem + 8vw, 3.25rem); font-weight: var(--weight-display); line-height: var(--lh-poster); letter-spacing: var(--track-poster); text-transform: none; color: var(--ink); }
+    .ledger-row article { padding-block: var(--s-8); }
+    .ledger-meta { display: flex; gap: var(--s-3); align-items: baseline; }
+    .ledger-value { font-size: clamp(2.5rem, 1rem + 8vw, 3.25rem); }
+    .stance-line { font-size: clamp(1.9rem, 0.9rem + 5.4vw, 2.4rem); line-height: 1.08; }
+    .footer-cols a, .site-footer summary, .ledger-foot .link-arrow { min-height: 2.75rem; }
+    .footer-mark a { font-size: clamp(2.6rem, 0.4rem + 11vw, 3.6rem); }
+    .toolkit-words { font-size: var(--t-lg); }
+    .toolkit-count-value { font-size: clamp(3rem, 1rem + 10vw, 4rem); }
+  }
 }
 
 @layer motion {
