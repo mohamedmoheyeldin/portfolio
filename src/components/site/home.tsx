@@ -1,10 +1,9 @@
-import { loop } from "@/content/diffs";
 import { formatCareerDate } from "@/lib/career";
 import { Page } from "./layout";
-import { type Profile, type Project, caseStudyHref, evidenceSource, gitHubUrl, href, linkedInUrl, metricLabel, projectContext, projectDisplayName, projectNumber, roleEmail } from "./shared";
-import { ArrowRight, ArrowUpRight, Flow, GitHub, Label, LinkedIn, Mail, ResumeMenu, Tags, WorkflowDiff } from "./ui";
+import { type Profile, type Project, caseStudyHref, gitHubUrl, href, linkedInUrl, metricLabel, projectDisplayName, projectNumber, roleEmail } from "./shared";
+import { ArrowRight, ArrowUpRight, EvidenceTag, GitHub, LinkedIn, Mail, Pipeline, ResumeMenu, Tags } from "./ui";
 
-/** The three projects told in full on the home page; the rest are compact rows. */
+/** The three projects laid as case sheets on the deck; the rest are rows below it. */
 const featuredSlugs = ["federal-quality-delivery-system", "ccrs-test-data-tooling", "claims-document-assistant"];
 
 export function Home({ profile }: { profile: Profile }) {
@@ -12,160 +11,178 @@ export function Home({ profile }: { profile: Profile }) {
   const others = profile.projects.filter((p) => !featuredSlugs.includes(p.slug));
   return (
     <Page place="home">
-      <Hero profile={profile} />
-      <section className="section work" id="work" aria-labelledby="work-heading" data-sc-act="work">
-        <div className="wrap">
-          <div className="section-head section-head--split">
-            <div>
-              <Label accent>Selected work</Label>
-              <h2 id="work-heading">What changed for the people using it.</h2>
-            </div>
-            <p className="lede">Each project is shown as a diff of how the work went before and after, taken from the record, with the evidence behind it.</p>
-          </div>
-          <nav aria-label="Projects">
-            <ol className="work-index">
-              {profile.projects.map((project) => (
-                <li key={project.slug}>
-                  <a href={`#entry-${project.slug}`}>
-                    <span className="num">{projectNumber(project)}</span>
-                    <span className="work-index-name">{projectDisplayName(project)}<span className="work-index-context">{project.context}</span></span>
-                    <span className="work-index-metric">{project.metric?.value}</span>
-                    <span className="label work-index-evidence">{evidenceSource(project)}</span>
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </nav>
-          {featured.map((project) => <ProjectFeature key={project.slug} project={project} />)}
-          <div className="more">
-            <h3 className="label more-head">Earlier and supporting work</h3>
-            {others.map((project) => <ProjectRow key={project.slug} project={project} />)}
-          </div>
-        </div>
-      </section>
+      <Cover profile={profile} featured={featured} />
+      <Deck featured={featured} />
+      <MoreWork projects={others} />
       <Career profile={profile} />
-      <Approach profile={profile} />
+      <Capabilities profile={profile} />
     </Page>
   );
 }
 
-function Hero({ profile }: { profile: Profile }) {
+/** Short tab labels for the deck: the folder tabs share one row, so long names are shortened here, not in the record. */
+const tabName = (project: Project) => ({
+  "federal-quality-delivery-system": "VA Claims Workflows",
+  "ccrs-test-data-tooling": "Data Generator",
+  "claims-document-assistant": "Claims Document Assistant",
+}[project.slug] ?? projectDisplayName(project));
+
+/**
+ * The cover: the name and the claim, the one action, a short fact sheet, and the tops of the three case sheets, so
+ * the first screen already shows where the work is and what each project changed.
+ */
+function Cover({ profile, featured }: { profile: Profile; featured: Project[] }) {
   const current = profile.experience[0]!;
+  const first = profile.experience[profile.experience.length - 1]!;
   return (
-    <section className="hero" aria-labelledby="name-heading" data-sc-act="hero">
-      <div className="hero-grid" aria-hidden="true" />
-      <div className="wrap hero-inner">
-        <p className="status"><span className="dot" aria-hidden="true" />Open to {profile.headline} roles</p>
-        <h1 id="name-heading" className="hero-name">{profile.name}</h1>
-        <p className="hero-claim">
-          <strong>{profile.headline}.</strong> I sit with the people who use the software, build what they need, and test it before they do.
-        </p>
-        <div className="actions hero-actions">
-          <a className="btn btn--primary btn--lg" href={roleEmail}><Mail />Email me</a>
-          <ResumeMenu id="resume-menu-hero" size="lg" />
-          <a className="link-arrow" href="#work">See the work<ArrowRight /></a>
+    <section className="cover" aria-labelledby="cover-heading" data-sc-act="cover">
+      <div className="wrap cover-top">
+        <p className="status"><span className="status-dot" aria-hidden="true" />Open to {profile.headline} roles</p>
+        <h1 id="cover-heading">
+          <span className="cover-name">{profile.name}</span>
+          <span className="cover-claim">I work with the people who use the software, build what they need, and test it before they do.</span>
+        </h1>
+      </div>
+      <div className="wrap cover-grid">
+        <div className="cover-main">
+          <p className="lede cover-lede">
+            {profile.headline} at {current.employer} on a VA healthcare claims platform. {profile.experienceYears} years in software development
+            and quality engineering: API integration, internal tools, test automation and release checks.
+          </p>
+          <div className="actions">
+            <a className="btn btn--primary btn--lg" href={roleEmail}><Mail />Email me</a>
+            <ResumeMenu id="resume-menu-hero" size="lg" />
+            <a className="link-arrow" href="#work">See the work<ArrowRight /></a>
+          </div>
         </div>
-        <dl className="hero-facts">
-          <div><dt className="label">Now</dt><dd>{current.employer}, on a VA healthcare claims platform</dd></div>
-          <div><dt className="label">Experience</dt><dd>{profile.experienceYears} years in software development and quality engineering</dd></div>
+        <dl className="cover-facts">
+          <div><dt className="label">Now</dt><dd>{current.title}, {current.employer}</dd></div>
+          <div><dt className="label">Experience</dt><dd>{profile.experienceYears} years, since <time dateTime={first.start}>{first.start.slice(0, 4)}</time></dd></div>
           <div><dt className="label">Domains</dt><dd>Federal healthcare, banking, e-commerce</dd></div>
-          <div><dt className="label">Elsewhere</dt><dd className="hero-social"><a href={linkedInUrl}><LinkedIn />LinkedIn</a><a href={gitHubUrl}><GitHub />GitHub</a></dd></div>
+          <div><dt className="label">Elsewhere</dt><dd className="cover-social"><a href={linkedInUrl}><LinkedIn />LinkedIn</a><a href={gitHubUrl}><GitHub />GitHub</a></dd></div>
         </dl>
-        <figure className="loop" aria-labelledby="loop-caption">
-          <ol className="loop-track">
-            {loop.map((station) => (
-              <li className="station" key={station.label}>
-                <span className="station-node" aria-hidden="true" />
-                <strong className="station-label">{station.label}</strong>
-                <span className="station-text">{station.text}</span>
-              </li>
-            ))}
-          </ol>
-          <figcaption className="figure-note" id="loop-caption">How I work on the VA claims platform. Each step restates a documented responsibility.</figcaption>
-        </figure>
+      </div>
+      <nav className="wrap cover-index" aria-label="Case files">
+        <ol>
+          {featured.map((project) => (
+            <li key={project.slug}>
+              <a href={`#entry-${project.slug}`}>
+                <span className="num">{projectNumber(project)}</span>
+                <span className="cover-index-name">{tabName(project)}</span>
+                <span className="cover-index-metric">{project.metric?.value}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </section>
+  );
+}
+
+/**
+ * The signature: the case deck. Each featured project is a sheet with a folder tab at its own place along the top.
+ * Where the screen is large enough, the sheets stick and lay over each other as you scroll, and every sheet you pass
+ * leaves its tab showing, so the row of tabs becomes an index of what you have read. Each tab jumps back to its
+ * sheet through an anchor in normal flow (a sticky element cannot be scrolled to reliably). enhance.ts turns the
+ * stacking off when a sheet's content would not fit the screen; without JavaScript the sheets simply follow each other.
+ */
+function Deck({ featured }: { featured: Project[] }) {
+  return (
+    <section className="deck" id="work" aria-labelledby="work-heading" data-sc-act="deck">
+      <div className="wrap">
+        <div className="section-head section-head--split">
+          <h2 id="work-heading">Selected work</h2>
+          <p className="lede">Three case files: the problem, my part, the documented design and what changed. Every result names where its evidence comes from.</p>
+        </div>
+        <div className="deck-stack" data-deck>
+          {featured.map((project) => <Sheet key={project.slug} project={project} />)}
+          <span className="deck-hold" aria-hidden="true" />
+        </div>
       </div>
     </section>
   );
 }
 
-function EvidenceTag({ project }: { project: Project }) {
-  const source = evidenceSource(project);
-  return <span className={`evidence-tag${source === "User-reported" ? " evidence-tag--reported" : source === "Public source" ? " evidence-tag--public" : ""}`}>{source}</span>;
-}
-
-function ProjectLinks({ project }: { project: Project }) {
-  return (
-    <p className="project-links">
-      <a className="btn btn--sm" href={caseStudyHref(project)}>Case study<span className="sr-only">: {projectDisplayName(project)}</span><ArrowRight /></a>
-      {project.repository && <a className="link-arrow" href={project.repository}><GitHub />Source<span className="sr-only"> for {projectDisplayName(project)}</span><ArrowUpRight /></a>}
-    </p>
-  );
-}
-
-function ProjectFeature({ project }: { project: Project }) {
+function Sheet({ project }: { project: Project }) {
   const name = projectDisplayName(project);
   return (
-    <article className="feature" id={`entry-${project.slug}`} aria-labelledby={`${project.slug}-title`}>
-      <header className="feature-head">
-        <p className="meta"><span className="num">{projectNumber(project)}</span><span>{project.context}</span><span>{project.period}</span></p>
-        <h3 id={`${project.slug}-title`}><a href={caseStudyHref(project)}>{name}</a></h3>
-        <p className="feature-desc">{project.description}</p>
-      </header>
-      <div className="feature-body">
-        {project.metric && (
-          <div className="result">
-            <p className="result-value">{project.metric.value}</p>
-            <p className="result-label">{metricLabel(project)}</p>
-            <EvidenceTag project={project} />
+    <>
+      <span className="sheet-anchor" id={`entry-${project.slug}`} />
+      <article className="sheet" aria-labelledby={`${project.slug}-title`}>
+        <a className="sheet-tab" href={`#entry-${project.slug}`}>
+          <span className="num">{projectNumber(project)}</span>
+          <span className="sheet-tab-name">{tabName(project)}</span>
+          <span className="sr-only">, start of this case</span>
+        </a>
+        <div className="sheet-body">
+          <div className="sheet-lead">
+            <header className="sheet-head">
+              <p className="meta"><span>{project.period}</span><span>{project.role}</span></p>
+              <h3 id={`${project.slug}-title`}><a href={caseStudyHref(project)}>{name}</a></h3>
+              <p className="sheet-desc">{project.description}</p>
+            </header>
+            {project.metric && (
+              <div className="result">
+                <p className="result-value">{project.metric.value}</p>
+                <p className="result-label">{metricLabel(project)}</p>
+                <EvidenceTag project={project} />
+              </div>
+            )}
+            <dl className="facts">
+              <div><dt className="label">The problem</dt><dd>{project.challenge}</dd></div>
+            </dl>
+            <p className="project-links">
+              <a className="btn btn--sm" href={caseStudyHref(project)}>Read the case study<span className="sr-only">: {name}</span><ArrowRight /></a>
+              {project.repository && <a className="link-arrow" href={project.repository}><GitHub />Source<span className="sr-only"> for {name}</span><ArrowUpRight /></a>}
+            </p>
           </div>
-        )}
-        <dl className="facts">
-          <div><dt className="label">The problem</dt><dd>{project.challenge}</dd></div>
-          <div><dt className="label">My part</dt><dd>{project.role}, {projectContext(project)}.</dd></div>
-        </dl>
-        <div className="feature-evidence">
-          <WorkflowDiff slug={project.slug} title={name} />
-          <details className="flow-details">
-            <summary><span>How it works</span><span className="muted">The documented design, step by step</span></summary>
-            <Flow slug={project.slug} title={name} />
-          </details>
+          <div className="sheet-detail">
+            <Pipeline slug={project.slug} title={name} compact />
+            <Tags items={project.technologies} />
+          </div>
         </div>
-      </div>
-      <footer className="feature-foot">
-        <Tags items={project.technologies} />
-        <ProjectLinks project={project} />
-      </footer>
-    </article>
+      </article>
+    </>
   );
 }
 
-function ProjectRow({ project }: { project: Project }) {
+/** The other three projects as an index: what it was, the result and its evidence, and the case study link. */
+function MoreWork({ projects }: { projects: Project[] }) {
   return (
-    <article className="row" id={`entry-${project.slug}`} aria-labelledby={`${project.slug}-title`}>
-      <p className="meta"><span className="num">{projectNumber(project)}</span><span>{project.period}</span></p>
-      <div className="row-main">
-        <h4 id={`${project.slug}-title`}><a href={caseStudyHref(project)}>{projectDisplayName(project)}</a></h4>
-        <p>{project.description}</p>
-        <Tags items={project.technologies} />
+    <section className="section more" aria-labelledby="more-heading" data-sc-act="more">
+      <div className="wrap">
+        <div className="section-head section-head--split">
+          <h2 id="more-heading">Earlier and supporting work</h2>
+          <p><a className="link-arrow" href={href("experience/#projects")}>All six case studies<ArrowRight /></a></p>
+        </div>
+        <ul className="rows">
+          {projects.map((project) => (
+            <li className="row" key={project.slug} id={`entry-${project.slug}`}>
+              <article aria-labelledby={`${project.slug}-title`}>
+                <p className="meta"><span className="num">{projectNumber(project)}</span><span>{project.period}</span></p>
+                <div className="row-main">
+                  <h3 id={`${project.slug}-title`}><a href={caseStudyHref(project)}>{projectDisplayName(project)}</a></h3>
+                  <p>{project.description}</p>
+                </div>
+                <div className="row-side">
+                  {project.metric && <><p className="result-value result-value--sm">{project.metric.value}</p><p className="result-label">{metricLabel(project)}</p></>}
+                  <EvidenceTag project={project} />
+                </div>
+              </article>
+            </li>
+          ))}
+        </ul>
       </div>
-      <div className="row-side">
-        {project.metric && <><p className="result-value result-value--sm">{project.metric.value}</p><p className="result-label">{metricLabel(project)}</p></>}
-        <EvidenceTag project={project} />
-        <ProjectLinks project={project} />
-      </div>
-    </article>
+    </section>
   );
 }
 
 function Career({ profile }: { profile: Profile }) {
   return (
-    <section className="section career" id="career" aria-labelledby="career-heading" data-sc-act="career">
+    <section className="section section--tint career" id="career" aria-labelledby="career-heading" data-sc-act="career">
       <div className="wrap">
         <div className="section-head section-head--split">
-          <div>
-            <Label accent>Career</Label>
-            <h2 id="career-heading">{profile.experienceYears} years, three teams, one habit: find the real problem first.</h2>
-          </div>
+          <h2 id="career-heading">{profile.experienceYears} years, three teams, one habit: find the real problem first.</h2>
           <p><a className="link-arrow" href={href("experience/")}>Every role, skill and credential<ArrowRight /></a></p>
         </div>
         <ol className="timeline">
@@ -173,7 +190,7 @@ function Career({ profile }: { profile: Profile }) {
             <li className={`timeline-item${i === 0 ? " is-current" : ""}`} key={role.id}>
               <p className="timeline-when">
                 <time dateTime={role.start}>{formatCareerDate(role.start)}</time>
-                <span aria-hidden="true"> to </span><span className="sr-only"> to </span>
+                <span> to </span>
                 {role.end ? <time dateTime={role.end}>{formatCareerDate(role.end)}</time> : "now"}
               </p>
               <article className="timeline-body" aria-labelledby={`role-${role.id}`}>
@@ -190,26 +207,36 @@ function Career({ profile }: { profile: Profile }) {
   );
 }
 
-/** Ways of working, each restating a documented highlight; tools straight from the record's skill groups. */
-const practices = [
-  ["Customer discovery", "Requirements and acceptance criteria with VA stakeholders; working sessions with claims processors and VA users on production issues."],
-  ["Demos and feedback", "The stakeholder demonstration at the end of each release cycle and program increment since 2022, and the changes that follow."],
-  ["User enablement", "A user guide, in-app release notes and a stakeholder overview for Data Generator; Tableau set up so any user can build a dashboard."],
-  ["Technical troubleshooting", "Defects and data discrepancies traced across frontend, backend and MySQL, coordinated with developers in Jira."],
+/**
+ * What I bring, each line restating documented highlights in career.json (the source is noted per entry). Quality
+ * engineering sits beside the forward deployed practices because the record has eleven years of it.
+ */
+const capabilities = [
+  // Booz Allen highlights[6], highlights[8]
+  ["Customer discovery", "Requirements and acceptance criteria mapped with VA stakeholders; working sessions with claims processors and VA users on production issues."],
+  // Booz Allen highlights[0]
+  ["System integration", "Health-provider claim-status APIs integrated with the VA system, so staff, providers and veterans each see live status for their role."],
+  // Booz Allen highlights[5], highlights[9]
+  ["Application development", "React, TypeScript and JavaScript features on the claims application, and data issues traced across frontend, backend and MySQL."],
+  // Booz Allen highlights[2], highlights[3]
+  ["Workflow automation", "Data Generator & File Processing, run like a product: versioned installers from GitHub Actions, release notes and a user guide."],
+  // Booz Allen highlights[10]; Chick-fil-A highlights[1], highlights[2]
+  ["Test automation", "Helped select Playwright and built the reusable smoke and regression framework; earlier, REST contract checks and Okta and SSO flows run through GitHub Actions."],
+  // Booz Allen highlights[7], highlights[4]
+  ["Demos and enablement", "The stakeholder demo at the end of every release cycle since 2022, and Tableau set up so any user can build a dashboard."],
 ] as const;
 
-function Approach({ profile }: { profile: Profile }) {
+function Capabilities({ profile }: { profile: Profile }) {
   const issuers = [...new Set(profile.verifiedCredentials.map((c) => c.issuer))];
   const education = profile.education[0];
   return (
-    <section className="section approach" id="approach" aria-labelledby="approach-heading" data-sc-act="approach">
+    <section className="section capabilities" id="approach" aria-labelledby="approach-heading" data-sc-act="capabilities">
       <div className="wrap">
         <div className="section-head">
-          <Label accent>How I work</Label>
           <h2 id="approach-heading">What I bring to a team.</h2>
         </div>
-        <ul className="practices">
-          {practices.map(([title, text]) => <li key={title}><h3>{title}</h3><p>{text}</p></li>)}
+        <ul className="cap-grid">
+          {capabilities.map(([title, text]) => <li key={title}><h3>{title}</h3><p>{text}</p></li>)}
         </ul>
         <div className="toolkit">
           <h3 className="label">Tools I use</h3>

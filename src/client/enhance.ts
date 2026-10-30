@@ -1,12 +1,12 @@
 /*
  * The only JavaScript the published site ships. Pages are complete HTML without it; this adds:
- * the theme toggle, copy-address buttons, the current section in the header, menu positioning and closing, the
- * command palette, the Before / Diff / After views on workflow diffs, and the self-test runner.
+ * the theme toggle, copy-address buttons, the current section in the header, menu positioning and closing, the case
+ * deck guard (stacking only where every sheet fits the screen), and the self-test runner.
  */
 import { checks, observeVitals, type CheckResult } from "@/lib/selftest";
 
 const root = document.documentElement;
-const themeColors = { light: "#f6f5f1", dark: "#0d0d0e" } as const;
+const themeColors = { light: "#eef0f3", dark: "#0b0d10" } as const;
 const reducedMotion = () => !matchMedia("(prefers-reduced-motion: no-preference)").matches;
 
 function setTheme(dark: boolean) {
@@ -121,110 +121,25 @@ function initMenus() {
 }
 
 /**
- * The command palette: a combobox over the options the server rendered. Typing filters by every word; arrows move
- * the active option; Enter opens it. Focus returns to whatever opened the palette.
+ * The case deck stacks its sheets (sticky, each leaving its tab showing) only where every sheet fits the screen
+ * below the header. CSS decides the screen sizes that can stack; this measures the content at the current size and
+ * fonts, and lays the sheets out one after another when any sheet would be clipped.
  */
-function initPalette() {
-  const dialog = document.getElementById("palette") as HTMLDialogElement | null;
-  const input = dialog?.querySelector<HTMLInputElement>("[data-palette-input]");
-  const empty = dialog?.querySelector<HTMLElement>(".palette-empty");
-  if (!dialog || !input || !empty || typeof dialog.showModal !== "function") {
-    document.querySelectorAll("[data-palette-open]").forEach((el) => el.remove());
-    return;
-  }
-  const options = Array.from(dialog.querySelectorAll<HTMLLIElement>("[role='option']"));
-  const mac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
-  document.querySelectorAll("[data-shortcut]").forEach((kbd) => { kbd.textContent = mac ? "⌘K" : "Ctrl K"; });
-  let active = 0;
-  let opener: HTMLElement | null = null;
-
-  const visibleOptions = () => options.filter((o) => !o.hidden);
-  const setActive = (index: number) => {
-    const list = visibleOptions();
-    if (!list.length) { input.removeAttribute("aria-activedescendant"); return; }
-    active = (index + list.length) % list.length;
-    list.forEach((o, i) => o.setAttribute("aria-selected", String(i === active)));
-    input.setAttribute("aria-activedescendant", list[active]!.id);
-    list[active]!.scrollIntoView({ block: "nearest" });
+function initDeck() {
+  const deck = document.querySelector<HTMLElement>("[data-deck]");
+  if (!deck) return;
+  const bodies = Array.from(deck.querySelectorAll<HTMLElement>(".sheet-body"));
+  const measure = () => {
+    deck.classList.remove("is-flow");
+    if (getComputedStyle(deck).getPropertyValue("--stacking").trim() !== "1") return;
+    const clipped = bodies.some((body) => body.scrollHeight > body.clientHeight + 1);
+    deck.classList.toggle("is-flow", clipped);
   };
-  const filter = () => {
-    const words = input.value.toLowerCase().split(/\s+/).filter(Boolean);
-    for (const option of options) option.hidden = !words.every((w) => option.dataset.search!.includes(w));
-    const any = visibleOptions().length > 0;
-    empty.hidden = any;
-    input.setAttribute("aria-expanded", String(any));
-    setActive(0);
-  };
-  const open = () => {
-    if (dialog.open) return;
-    opener = document.activeElement as HTMLElement | null;
-    input.value = "";
-    filter();
-    dialog.showModal();
-    input.focus();
-  };
-  const close = () => { if (dialog.open) dialog.close(); };
-  const choose = async (option: HTMLLIElement | undefined) => {
-    if (!option) return;
-    const { href, action } = option.dataset;
-    close();
-    if (action === "theme") toggleTheme();
-    else if (action === "copy-email") {
-      const address = document.querySelector<HTMLElement>("[data-copy]")?.dataset.copy;
-      if (address) { try { await copyText(address); } catch { location.href = `mailto:${address}`; } }
-    } else if (href) {
-      const url = new URL(href, location.href);
-      if (url.pathname === location.pathname && url.hash) {
-        const target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
-        if (target) { history.pushState(null, "", url.hash); target.scrollIntoView(); target.focus({ preventScroll: true }); return; }
-      }
-      location.href = url.href;
-    }
-  };
-
-  dialog.addEventListener("close", () => { opener?.focus?.(); opener = null; });
-  dialog.addEventListener("click", (event) => {
-    if (event.target === dialog) { close(); return; }
-    const option = (event.target as Element).closest<HTMLLIElement>("[role='option']");
-    if (option) void choose(option);
-  });
-  dialog.addEventListener("mousemove", (event) => {
-    const option = (event.target as Element).closest<HTMLLIElement>("[role='option']");
-    if (option && !option.hidden) setActive(visibleOptions().indexOf(option));
-  });
-  input.addEventListener("input", filter);
-  input.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowDown") { event.preventDefault(); setActive(active + 1); }
-    else if (event.key === "ArrowUp") { event.preventDefault(); setActive(active - 1); }
-    else if (event.key === "Home" && event.ctrlKey) { event.preventDefault(); setActive(0); }
-    else if (event.key === "End" && event.ctrlKey) { event.preventDefault(); setActive(-1); }
-    else if (event.key === "Enter") { event.preventDefault(); void choose(visibleOptions()[active]); }
-  });
-  document.querySelectorAll<HTMLButtonElement>("[data-palette-open]").forEach((button) => button.addEventListener("click", open));
-  document.addEventListener("keydown", (event) => {
-    const typing = (event.target as Element | null)?.closest("input, textarea, select, [contenteditable='true']");
-    if ((event.key === "k" || event.key === "K") && (event.metaKey || event.ctrlKey)) { event.preventDefault(); dialog.open ? close() : open(); }
-    else if (event.key === "/" && !typing && !dialog.open) { event.preventDefault(); open(); }
-  });
-}
-
-/** Before / Diff / After on each workflow diff, and pairing: pointing at a line outlines the line it replaces. */
-function initDiffs() {
-  document.querySelectorAll<HTMLElement>("[data-diff]").forEach((diff) => {
-    const buttons = Array.from(diff.querySelectorAll<HTMLButtonElement>("[data-diff-view]"));
-    for (const button of buttons) {
-      button.addEventListener("click", () => {
-        diff.dataset.view = button.dataset.diffView!;
-        buttons.forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
-      });
-    }
-    const lines = Array.from(diff.querySelectorAll<HTMLElement>(".diff-line"));
-    const pair = (pairId: string | null) => lines.forEach((line) => line.classList.toggle("is-paired", pairId !== null && line.dataset.pair === pairId));
-    for (const line of lines) {
-      line.addEventListener("pointerenter", () => pair(line.dataset.pair!));
-      line.addEventListener("pointerleave", () => pair(null));
-    }
-  });
+  let frame = 0;
+  const schedule = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(measure); };
+  measure();
+  document.fonts?.ready.then(schedule);
+  addEventListener("resize", schedule);
 }
 
 const marks: Record<CheckResult["state"], string> = { pass: "✓", fail: "✕", skip: "–" };
@@ -278,8 +193,7 @@ initTheme();
 initCopy();
 initCurrentSection();
 initMenus();
-initPalette();
-initDiffs();
+initDeck();
 initSelfTest();
 // The Scrollcraft harness waits for this before walking the page.
 root.classList.add("sc-ready");

@@ -1,5 +1,21 @@
 # Testing
 
+## October 30, 2026 casebook redesign
+
+Run from `C:\Projects\scrollcraft\workspace\builds\portfolio-deck` against `dist` served on port 4600 (headless Brave Origin, `playwright-core`, `axe-core` and `lighthouse` from the workspace). pnpm was not on PATH in the session that built it, so the package scripts were run directly with Node 26: `tsc --noEmit`, `scripts/validate-content.mjs`, `scripts/build.mjs`, `scripts/build.mjs --pages` and `scripts/check-pages-build.mjs` (the same steps `pnpm verify` runs).
+
+**Functional suite (`functional.mjs`): 17 of 17 passed.** The diff-build suite adapted to this build (the palette and diff checks removed) plus two new checks for the case deck: at 1440x900 the deck stacks, all three tabs are the topmost element at their centres once the third sheet lands, no sheet body is clipped, and the first tab (clicked while stuck) returns to the first sheet's own place; at 1024x640, on a 390px phone and without JavaScript no sheet is sticky. Also covered: headings, titles and console errors on six pages; navigation; theme (system, toggle, persistence, `theme-color`, applied before scripts); the four resume files (signatures checked); contact routes and copy; the self-test at 375, 768, 1440 and 1920px in both themes and against planted defects; keyboard (skip link, 25 visible focus stops, popover with Enter and Escape); the phone menu; no-JS; reduced motion; an overflow and CLS sweep at 375 to 1920px on six pages; credential images; axe-core WCAG 2.0/2.1/2.2 A and AA plus best practice on four pages in light and dark, after the self-test runs, on a phone and with the phone menu open.
+
+Defects the runs found, all fixed: the sticky sheets' bottom margins sat inside the stack's content box, so earlier sheets were pushed 126px up and their tabs scrolled out of view (the pauses moved onto the in-flow anchors and the end hold onto a spacer); the transparent tab row of the top sheet intercepted clicks meant for earlier tabs (pointer events now pass through it); tab anchors were offset twice (`scroll-padding` plus `scroll-margin`); axe flagged the tabs' `aria-label` for not containing their visible text (replaced with visually hidden trailing text).
+
+**Scrollcraft harness (`shoot.mjs`, desktop):** no dead scroll across 32 positions; contact sheet reviewed.
+
+**Visual review.** Viewport frames at fixed scroll positions (`frames.mjs`) at 1440x900 in light and dark through the cover, each stacking step, the full tab index, supporting work, career, capabilities and the closing sheet; 390x844 phone frames; Experience and a case study in both themes. Changes made from the review: the cover was rebuilt so the claim spans the width and the case tabs sit on the first screen's bottom edge; the sheet layout was rebalanced (problem moved beside the result) so sheets fit 1280x800 as well as 1440x900; the career band is tinted for rhythm; the closing address keeps its copy button on the same line.
+
+**Lighthouse (lab, local server, not field data):** home 100 / 100 / 100 / 100 (performance, accessibility, best practices, SEO) on mobile and desktop; LCP 1.2 s mobile and 0.3 s desktop, CLS 0, TBT 0 ms.
+
+**Not covered:** a real phone (touch scrolling and Safari's sticky behaviour were not tried on a device); browsers other than Chromium; field Core Web Vitals.
+
 ## October 30, 2026 diff redesign
 
 Run from `C:\Projects\scrollcraft\workspace\builds\portfolio-diff` against `dist` served on port 4600 (headless Brave Origin, `playwright-core` and `axe-core` from the workspace). pnpm was not on PATH in the session that built it, so the package scripts were run directly with Node 26: `tsc --noEmit`, `scripts/validate-content.mjs`, `scripts/build.mjs`, `scripts/build.mjs --pages` and `scripts/check-pages-build.mjs` (the same steps `pnpm verify` runs), all passing.

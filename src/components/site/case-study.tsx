@@ -3,7 +3,7 @@ import { formatCareerDate, profile as careerProfile, veteransAffairsName } from 
 import { checks } from "@/lib/selftest";
 import { Page } from "./layout";
 import { type Project, caseStudyHref, evidenceSource, href, metricLabel, projectDisplayName, projectNumber, roleFor } from "./shared";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Flow, GitHub, Label, Play, Tags, WorkflowDiff } from "./ui";
+import { ArrowLeft, ArrowRight, ArrowUpRight, EvidenceTag, GitHub, Label, Pipeline, Play, Tags } from "./ui";
 
 /** One case-study part: the heading on the left rail, the content beside it. */
 function Part({ id, title, children, tint }: { id: string; title: string; children: ReactNode; tint?: boolean }) {
@@ -19,7 +19,7 @@ function Part({ id, title, children, tint }: { id: string; title: string; childr
 
 const walkthroughSteps = [
   ["Edit the data", "Content lives in src/content/career.json. Required fields and unique project slugs are checked before a build."],
-  ["Render the pages", "React renders every page to HTML at build time with a custom design system. The published site ships no React; a small script adds the theme switch, the menus, the command palette, the diff views and the page self-test."],
+  ["Render the pages", "React renders every page to HTML at build time with a custom design system. The published site ships no React; a small script adds the theme switch, the menus, the case deck guard and the page self-test."],
   ["Generate the resumes", "pnpm resume:generate builds every resume format from the same record."],
   ["Check and build", "pnpm verify checks types, content, the production build, and GitHub Pages paths. pnpm build:cloudflare rebuilds for the root path."],
   ["Deploy", "wrangler.jsonc points Cloudflare Static Assets at dist. Merging to main starts the production build."],
@@ -63,13 +63,12 @@ export function CaseStudy({ project }: { project: Project }) {
             <p>{project.challenge}</p>
             <p><strong>Who needed it:</strong> {project.audience}</p>
           </div>
-          <WorkflowDiff slug={project.slug} title={name} />
         </Part>
 
         <Part id="approach" title="What I did" tint>
           <p className="prose">{project.relevance}</p>
           <ol className="steps">{project.approach.map((step) => <li key={step}>{step}</li>)}</ol>
-          <Flow slug={project.slug} title={name} />
+          <Pipeline slug={project.slug} title={name} />
         </Part>
 
         <Part id="outcome" title="What changed">
@@ -83,7 +82,7 @@ export function CaseStudy({ project }: { project: Project }) {
                 <Label>Result</Label>
                 <p className="result-value">{project.metric.value}</p>
                 <p className="result-label">{metricLabel(project)}</p>
-                <span className={`evidence-tag${evidence === "User-reported" ? " evidence-tag--reported" : evidence === "Public source" ? " evidence-tag--public" : ""}`}>{evidence}</span>
+                <EvidenceTag project={project} />
               </div>
             )}
           </div>

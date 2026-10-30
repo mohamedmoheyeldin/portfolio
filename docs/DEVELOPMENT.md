@@ -22,7 +22,7 @@ For fast feedback, run `pnpm check` while editing. Use `pnpm verify` before hand
 - `src/content/career.json` is the canonical draft career record and must remain schema-valid.
 - `scripts/build.mjs` owns shared page metadata and structure.
 - Reuse `src/components/` and `src/styles/` rather than creating route-local variants for shared behavior.
-- All routes render inside `Page` from `src/components/site/layout.tsx`: the header, the page, the close (contact) and the footer. Compose sections from `.section` / `.wrap` / `.section-head` and the existing components; new project facts that change a workflow belong in `src/content/diffs.ts` with their source field commented.
+- All routes render inside `Page` from `src/components/site/layout.tsx`: the header, the page, the close (contact) and the footer. Compose sections from `.section` / `.wrap` / `.section-head` and the existing components; a new project diagram belongs in `src/content/flows.ts` with the source field of each station commented.
 - Pages render to static HTML at build time; the browser runs only `src/client/enhance.ts`. Do not add React state or effects to page components: they never run in production. Add behaviour to `enhance.ts` through `data-*` attributes, and keep the page complete without it (native `popover`, `<details>`, plain links).
 - Use the tokens in `src/styles/site.css` (both themes are defined there); do not hard-code colours. New claims about the page belong in `src/lib/selftest.ts` only if they are measured live.
 - Use `pnpm dev --host 127.0.0.1 --port 4322` for a local review server. Stop the running Vite process with Ctrl+C before reusing its port.
@@ -46,9 +46,9 @@ $env:SCROLLCRAFT_CHROME = "C:\Program Files\BraveSoftware\Brave-Origin\Applicati
 cd C:\Projects\scrollcraft\workspace
 node ..\scroll-craft\scripts\doctor.mjs
 node ..\scroll-craft\scripts\serve.mjs --root C:\Projects\portfolio\dist --port 4600
-node ..\scroll-craft\scripts\shoot.mjs --url http://127.0.0.1:4600/ --out builds\portfolio-diff\lab\desk
-node builds\portfolio-diff\functional.mjs   # navigation, theme, resumes, contact, work, self-test (4 widths x 2 themes), planted defects, keyboard, phone, no-JS, reduced motion, overflow + CLS sweep, credentials, axe
-node builds\portfolio-diff\snap.mjs builds\portfolio-diff\shots http://127.0.0.1:4600 / /experience/   # screenshots, both themes, desktop and phone
+node ..\scroll-craft\scripts\shoot.mjs --url http://127.0.0.1:4600/ --out builds\portfolio-deck\lab\desk
+node builds\portfolio-deck\functional.mjs   # navigation, theme, resumes, contact, work, the case deck and its guard, self-test (4 widths x 2 themes), planted defects, keyboard, phone, no-JS, reduced motion, overflow + CLS sweep, credentials, axe
+node builds\portfolio-deck\snap.mjs builds\portfolio-deck\shots http://127.0.0.1:4600 / /experience/   # screenshots, both themes, desktop and phone
 ```
 
 ## Dependency compatibility

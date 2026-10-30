@@ -1,11 +1,10 @@
 import type { ReactNode, SVGProps } from "react";
-import { diffs } from "@/content/diffs";
 import { flows } from "@/content/flows";
-import { resumeFile } from "./shared";
+import { type Project, evidenceSource, resumeFile } from "./shared";
 
 /*
  * Small, dependency-free primitives. Everything here renders to static HTML at build time; behaviour that needs
- * JavaScript (theme, copy, the command palette, the diff views, the self-test) is attached by src/client/enhance.ts
+ * JavaScript (theme, copy, menus, the case deck, the self-test) is attached by src/client/enhance.ts
  * through data attributes.
  */
 
@@ -21,10 +20,10 @@ export const Mail = stroke(<><rect x="3" y="5" width="18" height="14" rx="2" /><
 export const Download = stroke(<path d="M12 4v11M7 10l5 5 5-5M5 20h14" />);
 export const ChevronDown = stroke(<path d="m6 9 6 6 6-6" />);
 export const Menu = stroke(<path d="M4 7h16M4 12h16M4 17h16" />);
-export const Search = stroke(<><circle cx="11" cy="11" r="6.5" /><path d="m20 20-4.2-4.2" /></>);
 export const Sun = stroke(<><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></>);
 export const Moon = stroke(<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" />);
 export const Play = stroke(<path d="M8 5.5v13l11-6.5-11-6.5Z" />);
+export const Check = stroke(<path d="m5 12.5 4.5 4.5L19 7.5" />);
 export const Copy = stroke(<><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V6a2 2 0 0 1 2-2h9" /></>);
 
 export const GitHub = (props: IconProps) => (
@@ -76,55 +75,39 @@ export function Tags({ items, label = "Built with" }: { items: readonly string[]
   return <ul className="tags" aria-label={label}>{items.map((item) => <li className="tag" key={item}>{item}</li>)}</ul>;
 }
 
-/**
- * The signature: a project's workflow before and after, set as a diff. The default view is the full diff and is
- * complete without JavaScript; enhance.ts adds the Before / Diff / After control, which filters the lines.
- */
-export function WorkflowDiff({ slug, title }: { slug: string; title: string }) {
-  const diff = diffs[slug];
-  if (!diff) return null;
-  const id = `diff-${slug}`;
-  return (
-    <figure className="diff" id={id} data-diff data-view="diff" aria-labelledby={`${id}-title`}>
-      <div className="diff-bar">
-        <p className="diff-title" id={`${id}-title`}><span className="diff-file">workflow.diff</span><span className="sr-only">: how the work went before and after {title}</span></p>
-        <div className="diff-views js-only" role="group" aria-label="Show">
-          {(["before", "diff", "after"] as const).map((view) => (
-            <button key={view} type="button" className="diff-view" data-diff-view={view} aria-pressed={view === "diff"} aria-controls={`${id}-lines`}>
-              {view === "diff" ? "Diff" : view === "before" ? "Before" : "After"}
-            </button>
-          ))}
-        </div>
-      </div>
-      <ol className="diff-lines" id={`${id}-lines`}>
-        {diff.pairs.flatMap((pair, i) => [
-          <li className="diff-line diff-line--del" key={`d${i}`} data-pair={i}><span className="diff-sign" aria-hidden="true">−</span><span className="sr-only">Before: </span>{pair.before}</li>,
-          <li className="diff-line diff-line--add" key={`a${i}`} data-pair={i}><span className="diff-sign" aria-hidden="true">+</span><span className="sr-only">After: </span>{pair.after}</li>,
-        ])}
-      </ol>
-      <figcaption className="diff-note">
-        <span className="diff-stat" aria-hidden="true"><span className="del">−{diff.pairs.length}</span> <span className="add">+{diff.pairs.length}</span></span>
-        {diff.note}
-      </figcaption>
-    </figure>
-  );
+/** Where a result's evidence comes from, as a tag. The wording is derived from the record (see evidenceSource). */
+export function EvidenceTag({ project }: { project: Project }) {
+  const source = evidenceSource(project);
+  const tone = source === "User-reported" ? " evidence--reported" : source === "Public source" ? " evidence--public" : "";
+  return <span className={`evidence${tone}`}>{source}</span>;
 }
 
-/** A project's documented design as an ordered flow, plus the parts that sit beside it. */
-export function Flow({ slug, title }: { slug: string; title: string }) {
+/**
+ * A project's documented design as a pipeline: numbered stations on one rail, then the parts that run alongside it.
+ * Every station restates a documented field (see src/content/flows.ts); it is a diagram of the design, not a capture.
+ */
+export function Pipeline({ slug, title, compact }: { slug: string; title: string; compact?: boolean }) {
   const flow = flows[slug];
   if (!flow) return null;
   return (
-    <figure className="flow">
-      <ol className="flow-steps" aria-label={`${title}: how it works`}>
-        {flow.steps.map((step) => <li className="flow-step" key={step.title}><strong>{step.title}</strong><span>{step.text}</span></li>)}
+    <figure className={`pipe${compact ? " pipe--compact" : ""}`}>
+      <figcaption className="pipe-cap"><span className="label">How it works</span><span>{flow.caption}</span></figcaption>
+      <ol className="pipe-steps" aria-label={`${title}: how it works`}>
+        {flow.steps.map((step, i) => (
+          <li className="pipe-step" key={step.title}>
+            <span className="pipe-node" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+            <span className="pipe-text"><strong>{step.title}</strong><span>{step.text}</span></span>
+          </li>
+        ))}
       </ol>
       {flow.beside && (
-        <ul className="flow-beside" aria-label="Alongside">
-          {flow.beside.map((note) => <li key={note.title}><strong>{note.title}</strong><span>{note.text}</span></li>)}
-        </ul>
+        <div className="pipe-beside">
+          <p className="label" id={`${slug}-beside${compact ? "-c" : ""}`}>Alongside</p>
+          <ul aria-labelledby={`${slug}-beside${compact ? "-c" : ""}`}>
+            {flow.beside.map((note) => <li key={note.title}><strong>{note.title}</strong><span>{note.text}</span></li>)}
+          </ul>
+        </div>
       )}
-      <figcaption className="figure-note">{flow.caption}</figcaption>
     </figure>
   );
 }

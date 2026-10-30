@@ -16,9 +16,9 @@ All channels consume the same schema-validated career record (`src/content/caree
 flowchart TB
   subgraph build["Build (scripts/build.mjs)"]
     App["App.tsx<br/>routes + titles + descriptions"] --> Pages["site/home · experience · case-study"]
-    Pages --> Layout["site/layout.tsx<br/>Header · Palette · Close · Footer"]
-    Pages --> UI["site/ui.tsx<br/>icons · ResumeMenu · WorkflowDiff · Flow"]
-    Pages --> Flows["content/flows.ts · content/diffs.ts"]
+    Pages --> Layout["site/layout.tsx<br/>Header · Close · Footer"]
+    Pages --> UI["site/ui.tsx<br/>icons · ResumeMenu · EvidenceTag · Pipeline"]
+    Pages --> Flows["content/flows.ts"]
     Pages --> Checks["lib/selftest.ts (names)"]
     App --> SSR["renderToString"] --> HTML["dist/**/index.html<br/>+ metadata, JSON-LD, sitemap, redirects"]
   end
@@ -30,18 +30,14 @@ flowchart TB
 ```
 
 - `scripts/build.mjs` runs the Vite client build, then loads `src/entry-server.tsx` through Vite's SSR loader and writes every route, `404.html`, the sitemap, `robots.txt` and the legacy redirects. Each page carries its title, description, canonical, Open Graph tags and, on home, `ProfilePage` JSON-LD.
-- `src/main.tsx` imports the stylesheet and `client/enhance.ts`. In development only (there is no prerender step under `pnpm dev`) it first renders `App` with React; that branch sits behind `import.meta.env.DEV`, so production bundles contain no React. Production JavaScript is about 15 KB (under 6 KB gzipped).
-- `client/enhance.ts` adds: the theme toggle (system by default, a saved choice overrides, `theme-color` follows, View Transitions crossfade when motion is allowed); copy-address buttons; the current section marked in the header; closing menus after a jump and placing them under their button where CSS anchor positioning is missing; a plain-link fallback where the popover API is missing; the command palette; the Before / Diff / After views and paired-line highlighting on workflow diffs; Core Web Vitals observers; the self-test runner; and `html.sc-ready` for the Scrollcraft harness.
-- Without JavaScript every page is complete: content, links, the resume and phone menus (native `popover`), `<details>` disclosures and the contact links all work. JS-only controls (`.js-only`: the palette button, theme toggle, diff view control, copy buttons, the self-test button) are hidden; diffs show in full; the self-test states that it needs JavaScript.
+- `src/main.tsx` imports the stylesheet and `client/enhance.ts`. In development only (there is no prerender step under `pnpm dev`) it first renders `App` with React; that branch sits behind `import.meta.env.DEV`, so production bundles contain no React. Production JavaScript is about 15 KB (about 6 KB gzipped).
+- `client/enhance.ts` adds: the theme toggle (system by default, a saved choice overrides, `theme-color` follows, View Transitions crossfade when motion is allowed); copy-address buttons; the current section marked in the header; closing menus after a jump and placing them under their button where CSS anchor positioning is missing; a plain-link fallback where the popover API is missing; the case deck guard; Core Web Vitals observers; the self-test runner; and `html.sc-ready` for the Scrollcraft harness.
+- Without JavaScript every page is complete: content, links, the resume and phone menus (native `popover`), `<details>` disclosures and the contact links all work. JS-only controls (`.js-only`: theme toggle, copy buttons, the self-test button) are hidden; the case sheets follow one another without stacking; the self-test states that it needs JavaScript.
 - The theme is applied before first paint by an inline script in `index.html` (`html.dark-mode`, saved in `localStorage` as `theme`).
 
-## Workflow diffs (signature move)
+## The case deck (signature move)
 
-`src/content/diffs.ts` holds before/after pairs per project. Every line restates a documented field (`challenge` for before; `outcome`, `approach` or `metric` for after; the source is commented per pair) and each diff carries a note on where its evidence comes from. `WorkflowDiff` in `ui.tsx` renders it as a `figure` with an ordered list of removed and added lines (screen readers hear "Before:" and "After:"). `enhance.ts` adds a Before / Diff / After button group (`aria-pressed`) that sets `data-view` on the figure, and outlines the paired line on pointer hover.
-
-## Command palette
-
-`Palette` in `layout.tsx` renders a native `<dialog>` with a combobox input and a listbox of every section, project, role, skill group, resume file and contact action, built from the career record at build time (each option carries its search text). `enhance.ts` opens it from the header button, Ctrl K or ⌘K, or "/", filters by every typed word, moves the active option with the arrow keys (`aria-activedescendant`), opens it on Enter or click, and returns focus on close. Without JavaScript the button is hidden and the header links cover the same routes.
+`Deck` and `Sheet` in `home.tsx` render the three featured projects as `article` sheets inside `[data-deck]`, each preceded by an empty in-flow anchor (`#entry-<slug>`) and each with a folder tab linking to that anchor. CSS places each tab at its own third of the row. Inside `@media (min-width: 900px) and (min-height: 700px)` and only with `html.js`, the sheets become `position: sticky` at `--stick`, every sheet body takes the same height (the screen below the header and tab), and the tab row is transparent, so each earlier tab stays visible above the current sheet. The pauses between sheets are margins on the anchors and the hold at the end is a spacer (`.deck-hold`): a sticky element only stays stuck inside its container's content box, so margins or padding on the sheets would push earlier sheets off. Pointer events pass through the sheets except for their tabs and bodies, so stuck earlier tabs stay clickable. `initDeck` in `enhance.ts` reads `--stacking` and adds `.is-flow` when any sheet body's content is taller than its box (measured again after fonts load and on resize), so a sheet is never clipped. Phones, short screens and pages without JavaScript lay the sheets out one after another.
 
 ## The page self-test
 
@@ -49,15 +45,15 @@ Shown on the Portfolio & Career Content System case study (`#selftest`) and link
 
 ## Project storytelling
 
-Work projects reference an experience ID; case studies show employer, role, dates and end customer. Every project carries a workflow diff (above). The three featured projects also carry a diagram from `src/content/flows.ts`: an ordered list of steps plus side notes, each restating a documented `approach` or `systems` entry (the source index is commented beside each step) and captioned as a diagram of the documented design. The evidence label on every result (User-reported, Public source, Documented responsibility) is derived from the record by `evidenceSource()`, never typed.
+Work projects reference an experience ID; case studies show employer, role, dates and end customer. The three featured projects carry a pipeline diagram from `src/content/flows.ts` (on their case sheet and case study): numbered stations on one rail plus what runs alongside, each restating a documented `approach` or `systems` entry (the source index is commented beside each step) and captioned as a diagram of the documented design. The evidence label on every result (User-reported, Public source, Documented responsibility) is derived from the record by `evidenceSource()`, never typed.
 
 ## Design system
 
-`src/styles/site.css`, in cascade layers `tokens, base, layout, components, motion`:
+`src/styles/site.css`, in cascade layers `tokens, base, layout, components, pages, motion`:
 
-- **Tokens.** Grounds (`--paper`, `--grid` for tinted bands, `--surface`, `--surface-2`), ink (`--ink`, `--ink-2`, `--ink-3`), lines (`--line`, `--line-strong`, `--grid-line`), one vermilion accent in two lightnesses (`--accent` with hover, ink, soft and line), meaning colours (`--add`, `--del` and their soft grounds for diffs; `--pass`, `--fail` for checks), the contact plate (`--plate*`, always dark; the plate rescopes the ink and surface tokens locally), three elevations and an edge light, type scale with `clamp()`, a 4px space scale, radii and easing. All colours are hex so print tooling and the self-test read them directly. `:root.dark-mode` redefines them; dark also sets type slightly heavier and looser.
-- **Layout.** `.wrap` (78rem plus gutters), `.section` and `.section--tint` bands, `.section-head` (with a two-column `--split` variant), and per-component grids that collapse to one column on phones.
-- **Components.** Buttons (`.btn`, primary, quiet, icon, small, large), popover menus, the header and search button, the command palette, hero, status pill and working loop, work index, featured project and compact row, the workflow diff, flow diagram, career timeline, practices and toolkit, the contact plate and its routes, the audit offer, footer, page heads with a table of contents or fact sheet, case-study parts, steps, project table, credential grid and self-test panel.
+- **Tokens.** Grounds (`--paper` for the page, `--grid` for tinted bands, `--surface` for sheets, `--surface-2` for panels inside them), ink (`--ink`, `--ink-2`, `--ink-3`), lines (`--line`, `--line-strong`), one teal accent in two lightnesses (`--accent` with hover, ink, soft and line), meaning colours (`--pass`, `--fail` and their soft grounds, for self-test results only), three elevations (the third casts upward for stacked sheets) and an edge light, the island background, type scale with `clamp()`, a 4px space scale, `--stick` and `--tab-h` for the deck, radii and easing. All colours are hex so print tooling and the self-test read them directly. `:root.dark-mode` redefines them; dark also sets type slightly heavier and looser.
+- **Layout.** `.wrap` (80rem plus gutters), `.section` and `.section--tint` bands, `.section-head` (with a two-column `--split` variant), and per-component grids that collapse to one column on phones.
+- **Components and pages.** Buttons (`.btn`, primary, quiet, icon, small, large), popover menus, the floating island, status pill, results and evidence tags, the pipeline, bullets and steps, copy and route lists; then the cover and its case tabs, the case deck and sheets, supporting rows, the career timeline, capabilities and toolkit, the closing sheet and audit offer, footer, page heads with a table of contents or fact sheet, case-study parts, project table, credential grid, pager and self-test panel.
 - **Motion.** Native CSS in the `motion` layer, entirely inside `prefers-reduced-motion: no-preference`; scroll-driven parts also inside `@supports (animation-timeline: view())`. The resting state is the visible state. See the design brief.
 
 ## Document pipeline
