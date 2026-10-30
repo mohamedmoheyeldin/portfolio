@@ -12,7 +12,8 @@ const navLinks = (place: Place) => [
 ];
 
 /**
- * The header is a floating island: the name, three routes, the theme switch and the one action. On the home page the
+ * The header is a floating night island (dark in both themes, like the cover): the name, three routes, the theme
+ * switch and the one action. Where scroll-driven animation runs, a teal line along its lower edge shows reading progress. On the home page the
  * route for the section in view is marked (enhance.ts). Below 860px the routes move into a native popover menu that
  * also lists every resume file.
  */
@@ -20,7 +21,7 @@ function Header({ place }: { place: Place }) {
   const links = navLinks(place);
   return (
     <header className="masthead">
-      <div className="island">
+      <div className="island night">
         <a className="island-name" href={root} aria-current={place === "home" ? "page" : undefined}>
           Mohamed Moheyeldin<span className="island-role" aria-hidden="true">{profile.headline}</span>
         </a>

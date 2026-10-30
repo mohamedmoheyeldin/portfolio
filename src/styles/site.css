@@ -144,6 +144,7 @@
     --weight-body: 420;
     --glow: rgb(70 212 184 / 0.16);
     --surface-glass: rgb(21 25 31 / 0.72);
+    --island-bg: rgb(11 13 16 / 0.82);
     background-color: var(--paper);
     color: var(--ink);
   }
@@ -324,6 +325,10 @@
     background: var(--island-bg); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4);
     box-shadow: var(--e1);
   }
+  /* Night island: dark glass with a teal hairline, the cover's ground carried to the top of every page. */
+  .island.night { position: relative; color: var(--ink); border-color: var(--line-strong); box-shadow: var(--e2), inset 0 0 0 1px rgb(70 212 184 / 0.08); }
+  .island.night .island-name { font-size: var(--t-base); letter-spacing: var(--track-head); }
+  .island.night .island-role { color: var(--accent); }
   .island-name { display: grid; line-height: 1.15; font-weight: 600; font-size: var(--t-sm); text-decoration: none; white-space: nowrap; }
   .island-name:hover { color: var(--ink); }
   .island-role { font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 400; color: var(--ink-3); letter-spacing: var(--track-label); text-transform: uppercase; }
@@ -836,6 +841,7 @@
     @keyframes tab-up { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
     @keyframes draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
     @keyframes lift { from { box-shadow: none; } to { box-shadow: var(--e2); } }
+    @keyframes progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
     @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 3px var(--accent-soft); } 50% { box-shadow: 0 0 0 6px var(--accent-soft); } }
 
     /* Cover: in reading order on load, then the case tabs rise from the edge of the deck. */
@@ -865,6 +871,8 @@
       .pipe-steps::before, .timeline::before { animation: draw linear both; animation-timeline: view(); animation-range: entry 10% cover 50%; }
       /* The island gains depth once the page has moved. */
       .island { animation: lift linear both; animation-timeline: scroll(root); animation-range: 0 120px; }
+      /* Reading progress: a teal line along the island's lower edge that fills as the page scrolls. */
+      .island.night::after { content: ""; position: absolute; left: var(--s-6); right: var(--s-6); bottom: -1px; height: 2px; border-radius: 2px; background: var(--accent); transform-origin: left; animation: progress linear both; animation-timeline: scroll(root); }
     }
   }
 }
