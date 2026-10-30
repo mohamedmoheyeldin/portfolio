@@ -1,6 +1,20 @@
 # Testing
 
-## October 30, 2026 split redesign
+## October 30, 2026 diff redesign
+
+Run from `C:\Projects\scrollcraft\workspace\builds\portfolio-diff` against `dist` served on port 4600 (headless Brave Origin, `playwright-core` and `axe-core` from the workspace). pnpm was not on PATH in the session that built it, so the package scripts were run directly with Node 26: `tsc --noEmit`, `scripts/validate-content.mjs`, `scripts/build.mjs`, `scripts/build.mjs --pages` and `scripts/check-pages-build.mjs` (the same steps `pnpm verify` runs), all passing.
+
+**Functional suite (`functional.mjs`): 17 of 17 passed.** The split-build suite adapted to this build (the self-test now runs on the portfolio case study; the close no longer collapses) plus two new checks: the command palette (Ctrl K opens it with the input focused, typing filters, the active option is exposed through `aria-activedescendant`, Escape closes, Enter navigates, "/" opens it, the empty state shows) and the workflow diff (Before and After filter the lines, Diff restores both, `aria-pressed` follows). Includes axe-core WCAG 2.0/2.1/2.2 A and AA plus best practice on four pages in light and dark, after the self-test has run, on a phone and with the phone menu open; the overflow and CLS sweep at 375 to 1920px; keyboard, no-JS and reduced-motion runs.
+
+Defects the first runs found, all fixed: the phone menu button showed on desktop (a later rule overrode its hide); credential cards overflowed 71px at 375px (implicit grid columns sized to the badge image); the case-study result value overflowed 5px at 1280px; the icon-only search button had no name on phones, then a label/content mismatch (the label is now visually hidden text, the shortcut hint `aria-hidden`).
+
+**Visual review.** Full-page and first-screen shots at 1440 and 390px in light and dark for home, Experience and two case studies, plus close-ups of the loop, a featured project, compact rows, career, how I work, the contact plate, the open palette, and a featured project on a phone. Changes made from the review: station text aligned to the top of each station; the result and diff now lead the detail on phones; the Source link matches its button's size; facts sit two to a row on phones; the hero name is larger on phones.
+
+**Lighthouse (lab, local server, not field data):** home 100 / 100 / 100 / 100 (performance, accessibility, best practices, SEO) on mobile and desktop, LCP 1.2 s mobile, CLS 0, TBT 0 ms; Claims Document Assistant case study 99 / 100 / 100 / 100 on mobile (LCP 2.0 s) and 100 across on desktop.
+
+**Not verified.** Real phones and touch scrolling; Firefox and Safari engines; screen readers beyond axe; INP (needs field data); the Cloudflare deploy.
+
+## October 30, 2026 split redesign (superseded)
 
 Browser tools stay out of this repository: `playwright-core`, `axe-core` and `lighthouse` are installed in the Scrollcraft workspace (`C:\Projects\scrollcraft\workspace`) and drive headless Brave Origin. Scripts: `builds\portfolio-split\functional.mjs`, `snap.mjs` and `sections.mjs` (see `DEVELOPMENT.md`). Build with `pnpm build` before serving `dist`: `pnpm verify` ends on the `/portfolio/` subpath build.
 

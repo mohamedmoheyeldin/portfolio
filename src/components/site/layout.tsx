@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { profile } from "@/lib/career";
-import { email, emailAddress, gitHubUrl, href, linkedInUrl, root, roleEmail } from "./shared";
-import { ArrowUpRight, GitHub, LinkedIn, Mail, Menu, Moon, ResumeMenu, Sun, resumeOptions } from "./ui";
+import { caseStudyHref, email, emailAddress, gitHubUrl, href, linkedInUrl, projectDisplayName, root, roleEmail } from "./shared";
+import { ArrowUpRight, Copy, GitHub, LinkedIn, Mail, Menu, Moon, ResumeMenu, Search, Sun, resumeOptions } from "./ui";
 
 export type Place = "home" | "experience" | "case" | "other";
 
@@ -11,48 +11,106 @@ const navLinks = (place: Place) => [
   { label: "Contact", href: "#contact" },
 ];
 
-/**
- * The header is the seam's chrome: the name on the People side, the routes on the Systems side, and on wide screens
- * the two side labels sitting either side of the line.
- */
 function Header({ place }: { place: Place }) {
   const links = navLinks(place);
   return (
     <header className="site-header">
-      <div className="split-row header-row">
-        <div className="side side--people">
-          <a className="wordmark" href={root} aria-current={place === "home" ? "page" : undefined}>Mohamed Moheyeldin</a>
-          <span className="label seam-label" aria-hidden="true">People</span>
-        </div>
-        <div className="side side--systems">
-          <span className="label seam-label" aria-hidden="true">Systems</span>
-          <nav aria-label="Main" className="nav-wide">
-            <ul className="nav-links">
-              {links.map((link) => <li key={link.label}><a href={link.href} aria-current={link.current ? "page" : undefined}>{link.label}</a></li>)}
-            </ul>
-          </nav>
-          <div className="header-tools">
-            <button className="btn btn--quiet btn--icon theme-toggle js-only" type="button" data-theme-toggle aria-label="Switch theme">
-              <Moon className="icon-moon" /><Sun className="icon-sun" />
-            </button>
-            <a className="btn btn--primary nav-wide" href={roleEmail}><Mail />Email me</a>
-            <button className="btn btn--icon nav-narrow" type="button" popoverTarget="site-menu" aria-label="Open menu"><Menu /></button>
-          </div>
-        </div>
-      </div>
-      <div className="menu menu--site" id="site-menu" popover="auto">
-        <nav aria-label="Main">
-          <ul>{links.map((link) => <li key={link.label}><a href={link.href} aria-current={link.current ? "page" : undefined}>{link.label}</a></li>)}</ul>
+      <div className="wrap header-row">
+        <a className="wordmark" href={root} aria-current={place === "home" ? "page" : undefined}>
+          <span className="wordmark-name">Mohamed Moheyeldin</span>
+          <span className="wordmark-role" aria-hidden="true">{profile.headline}</span>
+        </a>
+        <nav aria-label="Main" className="nav-wide">
+          <ul className="nav-links">
+            {links.map((link) => <li key={link.label}><a href={link.href} aria-current={link.current ? "page" : undefined}>{link.label}</a></li>)}
+          </ul>
         </nav>
-        <hr />
-        <p className="label" id="site-menu-resume">Resume</p>
-        <ul aria-labelledby="site-menu-resume">
-          {resumeOptions.map((option) => <li key={option.href}><a href={option.href}>{option.label}<span className="menu-format">{option.format}</span></a></li>)}
-        </ul>
-        <hr />
-        <div className="actions"><a className="btn btn--primary" href={roleEmail}><Mail />Email me</a></div>
+        <div className="header-tools">
+          <button className="search-btn js-only" type="button" data-palette-open aria-haspopup="dialog" aria-controls="palette" aria-keyshortcuts="Control+K Meta+K">
+            <Search /><span className="search-label">Jump to</span><kbd data-shortcut aria-hidden="true">Ctrl K</kbd>
+          </button>
+          <button className="btn btn--quiet btn--icon theme-toggle js-only" type="button" data-theme-toggle aria-label="Switch theme">
+            <Moon className="icon-moon" /><Sun className="icon-sun" />
+          </button>
+          <a className="btn btn--primary nav-wide" href={roleEmail}><Mail />Email me</a>
+          <span className="menu-anchor nav-narrow">
+            <button className="btn btn--icon" type="button" popoverTarget="site-menu" aria-label="Open menu"><Menu /></button>
+            <div className="menu menu--site" id="site-menu" popover="auto">
+              <nav aria-label="Main">
+                <ul>{links.map((link) => <li key={link.label}><a href={link.href} aria-current={link.current ? "page" : undefined}>{link.label}</a></li>)}</ul>
+              </nav>
+              <hr />
+              <p className="label" id="site-menu-resume">Resume</p>
+              <ul aria-labelledby="site-menu-resume">
+                {resumeOptions.map((option) => <li key={option.href}><a href={option.href}>{option.label}<span className="menu-format">{option.format}</span></a></li>)}
+              </ul>
+              <hr />
+              <a className="btn btn--primary btn--block" href={roleEmail}><Mail />Email me</a>
+            </div>
+          </span>
+        </div>
       </div>
     </header>
+  );
+}
+
+type PaletteItem = { kind: string; name: string; hint?: string; href?: string; action?: string; keywords?: string };
+
+/** Everything the command palette can reach. Built from the career record, so it never drifts from the page. */
+function paletteItems(place: Place): PaletteItem[] {
+  const home = place === "home" ? "" : root;
+  return [
+    { kind: "Section", name: "Selected work", href: `${home}#work`, keywords: "projects portfolio case studies" },
+    { kind: "Section", name: "Career", href: `${home}#career`, keywords: "roles employers history timeline" },
+    { kind: "Section", name: "How I work", href: `${home}#approach`, keywords: "practices tools skills" },
+    { kind: "Section", name: "Contact", href: "#contact", keywords: "email hire reach audit" },
+    { kind: "Page", name: "Experience", hint: "Every role, project, skill and credential", href: href("experience/") },
+    { kind: "Page", name: "Credentials and education", href: href("experience/#learning"), keywords: profile.verifiedCredentials.map((c) => `${c.issuer} ${c.name}`).join(" ") },
+    ...profile.projects.map((project) => ({
+      kind: "Project", name: projectDisplayName(project), hint: project.context, href: caseStudyHref(project),
+      keywords: [project.name, project.role, ...project.technologies].join(" "),
+    })),
+    ...profile.experience.map((role) => ({
+      kind: "Role", name: role.employer, hint: role.title, href: href(`experience/#role-${role.id}`),
+      keywords: [role.location, role.customer ?? ""].join(" "),
+    })),
+    { kind: "Skills", name: "Skills and tools", href: href("experience/#skills"), keywords: profile.skillGroups.flatMap((g) => [g.label, ...g.items]).join(" ") },
+    ...resumeOptions.map((option) => ({ kind: "Resume", name: option.label, hint: option.format, href: option.href, keywords: "cv download" })),
+    { kind: "Contact", name: "Email me", hint: emailAddress, href: roleEmail, keywords: "mail message" },
+    { kind: "Contact", name: "Copy email address", hint: emailAddress, action: "copy-email" },
+    { kind: "Contact", name: "LinkedIn", href: linkedInUrl, keywords: "profile social" },
+    { kind: "Contact", name: "GitHub", href: gitHubUrl, keywords: "code source repositories" },
+    { kind: "Site", name: "Switch theme", hint: "Light or dark", action: "theme", keywords: "dark light mode appearance" },
+    { kind: "Site", name: "Test this page", hint: "Run the checks in your browser", href: href("experience/portfolio-career-content-system/#selftest"), keywords: "accessibility performance audit self-test" },
+  ];
+}
+
+/**
+ * The command palette: a native dialog with a combobox over the list above. It opens from the header button, Ctrl K
+ * or ⌘K, and "/". Without JavaScript it never opens and the header links cover the same routes.
+ */
+function Palette({ place }: { place: Place }) {
+  return (
+    <dialog className="palette" id="palette" aria-labelledby="palette-title">
+      <h2 className="sr-only" id="palette-title">Jump to</h2>
+      <div className="palette-field">
+        <Search />
+        <input type="text" role="combobox" aria-expanded="true" aria-controls="palette-list" aria-autocomplete="list" aria-label="Search projects, roles, skills, resume files and contact routes" placeholder="Search projects, roles, skills, resumes…" autoComplete="off" spellCheck={false} data-palette-input />
+        <kbd>Esc</kbd>
+      </div>
+      <ul className="palette-list" id="palette-list" role="listbox" aria-label="Results">
+        {paletteItems(place).map((item, i) => (
+          <li key={`${item.kind}-${item.name}-${i}`} id={`palette-opt-${i}`} role="option" aria-selected={i === 0}
+            data-href={item.href} data-action={item.action} data-search={`${item.kind} ${item.name} ${item.hint ?? ""} ${item.keywords ?? ""}`.toLowerCase()}>
+            <span className="palette-kind">{item.kind}</span>
+            <span className="palette-name">{item.name}</span>
+            {item.hint && <span className="palette-hint">{item.hint}</span>}
+          </li>
+        ))}
+      </ul>
+      <p className="palette-empty" hidden>No matches. Try a tool, an employer or “resume”.</p>
+      <p className="palette-foot" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>Enter</kbd> open</span><span><kbd>Esc</kbd> close</span></p>
+    </dialog>
   );
 }
 
@@ -62,45 +120,40 @@ const auditSteps = [
   ["Handoff", "Leave with a plan", "You get ranked opportunities, the risks, and a scoped first build, walked through with your team so it doesn't sit in a drawer."],
 ] as const;
 
-/**
- * The close of every page. It starts on the split; as it scrolls in, the Systems ground clips away to the right edge
- * and the seam goes with it, so People holds the full width for the one action.
- */
+/** The close of every page: the question, the one action, the direct routes, and the audit offer for teams. */
 function Close() {
   return (
-    <section className="close" id="contact" aria-labelledby="contact-heading" data-sc-act="collapse">
-      <div className="close-ground" aria-hidden="true" />
-      <div className="close-seam" aria-hidden="true" />
-      <div className="wrap close-inner">
-        <p className="label">Contact</p>
-        <h2 id="contact-heading">Building something with the people who will use it?</h2>
-        <p className="lede">
-          I'm open to Forward Deployed Engineer roles. Email is the fastest way to reach me.
-        </p>
-        <div className="actions">
-          <a className="btn btn--primary btn--lg" href={roleEmail}><Mail />Email me</a>
-          <ResumeMenu id="resume-menu-close" anchor="resume-close" size="lg" />
-        </div>
-        <div className="routes">
-          <div>
-            <h3 className="label">Direct</h3>
-            <ul>
-              <li><a href={email} id="contact-address">{emailAddress}</a> <button className="copy-btn js-only" type="button" data-copy={emailAddress} aria-describedby="contact-address">Copy</button></li>
-              <li><span className="muted">{profile.location.replace(/\s\d{5}$/, "")}</span></li>
-            </ul>
+    <section className="close" id="contact" aria-labelledby="contact-heading" data-sc-act="close">
+      <div className="wrap">
+        <div className="close-plate">
+          <div className="close-main">
+            <p className="label label--accent">Contact</p>
+            <h2 id="contact-heading">Have a workflow your users are fighting with?</h2>
+            <p className="lede">I'm open to Forward Deployed Engineer roles. Email is the fastest way to reach me.</p>
+            <div className="actions">
+              <a className="btn btn--primary btn--lg" href={roleEmail}><Mail />Email me</a>
+              <ResumeMenu id="resume-menu-close" size="lg" />
+            </div>
           </div>
-          <div>
-            <h3 className="label">Elsewhere</h3>
-            <ul>
-              <li><a href={linkedInUrl}><LinkedIn width={16} height={16} />LinkedIn<ArrowUpRight width={14} height={14} /></a></li>
-              <li><a href={gitHubUrl}><GitHub width={16} height={16} />GitHub<ArrowUpRight width={14} height={14} /></a></li>
+          <div className="close-routes">
+            <div className="address">
+              <p className="label">Email</p>
+              <p className="address-row">
+                <a href={email} id="contact-address">{emailAddress}</a>
+                <button className="copy-btn js-only" type="button" data-copy={emailAddress} aria-describedby="contact-address"><Copy /><span>Copy</span></button>
+              </p>
+              <p className="muted">Based in {profile.location.replace(/\s\d{5}$/, "")}</p>
+            </div>
+            <ul className="route-list">
+              <li><a href={linkedInUrl}><LinkedIn />LinkedIn<ArrowUpRight /></a></li>
+              <li><a href={gitHubUrl}><GitHub />GitHub<ArrowUpRight /></a></li>
             </ul>
-          </div>
-          <div>
-            <h3 className="label">Resume files</h3>
-            <ul>
-              {resumeOptions.map((option) => <li key={option.href}><a href={option.href}>{option.label} ({option.format})</a></li>)}
-            </ul>
+            <div>
+              <p className="label" id="close-resume-files">Resume files</p>
+              <ul className="file-list" aria-labelledby="close-resume-files">
+                {resumeOptions.map((option) => <li key={option.href}><a href={option.href}>{option.label}<span className="menu-format">{option.format}</span></a></li>)}
+              </ul>
+            </div>
           </div>
         </div>
         <section className="audit" aria-labelledby="audit-heading" id="work-with-me">
@@ -109,7 +162,7 @@ function Close() {
             <p>Fixed price, quoted after a short intro call. For teams that want AI in a real workflow but don't have the people to scope it yet.</p>
             <p><a className="link-arrow" href={`${email}?subject=${encodeURIComponent("AI workflow audit")}`}>Ask about the audit<ArrowUpRight /></a></p>
           </div>
-          <ol>
+          <ol className="audit-steps">
             {auditSteps.map(([label, title, text]) => <li key={label}><span className="label">{label}</span><h4>{title}</h4><p>{text}</p></li>)}
           </ol>
         </section>
@@ -124,7 +177,10 @@ function Footer() {
       <div className="wrap">
         <div className="footer-row">
           <p>© {new Date().getFullYear()} {profile.name}. Set in Instrument Sans and Geist Mono.</p>
-          <p><a href={`${root}#selftest`}>Test this page</a> · <a href={href("experience/portfolio-career-content-system/")}>How this site is built</a></p>
+          <p className="footer-links">
+            <a href={href("experience/portfolio-career-content-system/#selftest")}>Test this page</a>
+            <a href={href("experience/portfolio-career-content-system/")}>How this site is built</a>
+          </p>
         </div>
         <details>
           <summary>Professional references and intellectual property notice</summary>
@@ -160,6 +216,7 @@ export function Page({ place, children }: { place: Place; children: ReactNode })
       <main id="main-content" tabIndex={-1}>{children}</main>
       <Close />
       <Footer />
+      <Palette place={place} />
     </>
   );
 }

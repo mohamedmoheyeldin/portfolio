@@ -1,73 +1,53 @@
-# Scrollcraft brief: the split (portfolio-split)
+# Scrollcraft brief: the diff (portfolio-diff)
 
-**Self-authored under explicit creative delegation** (user instructions, 2026-10-30: "complete reinvention", "full authorization to make substantial design and technical decisions independently"). Facts come only from `src/content/career.json`. Nothing here is a user quotation.
+**Self-authored under explicit creative delegation** (user instructions, 2026-10-30: "complete reinvention", "you have my authorization to make substantial design and technical decisions independently"). Facts come only from `src/content/career.json`. Nothing here is a user quotation. The build folder is `C:\Projects\scrollcraft\workspace\builds\portfolio-diff`.
 
 ## The eight topics
 
-1. **Vibe:** calm, exact, two-handed, credible. References: an engineering drawing's title block; a well-run design review where the customer and the engineer sit on either side of one table.
-2. **Journey:** who he is and both halves of his work at once, then the work as evidence, then the career that produced it, then what he brings, then one way to reach him.
-3. **Energy:** calm open, the most intensity in the work, a quiet career, a brisk capabilities act, a decisive close.
-4. **Feeling and the one moment:** oriented, convinced, grounded, equipped, invited. The moment: pressing "Test this page" and watching the page run real checks on itself.
-5. **One thing no site does:** the portfolio of a quality engineer tests itself, live, in the visitor's browser, and reports what it found.
-6. **Range:** premium-minimal with a technical, drafted edge. No glow, no glass, no gradients.
-7. **One world or scenes:** distinct scenes held on one split. Not a continuous world.
-8. **Assets:** none photographic (repo rule: no logos, no branded imagery). Credential badge images on Experience only. Type, rules and two grounds do the work.
+1. **Vibe:** precise, warm, engineered, confident. References: a well-written pull request; an instrument panel with one signal light; an engineering drawing's grid.
+2. **Journey:** who he is and how he works, then what changed for the people using his work, then the career behind it, then what he brings, then one way to reach him.
+3. **Energy:** a strong open, the most intensity in the work, a calm career, a brisk practices act, a decisive close.
+4. **Feeling and the one moment:** oriented, convinced, grounded, equipped, invited. The moment: reading a project as a diff and seeing the old way of working struck out line by line and replaced.
+5. **One thing no site does:** a portfolio that shows each project as a diff of how a team worked before and after it, every line traceable to the record.
+6. **Range:** premium technical minimalism. No glass, no gradient text, one grid texture, one signal colour.
+7. **One world or scenes:** distinct scenes. Not a continuous world.
+8. **Assets:** none photographic (repo rule: no logos, no branded imagery). Credential badges on Experience only.
 
-## Grammar: split stage
+## Grammar: change review (new)
 
-Two columns held for the whole page. **People** (left, warm paper ground): who it was for, what they needed, how he worked with them. **Systems** (right, cool blue-tinted ground): what was built, how it works, how it was checked. The positioning line already has two halves: "Built with the people who use it. Tested before they do." The divider is the chrome: it carries both labels. The close collapses the divider and the People side takes the full width for the one action.
+The page reads like a reviewed change. A summary first (the hero: who, what, how he works), then the changes (projects as workflow diffs with their evidence), then the history (the career log), then the practices, then the ask. The chrome is a developer tool's: a sticky bar and a command palette that indexes everything. Section labels are plain words, not chapter numbers.
 
-Why the others lost: filmic one-shot needs footage and argues one thing; chaptered editorial, typographic poster, gallery and live surface are taken (FINGERPRINTS rows 1 to 4); continuous world has no geography here; rhythmic cutlist is wrong energy for hiring evidence.
+**Forbids:** split grounds or a seam; chapter intertitles or a margin folio; poster-scale type beyond the hero name; app sidebars and status bars; pinning; a close that collapses or inverts the page's structure.
 
-Adaptations, stated: a static (non-pinned) seam, because a pinned divider makes long case content unreadable on a phone. A slim static header carries Work, Experience, Contact and the resume for recruiters who will not scroll.
+Why the others lost: filmic one-shot needs footage; continuous world has no geography here; rhythmic cutlist is the wrong energy for hiring evidence; chaptered editorial, typographic poster, gallery, live surface and split stage are taken (FINGERPRINTS rows 1 to 5).
 
-## Signature move
+## Signature move: the workflow diff
 
-**Test this page.** A button on the Systems side of the hero (and in the footer) runs real assertions against the rendered page in the visitor's browser: one h1 and no skipped heading levels, alt text on every image, an accessible name on every link and button, no duplicate ids, every in-page link has a target, both resumes respond, text contrast on both grounds measured from computed colors, no horizontal overflow, touch targets at least 24px, layout shift so far, largest contentful paint, transferred page weight, reduced-motion respected, document language and description present. Results list with pass or fail and the measured value. Without JavaScript the list states what would be checked.
-
-## Journey and feeling curve
-
-| Act | Beat | Feeling | Cause |
-|---|---|---|---|
-| 1 Split title | Recognition | Oriented | Name, role, both halves readable at once; the halves enter from their own sides |
-| 2 Selected work | Substance (peak) | Convinced | Three projects as full splits: need on the left, system diagram and result on the right; three more as compact rows. Largest span |
-| 3 Career | Grounding | Grounded | The seam becomes the time axis; who each role served left, what it built right |
-| 4 Capabilities | Range | Equipped | Two short lists, People and Systems, and the credential count |
-| 5 Close | Commitment | Invited | The seam slides to the edge, People takes the width, "Email me" |
-
-Peak: act 2. Tell-someone sentence: "It's the site where the QA engineer's portfolio tests itself while you watch."
-
-Silence: none authored.
-
-## Score
-
-| Act | Device | Why |
-|---|---|---|
-| 1 | `in` from opposite edges (load) | The split is the format; each half arrives from its side |
-| 2 | `reveal` (seam draws down each project) + diagrams | Each project is a change of state from need to system |
-| 3 | `flow` with the seam as a time axis (scroll-driven year marks) | A career reads as a line, not a list |
-| 4 | static, two columns | A quiet act before the close |
-| 5 | collapse: seam translates to the edge, Systems ground clips away (scroll-driven) | The ending is the resolution of the split |
-
-Act count 5, short page (about 9 to 11 viewport heights at 1440x900). Native CSS only, inside `prefers-reduced-motion: no-preference` and `@supports (animation-timeline: view())`; the resting state is the visible state.
+Each project's before and after, set as a diff with a Before / Diff / After control and paired-line highlighting (`src/content/diffs.ts`, `WorkflowDiff` in `ui.tsx`, `initDiffs` in `enhance.ts`). Bespoke to this build; no prior row restates projects as diffs.
 
 ## Fingerprint gate
 
-Against every row in `C:\Projects\scrollcraft\workspace\FINGERPRINTS.md` (six dimensions: grammar, nav, hero, act sequence, close, signature):
+| Dimension | This build | Gallery | Editorial | Poster | Workbench | Split |
+|---|---|---|---|---|---|---|
+| Grammar | Change review | differs | differs | differs | differs | differs |
+| Nav | Sticky bar + command palette | differs | differs | differs | differs | differs |
+| Hero | Name, claim, facts row, working-loop rail | differs | differs | differs | differs | differs |
+| Act shape | 5 acts, no pins: in, reveal (peak), draw, in, static plate | differs | differs | differs | differs | differs |
+| Close | Dark contact plate with copyable address card and files | differs | similar (plate) | similar (plate) | differs | differs |
+| Signature | Workflow diff | differs | differs | differs | differs | differs |
 
-| Prior build | Differs on | Shared |
-|---|---|---|
-| portfolio-gallery | 5 of 6 | Nav: both use a top bar (this one is static at the top of the split and carries the seam labels, with a popover menu on phones) |
-| portfolio-editorial | 6 of 6 | none |
-| portfolio-poster | 6 of 6 | none |
-| portfolio-workbench | 6 of 6 | none |
+At least 5 of 6 against every row. Passes.
 
-Every row clears the 4-of-6 bar. What this build claims: the split stage grammar with People and Systems grounds, the seam as chrome, a name that crosses the seam, the collapse close, and a page self-test as the signature.
+## Feeling curve and score
 
-## Research that shaped it
+| Act | Feeling | Cause | Device |
+|---|---|---|---|
+| Hero | Oriented | Name, claim and the five-station loop with a signal that runs it twice | `in` (load) + drawn rail |
+| Work (peak) | Convinced | Each project's old way of working struck out and replaced, with the evidence named | `reveal` per diff line, largest span |
+| Career | Grounded | Three roles on a rail that draws down as it passes | draw |
+| How I work | Equipped | Practices and tools arrive as a grid | `in` |
+| Close | Invited | The dark plate: one action, the address to copy, every file | static plate |
 
-Patterns, not copies: Linear and Vercel (restraint, one accent, mono labels for data, hairlines over cards), Stripe (diagrams as ordered steps beside prose rather than illustrations), Raycast (a product surface people can actually operate), engineering portfolios that lead with evidence. The self-test answers Scrollcraft's "one thing no site does" for a quality engineer: the page proves the habit live instead of describing it.
+The peak is the work section: it holds the most scroll and the only interactive control in the page body.
 
-## Feel check (from the screenshots, after the build)
-
-Title: oriented. Work: convinced (the diagrams and evidence labels carry it; it is the longest act, as planned). Career: grounded. Capabilities: equipped. Close: invited, and it resolves rather than fading. Changed after the check: the result box leads the Systems band on phones; the role line under the name is held to the People side so it never runs across the seam; header actions trimmed so the bar never overflows at 1440px.
+**The tell-someone sentence:** "It's the site where every project is shown as a diff of how the team worked before and after."

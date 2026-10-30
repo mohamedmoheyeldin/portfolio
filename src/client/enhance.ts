@@ -1,12 +1,13 @@
 /*
  * The only JavaScript the published site ships. Pages are complete HTML without it; this adds:
- * the theme toggle, copy-address buttons, the current section in the header, closing the phone menu after a jump,
- * a link fallback where the popover API is missing, and the self-test runner.
+ * the theme toggle, copy-address buttons, the current section in the header, menu positioning and closing, the
+ * command palette, the Before / Diff / After views on workflow diffs, and the self-test runner.
  */
 import { checks, observeVitals, type CheckResult } from "@/lib/selftest";
 
 const root = document.documentElement;
-const themeColors = { light: "#f6f4ef", dark: "#131312" } as const;
+const themeColors = { light: "#f6f5f1", dark: "#0d0d0e" } as const;
+const reducedMotion = () => !matchMedia("(prefers-reduced-motion: no-preference)").matches;
 
 function setTheme(dark: boolean) {
   root.classList.toggle("dark-mode", dark);
@@ -21,15 +22,17 @@ function syncThemeButton(button: HTMLButtonElement) {
   button.setAttribute("aria-pressed", String(dark));
 }
 
+function toggleTheme() {
+  const flip = () => setTheme(!root.classList.contains("dark-mode"));
+  const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
+  if (doc.startViewTransition && !reducedMotion()) doc.startViewTransition(flip);
+  else flip();
+}
+
 function initTheme() {
   document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((button) => {
     syncThemeButton(button);
-    button.addEventListener("click", () => {
-      const flip = () => setTheme(!root.classList.contains("dark-mode"));
-      const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
-      if (doc.startViewTransition && matchMedia("(prefers-reduced-motion: no-preference)").matches) doc.startViewTransition(flip);
-      else flip();
-    });
+    button.addEventListener("click", toggleTheme);
   });
   // Follow the system while the visitor has not chosen.
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
@@ -39,20 +42,24 @@ function initTheme() {
   });
 }
 
+async function copyText(text: string) {
+  await navigator.clipboard.writeText(text);
+}
+
 function initCopy() {
   document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((button) => {
-    const original = button.textContent;
+    const label = button.querySelector("span") ?? button;
+    const original = label.textContent;
     button.addEventListener("click", async () => {
       try {
-        await navigator.clipboard.writeText(button.dataset.copy!);
-        button.textContent = "Copied";
+        await copyText(button.dataset.copy!);
+        label.textContent = "Copied";
       } catch {
-        button.textContent = "Press Ctrl+C";
-        const range = document.createRange();
+        label.textContent = "Press Ctrl+C";
         const target = document.getElementById(button.getAttribute("aria-describedby") ?? "");
-        if (target) { range.selectNodeContents(target); getSelection()?.removeAllRanges(); getSelection()?.addRange(range); }
+        if (target) { const range = document.createRange(); range.selectNodeContents(target); getSelection()?.removeAllRanges(); getSelection()?.addRange(range); }
       }
-      setTimeout(() => { button.textContent = original; }, 1800);
+      setTimeout(() => { label.textContent = original; }, 1800);
     });
   });
 }
@@ -74,11 +81,28 @@ function initCurrentSection() {
   targets.forEach((t) => observer.observe(t));
 }
 
-/** Close the phone menu after choosing a link, so the jump is visible. */
+type PopoverEl = HTMLElement & { hidePopover?: () => void; showPopover?: () => void };
+
+/** Close a menu after choosing a link; place menus under their buttons where CSS anchoring is missing. */
 function initMenus() {
-  document.querySelectorAll<HTMLElement>("[popover]").forEach((menu) => {
+  const anchored = CSS.supports("top: anchor(bottom)");
+  document.querySelectorAll<PopoverEl>(".menu[popover]").forEach((menu) => {
     menu.addEventListener("click", (event) => {
-      if ((event.target as Element).closest("a")) (menu as HTMLElement & { hidePopover?: () => void }).hidePopover?.();
+      if ((event.target as Element).closest("a")) menu.hidePopover?.();
+    });
+    if (anchored || menu.classList.contains("menu--site")) return;
+    menu.addEventListener("toggle", (event) => {
+      if ((event as ToggleEvent).newState !== "open") return;
+      const button = document.querySelector<HTMLElement>(`[popovertarget="${menu.id}"]`);
+      if (!button) return;
+      const r = button.getBoundingClientRect();
+      const width = menu.offsetWidth;
+      const below = innerHeight - r.bottom > menu.offsetHeight + 16;
+      Object.assign(menu.style, {
+        position: "fixed", margin: "0",
+        left: `${Math.max(8, Math.min(r.left, innerWidth - width - 8))}px`,
+        top: below ? `${r.bottom + 8}px` : `${Math.max(8, r.top - menu.offsetHeight - 8)}px`,
+      });
     });
   });
   // No popover API (older browsers): the resume buttons become plain links to the full PDF.
@@ -94,6 +118,113 @@ function initMenus() {
       button.replaceWith(link);
     });
   }
+}
+
+/**
+ * The command palette: a combobox over the options the server rendered. Typing filters by every word; arrows move
+ * the active option; Enter opens it. Focus returns to whatever opened the palette.
+ */
+function initPalette() {
+  const dialog = document.getElementById("palette") as HTMLDialogElement | null;
+  const input = dialog?.querySelector<HTMLInputElement>("[data-palette-input]");
+  const empty = dialog?.querySelector<HTMLElement>(".palette-empty");
+  if (!dialog || !input || !empty || typeof dialog.showModal !== "function") {
+    document.querySelectorAll("[data-palette-open]").forEach((el) => el.remove());
+    return;
+  }
+  const options = Array.from(dialog.querySelectorAll<HTMLLIElement>("[role='option']"));
+  const mac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+  document.querySelectorAll("[data-shortcut]").forEach((kbd) => { kbd.textContent = mac ? "⌘K" : "Ctrl K"; });
+  let active = 0;
+  let opener: HTMLElement | null = null;
+
+  const visibleOptions = () => options.filter((o) => !o.hidden);
+  const setActive = (index: number) => {
+    const list = visibleOptions();
+    if (!list.length) { input.removeAttribute("aria-activedescendant"); return; }
+    active = (index + list.length) % list.length;
+    list.forEach((o, i) => o.setAttribute("aria-selected", String(i === active)));
+    input.setAttribute("aria-activedescendant", list[active]!.id);
+    list[active]!.scrollIntoView({ block: "nearest" });
+  };
+  const filter = () => {
+    const words = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+    for (const option of options) option.hidden = !words.every((w) => option.dataset.search!.includes(w));
+    const any = visibleOptions().length > 0;
+    empty.hidden = any;
+    input.setAttribute("aria-expanded", String(any));
+    setActive(0);
+  };
+  const open = () => {
+    if (dialog.open) return;
+    opener = document.activeElement as HTMLElement | null;
+    input.value = "";
+    filter();
+    dialog.showModal();
+    input.focus();
+  };
+  const close = () => { if (dialog.open) dialog.close(); };
+  const choose = async (option: HTMLLIElement | undefined) => {
+    if (!option) return;
+    const { href, action } = option.dataset;
+    close();
+    if (action === "theme") toggleTheme();
+    else if (action === "copy-email") {
+      const address = document.querySelector<HTMLElement>("[data-copy]")?.dataset.copy;
+      if (address) { try { await copyText(address); } catch { location.href = `mailto:${address}`; } }
+    } else if (href) {
+      const url = new URL(href, location.href);
+      if (url.pathname === location.pathname && url.hash) {
+        const target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+        if (target) { history.pushState(null, "", url.hash); target.scrollIntoView(); target.focus({ preventScroll: true }); return; }
+      }
+      location.href = url.href;
+    }
+  };
+
+  dialog.addEventListener("close", () => { opener?.focus?.(); opener = null; });
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) { close(); return; }
+    const option = (event.target as Element).closest<HTMLLIElement>("[role='option']");
+    if (option) void choose(option);
+  });
+  dialog.addEventListener("mousemove", (event) => {
+    const option = (event.target as Element).closest<HTMLLIElement>("[role='option']");
+    if (option && !option.hidden) setActive(visibleOptions().indexOf(option));
+  });
+  input.addEventListener("input", filter);
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowDown") { event.preventDefault(); setActive(active + 1); }
+    else if (event.key === "ArrowUp") { event.preventDefault(); setActive(active - 1); }
+    else if (event.key === "Home" && event.ctrlKey) { event.preventDefault(); setActive(0); }
+    else if (event.key === "End" && event.ctrlKey) { event.preventDefault(); setActive(-1); }
+    else if (event.key === "Enter") { event.preventDefault(); void choose(visibleOptions()[active]); }
+  });
+  document.querySelectorAll<HTMLButtonElement>("[data-palette-open]").forEach((button) => button.addEventListener("click", open));
+  document.addEventListener("keydown", (event) => {
+    const typing = (event.target as Element | null)?.closest("input, textarea, select, [contenteditable='true']");
+    if ((event.key === "k" || event.key === "K") && (event.metaKey || event.ctrlKey)) { event.preventDefault(); dialog.open ? close() : open(); }
+    else if (event.key === "/" && !typing && !dialog.open) { event.preventDefault(); open(); }
+  });
+}
+
+/** Before / Diff / After on each workflow diff, and pairing: pointing at a line outlines the line it replaces. */
+function initDiffs() {
+  document.querySelectorAll<HTMLElement>("[data-diff]").forEach((diff) => {
+    const buttons = Array.from(diff.querySelectorAll<HTMLButtonElement>("[data-diff-view]"));
+    for (const button of buttons) {
+      button.addEventListener("click", () => {
+        diff.dataset.view = button.dataset.diffView!;
+        buttons.forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
+      });
+    }
+    const lines = Array.from(diff.querySelectorAll<HTMLElement>(".diff-line"));
+    const pair = (pairId: string | null) => lines.forEach((line) => line.classList.toggle("is-paired", pairId !== null && line.dataset.pair === pairId));
+    for (const line of lines) {
+      line.addEventListener("pointerenter", () => pair(line.dataset.pair!));
+      line.addEventListener("pointerleave", () => pair(null));
+    }
+  });
 }
 
 const marks: Record<CheckResult["state"], string> = { pass: "✓", fail: "✕", skip: "–" };
@@ -147,6 +278,8 @@ initTheme();
 initCopy();
 initCurrentSection();
 initMenus();
+initPalette();
+initDiffs();
 initSelfTest();
 // The Scrollcraft harness waits for this before walking the page.
 root.classList.add("sc-ready");
