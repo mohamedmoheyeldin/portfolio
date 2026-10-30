@@ -63,7 +63,7 @@ Selected projects
 Claims Document Assistant: Claude API assistant that extracts 17 fields from claim PDFs, flags gaps with fixed rules, and drafts replies a reviewer approves; 26 tests.
 https://github.com/mohamedmoheyeldin/claims-document-assistant
 
-Portfolio & Career Content System: Built a React/Untitled UI portfolio from validated JSON, with shared PDF/Word generation and static deployment packaging for Cloudflare.
+Portfolio & Career Content System: Built a statically rendered React portfolio from validated JSON, with shared PDF/Word generation and static deployment packaging for Cloudflare.
 https://github.com/mohamedmoheyeldin/portfolio
 
 Technical skills

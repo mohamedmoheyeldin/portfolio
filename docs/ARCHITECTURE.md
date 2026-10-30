@@ -1,82 +1,67 @@
 # Portfolio platform architecture
 
-The canonical `/experience/` page combines projects and employment context with professional approach, skills, and education. The former `/about/` page is a compatibility redirect, excluded from the sitemap. Its generated redirect preserves query strings and fragments with JavaScript and includes a no-JavaScript refresh and link. Individual project routes remain available.
-
 ## Purpose
 
-This repository is one personal-brand system with three presentation channels:
+One personal-brand system with three presentation channels:
 
-1. a semantic, prerendered React website;
+1. a semantic, statically rendered website;
 2. a searchable PDF resume produced with ReportLab;
 3. an editable Word resume produced by a dedicated DOCX renderer.
 
-All channels must consume the same schema-validated career record. They can select, order, and format facts for their medium, but cannot maintain separate copies of career history.
+All channels consume the same schema-validated career record (`src/content/career.json`). They may select, order and format facts for their medium, but never keep separate copies of career history.
 
-## Baseline boundaries
-
-Every page renders inside the workbench frame: a sticky sidebar (from 1024px) with the name, the pages, the outline of the current page, the six projects, "Email me", the resume menu, LinkedIn and GitHub; below 1024px a sticky top bar with the name, the inspector and a menu sheet. With JavaScript a status bar along the bottom of the main column shows the current location, the record the page reads from, the inspector and the theme toggle. The live experience clock was removed at the user’s request; there is no ticking interval or date-duration display.
-
-- Vite 8.x, React 19, strict TypeScript, semantic HTML, and Tailwind CSS v4.
-- Static output for Cloudflare Workers Static Assets and the custom domain.
-- Free Untitled UI React components (on React Aria) supply buttons and links, utility buttons with tooltips (copy, theme), the resume dropdown, the slide-out menu sheet, tabs, social icons, icons, and theme tokens. The inspector switch is a native toggle button (`aria-pressed`), the composer is a native form, the demos use native inputs and tables, and long detail uses native `<details>`. Components render to static HTML through React server rendering at build time. The application hydrates after static HTML loads; the Experience page uses React state for project and detail-section selection, with hash links and browser history support. See `UNTITLED-UI.md` for the component inventory and source adaptations.
-- `src/components/Portfolio.tsx` is the composition entry; the pages live in `src/components/site/` (see "Workbench redesign" below). Routes retain static content collection reads, route generation, and page metadata. There is no client router or application server.
-- Automated validation in the repo covers TypeScript diagnostics, content schemas, production builds, and subpath packaging. Browser, accessibility and performance checks run from the Scrollcraft workspace outside the repo (see `TESTING.md`); no browser test framework is a project dependency.
-- The standalone Python resume generator reads the same career JSON and renders PDF and DOCX downloads.
-
-## Project storytelling
-
-Work projects reference a canonical experience ID. The Experience page shows that employer, role, and end customer in the project's detail panel. Independent work has no employer association. Schema validation rejects missing or invalid work-to-experience references.
-
-Career-derived projects are stored beside the canonical career record and rendered through static detail routes. Their challenge, approach, outcome, toolkit, and disclosure fields are schema-validated. The project layer may reorganize documented responsibilities into a clearer narrative, but it cannot invent metrics or expose client-sensitive details.
-
-Independently shareable case-study routes own their page-specific title and description and intentionally omit the site-wide social image when no project-specific primary image exists.
-
-## Design flexibility
-
-The web presentation is the workbench described in `DESIGN_BRIEF.md`: upstream Untitled UI tokens and components on a graphite neutral scale, blue as the one hue (the signal for links, focus, the current place and the primary action), self-hosted Inter and Geist Mono. Layout styles live in `src/styles/global.css`; upstream semantic tokens live in `src/styles/theme.css`. PDF and DOCX generation resolves the light-theme text and brand colors from these same tokens, with Inter and print-specific type sizes.
-
-## Document pipeline
-
-`career.json` → `scripts/generate-resumes.py` → PDF / DOCX downloads
-
-The repository publishes one-page and detailed PDF/DOCX artifacts from the canonical content source through the dedicated resume generator. Web, PDF, and Word may format and select facts differently, but career history remains owned by the shared record. The site has no separate Resume page: the sidebar and overview "Resume" buttons and the contact section's PDF and Word links each open a menu (the phone menu sheet lists both PDFs) to choose the one-page or detailed version (without JavaScript they link to the detailed file), and `/resume/` redirects to the detailed PDF for older links.
-
-Case studies also validate audience, systems, decisions, evidence links, and FDE relevance. Evidence distinguishes user-reported career results from public source code. The portfolio walkthrough documents static rendering and explicitly states that no runtime API or database exists.
-
-Resume generation also regenerates concise/detailed Markdown and job-board plain text to keep downloadable formats aligned. Compact highlights select existing facts; the portfolio project uses its canonical resumeSummary.
-
-### Work explorer presentation
-
-The Experience introduction is followed by a compact credential strip before the professional experience heading. `src/content/credential-images.json` maps canonical credential verification links to the user's exact official Accredible image URLs and verified intrinsic dimensions. The existing content check validates image URLs and canonical references. A responsive grid displays as many previews per row as fit on wide screens and becomes a single swipeable row on narrow screens so the strip stays short before the work; each fixed-height image area uses `object-fit: contain` to preserve the complete badge or certificate. The strip uses ordinary images with alt text, lazy loading and async decoding, and requires no iframe or JavaScript scaling. Readable titles, year-only issue captions and verification links accompany each image. The Learning section shows credential titles, issuers, issue years and verification links. Expiration dates are retained as canonical facts but omitted from the portfolio's own listings and all resume formats; the issuer's unaltered certificate image contains its original issue/expiration details. Static text, images and links remain usable without JavaScript. This presentation mapping is separate from shared career facts and resume generation.
-
-The project selector is a numbered menu (matching the work index's order) beside one detail panel from 1000px, and a scrolling row above it on narrower screens. Embedded case studies show the employer, historical role, dates, and customer once. Three controls group the full content into Overview (problem and results), Implementation (contribution, systems, tools, and walkthrough), and Evidence. Disclosure notes remain visible in all three views. Direct project routes and server-rendered content remain available without JavaScript.
-
-Legacy `/work/` and `/work/<project>/` URLs redirect to the corresponding `/experience/` URLs, preserving query and fragment. `/about/` redirects to `/experience/`. Only canonical Experience routes appear in navigation and the sitemap.
-
-## Workbench redesign (October 30, 2026)
-
-The fourth Scrollcraft build on `NewIU`: the site as a working surface. It replaces the typographic poster (plate, dock, tool trace); that build stays in git history and in the Scrollcraft fingerprint registry.
+## Rendering: React at build time, no framework in the browser
 
 ```mermaid
 flowchart TB
-  App["App.tsx<br/>routes + metadata + PathContext"] --> Pages
-  subgraph site["src/components/site/"]
-    Pages["home.tsx · experience.tsx · case-study.tsx"] --> Frame["chrome.tsx · Page<br/>sidebar · top bar + sheet · status bar"]
-    Frame --> Inspect["inspect.tsx · InspectProvider<br/>Fact · InspectToggle · InspectSummary"]
-    Frame --> Closing["chrome.tsx · Closing<br/>composer · direct routes · audit · notice"]
-    Pages --> Demos["demos.tsx<br/>RulesDemo · GeneratorDemo"]
-    Shared["shared.tsx<br/>links · evidence source · project numbers · toolKey"]
+  subgraph build["Build (scripts/build.mjs)"]
+    App["App.tsx<br/>routes + titles + descriptions"] --> Pages["site/home · experience · case-study"]
+    Pages --> Layout["site/layout.tsx<br/>Header · Close · Footer"]
+    Pages --> UI["site/ui.tsx<br/>icons · ResumeMenu · Label · Tags"]
+    Pages --> Flows["content/flows.ts"]
+    Pages --> Checks["lib/selftest.ts (names)"]
+    App --> SSR["renderToString"] --> HTML["dist/**/index.html<br/>+ metadata, JSON-LD, sitemap, redirects"]
   end
-  Pages --> Shared
-  Career["lib/career.ts"] --> Pages
-  Career --> Frame
+  subgraph browser["Browser"]
+    Main["main.tsx"] --> Enhance["client/enhance.ts"]
+    Enhance --> Run["lib/selftest.ts (runs)"]
+  end
+  HTML --> browser
 ```
 
-- **Component organization.** `site/shared.tsx` holds links, the project display name and number, the derived evidence source, the record URL and `toolKey`. `site/chrome.tsx` holds `PathContext`, `Page` (the frame and section tracking), the sidebar, the top bar and its menu sheet, the status bar, `ResumeMenu`, `CopyEmail`, the theme toggle and `Closing` with the composer. `site/inspect.tsx` holds the inspector. `site/demos.tsx` holds the two demonstrations. `site/home.tsx` holds the overview, the work index and project documents, the practice pipeline, the career timeline and the stack matrix, plus the shared `SectionHead`, `CareerSection` and `PipelineFigure`. `Portfolio.tsx` re-exports them and owns the 404 page.
-- **The inspector (the signature move).** One boolean in `InspectProvider`, rendered by `Page`. `<Fact path evidence>` wraps a claim in the element it would have been anyway (`span`, `p`, `dd`, `strong`, `div`) and, while the inspector is on, appends a tag with the record path and the evidence; the tag is real text, so screen readers hear it too. The paths are written next to the field they render, so they cannot drift from the text. `InspectSummary` counts `.fact` elements by `data-evidence` and announces the total in a live region. Esc turns it off. Without JavaScript the switch is absent and facts are plain text.
-- **Demonstrations.** `RulesDemo` keeps a synthetic claim in state and runs seven checks on every change (required fields, NPI check digit by Luhn over the 80840 prefix, ICD-10 and CPT formats, date order, referral in date, positive amount), marks the failing inputs `aria-invalid`, and drafts the reply from a fixed template. `GeneratorDemo` generates a seeded batch (so the prerendered rows match the first client render), then computes the SHA-256 with `crypto.subtle` and the gzip size with `CompressionStream`. Both prerender their initial state, so the content is readable without JavaScript.
-- **Tokens.** `global.css` overrides the upstream `--color-neutral-*` scale with a graphite scale, so every Untitled UI component picks it up, and adds `--wb-*` surface tokens: ground, side, panel, sunken, line, line-strong, ink, ink-2, muted, accent, accent-ink, accent-tint, accent-line, hover, active, dot, chip, pass, flag and their tints, two shadows, the easing and the frame sizes (`--wb-side`, `--wb-status`, `--wb-top`). Dark values are set on `:root.dark-mode`, which also raises `--color-bg-primary` to the panel color and keeps link buttons blue.
-- **Layout.** `.wb-main` is a size container named `main`; sections, the overview, the explorer, the pager and the closing respond to `@container main` rather than the viewport, so the sidebar's width never has to be subtracted. Project documents, the flow figure, the demos and the timeline are containers of their own.
-- **Motion.** Native CSS in one block at the end of `global.css`: the overview settles on load in a short stagger; project documents, roles, the timeline, the matrix, the audit steps and the composer rise in on a `view()` timeline; timeline bars grow from their start, pipeline connectors draw, and matrix dots settle; inspector tags fade in; the theme switch crossfades through the View Transitions API. All of it is inside `prefers-reduced-motion: no-preference`; scroll-driven parts are also inside `@supports (animation-timeline: view())`.
-- **Fonts.** Self-hosted Latin WOFF2 subsets in `src/assets/fonts/` (Inter variable, Geist Mono variable), both preloaded from `index.html`, with local metric-adjusted fallback faces.
-- **Scrollcraft hooks.** Sections carry `data-sc-act` with their device name (`surface`, `index`, `document`, `peak`, `pipeline`, `timeline`, `matrix`, `input`) and `Page` adds `html.sc-ready` after mount. They have no runtime effect; they let the skill's harness find the acts.
+- `scripts/build.mjs` runs the Vite client build, then loads `src/entry-server.tsx` through Vite's SSR loader and writes every route, `404.html`, the sitemap, `robots.txt` and the legacy redirects. Each page carries its title, description, canonical, Open Graph tags and, on home, `ProfilePage` JSON-LD.
+- `src/main.tsx` imports the stylesheet and `client/enhance.ts`. In development only (there is no prerender step under `pnpm dev`) it first renders `App` with React; that branch sits behind `import.meta.env.DEV`, so production bundles contain no React. Production JavaScript is about 14 KB (under 6 KB gzipped).
+- `client/enhance.ts` adds: the theme toggle (system by default, a saved choice overrides, `theme-color` follows, View Transitions crossfade when motion is allowed); copy-address buttons; the current section marked in the header; closing the phone menu after a jump; a plain-link fallback where the popover API is missing; Core Web Vitals observers; the self-test runner; and `html.sc-ready` for the Scrollcraft harness.
+- Without JavaScript every page is complete: content, links, the resume and phone menus (native `popover`), `<details>` disclosures and the contact links all work. JS-only controls (`.js-only`) are hidden; the self-test states that it needs JavaScript.
+- The theme is applied before first paint by an inline script in `index.html` (`html.dark-mode`, saved in `localStorage` as `theme`).
+
+## The page self-test (signature move)
+
+`src/lib/selftest.ts` exports 16 checks, each `{ id, name, run }`. The server render lists their names; `enhance.ts` runs them in order when the visitor presses "Run the checks", writing the result and measured value into each row and a summary into a `role="status"` line. Every check reads the live page: heading order, image alt text, accessible names of links and buttons, duplicate ids, in-page link targets, HTTPS on external links, `HEAD` requests to the four resume files, WCAG contrast of every ink token on every ground token in the current theme, horizontal overflow, 24 px target size, a walk of the stylesheets confirming every animation sits inside `prefers-reduced-motion: no-preference` (and, with reduced motion on, that none run), the theme against the saved or system choice, language/title/description/canonical, transferred bytes from Resource Timing, layout shift and LCP from `PerformanceObserver`. Checks a browser cannot measure (LCP and CLS outside Chromium) report "not measurable here" rather than passing.
+
+## Project storytelling
+
+Work projects reference an experience ID; case studies show employer, role, dates and end customer. The three featured projects on home carry a diagram from `src/content/flows.ts`: an ordered list of steps plus side notes, each restating a documented `approach` or `systems` entry (the source index is commented beside each step) and captioned as a diagram of the documented design. The evidence label on every result (User-reported, Public source, Documented responsibility) is derived from the record by `evidenceSource()`, never typed.
+
+## Design system
+
+`src/styles/site.css`, in cascade layers `tokens, base, layout, components, motion`:
+
+- **Tokens.** Grounds (`--paper` People, `--grid` Systems, `--surface`, `--surface-2`), ink (`--ink`, `--ink-2`, `--ink-3`), lines (`--line`, `--line-strong`, `--seam`), one accent hue in two lightnesses (`--accent` with hover, ink, soft and line), status (`--pass`, `--fail`, `--warn`), three elevations and an edge light, type scale with `clamp()`, a 4px space scale, radii and easing. All colours are hex so print tooling and the self-test read them directly. `:root.dark-mode` redefines them; dark also sets type slightly heavier and looser.
+- **Layout.** `.split` paints the two grounds meeting at the viewport centre with a 1px seam; `.split-row` places two columns of at most `--half` (42rem) either side. Below 900px each side becomes its own band and the seam turns horizontal.
+- **Components.** Buttons (`.btn`, primary, quiet, icon, large), popover menus, the header, hero, self-test panel, project index, project split and compact row, flow diagram, career roles with year marks on the seam, capability lists, the close and its routes, the audit offer, footer, page heads, case-study parts, project table and credential grid.
+- **Motion.** Native CSS in the `motion` layer, entirely inside `prefers-reduced-motion: no-preference`; scroll-driven parts also inside `@supports (animation-timeline: view())`. The resting state is the visible state. See the design brief.
+
+## Document pipeline
+
+`career.json` → `scripts/generate-resumes.py` → PDF / DOCX / Markdown / job-board text in `public/resume/`.
+
+The generator reads the light-theme `--ink`, `--ink-3` and `--accent` hex tokens from `src/styles/site.css` for print colour, with Inter from `assets/fonts` and print-specific sizes. There is no Resume page: resume buttons open a popover with the one-page and full resume in PDF and Word, the close lists all four files as links, and `/resume/` redirects to the detailed PDF for older links.
+
+## Routes
+
+`/`, `/experience/`, `/experience/<slug>/` for six projects, and `404.html`. Legacy `/work/`, `/work/<slug>/` and `/about/` redirect to the matching `/experience/` URL, preserving query and fragment, with a no-JavaScript refresh. `/resume/` redirects to the detailed PDF. Only canonical routes appear in the sitemap. The GitHub Pages build (`--pages`) uses the `/portfolio/` base and is checked by `scripts/check-pages-build.mjs`.
+
+## Credentials
+
+`src/content/credential-images.json` maps public verification links to issuer badge images (validated for path and intrinsic size). Experience shows them grouped by issuer, uncropped (`object-fit: contain`), lazy-loaded with alt text, with year-only issue dates and verification links. Expiration dates stay in the record and are omitted from the site and resumes.

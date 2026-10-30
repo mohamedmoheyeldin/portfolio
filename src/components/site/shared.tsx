@@ -14,13 +14,7 @@ export const href = (path = "") => `${root}${path}`;
 export const resumeFile = (version: "one-page" | "detailed", format: "pdf" | "docx") => href(`resume/mohamed-moheyeldin-resume-${version}.${format}`);
 export const caseStudyHref = (project: Project) => href(`experience/${project.slug}/`);
 
-/** A section of the current page, listed in the sidebar outline and the phone menu. */
-export type Chapter = { id: string; label: string };
-
-/** The public copy of the career record, linked from the inspector. */
-export const recordUrl = "https://github.com/mohamedmoheyeldin/portfolio/blob/main/src/content/career.json";
-
-/** Two-digit project reference (01 to 06), used by the work index and the stack matrix. */
+/** Two-digit project reference (01 to 06), shared by the work index, project splits and case studies. */
 export const projectNumber = (project: Project) => String(careerProfile.projects.indexOf(project) + 1).padStart(2, "0");
 
 export function projectDisplayName(project: Project) {

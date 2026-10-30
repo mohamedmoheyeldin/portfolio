@@ -1,14 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
 
-// Plugins follow Untitled UI's official Vite integration.
 export default defineConfig(({ isPreview }) => ({
   appType: isPreview ? 'mpa' : 'spa',
   base: process.env.BASE_PATH || '/',
-  plugins: [react(), tailwindcss(), {
+  plugins: [react(), {
     name: 'portfolio-preview-404',
     configurePreviewServer(server) {
       server.middlewares.use((req, _res, next) => {

@@ -1,70 +1,64 @@
 # Mohamed Moheyeldin — Portfolio Platform
 
-[![Live site](https://img.shields.io/badge/live-mohamedmoheyeldin.com-2563EB)](https://mohamedmoheyeldin.com/)
+[![Live site](https://img.shields.io/badge/live-mohamedmoheyeldin.com-2445C8)](https://mohamedmoheyeldin.com/)
 [![Quality gates](https://github.com/mohamedmoheyeldin/portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/mohamedmoheyeldin/portfolio/actions/workflows/ci.yml)
-![React](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)
+![React](https://img.shields.io/badge/React-19%20(build%20time)-149ECA?logo=react&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![Cloudflare](https://img.shields.io/badge/hosted%20on-Cloudflare-F38020?logo=cloudflare&logoColor=white)
 ![Docs](https://img.shields.io/badge/docs-Claude%20Code%20%C2%B7%20Graphify%20%C2%B7%20Obsidian-7C3AED)
 
 > [!NOTE]
-> A prerendered React 19 + Vite 8 portfolio laid out as a working surface, where every claim can show the career-record field it comes from and two projects carry working demos, built on free Untitled UI components and one schema-validated career record that also generates every resume format.
+> A statically rendered portfolio held on two sides, People and Systems, with a page self-test visitors can run in their browser. One schema-validated career record drives the site and every resume format.
 
 ## Status
 
-The portfolio includes Home (overview with the profile record, Work index and project documents, How I work, Career, Stack, Contact), Experience with project and toolkit explorers, six case studies, and a resume library with PDF, Word, Markdown, and plain-text formats. "Inspect sources" annotates every fact with its career-record field and evidence; the Claims Document Assistant and Data Generator projects carry working demos on synthetic data; and both light and dark themes are designed separately. The portfolio itself is featured as an independent engineering project. The October 2026 workbench redesign is on the `NewIU` branch; see [the Scrollcraft brief](docs/SCROLLCRAFT-BRIEF.md).
+Home (split title with the self-test, six projects told from both sides with system diagrams, career on the seam, capabilities, contact), Experience (every role and highlight, project register, skills, credentials, education), six case studies, and a resume library in PDF, Word, Markdown and plain text. Light and dark themes are designed separately. The October 30, 2026 split redesign is on the `NewIU` branch; see [the Scrollcraft brief](docs/SCROLLCRAFT-BRIEF.md).
 
 `main` is the production branch for `https://mohamedmoheyeldin.com/`. Future Application Studio work belongs on `application-studio` and is not part of the current production release.
-
-## Local setup
-
-```bash
-pnpm install --frozen-lockfile
-pnpm verify
-pnpm dev
-```
-
-Use Node.js 24 (see `.nvmrc`) and pnpm 11.22.0. The same commands work in Windows PowerShell and POSIX shells.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-  Career["career.json<br/>(schema-validated)"] --> Site["React + Untitled UI<br/>prerendered pages"]
+  Career["career.json<br/>(schema-validated)"] --> Render["React components<br/>rendered at build time"]
+  Flows["flows.ts<br/>project diagrams"] --> Render
+  Render --> HTML["Static HTML<br/>every route + redirects"]
+  CSS["site.css<br/>tokens + split layout"] --> HTML
+  Enhance["enhance.ts (~5 KB gz)<br/>theme · menus · self-test"] --> HTML
   Career --> Resumes["Python generator<br/>PDF · DOCX · Markdown · text"]
-  Site --> Dist["Static build (dist/)"]
+  HTML --> Dist["dist/"]
   Resumes --> Dist
   Dist --> CF["Cloudflare Workers<br/>Static Assets"]
 ```
 
-- `src/content/career.json` — canonical draft career facts
-- `scripts/validate-content.mjs` — schema validation
-- `src/styles/theme.css` — upstream Untitled UI theme
-- `src/styles/global.css` — responsive portfolio layouts and typography
-- `src/components/site/` — pages (`home`, `experience`, `case-study`), the frame (`chrome`: sidebar, top bar and menu sheet, status bar, contact composer), the inspector (`inspect`) and the demos (`demos`); `Portfolio.tsx` re-exports them
-- `src/assets/fonts/` — self-hosted Inter and Geist Mono subsets
-- `src/components/base/` — free Untitled UI source components
+- `src/content/career.json` — canonical career facts, validated by `scripts/validate-content.mjs`
+- `src/content/flows.ts` — the three project diagrams, each step restating a documented field
+- `src/components/site/` — `layout.tsx` (header, close, footer), `home.tsx`, `experience.tsx`, `case-study.tsx`, `ui.tsx` (icons, resume popover, labels), `shared.tsx` (links and derived helpers)
+- `src/lib/selftest.ts` — the 16 page checks; `src/client/enhance.ts` — the only script the site ships
+- `src/styles/site.css` — the design system: tokens, both themes, split layout, components, motion
+- `scripts/build.mjs` — prerendering, metadata, structured data, sitemap and legacy redirects
 
-- `scripts/build.mjs` — canonical, social, icon, and structured metadata
-- `docs/` — architecture, provenance, and open design brief
+React renders pages at build time only. The published site ships no framework: the browser loads one small module for the theme switch, copy buttons, the current section and the self-test. Menus use the native popover API and long detail uses `<details>`, so they work without JavaScript.
 
-See [Architecture](docs/ARCHITECTURE.md), [Content provenance](docs/CONTENT_PROVENANCE.md), and [Design brief](docs/DESIGN_BRIEF.md).
-
-See [Untitled UI integration](docs/UNTITLED-UI.md) for upstream attribution and local adaptations.
-
-## Quality gates
+## Setup and commands
 
 ```bash
-pnpm check              # strict TypeScript diagnostics and content schema validation
-pnpm build              # Static production output
-pnpm test:pages         # GitHub Pages subpath packaging check
-pnpm verify             # Complete local gate (alias for pnpm quality)
+pnpm install --frozen-lockfile
+pnpm dev
+pnpm verify
 ```
 
-The quality gate validates TypeScript and content schemas, builds the site, and checks GitHub Pages subpath packaging. Browser checks (Playwright functional suite, axe-core WCAG 2.2 AA, Lighthouse, and the Scrollcraft scroll harness) run headless from the Scrollcraft workspace outside this repo, so the app's dependency tree stays free of test runners. Results and limits are in [Testing](docs/TESTING.md).
+Use Node.js 24 (see `.nvmrc`) and pnpm 11.22.0. The same commands work in Windows PowerShell and POSIX shells.
 
-See [Development](docs/DEVELOPMENT.md) and [Testing](docs/TESTING.md) for contributor workflow and test-layer details.
+| Task | Command |
+|---|---|
+| Dev server (port 4322, no browser opened) | `pnpm dev` |
+| Types and content schema | `pnpm check` |
+| Full local gate | `pnpm verify` |
+| Production build for Cloudflare | `pnpm build:cloudflare` |
+| Regenerate every resume format | `pnpm resume:generate` |
+
+`pnpm verify` ends with the `/portfolio/` subpath build; run `pnpm build` (or `pnpm build:cloudflare`) before previewing `dist`. Browser checks (Playwright functional suite, axe-core WCAG 2.2 AA, Lighthouse, the Scrollcraft scroll harness) run headless from the Scrollcraft workspace outside this repo. Results and limits are in [Testing](docs/TESTING.md).
 
 ## How this project is maintained
 
@@ -84,25 +78,24 @@ flowchart LR
 | Tool | Role in this project |
 |---|---|
 | [Claude Code](https://claude.com/claude-code) | Development, reviews, and documentation updates, following [CLAUDE.md](CLAUDE.md). |
-| [Graphify](https://pypi.org/project/graphifyy/) | A knowledge graph of the codebase, rebuilt by git hooks on every commit. Used to check what a change affects before editing. Output lives in `graphify-out/`, which is ignored by Git. |
-| [Obsidian](https://obsidian.md) | Linked project notes: architecture summary, decisions with their reasons, and an open todo list, alongside my other projects. |
+| [Graphify](https://pypi.org/project/graphifyy/) | A knowledge graph of the codebase, rebuilt by git hooks on every commit. Output lives in `graphify-out/`, which is ignored by Git. |
+| [Obsidian](https://obsidian.md) | Linked project notes: architecture summary, decisions with their reasons, and an open todo list. |
 | [GitHub](https://github.com/mohamedmoheyeldin/portfolio) | Pull requests run the quality gates; merges to `main` deploy through Cloudflare. |
-| [Scrollcraft](https://github.com/nateherkai/scroll-craft) | Design process for the redesign (brief, grammar, feeling curve, signature move) and its scroll-verification harness. Installed once per machine as a personal Claude Code skill; nothing from it ships in the site. See [Development](docs/DEVELOPMENT.md#scrollcraft). |
+| [Scrollcraft](https://github.com/nateherkai/scroll-craft) | Design process (brief, grammar, feeling curve, signature move, fingerprint gate) and the scroll-verification harness. Installed once per machine as a personal Claude Code skill; nothing from it ships in the site. |
 
 ## Documentation map
 
 | Document | Read it for |
 |---|---|
-| [Architecture](docs/ARCHITECTURE.md) | Content model, rendering, and the resume pipeline |
-| [Development](docs/DEVELOPMENT.md) | Setup, daily workflow, and source boundaries |
-| [Testing](docs/TESTING.md) | Quality gates and what they cover |
+| [Architecture](docs/ARCHITECTURE.md) | Rendering, the enhancement script, tokens, the resume pipeline |
+| [Design brief](docs/DESIGN_BRIEF.md) | Visual direction, type, colour, motion |
+| [Scrollcraft brief](docs/SCROLLCRAFT-BRIEF.md) | Grammar, journey, feeling curve, score, signature move, fingerprint gate |
+| [Development](docs/DEVELOPMENT.md) | Setup, daily workflow, source boundaries |
+| [Testing](docs/TESTING.md) | Quality gates and browser results, with what they do not cover |
 | [Content provenance](docs/CONTENT_PROVENANCE.md) | Where career facts come from and what may be published |
-| [Design brief](docs/DESIGN_BRIEF.md) | Visual direction |
-| [Scrollcraft brief](docs/SCROLLCRAFT-BRIEF.md) | Journey, feeling curve, score, signature move, research references |
-| [Untitled UI](docs/UNTITLED-UI.md) | Upstream components and local adaptations |
 | [Cloudflare](docs/CLOUDFLARE.md) | Production hosting and deployment |
 | [Dependencies](docs/DEPENDENCIES.md) | Why each dependency is here |
 
 ## Deployment
 
-Cloudflare Workers Static Assets is the production host. Pushes to `main` are built through Cloudflare's Git integration. Use `pnpm run build:cloudflare` and `pnpm dlx wrangler@4.144.0 deploy` in Cloudflare's build settings. See [Cloudflare deployment](docs/CLOUDFLARE.md).
+Cloudflare Workers Static Assets is the production host. Pushes to `main` are built through Cloudflare's Git integration with `pnpm run build:cloudflare` and deployed with `pnpm dlx wrangler@4.144.0 deploy`. See [Cloudflare deployment](docs/CLOUDFLARE.md).

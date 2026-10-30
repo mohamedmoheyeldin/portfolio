@@ -1,24 +1,11 @@
 # Dependency scope
 
-Every direct dependency is a used subset of the official Untitled UI Vite starter:
-https://github.com/untitleduico/untitledui-vite-starter-kit/blob/main/package.json
-
-- `@untitledui/icons`: upstream icon set.
-- `react`, `react-dom`, `react-aria-components`: component runtime, rendering, accessibility and interactions.
-- `tailwindcss`, `@tailwindcss/vite`, `tailwindcss-react-aria-components`, `tailwindcss-animate`: upstream styles and interaction/animation utilities.
-- `tailwind-merge`: upstream class composition helper.
-- `vite`, `@vitejs/plugin-react`: official starter build and development pipeline.
+- `react`, `react-dom`: render every page to HTML at build time (`renderToString`) and the dev-server preview. Production bundles contain no React.
+- `vite`, `@vitejs/plugin-react`: build and development pipeline, including the SSR loader the prerenderer uses.
 - `typescript`, `@types/react`, `@types/react-dom`, `@types/node`: compiler and type definitions; Node types match this project's Node 24 runtime.
 
-Astro, its adapter/checker, Fontsource, cross-env, Wrangler, and browser test runners have been removed from the application dependency tree. Cloudflare deployment uses `pnpm dlx wrangler@4.144.0` separately. Fonts are self-hosted files, not packages: Latin WOFF2 subsets of Inter (text and headings, variable weight, from Google Fonts) and Geist Mono (labels and figures, variable weight, from Vercel via Fontsource), both under the SIL Open Font License 1.1, in `src/assets/fonts/` (71 KB in total, fingerprinted by Vite and preloaded). They replaced the render-blocking Google Fonts stylesheet in the October 30, 2026 redesigns; Geist Mono replaced Archivo in the workbench redesign. No dependency was added for prerendering, content validation, routing, MCP, or motion: scroll effects and view transitions are native CSS.
+The October 30, 2026 split redesign removed Untitled UI (`@untitledui/icons` and the vendored component sources), `react-aria-components`, Tailwind CSS (`tailwindcss`, `@tailwindcss/vite`, `tailwindcss-react-aria-components`, `tailwindcss-animate`) and `tailwind-merge`. The site is static and needed none of them at runtime; they accounted for most of a 567 KB JavaScript bundle and 122 KB of CSS. Their replacements are a hand-written stylesheet (`src/styles/site.css`, about 30 KB), a dozen inline SVG icons (`src/components/site/ui.tsx`), the native popover API for menus and `<details>` for disclosures. The LinkedIn and GitHub marks keep the paths from the previous icon components.
 
-The redesign removed four vendored Untitled UI sources it no longer renders: the badge group, featured icon, grid background pattern and cloud illustration. Browser verification tools (Playwright, axe-core, Lighthouse) live in the Scrollcraft workspace outside this repository; see [TESTING.md](TESTING.md).
+Fonts are self-hosted files, not packages: Latin WOFF2 subsets of Instrument Sans (variable weight 400 to 700 and width 75 to 100, from Google Fonts) and Geist Mono (variable weight, from Vercel via Fontsource), both under the SIL Open Font License 1.1, in `src/assets/fonts/` (80 KB in total, fingerprinted by Vite and preloaded).
 
-The portfolio keeps a small local route composition and build-time React prerenderer so its existing URLs, metadata, sitemap, downloads, and no-JavaScript content remain available. These content-specific files are local code, not represented as upstream templates.
-
-## Untitled UI MCP
-
-Project configuration: `.mcp.json` (Claude Code) → `https://www.untitledui.com/react/api/mcp`. Claude Code asks you to approve the project server the first time it loads.
-Verified with live MCP initialize, tools/list, and tools/call get_component(button) requests without authentication. The server reported public access and returned its install command. These checks used the official HTTP MCP endpoint directly; configuration is not a claim that an active session has loaded the tools.
-
-Use free source only. PRO components and full templates require separate licensed access. Do not put credentials in this repository.
+Astro, Fontsource, cross-env, Wrangler and browser test runners are not application dependencies. Cloudflare deployment uses `pnpm dlx wrangler@4.144.0` separately. Browser verification tools (`playwright-core`, `axe-core`, `lighthouse`) live in the Scrollcraft workspace outside this repository; see [TESTING.md](TESTING.md). Resume generation uses Python packages listed in `scripts/requirements-resume.txt`, separate from the website.

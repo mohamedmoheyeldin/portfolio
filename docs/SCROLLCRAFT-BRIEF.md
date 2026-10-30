@@ -1,97 +1,73 @@
-# Scrollcraft brief: the workbench redesign
+# Scrollcraft brief: the split (portfolio-split)
 
-> [!NOTE]
-> Self-authored under explicit creative delegation. On 2026-10-30 the owner pasted a full reinvention brief ("complete design freedom", "do not preserve the current UI simply because it exists") and, asked whether to refine the poster build or start again, chose "Start a fourth redesign". No interview answers or quotations are invented here. Every fact on the page comes from `src/content/career.json`.
+**Self-authored under explicit creative delegation** (user instructions, 2026-10-30: "complete reinvention", "full authorization to make substantial design and technical decisions independently"). Facts come only from `src/content/career.json`. Nothing here is a user quotation.
 
-This is the fourth Scrollcraft build on `NewIU` (`scroll-craft` 0.3.1, upstream `75d81f7`). It replaces the typographic poster, which replaced the editorial build, which replaced the gallery build. All three are rows in the fingerprint registry (`C:\Projects\scrollcraft\workspace\FINGERPRINTS.md`) and this build is gated against each.
+## The eight topics
 
-## The eight topics (authored decisions)
+1. **Vibe:** calm, exact, two-handed, credible. References: an engineering drawing's title block; a well-run design review where the customer and the engineer sit on either side of one table.
+2. **Journey:** who he is and both halves of his work at once, then the work as evidence, then the career that produced it, then what he brings, then one way to reach him.
+3. **Energy:** calm open, the most intensity in the work, a quiet career, a brisk capabilities act, a decisive close.
+4. **Feeling and the one moment:** oriented, convinced, grounded, equipped, invited. The moment: pressing "Test this page" and watching the page run real checks on itself.
+5. **One thing no site does:** the portfolio of a quality engineer tests itself, live, in the visitor's browser, and reports what it found.
+6. **Range:** premium-minimal with a technical, drafted edge. No glow, no glass, no gradients.
+7. **One world or scenes:** distinct scenes held on one split. Not a continuous world.
+8. **Assets:** none photographic (repo rule: no logos, no branded imagery). Credential badge images on Experience only. Type, rules and two grounds do the work.
 
-| Topic | Decision |
-|---|---|
-| Vibe | Precise, calm, operable. A well-made engineering tool, opened on a career. References: a code review with its annotations shown, an instrument datasheet, a release checklist. |
-| Journey | Who this is, the work, how it is done, the career, the stack, then a message. |
-| Energy | Calm and dense at the open, rising through the project documents to the rule-check demo, level through the practice and career, precise at the stack, still at the composer. |
-| Feeling and the one moment | See the feeling curve. The moment: breaking a claim on purpose and watching the rules catch it and redraft the reply. |
-| One thing no other site does | Shows, beside every claim on the page, the field of the career record it comes from and how that claim is evidenced. |
-| Range | Dense and information-forward, with the restraint of good product UI. Not a poster, not editorial, not dark premium-minimal. |
-| One world or scenes | One surface (a sidebar, a main column, a status bar) with sections that are views inside it. |
-| Assets | None to generate (kie.ai is not used; the repo forbids generated artwork, logos and mock interfaces). Real assets: the career record, the case studies, the public repositories' documented rules, the official credential badges. |
+## Grammar: split stage
 
-## Grammar: live surface
+Two columns held for the whole page. **People** (left, warm paper ground): who it was for, what they needed, how he worked with them. **Systems** (right, cool blue-tinted ground): what was built, how it works, how it was checked. The positioning line already has two halves: "Built with the people who use it. Tested before they do." The divider is the chrome: it carries both labels. The close collapses the divider and the People side takes the full width for the one action.
 
-The page behaves like a tool. The sidebar, the status bar and the panels are real navigation and real state, and copy lives in the surface's idiom: properties, paths, statuses, empty and loading states.
+Why the others lost: filmic one-shot needs footage and argues one thing; chaptered editorial, typographic poster, gallery and live surface are taken (FINGERPRINTS rows 1 to 4); continuous world has no geography here; rhythmic cutlist is wrong energy for hiring evidence.
 
-The honesty rule is the constraint that makes this grammar available. Every operable panel computes its state in the page: the inspector reads the career record's fields, the work index and stack matrix are computed from `technologies` and `metric`, the rule-check demo runs seven deterministic checks on a synthetic claim, and the batch demo generates synthetic rows and checksums them with the browser's own crypto. Both demos say on their face that they restate the project's documented rules on synthetic data and are not the project's code. Nothing is a painting of an interface.
+Adaptations, stated: a static (non-pinned) seam, because a pinned divider makes long case content unreadable on a phone. A slim static header carries Work, Experience, Contact and the resume for recruiters who will not scroll.
 
-Why the others lost:
+## Signature move
 
-- **Gallery / catalog**, **chaptered editorial** and **typographic poster** are the three previous builds.
-- **Filmic one-shot** and **continuous world** need footage or a generated world. There is none, by rule.
-- **Split stage** needs one two-sided argument; a career is not a before and after.
-- **Rhythmic cutlist** suits energy brands; hard short cuts would hide the evidence a hiring manager reads for.
+**Test this page.** A button on the Systems side of the hero (and in the footer) runs real assertions against the rendered page in the visitor's browser: one h1 and no skipped heading levels, alt text on every image, an accessible name on every link and button, no duplicate ids, every in-page link has a target, both resumes respond, text contrast on both grounds measured from computed colors, no horizontal overflow, touch targets at least 24px, layout shift so far, largest contentful paint, transferred page weight, reduced-motion respected, document language and description present. Results list with pass or fail and the measured value. Without JavaScript the list states what would be checked.
 
-Grammar rules kept: app chrome replaces marketing chrome (no wordmark-plus-CTA bar, no scrims, no kinetic headline stacks, no display type above about 4.75rem); no `scrub`, `kinetic`, `spotlight`; the close is an actual input. One stated deviation: the first screen carries a plain-language claim and three actions beside the profile panel, because a recruiter must understand the person in seconds; it is still the surface in a state, not a title over media.
+## Journey and feeling curve
 
-## Journey
+| Act | Beat | Feeling | Cause |
+|---|---|---|---|
+| 1 Split title | Recognition | Oriented | Name, role, both halves readable at once; the halves enter from their own sides |
+| 2 Selected work | Substance (peak) | Convinced | Three projects as full splits: need on the left, system diagram and result on the right; three more as compact rows. Largest span |
+| 3 Career | Grounding | Grounded | The seam becomes the time axis; who each role served left, what it built right |
+| 4 Capabilities | Range | Equipped | Two short lists, People and Systems, and the credential count |
+| 5 Close | Commitment | Invited | The seam slides to the edge, People takes the width, "Email me" |
 
-1. **Recognition.** Name, role, claim, the three actions, and the profile record open beside them (overview).
-2. **Overview of proof.** All six projects in one table: result and evidence source (work index).
-3. **Proof (peak).** Six project documents with properties, problem, what I did, decisions and evidence; the Claims Document Assistant and Data Generator documents carry working demos (work).
-4. **Method.** Five stages of how the work is done, drawn as a pipeline, each tied to a project (how I work).
-5. **Trajectory.** A time axis of the three roles, then each role (career).
-6. **Range.** Every tool the projects name against the six projects, plus the rest of the toolkit (stack).
-7. **Commitment.** A message composer addressed to me, the direct routes, the audit offer (contact).
+Peak: act 2. Tell-someone sentence: "It's the site where the QA engineer's portfolio tests itself while you watch."
 
-## Feeling curve
-
-| Act | Feeling | What causes it |
-|---|---|---|
-| Overview | Oriented | The person, the claim and the record are on one calm screen; the inspector is offered once |
-| Work index | In control | Six rows, one glance: what each project achieved and how you could check it |
-| Project documents | Absorbed, then **convinced** (peak) | Real problems and decisions; then you break a claim and the rules catch it |
-| How I work | Clear | Five stages in a line, each linked to the place it shows |
-| Career | Grounded | Proportional bars on a real time axis, newest role in blue |
-| Stack | Precise | A dot matrix that answers "where did he use X" without searching |
-| Contact | Invited | A cursor in a message field, already addressed and titled |
-
-**The peak**, as a visitor would say it: "There's a demo where you break a claim and it catches it and rewrites the reply." It lives in the work, the longest act by a wide margin.
-
-**Tell-someone sentence:** It's the site where you can check where every claim comes from, and try the work yourself.
-
-**Authored silence:** the 20 to 25% of each section's top padding is deliberate air between views, not dead scroll.
+Silence: none authored.
 
 ## Score
 
-| Act | Device | Why this one |
+| Act | Device | Why |
 |---|---|---|
-| Overview | `surface` (static state, staggered settle on load) | The tool is already open; nothing to wait for |
-| Work index | `index` (table with jump rows) | A table is the honest shape of six comparable things |
-| Project documents | `document` + `in` (rise on a `view()` timeline) + the demos | Documents arrive one at a time; the demos are the operable peak |
-| How I work | `pipeline` (connectors draw on scroll) | A process reads as a line between stages |
-| Career | `timeline` (bars grow from their start month) | Duration is the information |
-| Stack | `matrix` (dots settle as the table enters) | A two-axis question gets a two-axis answer |
-| Contact | `input` (still) | The page ends by handing over a cursor |
+| 1 | `in` from opposite edges (load) | The split is the format; each half arrives from its side |
+| 2 | `reveal` (seam draws down each project) + diagrams | Each project is a change of state from need to system |
+| 3 | `flow` with the seam as a time axis (scroll-driven year marks) | A career reads as a line, not a list |
+| 4 | static, two columns | A quiet act before the close |
+| 5 | collapse: seam translates to the edge, Systems ground clips away (scroll-driven) | The ending is the resolution of the split |
 
-Seven acts, no pins, no scrub. Adjacent acts never share a device or a feeling.
-
-## Signature move: the provenance inspector
-
-"Inspect sources" (in the profile panel, the status bar and the phone top bar; Esc closes it) prints a tag beside every fact on the page: the career-record field it is rendered from (for example `projects.claims-document-assistant.metric.value`) and its evidence (public source, user-reported, documented responsibility, career record, verified credential). The status bar totals the facts on the page by evidence. Facts are wrapped in `<Fact>` in the components, so the tags cannot drift from what is rendered. It has nothing to do with the kit's devices, and none of the earlier builds annotated their own claims.
+Act count 5, short page (about 9 to 11 viewport heights at 1440x900). Native CSS only, inside `prefers-reduced-motion: no-preference` and `@supports (animation-timeline: view())`; the resting state is the visible state.
 
 ## Fingerprint gate
 
-| Dimension | This build | vs gallery | vs editorial | vs poster |
-|---|---|---|---|---|
-| Grammar | Live surface | differs | differs | differs |
-| Nav treatment | App sidebar with outline, pages and projects; status bar; phone top bar with a menu sheet | differs | differs | differs |
-| Hero device | The surface in a state: identity and claim beside an open profile record | differs | differs | differs |
-| Act-sequence shape | 7 acts, no pins: surface, index, document + in + demos, pipeline, timeline, matrix, input | differs | differs | differs |
-| Close pattern | An actual input: a message composer that opens the visitor's email app, plus direct routes | differs | differs | differs |
-| Signature move | Provenance inspector | differs | differs | differs |
+Against every row in `C:\Projects\scrollcraft\workspace\FINGERPRINTS.md` (six dimensions: grammar, nav, hero, act sequence, close, signature):
 
-6 of 6 against each row. Shared with earlier rows: a static React site, blue as the one hue, no photographic media (repo rules).
+| Prior build | Differs on | Shared |
+|---|---|---|
+| portfolio-gallery | 5 of 6 | Nav: both use a top bar (this one is static at the top of the split and carries the seam labels, with a popover menu on phones) |
+| portfolio-editorial | 6 of 6 | none |
+| portfolio-poster | 6 of 6 | none |
+| portfolio-workbench | 6 of 6 | none |
 
-## Verification
+Every row clears the 4-of-6 bar. What this build claims: the split stage grammar with People and Systems grounds, the seam as chrome, a name that crosses the seam, the collapse close, and a page self-test as the signature.
 
-See `TESTING.md` (workbench build) for the functional, accessibility, screenshot and overflow results.
+## Research that shaped it
+
+Patterns, not copies: Linear and Vercel (restraint, one accent, mono labels for data, hairlines over cards), Stripe (diagrams as ordered steps beside prose rather than illustrations), Raycast (a product surface people can actually operate), engineering portfolios that lead with evidence. The self-test answers Scrollcraft's "one thing no site does" for a quality engineer: the page proves the habit live instead of describing it.
+
+## Feel check (from the screenshots, after the build)
+
+Title: oriented. Work: convinced (the diagrams and evidence labels carry it; it is the longest act, as planned). Career: grounded. Capabilities: equipped. Close: invited, and it resolves rather than fading. Changed after the check: the result box leads the Systems band on phones; the role line under the name is held to the People side so it never runs across the seam; header actions trimmed so the bar never overflows at 1440px.

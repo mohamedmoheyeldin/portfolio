@@ -25,7 +25,7 @@ for (const project of JSON.parse(career)[0].projects) {
   expectations.push([home, `id="entry-${project.slug}"`]);
   expectations.push([work, `href="/portfolio/experience/${project.slug}/"`]);
 }
-expectations.push([work, 'aria-label="Choose a project"']);
+expectations.push([work, 'aria-label="Project case studies"']);
 
 for (const [output, expected] of expectations) {
   if (!output.includes(expected)) {

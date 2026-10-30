@@ -22,8 +22,9 @@ For fast feedback, run `pnpm check` while editing. Use `pnpm verify` before hand
 - `src/content/career.json` is the canonical draft career record and must remain schema-valid.
 - `scripts/build.mjs` owns shared page metadata and structure.
 - Reuse `src/components/` and `src/styles/` rather than creating route-local variants for shared behavior.
-- All routes render inside `Page` from `src/components/site/chrome.tsx`: the sidebar (from 1024px), the top bar and menu sheet (narrower), the page, the contact composer and the status bar, with the inspector provider from `inspect.tsx`. Pages pass their section list to `Page`; it adds Contact. Wrap any claim rendered from the career record in `<Fact path="..." evidence="...">` so the inspector can show where it comes from. Put long detail in native `<details>` so it works without JavaScript. Lay out against `@container main`, not the viewport, so the sidebar width never has to be subtracted.
-- Untitled UI components live under `src/components/base/`; the portfolio uses the free MIT source distribution only. See `docs/UNTITLED-UI.md` for provenance.
+- All routes render inside `Page` from `src/components/site/layout.tsx`: the header, the page, the close (contact) and the footer. Compose sections from `.split` / `.split-row` / `.side--people` / `.side--systems` so the seam stays continuous; put the human side (who, what was needed, decisions) left and the system side (what was built, how it works, evidence) right.
+- Pages render to static HTML at build time; the browser runs only `src/client/enhance.ts`. Do not add React state or effects to page components: they never run in production. Add behaviour to `enhance.ts` through `data-*` attributes, and keep the page complete without it (native `popover`, `<details>`, plain links).
+- Use the tokens in `src/styles/site.css` (both themes are defined there); do not hard-code colours. New claims about the page belong in `src/lib/selftest.ts` only if they are measured live.
 - Use `pnpm dev --host 127.0.0.1 --port 4322` for a local review server. Stop the running Vite process with Ctrl+C before reusing its port.
 - Development and preview servers do not open a browser. Share the local URL and let the user open it. Browser automation requires an explicit request; the configured Chrome DevTools connection uses a separate temporary Brave Origin profile.
 - After `pnpm verify`, restore the root deployment build with `pnpm build:cloudflare` because the final check builds `/portfolio/` output.
@@ -36,7 +37,7 @@ The design follows the Scrollcraft skill (`scroll-craft` 0.3.1). It is installed
 - Source: `C:\Projects\scrollcraft\scroll-craft` (an unmodified copy of upstream `plugins/nateherk-design/skills/scroll-craft` at `75d81f7`; maintenance notes in `C:\Projects\scrollcraft\START-HERE.txt`).
 - Claude Code loads it as a personal skill through the junction `%USERPROFILE%\.claude\skills\scroll-craft`. Invoke it with `/scroll-craft`. Do not also install the `nateherk-design` plugin; that loads a second copy.
 - Workspace: `C:\Projects\.scrollcraft.json` points at `C:\Projects\scrollcraft\workspace` (builds, lab shots, `FINGERPRINTS.md`, and `playwright-core`, `axe-core` and `lighthouse` for verification). This repo carries none of them.
-- No engine files are copied into the site. The portfolio uses the skill's process and taste floor with native CSS; its sections carry `data-sc-act` markers and the page adds `html.sc-ready` after hydration so the skill's `shoot.mjs` harness can walk them.
+- No engine files are copied into the site. The portfolio uses the skill's process and taste floor with native CSS; its sections carry `data-sc-act` markers and `enhance.ts` adds `html.sc-ready` once it has run so the skill's `shoot.mjs` harness can walk them.
 
 Preflight and harness (set `SCROLLCRAFT_CHROME` to Brave, the only Chromium browser on this machine):
 
@@ -45,14 +46,14 @@ $env:SCROLLCRAFT_CHROME = "C:\Program Files\BraveSoftware\Brave-Origin\Applicati
 cd C:\Projects\scrollcraft\workspace
 node ..\scroll-craft\scripts\doctor.mjs
 node ..\scroll-craft\scripts\serve.mjs --root C:\Projects\portfolio\dist --port 4600
-node ..\scroll-craft\scripts\shoot.mjs --url http://127.0.0.1:4600/ --out lab\portfolio-workbench\desktop
-node builds\portfolio-workbench\functional.mjs   # navigation, theme, resumes, composer, inspector, both demos, keyboard, phone, no-JS, reduced motion, axe (both themes)
-node builds\portfolio-workbench\pages.mjs        # screenshots 375 to 1920px, both themes, overflow and CLS sweep
+node ..\scroll-craft\scripts\shoot.mjs --url http://127.0.0.1:4600/ --out builds\portfolio-split\lab\desk
+node builds\portfolio-split\functional.mjs   # navigation, theme, resumes, contact, work, self-test (4 widths x 2 themes), planted defects, keyboard, phone, no-JS, reduced motion, overflow + CLS sweep, credentials, axe
+node builds\portfolio-split\snap.mjs builds\portfolio-split\shots http://127.0.0.1:4600 / /experience/   # screenshots, both themes, desktop and phone
 ```
 
 ## Dependency compatibility
 
-Direct dependencies are a used subset of the official Untitled UI Vite starter. React, React Aria, Tailwind, TypeScript, and Vite are required by that stack. Node types match Node 24. Astro, cross-env, Fontsource, and Wrangler are not app dependencies. Deployment uses a separate pinned pnpm dlx command.
+Direct dependencies are React and React DOM (build-time rendering), Vite with its React plugin, and TypeScript with type packages; see `docs/DEPENDENCIES.md`. Node types match Node 24. Astro, cross-env, Fontsource, and Wrangler are not app dependencies. Deployment uses a separate pinned pnpm dlx command.
 
 ## Deployment authorization
 
@@ -62,7 +63,7 @@ Local verification does not authorize deployment. Cloudflare and GitHub Pages ea
 
 Resume content uses `compactHighlights` and `highlights` in the shared career record. Keep the VA customer line in both formats. The detailed document starts earlier employment on page two; inspect pagination after content changes. Portable Markdown and plain-text copies are under `public/resume/`; reconcile them when changing the career record. The website offers the plain-text version for job-board forms.
 
-Install Python 3.10+ and the document-only requirements with `python -m pip install -r scripts/requirements-resume.txt`. Run `pnpm install --frozen-lockfile`, then `pnpm resume:generate`. The generator reads the current Untitled UI light-theme tokens, Inter fonts, and career JSON and replaces all seven files under `public/resume`: both PDF, DOCX, and Markdown variants plus job-board text. Verified credentials share issuer and date metadata in print, with a public verification link on each title. Run `pnpm build:cloudflare` afterward so local downloads serve the new files.
+Install Python 3.10+ and the document-only requirements with `python -m pip install -r scripts/requirements-resume.txt`, then run `pnpm resume:generate`. To run without installing into a Python: `uv run --no-project --with-requirements scripts/requirements-resume.txt python scripts/generate-resumes.py src/content/career.json public/resume`. The generator reads the light-theme `--ink`, `--ink-3` and `--accent` tokens from `src/styles/site.css`, Inter fonts, and career JSON and replaces all seven files under `public/resume`: both PDF, DOCX, and Markdown variants plus job-board text. Verified credentials share issuer and date metadata in print, with a public verification link on each title. Run `pnpm build:cloudflare` afterward so local downloads serve the new files.
 
 Visually inspect both PDFs and render the DOCX files with an available document renderer before claiming Word pagination is verified. Python document packages are separate from the website dependencies.
 

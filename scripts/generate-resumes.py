@@ -7,7 +7,6 @@ import argparse
 from datetime import datetime
 from html import escape
 import json
-import math
 import re
 from pathlib import Path
 
@@ -31,41 +30,18 @@ FONT = "Inter"
 
 
 def theme_color(name: str) -> str:
-    """Resolve the site's light Untitled UI tokens; convert OKLCH to sRGB for print."""
-    upstream = (ROOT / "node_modules/tailwindcss/theme.css").read_text(encoding="utf-8")
-    theme = (ROOT / "src/styles/theme.css").read_text(encoding="utf-8").split(".dark-mode")[0]
-    tokens = {}
-    for source in (upstream, theme):
-        # First occurrence is the light theme; later dark overrides are excluded.
-        local = {}
-        for key, value in re.findall(r"(--[\w-]+):\s*([^;]+);", source):
-            local.setdefault(key, value.strip())
-        tokens.update(local)
-    value = tokens[name]
-    visited = {name}
-    while value.startswith("var("):
-        key = value[4:-1]
-        if key in visited:
-            raise ValueError(f"Cyclic theme token: {key}")
-        visited.add(key)
-        value = tokens[key]
-    if value.startswith("rgb("):
-        channels = [round(float(v)) for v in value[4:-1].split()]
-    elif value.startswith("oklch("):
-        light, chroma, hue = value[6:-1].split()
-        light, chroma, hue = float(light.rstrip("%")) / 100, float(chroma), math.radians(float(hue) if hue != "none" else 0)
-        a, b = chroma * math.cos(hue), chroma * math.sin(hue)
-        l, m, s = (light + .3963377774*a + .2158037573*b)**3, (light - .1055613458*a - .0638541728*b)**3, (light - .0894841775*a - 1.291485548*b)**3
-        linear = [4.0767416621*l - 3.3077115913*m + .2309699292*s, -1.2684380046*l + 2.6097574011*m - .3413193965*s, -.0041960863*l - .7034186147*m + 1.707614701*s]
-        channels = [round(255 * max(0, min(1, 12.92*c if c <= .0031308 else 1.055*c**(1/2.4)-.055))) for c in linear]
-    else:
-        raise ValueError(f"Unsupported print color: {value}")
-    return "".join(f"{c:02X}" for c in channels)
+    """Read a light-theme colour token from the site stylesheet (hex values in the :root block)."""
+    css = (ROOT / "src/styles/site.css").read_text(encoding="utf-8")
+    light = css.split(":root.dark-mode")[0]
+    match = re.search(rf"{re.escape(name)}:\s*#([0-9a-fA-F]{{6}})\s*;", light)
+    if not match:
+        raise ValueError(f"Missing print colour token: {name}")
+    return match.group(1).upper()
 
 
-INK = theme_color("--color-text-primary")
-MUTED = theme_color("--color-text-tertiary")
-BLUE = theme_color("--color-text-brand-secondary")
+INK = theme_color("--ink")
+MUTED = theme_color("--ink-3")
+BLUE = theme_color("--accent")
 for face, filename in [("Inter", "Inter-Regular.ttf"), ("Inter-SemiBold", "Inter-SemiBold.ttf")]:
     pdfmetrics.registerFont(TTFont(face, str(ROOT / "assets/fonts" / filename)))
 pdfmetrics.registerFontFamily("Inter", normal="Inter", bold="Inter-SemiBold", italic="Inter", boldItalic="Inter-SemiBold")

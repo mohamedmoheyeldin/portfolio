@@ -512,7 +512,7 @@
         "challenge": "I needed my career facts to match across the website, a one-page resume, and a detailed resume without copying the same text into each one.",
         "approach": [
           "Designed a schema-validated career record consumed by every presentation channel.",
-          "Rebuilt the portfolio on the official Untitled UI React and Vite stack, preserving static pages, content validation, and resume downloads.",
+          "Rebuilt the portfolio as static React pages on Vite with a custom token-based design system, shipping a small enhancement script instead of a client framework, and preserving content validation and resume downloads.",
           "Generated separate PDF and DOCX formats from the same factual source while preserving channel-appropriate layout.",
           "Added strict diagnostics, static production builds, subpath packaging checks, and explicit deployment configuration.",
           "Maintain the codebase with Claude Code, a Graphify knowledge graph rebuilt on every commit, and linked Obsidian project notes, so each change starts from a current map of the code and a record of earlier decisions."
@@ -522,8 +522,6 @@
         "technologies": [
           "Vite",
           "React",
-          "Untitled UI",
-          "Tailwind CSS",
           "TypeScript",
           "GitHub Actions",
           "Cloudflare",
@@ -533,14 +531,14 @@
         ],
         "highlights": [
           "Designed one structured content architecture for every career presentation channel.",
-          "Redesigned the website with free Untitled UI React components while preserving static content and accessible navigation.",
+          "Redesigned the website with a custom design system and a self-test visitors can run in the browser, while preserving static content and accessible navigation.",
           "Added strict diagnostics, static production builds, subpath packaging checks, and explicit deployment configuration.",
           "Prepared separate PDF and DOCX presentation contracts without duplicating career facts."
         ],
         "audience": "Recruiters and engineers looking at my work, and me, maintaining the resume formats.",
         "systems": [
           "One career.json record supplies React pages, project routes, and resume content. A dependency-free schema check validates required fields before publishing.",
-          "React and free Untitled UI components render through Vite at build time. Browser hydration adds interactivity; core content and links are in the generated HTML.",
+          "React components render every page to HTML through Vite at build time. The browser runs one small script for the theme, menus and page self-test; core content and links work without it.",
           "Python produces PDF and Word resumes. Vite packages static assets for Cloudflare; a separate build verifies the /portfolio/ GitHub Pages base path. There is no runtime API or database."
         ],
         "decisions": [
@@ -553,21 +551,21 @@
         "evidence": [
           {
             "label": "Browse implementation",
-            "detail": "React composition, content model, and build scripts on the untitledui branch.",
-            "href": "https://github.com/mohamedmoheyeldin/portfolio/tree/untitledui"
+            "detail": "React composition, content model, and build scripts in the repository.",
+            "href": "https://github.com/mohamedmoheyeldin/portfolio"
           },
           {
             "label": "Inspect publishing workflow",
             "detail": "Build-time validation, static route generation, canonical metadata, and sitemap generation.",
-            "href": "https://github.com/mohamedmoheyeldin/portfolio/blob/untitledui/scripts/build.mjs"
+            "href": "https://github.com/mohamedmoheyeldin/portfolio/blob/main/scripts/build.mjs"
           },
           {
             "label": "Inspect resume generator",
             "detail": "The same career record drives PDF and Word output using the website theme colors.",
-            "href": "https://github.com/mohamedmoheyeldin/portfolio/blob/untitledui/scripts/generate-resumes.py"
+            "href": "https://github.com/mohamedmoheyeldin/portfolio/blob/main/scripts/generate-resumes.py"
           }
         ],
-        "resumeSummary": "Built a React/Untitled UI portfolio from validated JSON, with shared PDF/Word generation and static deployment packaging for Cloudflare.",
+        "resumeSummary": "Built a statically rendered React portfolio from validated JSON, with shared PDF/Word generation and static deployment packaging for Cloudflare.",
         "repositoryVisibility": "public",
         "relatedProjects": [],
         "experienceId": null,
