@@ -551,6 +551,13 @@
     .tenure-label { grid-column: auto; display: grid; gap: 0; }
     .tenure-axis { margin-left: calc(17rem + var(--s-4)); }
   }
+  /* The stance: one statement at poster scale on a dark band, with the competencies from the record under it. */
+  .stance { padding-block: clamp(var(--s-16), 10vw, calc(var(--section) * 1.4)); background-image: radial-gradient(50rem 30rem at 12% 110%, var(--glow), transparent 70%); }
+  .stance-label { color: var(--accent); margin-bottom: var(--s-6); }
+  .stance-line { font-size: clamp(1.75rem, 0.6rem + 3.6vw, 4.25rem); font-weight: 600; line-height: 1.06; letter-spacing: -0.035em; max-width: 26ch; text-wrap: balance; }
+  .stance-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: clamp(var(--s-8), 4vw, var(--s-12)); }
+  .stance-list li { padding: var(--s-2) var(--s-4); border: 1px solid var(--accent-line); border-radius: var(--r-pill); color: var(--ink-2); font-size: var(--t-sm); }
+
   /* Career as a split page: the claim holds still on the left while the roles scroll past on the right. */
   @media (min-width: 1100px) {
     .career > .wrap { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(var(--s-12), 5vw, var(--s-20)); align-items: start; }

@@ -14,6 +14,7 @@ export function Home({ profile }: { profile: Profile }) {
       <Cover profile={profile} featured={featured} />
       <Deck featured={featured} />
       <MoreWork projects={others} />
+      <Stance profile={profile} />
       <Career profile={profile} />
       <Capabilities profile={profile} />
     </Page>
@@ -185,6 +186,23 @@ function MoreWork({ projects }: { projects: Project[] }) {
             </li>
           ))}
         </ul>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * The stance: one full-width statement between the work and the career. It restates the first sentence of the second
+ * detailed summary paragraph in the career record (with the record's expanded agency name), so nothing here is typed by hand.
+ */
+function Stance({ profile }: { profile: Profile }) {
+  const line = profile.detailedSummary[1]?.split(/(?<=\.)\s/)[0] ?? "";
+  return (
+    <section className="stance night" aria-label="How I work" data-sc-act="stance">
+      <div className="wrap">
+        <p className="stance-label label">How I work</p>
+        <p className="stance-line">{line}</p>
+        <ul className="stance-list" aria-label="Competencies">{profile.competencies.map((item) => <li key={item}>{item}</li>)}</ul>
       </div>
     </section>
   );
