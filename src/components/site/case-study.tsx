@@ -1,11 +1,13 @@
 import { useState, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from "@untitledui/icons";
 import { Tabs } from "@/components/application/tabs/tabs";
-import { Badge } from "@/components/base/badges/badges";
 import { Button } from "@/components/base/buttons/button";
 import { formatCareerDate, profile as careerProfile, veteransAffairsName } from "@/lib/career";
 import { Page } from "./chrome";
-import { type Chapter, type Project, caseStudyHref, evidenceSource, href, metricLabel, projectDisplayName, projectVerb, roleFor } from "./shared";
+import { GeneratorDemo, RulesDemo } from "./demos";
+import { PipelineFigure } from "./home";
+import { type Evidence, Fact } from "./inspect";
+import { type Chapter, type Project, caseStudyHref, evidenceSource, href, metricLabel, projectDisplayName, projectNumber, roleFor } from "./shared";
 
 function EndCustomer({ customer }: { customer: string }) {
   return customer === veteransAffairsName
@@ -22,8 +24,8 @@ function Part({ id, title, embedded, children }: { id: string; title: string; em
     </section>
   );
   return (
-    <section id={id} tabIndex={-1} className="chapter case-part" aria-labelledby={`${id}-heading`} data-anchor>
-      <div className="shell case-grid">
+    <section id={id} tabIndex={-1} className="sec case-part" aria-labelledby={`${id}-heading`}>
+      <div className="wb-container case-grid">
         <h2 id={`${id}-heading`}>{title}</h2>
         <div className="case-body">{children}</div>
       </div>
@@ -38,6 +40,8 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
   const role = roleFor(project);
   const name = projectDisplayName(project);
   const walkthrough = project.slug === "portfolio-career-content-system";
+  const evidenceKind = evidenceSource(project) as Evidence;
+  const path = (field: string) => `projects.${project.slug}.${field}`;
   const chapters: Chapter[] = [
     { id: "introduction", label: "Introduction" },
     { id: "challenge", label: "The problem" },
@@ -49,15 +53,17 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
     ...(walkthrough ? [{ id: "walkthrough", label: "Walkthrough" }] : []),
   ];
   const challenge = <Part id={embedded ? "project-details-overview" : "challenge"} title={embedded ? "The challenge" : "The problem"} embedded={embedded}>
-      <p>{project.challenge}</p>
+      <Fact as="p" path={path("challenge")} evidence={evidenceKind}>{project.challenge}</Fact>
       <p><strong>Who needed it:</strong> {project.audience}</p>
     </Part>;
   const approach = <Part id={embedded ? "project-details-implementation" : "approach"} title="What I did" embedded={embedded}>
       <ol className="steps">{project.approach.map((step) => <li key={step}>{step}</li>)}</ol>
+      {!embedded && project.slug === "claims-document-assistant" && <><PipelineFigure /><RulesDemo level={3} /></>}
+      {!embedded && project.slug === "ccrs-test-data-tooling" && <GeneratorDemo level={3} />}
     </Part>;
   const outcome = <Part id="outcome" title={embedded ? "My contribution and results" : "What changed"} embedded={embedded}>
-      {project.metric && <p className="case-metric"><strong>{project.metric.value}</strong> <span>{metricLabel(project)}</span></p>}
-      <p>{project.outcome}</p>
+      {project.metric && <p className="case-metric"><Fact as="strong" path={path("metric.value")} evidence={evidenceKind}>{project.metric.value}</Fact> <span>{metricLabel(project)}</span></p>}
+      <Fact as="p" path={path("outcome")} evidence={evidenceKind}>{project.outcome}</Fact>
       <ul className="checks">{project.highlights.map((highlight) => <li key={highlight}><Check aria-hidden="true" />{highlight}</li>)}</ul>
     </Part>;
   const systems = <Part id="systems" title="Systems and trade-offs" embedded={embedded}>
@@ -66,7 +72,7 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
       <ul className="plain-list">{project.decisions.map((text) => <li key={text}>{text}</li>)}</ul>
     </Part>;
   const evidence = <Part id={embedded ? "project-details-evidence" : "evidence"} title="What you can check" embedded={embedded}>
-      <p className="evidence-tag"><span className="evidence-rule" aria-hidden="true" />Evidence: {evidenceSource(project)}</p>
+      <p className="case-evidence">Evidence: <span className="evidence-chip" data-evidence={evidenceKind}>{evidenceKind}</span></p>
       <dl className="evidence-list">
         {project.evidence.map((item) => <div key={item.label}>
           <dt>{item.href ? <a href={item.href}>{item.label}<ArrowUpRight aria-hidden="true" className="inline size-4 align-[-3px]" /></a> : item.label}</dt>
@@ -86,7 +92,7 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
       </>}
     </Part>;
   const toolkit = <Part id="toolkit" title="Tools used" embedded={embedded}>
-      <ul className="tags">{project.technologies.map((item) => <li key={item}><Badge color="gray" size="md">{item}</Badge></li>)}</ul>
+      <ul className="tags">{project.technologies.map((item) => <li key={item}>{item}</li>)}</ul>
     </Part>;
   const walkthroughPart = walkthrough && <Part id="walkthrough" title="How a content change reaches the site" embedded={embedded}>
       <ol className="steps steps-titled">
@@ -136,30 +142,27 @@ export function CaseStudy({ project, embedded = false, interactive = false, onSe
   return (
     <Page chapters={chapters}>
       <article className="case" aria-labelledby="title-heading">
-        <header className="title-page title-page-case plate" id="introduction" data-anchor data-sc-act="kinetic">
-          <div className="shell">
+        <header className="sec page-head case-head" id="introduction" data-sc-act="surface">
+          <div className="wb-container">
             <a className="back-link" href={href("experience/")}><ArrowLeft aria-hidden="true" />All projects</a>
-            <p className="case-verb" aria-hidden="true">{projectVerb(project)}.</p>
-            <p className="title-kicker">{project.kind === "career" ? "Work project" : "Independent project"} · {project.period}</p>
+            <p className="doc-path"><code>work/{projectNumber(project)}</code><span>{project.kind === "career" ? "Work project" : "Independent project"} · {project.period}</span></p>
             <h1 id="title-heading">{project.name}</h1>
-            <p className="title-dek">{project.description}</p>
-            {repositoryLink && <div className="title-actions">{repositoryLink}</div>}
-            {project.repositoryVisibility === "private" && <p className="title-note">Private source. GitHub access requires repository permission.</p>}
+            <Fact as="p" className="page-dek" path={path("description")} evidence={evidenceKind}>{project.description}</Fact>
+            {repositoryLink && <div className="page-actions">{repositoryLink}</div>}
+            {project.repositoryVisibility === "private" && <p className="page-note">Private source. GitHub access requires repository permission.</p>}
+            <dl className="props props-row" aria-label="Project facts">
+              <div><dt>My role</dt><Fact as="dd" path={path("role")} evidence={evidenceKind}>{project.role}</Fact></div>
+              <div><dt>Context</dt><dd>{project.context}</dd></div>
+              {role ? <>
+                <div><dt>Employer</dt><dd>{role.employer}, {role.professionalTitle ?? role.title}</dd></div>
+                {role.customer && <div><dt>End customer</dt><dd><EndCustomer customer={role.customer} /></dd></div>}
+              </> : <div><dt>Built by</dt><dd>Designed and developed by {careerProfile.name}</dd></div>}
+              <div><dt>Evidence</dt><dd><span className="evidence-chip" data-evidence={evidenceKind}>{evidenceKind}</span></dd></div>
+            </dl>
           </div>
         </header>
-        <section className="facts" aria-label="Project facts">
-          <dl className="shell facts-list">
-            <div><dt>My role</dt><dd>{project.role}</dd></div>
-            <div><dt>Context</dt><dd>{project.context}</dd></div>
-            {role ? <>
-              <div><dt>Employer</dt><dd>{role.employer}, {role.professionalTitle ?? role.title}</dd></div>
-              {role.customer && <div><dt>End customer</dt><dd><EndCustomer customer={role.customer} /></dd></div>}
-            </> : <div><dt>Built by</dt><dd>Designed and developed by {careerProfile.name}</dd></div>}
-            <div><dt>Evidence</dt><dd>{evidenceSource(project)}</dd></div>
-          </dl>
-        </section>
         {challenge}{approach}{outcome}{systems}{evidence}{toolkit}{walkthroughPart}
-        <div className="shell">{disclosure}</div>
+        <div className="wb-container">{disclosure}</div>
       </article>
       <ProjectPager project={project} />
     </Page>
@@ -172,7 +175,7 @@ function ProjectPager({ project }: { project: Project }) {
   const previous = projects[(index - 1 + projects.length) % projects.length]!;
   const next = projects[(index + 1) % projects.length]!;
   return (
-    <nav className="pager shell" aria-label="More projects">
+    <nav className="pager wb-container" aria-label="More projects">
       <a href={caseStudyHref(previous)} rel="prev"><span>Previous project</span><strong><ArrowLeft aria-hidden="true" />{projectDisplayName(previous)}</strong></a>
       <a href={caseStudyHref(next)} rel="next"><span>Next project</span><strong>{projectDisplayName(next)}<ArrowRight aria-hidden="true" /></strong></a>
     </nav>

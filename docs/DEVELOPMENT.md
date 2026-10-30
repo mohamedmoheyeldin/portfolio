@@ -22,7 +22,7 @@ For fast feedback, run `pnpm check` while editing. Use `pnpm verify` before hand
 - `src/content/career.json` is the canonical draft career record and must remain schema-valid.
 - `scripts/build.mjs` owns shared page metadata and structure.
 - Reuse `src/components/` and `src/styles/` rather than creating route-local variants for shared behavior.
-- All routes share the chrome in `src/components/site/chrome.tsx`: a static masthead, the `Page` wrapper (section tracking, the bottom-right dock with the index sheet, and the trace provider from `trace.tsx`), and the closing plate. Pages pass their section list to `Page`. Use `TraceChip` for any tool name and `useTraceState(tools)` for anything that should light up when one of its tools is traced. Put long detail in native `<details>` so it works without JavaScript.
+- All routes render inside `Page` from `src/components/site/chrome.tsx`: the sidebar (from 1024px), the top bar and menu sheet (narrower), the page, the contact composer and the status bar, with the inspector provider from `inspect.tsx`. Pages pass their section list to `Page`; it adds Contact. Wrap any claim rendered from the career record in `<Fact path="..." evidence="...">` so the inspector can show where it comes from. Put long detail in native `<details>` so it works without JavaScript. Lay out against `@container main`, not the viewport, so the sidebar width never has to be subtracted.
 - Untitled UI components live under `src/components/base/`; the portfolio uses the free MIT source distribution only. See `docs/UNTITLED-UI.md` for provenance.
 - Use `pnpm dev --host 127.0.0.1 --port 4322` for a local review server. Stop the running Vite process with Ctrl+C before reusing its port.
 - Development and preview servers do not open a browser. Share the local URL and let the user open it. Browser automation requires an explicit request; the configured Chrome DevTools connection uses a separate temporary Brave Origin profile.
@@ -45,9 +45,9 @@ $env:SCROLLCRAFT_CHROME = "C:\Program Files\BraveSoftware\Brave-Origin\Applicati
 cd C:\Projects\scrollcraft\workspace
 node ..\scroll-craft\scripts\doctor.mjs
 node ..\scroll-craft\scripts\serve.mjs --root C:\Projects\portfolio\dist --port 4600
-node ..\scroll-craft\scripts\shoot.mjs --url http://127.0.0.1:4600/ --out lab\portfolio-poster\desktop
-node builds\portfolio-poster\functional.mjs   # functional, trace, keyboard, phone dock, no-JS, reduced motion, axe (both themes)
-node builds\portfolio-poster\pages.mjs        # screenshots 375 to 1920px, both themes, overflow and CLS sweep
+node ..\scroll-craft\scripts\shoot.mjs --url http://127.0.0.1:4600/ --out lab\portfolio-workbench\desktop
+node builds\portfolio-workbench\functional.mjs   # navigation, theme, resumes, composer, inspector, both demos, keyboard, phone, no-JS, reduced motion, axe (both themes)
+node builds\portfolio-workbench\pages.mjs        # screenshots 375 to 1920px, both themes, overflow and CLS sweep
 ```
 
 ## Dependency compatibility

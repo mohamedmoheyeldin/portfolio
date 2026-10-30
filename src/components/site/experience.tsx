@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, ArrowUpRight } from "@untitledui/icons";
-import { Badge } from "@/components/base/badges/badges";
 import { Button, type Props as ButtonComponentProps } from "@/components/base/buttons/button";
 import credentialImages from "@/content/credential-images.json";
 import { Page } from "./chrome";
 import { CaseStudy } from "./case-study";
-import { CareerChapter, ChapterOpener } from "./home";
+import { CareerSection, SectionHead } from "./home";
 import { type Chapter, type Profile, href, projectDisplayName, root } from "./shared";
 
 const chapters: Chapter[] = [
@@ -20,26 +19,26 @@ const chapters: Chapter[] = [
 export function Work({ profile }: { profile: Profile }) {
   return (
     <Page chapters={chapters}>
-      <section className="title-page" id="introduction" aria-labelledby="title-heading" data-anchor data-sc-act="kinetic">
-        <div className="shell">
-          <p className="title-kicker">Experience</p>
+      <section className="sec page-head" id="introduction" aria-labelledby="title-heading" data-sc-act="surface">
+        <div className="wb-container">
+          <p className="doc-path"><code>experience</code><span>The full record</span></p>
           <h1 id="title-heading">{profile.experienceYears} years of building software, and checking it holds up.</h1>
-          <p className="title-dek">My roles, the projects behind them, and the tools I use, across federal healthcare, e-commerce and banking.</p>
+          <p className="page-dek">My roles, the projects behind them, and the tools I use, across federal healthcare, e-commerce and banking.</p>
           <CredentialStrip profile={profile} />
         </div>
       </section>
-      <section className="chapter" id="experience-projects" aria-labelledby="projects-heading" data-anchor data-sc-act="reveal">
-        <div className="shell">
-          <ChapterOpener title="Projects" id="projects-heading">
+      <section className="sec" id="experience-projects" aria-labelledby="projects-heading" data-sc-act="explorer">
+        <div className="wb-container">
+          <SectionHead title="Projects" id="projects-heading">
             <p>Pick a project to read its overview, implementation and evidence here, or open the full case study.</p>
-          </ChapterOpener>
+          </SectionHead>
           <ProjectExplorer profile={profile} />
         </div>
       </section>
-      <CareerChapter profile={profile} detailed />
-      <section className="chapter chapter-band" id="approach" aria-labelledby="approach-heading" data-anchor data-sc-act="focus">
-        <div className="shell">
-        <ChapterOpener title="How I approach the work" id="approach-heading" />
+      <CareerSection profile={profile} detailed />
+      <section className="sec" id="approach" aria-labelledby="approach-heading" data-sc-act="prose">
+        <div className="wb-container">
+        <SectionHead title="How I approach the work" id="approach-heading" />
         <div className="prose">
           <p>
             I work directly with stakeholders to learn how they work and what is getting in their way, then build the
@@ -189,11 +188,11 @@ function EngineeringToolkit({ profile }: { profile: Profile }) {
     window.addEventListener("hashchange", syncCategory);
     return () => window.removeEventListener("hashchange", syncCategory);
   }, [groups.length]);
-  return <section className="chapter" id="engineering-toolkit" aria-labelledby="toolkit-heading" data-anchor data-sc-act="in">
-    <div className="shell">
-    <ChapterOpener title="The tools behind the work" id="toolkit-heading">
+  return <section className="sec" id="engineering-toolkit" aria-labelledby="toolkit-heading" data-sc-act="explorer">
+    <div className="wb-container">
+    <SectionHead title="The tools behind the work" id="toolkit-heading">
       <p>From business workflows and requirements to implementation, integration, and release checks.</p>
-    </ChapterOpener>
+    </SectionHead>
     <div className="explorer">
       <nav className="explorer-menu" aria-label="Choose an expertise category">
         {areas.map((area) => <ExplorerChoice key={area.label}
@@ -211,8 +210,8 @@ function EngineeringToolkit({ profile }: { profile: Profile }) {
           {groups.map((group, index) => <article key={group.label} id={`toolkit-category-${index}`} hidden={interactive && !selectedArea.categories.includes(index)}>
             <h4>{group.label}</h4>
             <p>{group.description}</p>
-            <ul className="toolkit-skills" aria-label={`${group.label} skills`}>
-              {group.items.map((item) => <li key={item}><Badge className="max-w-full whitespace-normal" color="gray" size="md">{item}</Badge></li>)}
+            <ul className="tags" aria-label={`${group.label} skills`}>
+              {group.items.map((item) => <li key={item}>{item}</li>)}
             </ul>
           </article>)}
         </div>
@@ -233,7 +232,7 @@ function CredentialStrip({ profile }: { profile: Profile }) {
   return (
     <section className="credential-strip" aria-labelledby="credentials-heading">
       <h2 className="sr-only" id="credentials-heading">Verified credentials</h2>
-      <ul className="credential-grid">
+      <ul className="credential-grid" tabIndex={0} aria-label="Credential badges">
         {previews.map(({ credential, image }) => (
           <li className="credential-card" key={credential.href ?? credential.name}>
             <div className="credential-preview">
@@ -256,9 +255,9 @@ function Learning({ profile }: { profile: Profile }) {
     return groups;
   }, new Map());
   return (
-    <section className="chapter chapter-band" id="learning" aria-labelledby="learning-heading" data-anchor data-sc-act="in">
-      <div className="shell">
-      <ChapterOpener title="Learning" id="learning-heading" />
+    <section className="sec" id="learning" aria-labelledby="learning-heading" data-sc-act="list">
+      <div className="wb-container">
+      <SectionHead title="Learning" id="learning-heading" />
       <div className="learning">
         <section aria-labelledby="education-heading">
           <h3 id="education-heading">Education</h3>

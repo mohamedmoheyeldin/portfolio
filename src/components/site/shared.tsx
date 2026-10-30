@@ -14,28 +14,20 @@ export const href = (path = "") => `${root}${path}`;
 export const resumeFile = (version: "one-page" | "detailed", format: "pdf" | "docx") => href(`resume/mohamed-moheyeldin-resume-${version}.${format}`);
 export const caseStudyHref = (project: Project) => href(`experience/${project.slug}/`);
 
-/** A section of the current page, listed in the index sheet. */
+/** A section of the current page, listed in the sidebar outline and the phone menu. */
 export type Chapter = { id: string; label: string };
+
+/** The public copy of the career record, linked from the inspector. */
+export const recordUrl = "https://github.com/mohamedmoheyeldin/portfolio/blob/main/src/content/career.json";
+
+/** Two-digit project reference (01 to 06), used by the work index and the stack matrix. */
+export const projectNumber = (project: Project) => String(careerProfile.projects.indexOf(project) + 1).padStart(2, "0");
 
 export function projectDisplayName(project: Project) {
   if (project.slug === "ecommerce-feedback-platform") return "E-commerce Quality Feedback Platform";
   if (project.slug === "banking-risk-validation") return "Banking Risk-Based Validation System";
   return project.name.replace(veteransAffairsName, "VA");
 }
-
-/**
- * The one verb that names what I did on each project, set at poster scale over its spread. Each restates the first
- * clause of the project's description in career.json; it is a label, not a new claim.
- */
-const projectVerbs: Record<string, string> = {
-  "federal-quality-delivery-system": "Integrated",
-  "ccrs-test-data-tooling": "Generated",
-  "claims-document-assistant": "Extracted",
-  "portfolio-career-content-system": "Published",
-  "ecommerce-feedback-platform": "Connected",
-  "banking-risk-validation": "Validated",
-};
-export const projectVerb = (project: Project) => projectVerbs[project.slug] ?? "Built";
 
 export const roleFor = (project: Project) => careerProfile.experience.find((role) => role.id === project.experienceId);
 

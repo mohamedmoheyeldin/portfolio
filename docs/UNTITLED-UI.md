@@ -7,7 +7,7 @@ The `untitledui` branch replaces the previous website presentation with free Unt
 - Source: https://github.com/untitleduico/react
 - Snapshot: `4702dc0ea8d140c3491a85670c7b4fab47b722da`
 - License: MIT; full notice in `UNTITLED-UI-LICENSE`.
-- Light and dark themes come from the upstream `.dark-mode` tokens in `theme.css`; the masthead toggle switches them.
+- Light and dark themes come from the upstream `.dark-mode` tokens in `theme.css`; the status bar (or the phone menu sheet) toggle switches them. `global.css` replaces the upstream neutral scale with a graphite scale, so every component shares the portfolio's greys.
 - Imported and rendered: button, utility button with tooltip, close button, slide-out menu (the phone contents sheet), dropdown (one-page or full resume choice; avatar, checkbox, radio and toggle indicators omitted), badge variants, tabs, navigation item, dot icon, LinkedIn and GitHub social icons, class utilities, React component guard, and theme CSS. Each was added with the official `untitledui` CLI and adapted to strict TypeScript with `definedProps`. The October 30, 2026 redesign removed the badge group, featured icon, grid background pattern and cloud illustration, which it no longer renders; earlier changes removed the button group, input and empty-state sources.
 - Icons: `@untitledui/icons`.
 - Installation guidance: https://www.untitledui.com/react/docs/installation
@@ -19,17 +19,17 @@ The imported components use React Aria and Tailwind v4. Local composition is in 
 | Surface | Implementation |
 | --- | --- |
 | Phone contents sheet and the site links in it | Upstream `SlideoutMenu` and `NavItemBase` |
-| Masthead links, section openers, facts row, register, stack wall | Local semantic HTML (plain links and lists) styled with upstream tokens; Untitled nav items paint an opaque `bg-primary` that does not sit on the plate |
-| Resume version choice (masthead, hero, closing plate) | Upstream `Dropdown` with `Button` trigger; plain link to the full resume before hydration |
+| Sidebar, top bar, status bar, section heads, profile properties, work index, stack matrix, timeline | Local semantic HTML (nav lists, `dl`, `table`, `figure`) styled with the `--wb-*` tokens over the upstream scale |
+| Resume version choice (sidebar, overview, contact) | Upstream `Dropdown` with `Button` trigger; plain link to the full resume before hydration |
 | Calls to action, downloads, case-study and source links, explorer choices | Upstream `Button` including link variants |
 | Theme toggle, copy email, LinkedIn and GitHub | Upstream `ButtonUtility` with tooltip |
 | Skills and tools | Upstream `Badge` |
 | Experience project detail sections | Upstream `Tabs` (underline type) |
-| Trace chips | Native `<button aria-pressed>` toggles with local styles; the trace bar uses the upstream `ButtonUtility` close button |
-| Plate (hero, case-study opener, closing) | Local `.plate` scope that restates the upstream semantic tokens and utility aliases, so `Button` secondary renders white with blue type and link buttons render white; tertiary controls add the unlayered `.plate-ghost` rule |
+| Inspector switch | Native `<button aria-pressed>` with local styles; one state shared by the profile panel, the status bar and the phone top bar |
+| Composer and demos | Native `form`, `select`, `textarea`, `input` and `table` with local styles; submit and demo controls are upstream `Button`s |
 | Colors, typography scale, interaction styles | Upstream theme tokens and component utilities |
 
-Remaining local composition is page structure, the trace chips and bar, the pipeline figure (an ordered list) and the accessibility skip link. There is no decorative artwork, mock interface or generated image. No paid marketing templates are used, and no numerical coverage percentage is claimed.
+Remaining local composition is page structure, the inspector, the two labelled demonstrations (synthetic data, computed in the page), the pipeline figure (an ordered list) and the accessibility skip link. There is no decorative artwork, mock interface or generated image. No paid marketing templates are used, and no numerical coverage percentage is claimed.
 
 ## Local adaptations
 
@@ -39,7 +39,7 @@ Navigation applies the same optional-prop adaptation. The empty-state source ret
 
 The prerendered React application hydrates in the browser. Portfolio content renders static React output through React server rendering at build time. Navigation, project content, case studies, and downloads remain usable without JavaScript.
 
-Poster redesign (October 30, 2026): every page opens on the blue plate or a title page, runs as full-width sections on alternating grounds, and closes on the plate with "Email me" at poster scale; see `ARCHITECTURE.md` for the component map and `DESIGN_BRIEF.md` and `SCROLLCRAFT-BRIEF.md` for the design reasoning. Home: the poster (the name at composition scale, the claim, one line of substance, See the work, the resume menu and Email me), a facts row read from the career record, Selected work (a register of all six projects, then one spread each led by its verb, with the result and its evidence source, problem, role, decisions and evidence in a disclosure, and Built with as trace chips; the pipeline figure on the Claims Document Assistant), How the work is checked (five habits at display scale), Career (span bar and roles) and Stack (every tool, sized by use, each a trace control). The editorial build's folio, reading-depth control, numbered chapters, index of tools and colophon are removed; the AI workflow audit offer is in the closing plate.
+Workbench redesign (October 30, 2026): every page is a view inside one working surface: a sidebar (or a phone top bar with a menu sheet), the page, the contact composer and a status bar; see `ARCHITECTURE.md` for the component map and `DESIGN_BRIEF.md` and `SCROLLCRAFT-BRIEF.md` for the design reasoning. Home: the overview (name, claim, one line of substance, Email me, the resume menu and See the work, beside the profile record), Work (an index table of all six projects, then one document each with its properties column, problem, what I did, and decisions and evidence in a disclosure; working demos on the Claims Document Assistant and Data Generator & File Processing), How I work (five stages as a pipeline), Career (a time axis and the roles) and Stack (a tools-by-project matrix). The poster build's plate, dock, project verbs, tool trace and poster-scale close are removed; the AI workflow audit offer is in the contact section.
 
 ## Review and deployment
 
@@ -70,7 +70,7 @@ The Experience project and toolkit menus share an `ExplorerChoice` composition o
 
 ## Resume exports
 
-The web resume uses the imported Untitled UI React components. PDF and DOCX are native document formats, so their generator uses the same light-theme semantic colors and Inter rather than executing React components (the website pairs Inter with Archivo; the documents keep Inter only). Colors resolve directly from `src/styles/theme.css` and installed Tailwind tokens on every generation; there is no second brand palette. Print-specific sizing keeps the compact PDF to one page.
+The web resume uses the imported Untitled UI React components. PDF and DOCX are native document formats, so their generator uses the same light-theme semantic colors and Inter rather than executing React components (the website pairs Inter with Geist Mono; the documents keep Inter only). Colors resolve directly from `src/styles/theme.css` and installed Tailwind tokens on every generation; there is no second brand palette. Print-specific sizing keeps the compact PDF to one page.
 
 Inter Regular and SemiBold are embedded in PDFs. DOCX specifies Inter; Word may substitute a font when Inter is unavailable. The two font files in `assets/fonts` are static instances (optical size 14; weights 400/600) of the Google Fonts Inter source, with its OFL license retained. They are used only for document generation and are not copied into the website bundle.
 
@@ -78,4 +78,4 @@ Both concise and detailed PDF and DOCX resumes center the name and tagline in th
 
 The Work explorer reuses upstream Button links for project selection and Tabs for detail sections. Layout composition is local; no additional UI package is installed. Existing project URLs remain readable without JavaScript.
 
-The earlier "Scrollcraft pass" on this branch (dark bands, role-fit ledger) was replaced by the editorial redesign, and that by the poster redesign above. Its fingerprint is kept in the Scrollcraft registry so later builds are gated against it.
+The earlier "Scrollcraft pass" on this branch (dark bands, role-fit ledger) was replaced by the editorial redesign, then by the poster redesign, and that by the workbench redesign above. Its fingerprint is kept in the Scrollcraft registry so later builds are gated against it.

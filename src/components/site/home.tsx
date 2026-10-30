@@ -4,13 +4,14 @@ import { Button } from "@/components/base/buttons/button";
 import GitHub from "@/components/foundations/social-icons/github";
 import { formatCareerDate, veteransAffairsName } from "@/lib/career";
 import { Page, ResumeMenu } from "./chrome";
-import { TraceChip, useTraceReady, useTraceState } from "./trace";
-import { type Chapter, type Profile, type Project, caseStudyHref, evidenceSource, gitHubUrl, href, linkedInUrl, metricLabel, projectContext, projectDisplayName, projectVerb, roleEmail, toolKey } from "./shared";
+import { GeneratorDemo, RulesDemo } from "./demos";
+import { type Evidence, Fact, InspectToggle } from "./inspect";
+import { type Chapter, type Profile, type Project, type Role, caseStudyHref, evidenceSource, gitHubUrl, href, linkedInUrl, metricLabel, projectContext, projectDisplayName, projectNumber, roleEmail, toolKey } from "./shared";
 
 const chapters: Chapter[] = [
-  { id: "introduction", label: "Introduction" },
-  { id: "work", label: "Selected work" },
-  { id: "method", label: "How the work is checked" },
+  { id: "introduction", label: "Overview" },
+  { id: "work", label: "Work" },
+  { id: "practice", label: "How I work" },
   { id: "career", label: "Career" },
   { id: "stack", label: "Stack" },
 ];
@@ -18,158 +19,182 @@ const chapters: Chapter[] = [
 export function Home({ profile }: { profile: Profile }) {
   return (
     <Page chapters={chapters}>
-      <Hero profile={profile} />
-      <Facts profile={profile} />
-      <WorkChapter profile={profile} />
-      <MethodChapter profile={profile} />
-      <CareerChapter profile={profile} />
-      <StackChapter profile={profile} />
+      <Overview profile={profile} />
+      <WorkSection profile={profile} />
+      <Practice profile={profile} />
+      <CareerSection profile={profile} />
+      <StackSection profile={profile} />
     </Page>
   );
 }
 
-/**
- * The poster. The name is the image: set across the blue plate at composition scale, with the claim, one line of
- * substance and the actions under it. No media, no cards; scale does the work.
- */
-function Hero({ profile }: { profile: Profile }) {
-  const [first, ...rest] = profile.name.split(" ");
-  const publicSource = profile.projects.filter((project) => project.repository && project.repositoryVisibility === "public").length;
+/** A section's heading and standfirst. Moderate scale: on a working surface the content carries the page, not the titles. */
+export function SectionHead({ title, id, children }: { title: string; id: string; children?: ReactNode }) {
   return (
-    <section className="hero plate" id="introduction" aria-labelledby="title-heading" data-anchor data-sc-act="kinetic">
-      <div className="shell hero-inner">
-        <h1 id="title-heading" className="hero-name"><span>{first}</span> <span>{rest.join(" ")}</span></h1>
-        <div className="hero-copy">
-          <p className="hero-claim">Built with the people who use it. <em>Tested before they do.</em></p>
-          <div className="hero-side">
-            <p className="hero-dek">{profile.headline}, {profile.experienceYears} years in software and quality engineering. I integrate APIs, build internal tools and automate release checks.</p>
-            <div className="hero-actions">
-              <Button size="xl" color="secondary" href="#work" iconTrailing={ArrowRight}>See the work</Button>
-              <ResumeMenu variant="hero" />
-              <Button size="xl" color="link-color" href={roleEmail} iconLeading={Mail01}>Email me</Button>
-            </div>
-            <p className="hero-elsewhere">Also on <a href={linkedInUrl}>LinkedIn</a> and <a href={gitHubUrl}>GitHub</a>, where {publicSource} of these projects have public source.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/** The facts a recruiter screens for first, in one ruled row under the poster. All read from the career record. */
-function Facts({ profile }: { profile: Profile }) {
-  const [current, ...earlier] = profile.experience;
-  const degree = profile.education[0];
-  const issuers = [...new Set(profile.verifiedCredentials.map((credential) => credential.issuer))];
-  return (
-    <section className="facts" aria-label="At a glance">
-      <dl className="shell facts-list">
-        {current && <div><dt>Now</dt><dd>{current.professionalTitle ?? current.title}, {current.employer}{current.customer && <>, for the {current.customer}</>}. Since {formatCareerDate(current.start)}.</dd></div>}
-        {earlier.length > 0 && <div><dt>Before</dt><dd>{earlier.map((role) => `${role.title}, ${role.employer} (${role.start.slice(0, 4)} to ${role.end?.slice(0, 4)})`).join("; ")}.</dd></div>}
-        {degree && <div><dt>Education</dt><dd>{degree.credential} in {degree.field}, {degree.institution}.</dd></div>}
-        <div><dt>Credentials</dt><dd><a href={href("experience/#learning")}>{profile.verifiedCredentials.length} verified</a>, from {issuers.join(", ")}.</dd></div>
-        <div><dt>Based in</dt><dd>{profile.location.replace(/\s+\d{5}(?:-\d{4})?$/, "")}. Open to Forward Deployed Engineer roles.</dd></div>
-      </dl>
-    </section>
-  );
-}
-
-/** A section's heading. Large, left-set, with an optional standfirst; no numbers, because the order is not information. */
-export function ChapterOpener({ title, id, children }: { title: string; id: string; children?: ReactNode }) {
-  return (
-    <header className="chapter-opener">
+    <header className="sec-head">
       <h2 id={id}>{title}</h2>
-      {children && <div className="chapter-standfirst">{children}</div>}
+      {children && <div className="sec-stand">{children}</div>}
     </header>
   );
 }
 
-/** The peak. Each project opens on its verb at poster scale, then the evidence: result, problem, role, tools, links. */
-function WorkChapter({ profile }: { profile: Profile }) {
+const projectEvidence = (project: Project) => evidenceSource(project) as Evidence;
+
+/**
+ * The first screen is the surface already in a state: who this is, what he does, the three actions, and the profile
+ * record open beside it. Every fact in the panel is rendered from the career record and can be inspected.
+ */
+function Overview({ profile }: { profile: Profile }) {
+  const [current, ...earlier] = profile.experience;
+  const degree = profile.education[0];
+  const issuers = [...new Set(profile.verifiedCredentials.map((credential) => credential.issuer))];
+  const publicSource = profile.projects.filter((project) => project.repository && project.repositoryVisibility === "public").length;
+  const city = profile.location.replace(/\s+\d{5}(?:-\d{4})?$/, "");
   return (
-    <section className="chapter chapter-work" id="work" aria-labelledby="work-heading" data-anchor data-sc-act="reveal">
-      <div className="shell">
-        <ChapterOpener title="Selected work" id="work-heading">
-          <p>{profile.projects.length} projects. Each says what was wrong, what I did, what changed, and where the evidence comes from: public source, a user report, or documented responsibilities. Press any tool to trace it through the work.</p>
-        </ChapterOpener>
-        <ProjectRegister projects={profile.projects} />
+    <section className="sec overview" id="introduction" aria-labelledby="title-heading" data-sc-act="surface">
+      <div className="wb-container overview-grid">
+        <div className="overview-intro">
+          <p className="overview-status"><span aria-hidden="true" />Open to Forward Deployed Engineer roles · <Fact path="profile.location" evidence="Career record">{city}</Fact></p>
+          <h1 id="title-heading">{profile.name}</h1>
+          <p className="overview-claim">Built with the people who use it. Tested before they do.</p>
+          <p className="overview-dek">
+            <Fact path="profile.headline · profile.experienceYears" evidence="Career record">{profile.headline}, {profile.experienceYears} years in software and quality engineering.</Fact>{" "}
+            I integrate APIs, build internal tools, and automate the checks that decide a release.
+          </p>
+          <div className="overview-actions">
+            <Button size="lg" href={roleEmail} iconLeading={Mail01}>Email me</Button>
+            <ResumeMenu variant="hero" />
+            <Button size="lg" color="link-color" href="#work" iconTrailing={ArrowRight}>See the work</Button>
+          </div>
+          <p className="overview-elsewhere">Also on <a href={linkedInUrl}>LinkedIn</a> and <a href={gitHubUrl}>GitHub</a>, where {publicSource} of these projects have public source.</p>
+        </div>
+        <div className="panel profile-panel" aria-labelledby="profile-title">
+          <div className="panel-head">
+            <h2 id="profile-title" className="panel-title">Profile</h2>
+            <code>career.json</code>
+          </div>
+          <dl className="props">
+            {current && <div><dt>Now</dt><Fact as="dd" path={`experience.${current.id}`} evidence="Career record">{current.professionalTitle ?? current.title}, {current.employer}{current.customer && <>, for the {current.customer.replace(veteransAffairsName, "VA")}</>}. Since {formatCareerDate(current.start)}.</Fact></div>}
+            {earlier.map((role) => <div key={role.id}><dt>{role.start.slice(0, 4)} to {role.end?.slice(0, 4)}</dt><Fact as="dd" path={`experience.${role.id}`} evidence="Career record">{role.title}, {role.employer}</Fact></div>)}
+            {degree && <div><dt>Education</dt><Fact as="dd" path="education[0]" evidence="Career record">{degree.credential} in {degree.field}</Fact></div>}
+            <div><dt>Credentials</dt><Fact as="dd" path="verifiedCredentials" evidence="Verified credential"><a href={href("experience/#learning")}>{profile.verifiedCredentials.length} verified</a>, from {issuers.join(", ")}</Fact></div>
+          </dl>
+          <div className="panel-foot">
+            <p>Every fact on this site is rendered from one career record. See where each one comes from.</p>
+            <InspectToggle />
+          </div>
+        </div>
       </div>
-      {profile.projects.map((project, index) => <ProjectSpread key={project.slug} project={project} number={index + 1} trail={index % 2 === 1} />)}
     </section>
   );
 }
 
-/** Every project on one line: verb, name, headline result. Jump links, so the whole chapter can be read here first. */
-function ProjectRegister({ projects }: { projects: Project[] }) {
+/** The work: an index of all six projects, then one document per project. */
+function WorkSection({ profile }: { profile: Profile }) {
   return (
-    <nav className="register" aria-label="Projects in this section">
-      <ol>
-        {projects.map((project, index) => (
-          <li key={project.slug}>
-            <a href={`#entry-${project.slug}`}>
-              <span className="register-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-              <span className="register-name">{projectDisplayName(project)}<span className="register-context">{projectContext(project)}</span></span>
-              {project.metric && <span className="register-result">{project.metric.value}</span>}
-            </a>
-          </li>
-        ))}
-      </ol>
-    </nav>
+    <section className="sec" id="work" aria-labelledby="work-heading" data-sc-act="index">
+      <div className="wb-container">
+        <SectionHead title="Work" id="work-heading">
+          <p>{profile.projects.length} projects. Each says what was wrong, what I did, what changed, and how you can check it: public source, a user report, or a documented responsibility.</p>
+        </SectionHead>
+        <WorkIndex projects={profile.projects} />
+        <div className="docs">
+          {profile.projects.map((project) => <ProjectDoc key={project.slug} project={project} />)}
+        </div>
+      </div>
+    </section>
   );
 }
 
-function ProjectSpread({ project, number, trail }: { project: Project; number: number; trail: boolean }) {
+function WorkIndex({ projects }: { projects: Project[] }) {
+  return (
+    <div className="panel index-panel">
+      <table className="index-table">
+        <caption className="sr-only">All projects, with the headline result and where its evidence comes from</caption>
+        <thead>
+          <tr><th scope="col"><span className="sr-only">Number</span></th><th scope="col">Project</th><th scope="col">Result</th><th scope="col">Evidence</th></tr>
+        </thead>
+        <tbody>
+          {projects.map((project) => (
+            <tr key={project.slug}>
+              <td className="index-number">{projectNumber(project)}</td>
+              <th scope="row"><a href={`#entry-${project.slug}`}>{projectDisplayName(project)}</a><span>{projectContext(project)}</span></th>
+              <td className="index-result">{project.metric?.value}</td>
+              <td><span className="evidence-chip" data-evidence={projectEvidence(project)}>{projectEvidence(project)}</span></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function ProjectDoc({ project }: { project: Project }) {
   const name = projectDisplayName(project);
   const publicSource = project.repository && project.repositoryVisibility === "public";
-  const trace = useTraceState(project.technologies);
+  const evidence = projectEvidence(project);
+  const path = (field: string) => `projects.${project.slug}.${field}`;
+  const steps = project.approach.slice(0, 3);
+  const more = project.approach.slice(3);
   return (
-    <article className={trail ? "spread spread-trail" : "spread"} id={`entry-${project.slug}`} aria-labelledby={`entry-${project.slug}-title`} data-anchor data-trace={trace}>
-      <div className="shell">
-        <p className="spread-verb" aria-hidden="true">{projectVerb(project)}.</p>
-        <div className="spread-grid">
-          <header className="spread-head">
-            <p className="spread-meta"><span className="spread-number">{String(number).padStart(2, "0")}</span>{projectContext(project)} · {project.period}</p>
-            <h3 id={`entry-${project.slug}-title`}><a href={caseStudyHref(project)}>{name}</a></h3>
-            <p className="spread-dek">{project.description}</p>
-          </header>
-          {project.metric && <div className="spread-result">
-            <p className="spread-metric">{project.metric.value}</p>
-            <p className="spread-metric-label">{metricLabel(project)}</p>
-            <p className="evidence-tag"><span className="evidence-rule" aria-hidden="true" />Evidence: {evidenceSource(project)}</p>
-          </div>}
-          <div className="spread-body">
-            <dl className="spread-schema">
-              <div><dt>Problem</dt><dd>{project.challenge}</dd></div>
-              <div><dt>My role</dt><dd>{project.role}</dd></div>
-            </dl>
-            <details className="spread-more">
-              <summary>Decisions and evidence</summary>
-              <dl className="spread-schema">
-                <div><dt>Decisions</dt><dd><ul>{project.decisions.map((decision) => <li key={decision}>{decision}</li>)}</ul></dd></div>
-                <div><dt>Evidence</dt><dd><ul>{project.evidence.map((item) => <li key={item.label}><strong>{item.label}.</strong> {item.detail}</li>)}</ul></dd></div>
-              </dl>
-            </details>
-            <div className="spread-tools">
-              <p className="label">Built with</p>
-              <ul>{project.technologies.map((tool) => <li key={tool}><TraceChip name={tool} /></li>)}</ul>
-            </div>
-            <p className="spread-links">
-              <Button color="link-color" size="lg" href={caseStudyHref(project)} iconTrailing={ArrowRight}>Read the case study<span className="sr-only">: {name}</span></Button>
-              {publicSource && <Button color="link-gray" size="lg" href={project.repository!} iconLeading={GitHub} iconTrailing={ArrowUpRight}>Source<span className="sr-only"> code for {name} on GitHub</span></Button>}
-            </p>
+    <article className="doc" id={`entry-${project.slug}`} aria-labelledby={`entry-${project.slug}-title`} data-sc-act="document">
+      <header className="doc-head">
+        <p className="doc-path"><code>work/{projectNumber(project)}</code><span>{project.period}</span></p>
+        <h3 id={`entry-${project.slug}-title`}><a href={caseStudyHref(project)}>{name}</a></h3>
+        <Fact as="p" className="doc-dek" path={path("description")} evidence={evidence}>{project.description}</Fact>
+      </header>
+      <div className="doc-grid">
+        <div className="doc-body">
+          <div className="doc-part">
+            <h4>Problem</h4>
+            <Fact as="p" path={path("challenge")} evidence={evidence}>{project.challenge}</Fact>
           </div>
-          {project.slug === "claims-document-assistant" && <PipelineFigure />}
+          <div className="doc-part">
+            <h4>What I did</h4>
+            <ol className="doc-steps">{steps.map((step) => <li key={step}>{step}</li>)}</ol>
+            <details className="doc-more">
+              <summary>{more.length ? `${more.length} more steps, decisions and evidence` : "Decisions and evidence"}</summary>
+              {more.length > 0 && <ol className="doc-steps" start={4}>{more.map((step) => <li key={step}>{step}</li>)}</ol>}
+              <h5>Decisions</h5>
+              <ul className="doc-list">{project.decisions.map((decision) => <li key={decision}>{decision}</li>)}</ul>
+              <h5>Evidence</h5>
+              <ul className="doc-list">{project.evidence.map((item) => <li key={item.label}><strong>{item.href ? <a href={item.href}>{item.label}</a> : item.label}.</strong> {item.detail}</li>)}</ul>
+            </details>
+          </div>
+          {project.slug === "claims-document-assistant" && <><PipelineFigure /><RulesDemo /></>}
+          {project.slug === "ccrs-test-data-tooling" && <GeneratorDemo />}
         </div>
+        <aside className="doc-props" aria-label={`${name}: facts`}><div className="doc-props-inner">
+          {project.metric && (
+            <div className="doc-result">
+              <Fact as="strong" path={path("metric.value")} evidence={evidence}>{project.metric.value}</Fact>
+              <p>{metricLabel(project)}</p>
+            </div>
+          )}
+          <dl className="props">
+            <div><dt>Role</dt><Fact as="dd" path={path("role")} evidence={evidence}>{project.role}</Fact></div>
+            <div><dt>Where</dt><dd>{projectContext(project)}</dd></div>
+            <div><dt>Evidence</dt><dd><span className="evidence-chip" data-evidence={evidence}>{evidence}</span></dd></div>
+          </dl>
+          <div className="doc-tools">
+            <p className="props-label">Built with</p>
+            <ul className="tags">{project.technologies.map((tool) => <li key={tool}>{tool}</li>)}</ul>
+          </div>
+          <p className="doc-links">
+            <Button color="link-color" size="md" href={caseStudyHref(project)} iconTrailing={ArrowRight}>Case study<span className="sr-only">: {name}</span></Button>
+            {publicSource && <Button color="link-gray" size="md" href={project.repository!} iconLeading={GitHub} iconTrailing={ArrowUpRight}>Source<span className="sr-only"> code for {name} on GitHub</span></Button>}
+          </p>
+        </div></aside>
       </div>
     </article>
   );
 }
 
 /**
- * The one drawn figure: how a claim moves through the Claims Document Assistant. Each stage restates the project
- * description in career.json. It is an ordered list, so it reads in order without CSS or motion.
+ * How a claim moves through the Claims Document Assistant. Each stage restates the project description in
+ * career.json. It is an ordered list, so it reads in order without CSS or motion.
  */
-function PipelineFigure() {
+export function PipelineFigure() {
   const stages = [
     ["Claim PDF", "Forms, cover letters and shorthand notes, in any layout."],
     ["Claude extracts", "17 fields into a fixed schema, returning null rather than guessing."],
@@ -178,17 +203,17 @@ function PipelineFigure() {
     ["A person approves", "Nothing is sent until a reviewer signs off."],
   ];
   return (
-    <figure className="pipeline">
+    <figure className="flow">
       <ol>
         {stages.map(([title, text]) => <li key={title}><strong>{title}</strong><span>{text}</span></li>)}
       </ol>
-      <figcaption>How a claim moves through the Claims Document Assistant. Tested on 60 synthetic claims, with a 26-test suite.</figcaption>
+      <figcaption>How a claim moves through the assistant. The model extracts and drafts; rules and a person decide.</figcaption>
     </figure>
   );
 }
 
-/** Quality strategy as five habits, each naming where I have done it. Lines restate career.json highlights. */
-const methodStages = [
+/** Quality strategy as five stages, each naming where I have done it. Lines restate career.json highlights. */
+const practiceStages = [
   { title: "Define done", text: "Requirements and acceptance criteria written with stakeholders before building, traceable to tests.", slug: "banking-risk-validation" },
   { title: "Build in small steps", text: "React and TypeScript features and internal tools, shown to the people who use them each release.", slug: "federal-quality-delivery-system" },
   { title: "Automate the checks", text: "Browser, API, visual and SSO login checks running together in GitHub Actions on AWS test environments.", slug: "ecommerce-feedback-platform" },
@@ -196,24 +221,22 @@ const methodStages = [
   { title: "Stay for adoption", text: "Versioned releases, a user guide and release notes, and support after the tool ships.", slug: "ccrs-test-data-tooling" },
 ];
 
-/** Five lines at display scale; the one in the middle of the screen is at full ink, so the eye reads one at a time. */
-function MethodChapter({ profile }: { profile: Profile }) {
+/** The practice drawn as a pipeline: five stages in order, each linked to the project where it shows. */
+function Practice({ profile }: { profile: Profile }) {
   return (
-    <section className="chapter chapter-method" id="method" aria-labelledby="method-heading" data-anchor data-sc-act="focus">
-      <div className="shell">
-        <ChapterOpener title="How the work is checked" id="method-heading">
-          <p>I started in quality engineering, so testing is part of how I build, not a phase at the end. Five habits, each with the project where you can see it.</p>
-        </ChapterOpener>
-        <ol className="habits">
-          {methodStages.map(({ title, text, slug }) => {
-            const project = profile.projects.find((item) => item.slug === slug);
+    <section className="sec" id="practice" aria-labelledby="practice-heading" data-sc-act="pipeline">
+      <div className="wb-container">
+        <SectionHead title="How I work" id="practice-heading">
+          <p>I started in quality engineering, so testing is part of how I build, not a phase at the end. The same five stages run through every project.</p>
+        </SectionHead>
+        <ol className="pipeline">
+          {practiceStages.map(({ title, text, slug }) => {
+            const project = profile.projects.find((item) => item.slug === slug)!;
             return (
               <li key={title}>
                 <h3>{title}</h3>
-                <div>
-                  <p>{text}</p>
-                  {project && <a href={`#entry-${project.slug}`}>{projectDisplayName(project)}</a>}
-                </div>
+                <Fact as="p" path={`projects.${slug}.approach`} evidence={projectEvidence(project)}>{text}</Fact>
+                <a href={`#entry-${project.slug}`}><span className="sr-only">Seen in </span>{projectDisplayName(project)}</a>
               </li>
             );
           })}
@@ -230,14 +253,10 @@ const roleDomains: Record<string, string> = {
   "ally-bank": "Banking",
 };
 
-type Role = Profile["experience"][number];
-const monthsBetween = (start: string, end: string) => {
-  const [startYear, startMonth] = start.split("-").map(Number) as [number, number];
-  const [endYear, endMonth] = end.split("-").map(Number) as [number, number];
-  return Math.max(1, (endYear - startYear) * 12 + (endMonth - startMonth));
+const monthIndex = (value: string) => {
+  const [year, month] = value.split("-").map(Number) as [number, number];
+  return year * 12 + (month - 1);
 };
-/** The record's own "as of" date ends the current role, so the prerendered page does not drift with the build clock. */
-const roleMonths = (role: Role, asOf: string) => monthsBetween(role.start, role.end ?? asOf);
 const tenure = (months: number) => {
   const years = Math.floor(months / 12);
   const rest = months % 12;
@@ -245,51 +264,58 @@ const tenure = (months: number) => {
 };
 
 /**
- * The career at a glance: one bar from the first role to now, each role's segment as wide as its tenure.
- * A plain ordered list underneath, so it reads in order without CSS.
+ * The career on one time axis: each role's bar starts at its start month and is as long as its tenure. The record's
+ * own "as of" date ends the current role, so the prerendered chart does not drift with the build clock.
  */
-function CareerSpan({ roles, asOf }: { roles: Role[]; asOf: string }) {
+function Timeline({ roles, asOf }: { roles: Role[]; asOf: string }) {
   const ordered = [...roles].reverse();
-  const total = ordered.reduce((sum, role) => sum + roleMonths(role, asOf), 0);
+  const origin = monthIndex(`${ordered[0]!.start.slice(0, 4)}-01`);
+  const end = monthIndex(asOf) + 1;
+  const years = Array.from({ length: Math.floor((end - 1) / 12) - Math.floor(origin / 12) + 1 }, (_, index) => Math.floor(origin / 12) + index);
   return (
-    <ol className="career-span" aria-label="Career span, oldest role first">
-      {ordered.map((role) => {
-        const months = roleMonths(role, asOf);
-        return (
-          <li key={role.id} style={{ flexGrow: months, "--span": (months / total).toFixed(3) } as CSSProperties} className={role.end ? undefined : "career-span-current"}>
-            <span className="career-span-bar" aria-hidden="true" />
-            <strong>{role.employer}</strong>
-            <span>{role.professionalTitle ?? role.title}</span>
-            <span className="career-span-years">{role.start.slice(0, 4)} to {role.end ? role.end.slice(0, 4) : "now"} · {tenure(months)}</span>
-          </li>
-        );
-      })}
-    </ol>
+    <figure className="timeline">
+      <ol className="timeline-lanes">
+        {ordered.map((role) => {
+          const start = monthIndex(role.start);
+          const stop = role.end ? monthIndex(role.end) : end;
+          const style = { "--from": ((start - origin) / (end - origin)).toFixed(4), "--span": ((stop - start) / (end - origin)).toFixed(4) } as CSSProperties;
+          return (
+            <li key={role.id} style={style} data-current={!role.end || undefined}>
+              <span className="timeline-bar" aria-hidden="true" />
+              <span className="timeline-label"><strong>{role.employer}</strong> {role.start.slice(0, 4)} to {role.end ? role.end.slice(0, 4) : "now"}, {tenure(stop - start)}</span>
+            </li>
+          );
+        })}
+      </ol>
+      <div className="timeline-axis" aria-hidden="true">
+        {years.map((year) => <span key={year} style={{ "--at": ((year * 12 - origin) / (end - origin)).toFixed(4) } as CSSProperties}>{year}</span>)}
+      </div>
+      <figcaption className="sr-only">Career timeline, oldest role first.</figcaption>
+    </figure>
   );
 }
 
 function CareerRole({ role, profile, detailed }: { role: Role; profile: Profile; detailed: boolean }) {
   const projects = profile.projects.filter((project) => project.experienceId === role.id);
-  const stack = [...new Set(projects.flatMap((project) => project.technologies))];
-  const trace = useTraceState(stack);
+  const months = (role.end ? monthIndex(role.end) : monthIndex(profile.experienceAsOf) + 1) - monthIndex(role.start);
   return (
-    <li className="role" data-anchor data-trace={trace}>
-      <p className="role-year" aria-hidden="true">{role.start.slice(0, 4)}</p>
+    <li className="role">
+      <div className="role-when">
+        <p><time dateTime={role.start}>{formatCareerDate(role.start)}</time> to {role.end ? <time dateTime={role.end}>{formatCareerDate(role.end)}</time> : "present"}</p>
+        <p>{tenure(months)} · {role.location}</p>
+      </div>
       <div className="role-body">
-        <p className="role-dates"><time dateTime={role.start}>{formatCareerDate(role.start)}</time> to {role.end ? <time dateTime={role.end}>{formatCareerDate(role.end)}</time> : "present"} · {role.location}</p>
-        <h3>{role.professionalTitle ?? role.title}, {role.employer}</h3>
-        {role.customer && <p className="role-customer">End customer: {role.customer === veteransAffairsName ? <a href="https://en.wikipedia.org/wiki/United_States_Department_of_Veterans_Affairs">{role.customer}</a> : role.customer}</p>}
-        <dl className="role-scope">
-          <div><dt>Tenure</dt><dd>{tenure(roleMonths(role, profile.experienceAsOf))}</dd></div>
-          {roleDomains[role.id] && <div><dt>Domain</dt><dd>{roleDomains[role.id]}</dd></div>}
-          {stack.length > 0 && <div><dt>Stack in these projects</dt><dd>{stack.slice(0, 8).join(", ")}</dd></div>}
-        </dl>
+        <Fact as="div" path={`experience.${role.id}.title`} evidence="Career record" className="role-title"><h3>{role.professionalTitle ?? role.title}, {role.employer}</h3></Fact>
+        <p className="role-meta">
+          {roleDomains[role.id]}
+          {role.customer && <> · End customer: {role.customer === veteransAffairsName ? <a href="https://en.wikipedia.org/wiki/United_States_Department_of_Veterans_Affairs">{role.customer}</a> : role.customer}</>}
+        </p>
         <p className="role-summary">{role.summary}</p>
         <ul className="role-highlights">
           {(detailed ? role.highlights : role.highlights.slice(0, 3)).map((highlight) => <li key={highlight}>{highlight}</li>)}
         </ul>
         {!detailed && role.highlights.length > 3 && (
-          <details className="role-more">
+          <details className="doc-more">
             <summary>{role.highlights.length - 3} more from this role</summary>
             <ul className="role-highlights">{role.highlights.slice(3).map((highlight) => <li key={highlight}>{highlight}</li>)}</ul>
           </details>
@@ -300,15 +326,15 @@ function CareerRole({ role, profile, detailed }: { role: Role; profile: Profile;
   );
 }
 
-/** The career, newest first, over the span bar. Shared with Experience, where every highlight shows. */
-export function CareerChapter({ profile, detailed = false }: { profile: Profile; detailed?: boolean }) {
+/** The career, newest first, under the timeline. Shared with Experience, where every highlight shows. */
+export function CareerSection({ profile, detailed = false }: { profile: Profile; detailed?: boolean }) {
   return (
-    <section className="chapter chapter-career" id={detailed ? "work-history" : "career"} aria-labelledby="career-heading" data-anchor data-sc-act="draw">
-      <div className="shell">
-        <ChapterOpener title={detailed ? "Work history" : "Career"} id="career-heading">
+    <section className="sec" id={detailed ? "work-history" : "career"} aria-labelledby="career-heading" data-sc-act="timeline">
+      <div className="wb-container">
+        <SectionHead title={detailed ? "Work history" : "Career"} id="career-heading">
           <p>{profile.experienceYears} years with {new Set(profile.experience.map((role) => role.employer)).size} employers, in one direction: from checking software to building it with the people who use it.</p>
-        </ChapterOpener>
-        <CareerSpan roles={profile.experience} asOf={profile.experienceAsOf} />
+        </SectionHead>
+        <Timeline roles={profile.experience} asOf={profile.experienceAsOf} />
         <ol className="roles">
           {profile.experience.map((role) => <CareerRole key={role.id} role={role} profile={profile} detailed={detailed} />)}
         </ol>
@@ -318,36 +344,62 @@ export function CareerChapter({ profile, detailed = false }: { profile: Profile;
 }
 
 /**
- * The stack as a wall of type: every tool from the projects and the skill record, set larger the more projects used it.
- * Each name is a trace control. Without JavaScript each name links to the projects that used it instead.
+ * The stack as a matrix: every tool a project names, against the six projects, so you can see what was used where.
+ * Computed from `technologies` in the career record. Skills in the record that no project names are listed after it.
  */
-function StackChapter({ profile }: { profile: Profile }) {
-  const ready = useTraceReady();
-  type Entry = { name: string; projects: Project[] };
+function StackSection({ profile }: { profile: Profile }) {
+  type Entry = { name: string; projects: Set<string> };
   const entries = new Map<string, Entry>();
-  const add = (name: string, project?: Project) => {
-    const entry = entries.get(toolKey(name)) ?? { name, projects: [] };
-    if (project && !entry.projects.includes(project)) entry.projects.push(project);
-    entries.set(toolKey(name), entry);
-  };
-  profile.projects.forEach((project) => project.technologies.forEach((tool) => add(tool, project)));
-  profile.skillGroups.forEach((group) => group.items.forEach((item) => add(item)));
-  const sorted = [...entries.values()].sort((a, b) => a.name.localeCompare(b.name));
-  const used = sorted.filter((entry) => entry.projects.length).length;
+  profile.projects.forEach((project) => project.technologies.forEach((tool) => {
+    const entry = entries.get(toolKey(tool)) ?? { name: tool, projects: new Set<string>() };
+    entry.projects.add(project.slug);
+    entries.set(toolKey(tool), entry);
+  }));
+  const rows = [...entries.values()].sort((a, b) => b.projects.size - a.projects.size || a.name.localeCompare(b.name));
+  const others = profile.skillGroups.map((group) => ({ label: group.label, items: group.items.filter((item) => !entries.has(toolKey(item))) })).filter((group) => group.items.length);
   return (
-    <section className="chapter chapter-stack" id="stack" aria-labelledby="stack-heading" data-anchor data-sc-act="trace">
-      <div className="shell">
-        <ChapterOpener title="Stack" id="stack-heading">
-          <p>{sorted.length} tools and skills; {used} of them appear in the projects above, set larger the more projects used them. Press one to trace it through the work. The <a href={href("experience/#engineering-toolkit")}>full toolkit</a> groups them by area.</p>
-        </ChapterOpener>
-        <ul className="stack-wall">
-          {sorted.map(({ name, projects }) => (
-            <li key={name} data-weight={Math.min(projects.length, 3)}>
-              <TraceChip name={name} weight={Math.min(projects.length, 3)} />
-              {!ready && projects.map((project) => <a key={project.slug} className="stack-ref" href={`#entry-${project.slug}`}>{String(profile.projects.indexOf(project) + 1).padStart(2, "0")}<span className="sr-only">, {projectDisplayName(project)}</span></a>)}
-            </li>
-          ))}
-        </ul>
+    <section className="sec" id="stack" aria-labelledby="stack-heading" data-sc-act="matrix">
+      <div className="wb-container">
+        <SectionHead title="Stack" id="stack-heading">
+          <p>{rows.length} tools named by the projects, against the projects that used them, most used first. The <a href={href("experience/#engineering-toolkit")}>full toolkit</a> groups every skill by area.</p>
+        </SectionHead>
+        <div className="stack-grid">
+          <div className="panel matrix-panel" role="region" aria-label="Tools by project" tabIndex={0}>
+            <table className="matrix">
+              <caption className="sr-only">Tools used in each project. Columns are the six projects, numbered as in the work index.</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Tool</th>
+                  {profile.projects.map((project) => <th scope="col" key={project.slug}><a href={`#entry-${project.slug}`} title={projectDisplayName(project)}><span aria-hidden="true">{projectNumber(project)}</span><span className="sr-only">{projectDisplayName(project)}</span></a></th>)}
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((row) => (
+                  <tr key={row.name}>
+                    <th scope="row">{row.name}</th>
+                    {profile.projects.map((project) => (
+                      <td key={project.slug} data-used={row.projects.has(project.slug) || undefined}>
+                        {row.projects.has(project.slug) ? <><span className="matrix-dot" aria-hidden="true" /><span className="sr-only">Used</span></> : <span className="sr-only">Not used</span>}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="stack-more">
+            <h3>Also in the toolkit</h3>
+            {others.map((group) => (
+              <div key={group.label}>
+                <p className="props-label">{group.label}</p>
+                <ul className="tags">{group.items.map((item) => <li key={item}>{item}</li>)}</ul>
+              </div>
+            ))}
+            <ol className="matrix-key">
+              {profile.projects.map((project) => <li key={project.slug}><span>{projectNumber(project)}</span><a href={`#entry-${project.slug}`}>{projectDisplayName(project)}</a></li>)}
+            </ol>
+          </div>
+        </div>
       </div>
     </section>
   );
