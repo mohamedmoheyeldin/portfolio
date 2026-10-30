@@ -38,6 +38,7 @@
     --accent-ink: #ffffff;
     --accent-soft: #e1f1ed;
     --accent-line: #8fc9bc;
+    --accent-line-faint: rgb(10 107 93 / 0.09);
     /* Meaning: self-test results only */
     --pass: #17693f;
     --pass-soft: #e3f2e8;
@@ -106,6 +107,7 @@
     --accent-ink: #04221c;
     --accent-soft: #0f2a25;
     --accent-line: #22695b;
+    --accent-line-faint: rgb(70 212 184 / 0.07);
     --pass: #6fd49a;
     --pass-soft: #13261b;
     --fail: #ff8f86;
@@ -469,7 +471,10 @@
   }
 
   /* The case deck */
-  .deck { padding-block: var(--section) 0; }
+  /* The work sits on a teal-tinted drafting ground: the cover's grid, carried down under the dark case files. */
+  .deck { padding-block: var(--section) 0; background-color: var(--accent-soft); background-image: linear-gradient(var(--accent-line-faint) 1px, transparent 1px), linear-gradient(90deg, var(--accent-line-faint) 1px, transparent 1px); background-size: 100% 6rem, 6rem 100%; border-block: 1px solid var(--accent-line); }
+  .deck .section-head h2 { font-size: clamp(3rem, 0.6rem + 7vw, 8rem); letter-spacing: -0.05em; }
+  .deck .section-head .lede { color: var(--ink); }
   .deck-stack { --stacking: 0; display: grid; gap: var(--s-10); padding-bottom: var(--section); }
   .sheet-anchor { display: block; height: 0; }
   .deck-hold { display: block; height: 0; margin-top: calc(var(--s-10) * -1); }
@@ -536,7 +541,7 @@
   }
 
   /* More work */
-  .more { padding-top: 0; }
+  .more { padding-top: var(--section); }
   /* Earlier and supporting work: a results ledger. Each row leads with its result at display size under a heavy rule. */
   .ledger { list-style: none; padding: 0; border-bottom: 1px solid var(--line-strong); }
   .ledger-row article { display: grid; gap: var(--s-3) var(--s-8); padding-block: clamp(var(--s-8), 4vw, var(--s-12)); border-top: 3px solid var(--ink); }
