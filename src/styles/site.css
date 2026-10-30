@@ -460,6 +460,27 @@
   .row-side { display: grid; gap: var(--s-2); align-content: start; }
   .row .meta { padding-top: 0.45rem; }
 
+  /* Tenure chart: one bar per role, to scale, above the career timeline */
+  .tenure { display: grid; gap: var(--s-3); margin-bottom: var(--s-16); padding: var(--s-6); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-3); box-shadow: var(--e1), var(--edge); }
+  .tenure-rows { list-style: none; padding: 0; display: grid; gap: var(--s-4); }
+  .tenure-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-2) var(--s-4); align-items: center; }
+  .tenure-label { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-3); align-items: baseline; }
+  .tenure-employer { font-weight: var(--weight-head); color: var(--ink); }
+  .tenure-title { font-size: var(--t-sm); color: var(--ink-3); }
+  .tenure-track { width: 100%; height: 1rem; display: block; overflow: visible; }
+  .tenure-rail { fill: var(--line); }
+  .tenure-bar { fill: var(--ink-3); }
+  .is-current .tenure-bar { fill: var(--accent); }
+  .tenure-years { font-family: var(--font-mono); font-size: var(--t-sm); color: var(--ink-2); min-width: 4.5rem; text-align: left; }
+  .is-current .tenure-years { color: var(--accent); }
+  .tenure-axis { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-3); border-top: 1px solid var(--line); padding-top: var(--s-2); margin-right: calc(4.5rem + var(--s-4)); }
+  .tenure figcaption { color: var(--ink-3); }
+  @media (min-width: 760px) {
+    .tenure { padding: var(--s-8); }
+    .tenure-row { grid-template-columns: 17rem minmax(0, 1fr) auto; }
+    .tenure-label { grid-column: auto; display: grid; gap: 0; }
+    .tenure-axis { margin-left: calc(17rem + var(--s-4)); }
+  }
   /* Career timeline */
   .timeline { position: relative; display: grid; gap: var(--s-12); }
   .timeline-item { position: relative; display: grid; gap: var(--s-3); }

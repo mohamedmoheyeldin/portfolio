@@ -194,6 +194,7 @@ function Career({ profile }: { profile: Profile }) {
           <h2 id="career-heading">{profile.experienceYears} years, three teams, one habit: find the real problem first.</h2>
           <p><a className="link-arrow" href={href("experience/")}>Every role, skill and credential<ArrowRight /></a></p>
         </div>
+        <Tenure profile={profile} />
         <ol className="timeline">
           {profile.experience.map((role, i) => (
             <li className={`timeline-item${i === 0 ? " is-current" : ""}`} key={role.id}>
@@ -213,6 +214,47 @@ function Career({ profile }: { profile: Profile }) {
         </ol>
       </div>
     </section>
+  );
+}
+
+/** Months since January 2000 for a "YYYY-MM" date, so tenure can be drawn to scale. */
+const monthIndex = (value: string) => { const [y, m] = value.split("-").map(Number); return (y! - 2000) * 12 + (m! - 1); };
+
+/**
+ * Eleven years drawn to scale: one bar per role from its start to its end (or to experienceAsOf for the current
+ * role), all from the dates in career.json. Bars are SVG geometry, so no inline styles are needed for the widths.
+ */
+function Tenure({ profile }: { profile: Profile }) {
+  const roles = [...profile.experience].reverse();
+  const from = monthIndex(`${roles[0]!.start.slice(0, 4)}-01`);
+  const to = monthIndex(profile.experienceAsOf) + 1;
+  const span = to - from;
+  const x = (value: string) => ((monthIndex(value) - from) / span) * 1000;
+  const firstYear = Number(roles[0]!.start.slice(0, 4));
+  const lastYear = Number(profile.experienceAsOf.slice(0, 4));
+  const years = Array.from({ length: lastYear - firstYear + 1 }, (_, i) => firstYear + i);
+  return (
+    <figure className="tenure" aria-labelledby="tenure-caption">
+      <ol className="tenure-rows">
+        {roles.map((role) => {
+          const start = x(role.start);
+          const end = role.end ? x(role.end) : 1000;
+          const years = Math.round(((role.end ? monthIndex(role.end) : to - 1) - monthIndex(role.start)) / 12 * 10) / 10;
+          return (
+            <li className={`tenure-row${role.end ? "" : " is-current"}`} key={role.id}>
+              <p className="tenure-label"><span className="tenure-employer">{role.employer}</span><span className="tenure-title">{role.title}</span></p>
+              <svg className="tenure-track" viewBox="0 0 1000 12" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <rect className="tenure-rail" x="0" y="5" width="1000" height="2" />
+                <rect className="tenure-bar" x={start} y="0" width={Math.max(end - start, 4)} height="12" rx="0" />
+              </svg>
+              <p className="tenure-years">{years} yrs</p>
+            </li>
+          );
+        })}
+      </ol>
+      <p className="tenure-axis" aria-hidden="true"><span>{years[0]}</span><span>{years.at(-1)}</span></p>
+      <figcaption id="tenure-caption" className="label">Tenure by role, drawn to scale from the start and end dates in the career record.</figcaption>
+    </figure>
   );
 }
 
