@@ -40,7 +40,7 @@ export function Home({ profile }: { profile: Profile }) {
 /**
  * The intro: the signature writes itself over a dark screen, stroke by stroke in writing order, in about 2.8 seconds
  * with a ring on the pen tip, then lifts away. SMIL times each stroke; site.css shows the overlay only when the
- * inline script in index.html has marked a first visit this session with motion welcome, so it never runs with
+ * inline script in index.html has marked a load with motion welcome, so it never runs with
  * reduced motion or without JavaScript. It never takes pointer events, and any key, click or scroll skips it.
  */
 function Intro() {

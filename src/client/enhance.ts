@@ -296,10 +296,9 @@ function initString() {
   build();
 }
 
-/** The intro plays once per visit: mark it seen, and let any key, click or scroll skip it. */
+/** The intro plays on every load of the home page; any key, click or scroll skips it. */
 function initIntro() {
   if (!root.classList.contains("intro-play") || !document.querySelector("[data-intro]")) return;
-  try { sessionStorage.setItem("intro", "1"); } catch { /* storage blocked: it may play again */ }
   const skip = () => {
     root.classList.remove("intro-play");
     for (const type of ["keydown", "pointerdown", "wheel", "touchstart"]) removeEventListener(type, skip);
