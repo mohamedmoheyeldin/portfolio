@@ -12,7 +12,7 @@
 
 ## Status
 
-Home (the claim beside a running, pickable diagram of the documented VA claim-status design; six project tiles, each with its own figure; the career on a bar drawn to scale; what I bring; the teal closing band), Experience (every role and highlight, project register, skills, credentials, education), six case studies (the portfolio one carries the page self-test), and a resume library in PDF, Word, Markdown and plain text. Light and dark themes are designed separately. The October 30, 2026 signal redesign is on the `NewIU` branch; see [the design brief](docs/DESIGN_BRIEF.md) and [the Scrollcraft brief](docs/SCROLLCRAFT-BRIEF.md).
+Home (full-bleed acts alternating near-black and bone, headlines in capitals at poster scale and one teal thread drawn down the page as you read: the claim; a statement; a running, pickable diagram of the documented VA claim-status design; six project scenes, each a giant word with paper cards restating its result; the career on a bar drawn to scale; what I bring; the close, where the thread ends in a check mark), Experience (every role and highlight, project register, skills, credentials, education), six case studies (the portfolio one carries the page self-test), and a resume library in PDF, Word, Markdown and plain text. Light and dark themes are designed separately. The October 30, 2026 thread redesign is on the `newAI` branch (the signal redesign before it is on `NewIU`); see [the design brief](docs/DESIGN_BRIEF.md) and [the Scrollcraft brief](docs/SCROLLCRAFT-BRIEF.md).
 
 `main` is the production branch for `https://mohamedmoheyeldin.com/`. Future Application Studio work belongs on `application-studio` and is not part of the current production release.
 
@@ -35,7 +35,7 @@ flowchart LR
 - `src/content/flows.ts` — the three project pipelines, each station restating a documented field
 - `src/components/site/` — `layout.tsx` (header, close, footer), `home.tsx`, `experience.tsx`, `case-study.tsx`, `ui.tsx` (icons, resume popover, evidence tag, the hero schematic, pipeline), `shared.tsx` (links and derived helpers)
 - `src/lib/selftest.ts` — the 16 page checks; `src/client/enhance.ts` — the only script the site ships
-- `src/styles/site.css` — the design system: tokens, both themes, the schematic, the work grid and its figures, components, motion
+- `src/styles/site.css` — the design system: tokens, both themes, the acts and the thread, the schematic, the project scenes and their papers, components, motion
 - `scripts/build.mjs` — prerendering, metadata, structured data, sitemap and legacy redirects
 
 React renders pages at build time only. The published site ships no framework: the browser loads one small module for the theme switch, menus, copy buttons, the current section, the schematic picker and the self-test. Menus use the native popover API and long detail uses `<details>`, so they work without JavaScript.

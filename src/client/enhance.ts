@@ -6,7 +6,7 @@
 import { checks, observeVitals, type CheckResult } from "@/lib/selftest";
 
 const root = document.documentElement;
-const themeColors = { light: "#f6f7f7", dark: "#07090a" } as const;
+const themeColors = { light: "#efece5", dark: "#0b0b0a" } as const;
 const reducedMotion = () => !matchMedia("(prefers-reduced-motion: no-preference)").matches;
 
 function setTheme(dark: boolean) {

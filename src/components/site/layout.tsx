@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { profile } from "@/lib/career";
 import { email, emailAddress, gitHubUrl, href, linkedInUrl, root, roleEmail } from "./shared";
-import { ArrowUpRight, Copy, GitHub, LinkedIn, Mail, Menu, Moon, ResumeMenu, Sun, resumeOptions } from "./ui";
+import { ArrowUpRight, Copy, GitHub, LinkedIn, Mail, Menu, Moon, ResumeMenu, Sun, Thread, resumeOptions } from "./ui";
 
 export type Place = "home" | "experience" | "case" | "other";
 
@@ -12,10 +12,10 @@ const navLinks = (place: Place) => [
 ];
 
 /**
- * The header is a full-width bar: the name and role, three routes, the theme switch and the one action, with a thin
- * line under it that fills as the page is read. It is clear over the hero and gains a ground once the page moves.
- * On the home page the route for the section in view is marked (enhance.ts). Below 860px the routes move into a
- * native popover menu that also lists every resume file.
+ * The header is a dark bar on every page: the name, three routes in mono capitals, the theme switch and the one
+ * action, with a thin line under it that fills as the page is read. It blends into the dark opening act and stays
+ * readable over the light ones. On the home page the route for the section in view is marked (enhance.ts). Below
+ * 860px the routes move into a native popover menu that also lists every resume file.
  */
 function Header({ place }: { place: Place }) {
   const links = navLinks(place);
@@ -23,7 +23,7 @@ function Header({ place }: { place: Place }) {
     <header className="topbar">
       <div className="wrap topbar-row">
         <a className="wordmark" href={root} aria-current={place === "home" ? "page" : undefined}>
-          <span className="wordmark-mark" aria-hidden="true" />Mohamed Moheyeldin<span className="wordmark-role" aria-hidden="true">{profile.headline}</span>
+          Mohamed Moheyeldin<span className="wordmark-role" aria-hidden="true">{profile.headline}</span>
         </a>
         <nav aria-label="Main" className="topbar-nav nav-wide">
           <ul className="nav-links">
@@ -64,23 +64,25 @@ const auditSteps = [
 ] as const;
 
 /**
- * The close of every page is a teal band: the question, the address set large with a copy button, Email me and the
- * resume menu; the direct routes and every resume file beside them; the audit offer for teams across the foot.
+ * The close of every page is the last dark act: the question at poster scale, the address with a copy button, Email me
+ * and the resume menu; the direct routes and every resume file beside them; the audit offer for teams across the
+ * foot. The page thread ends here as a check mark.
  */
 function Close() {
   return (
-    <section className="close-band" id="contact" aria-labelledby="contact-heading" data-sc-act="close">
+    <section className="act act--dark close-band" id="contact" aria-labelledby="contact-heading" data-sc-act="close">
+      <Thread className="thread--close" d="M82,0 C82,6 99,6 99,16 V44 C99,52 70,48 70,56 L78,64 L96,48" />
       <div className="wrap close-grid">
         <div className="close-main">
           <p className="label">Next step</p>
-          <h2 id="contact-heading">Have a workflow your users are fighting with?</h2>
+          <h2 id="contact-heading" className="poster poster--md"><span className="line">Have a workflow</span> <span className="line">your users are</span> <span className="line">fighting with?</span></h2>
           <p className="lede">I'm open to Forward Deployed Engineer roles. Email is the fastest way to reach me.</p>
           <p className="close-address">
             <a href={roleEmail} id="contact-address"><span className="sr-only">Email </span>{emailAddress}</a>
             <button className="copy-btn js-only" type="button" data-copy={emailAddress} aria-describedby="contact-address"><Copy /><span>Copy</span></button>
           </p>
           <div className="actions">
-            <a className="btn btn--invert btn--lg" href={roleEmail}><Mail />Email me</a>
+            <a className="btn btn--primary btn--lg" href={roleEmail}><Mail />Email me</a>
             <ResumeMenu id="resume-menu-close" size="lg" />
           </div>
         </div>

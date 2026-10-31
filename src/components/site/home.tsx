@@ -1,16 +1,33 @@
 import { formatCareerDate } from "@/lib/career";
 import { Page } from "./layout";
 import { type Profile, type Project, caseStudyHref, gitHubUrl, href, linkedInUrl, metricLabel, projectDisplayName, projectNumber, roleEmail } from "./shared";
-import { ArrowRight, ArrowUpRight, EvidenceTag, GitHub, LinkedIn, Mail, ResumeMenu, Schematic, Tags } from "./ui";
+import { ArrowUpRight, EvidenceTag, GitHub, LinkedIn, Mail, ResumeMenu, Schematic, Tags, Thread } from "./ui";
 
-/** Work is laid out as a grid: three featured tiles first, then the supporting three. */
+/** The six projects in the order the page tells them. */
 const order = ["federal-quality-delivery-system", "ccrs-test-data-tooling", "claims-document-assistant", "portfolio-career-content-system", "ecommerce-feedback-platform", "banking-risk-validation"];
+
+/*
+ * The thread: one teal line drawn down the whole page, a segment per section. Every segment enters at the top and
+ * leaves at the bottom at x = 82 (of 100), so the pieces meet at each section edge. Paths are in a 100 by 100 box
+ * stretched to the section; the stroke keeps its width. Decorative only.
+ */
+const threads = {
+  hero: "M4,0 C4,30 30,22 52,30 C78,40 70,64 46,62 C26,60 30,40 52,44 C74,48 82,70 82,100",
+  statement: "M82,0 C82,26 60,30 60,50 C60,74 94,64 94,40 C94,22 70,30 70,58 C70,80 82,84 82,100",
+  system: "M82,0 C82,10 96,10 96,24 V76 C96,90 82,90 82,100",
+  workHead: "M82,0 C82,40 40,40 40,70 C40,92 82,84 82,100",
+  scene: ["M82,0 C82,30 70,40 30,46 C8,50 12,80 50,84 C70,86 82,90 82,100", "M82,0 C82,20 96,30 96,52 C96,74 60,60 60,80 C60,92 82,92 82,100"],
+  career: "M82,0 V22 C82,30 60,30 10,30 C2,30 2,38 10,38 C60,38 82,40 82,52 V100",
+  approach: "M82,0 C82,30 50,20 50,50 C50,80 82,70 82,100",
+};
 
 export function Home({ profile }: { profile: Profile }) {
   const projects = order.map((slug) => profile.projects.find((p) => p.slug === slug)!);
   return (
     <Page place="home">
-      <Hero profile={profile} featured={projects.slice(0, 3)} />
+      <Hero profile={profile} />
+      <Statement profile={profile} />
+      <System />
       <Work projects={projects} />
       <Career profile={profile} />
       <Capabilities profile={profile} />
@@ -18,50 +35,65 @@ export function Home({ profile }: { profile: Profile }) {
   );
 }
 
-/** Short names for the proof row: the full names are on the tiles, so long names are shortened here, not in the record. */
-const shortName = (project: Project) => ({
-  "federal-quality-delivery-system": "VA Claims Workflows",
-  "ccrs-test-data-tooling": "Data Generator",
-  "claims-document-assistant": "Claims Document Assistant",
-}[project.slug] ?? projectDisplayName(project));
-
-/**
- * The hero: who he is and the claim on the left, and on the right the signature, a working diagram of the documented
- * VA claim-status design that runs a signal along its paths and explains each part when you pick it.
- */
-function Hero({ profile, featured }: { profile: Profile; featured: Project[] }) {
+/** The opening: the claim set as large as the screen allows, on a dark ground, with the thread starting under it. */
+function Hero({ profile }: { profile: Profile }) {
   const current = profile.experience[0]!;
   return (
-    <section className="hero" aria-labelledby="hero-heading" data-sc-act="hero">
-      <div className="wrap hero-grid">
-        <div className="hero-copy">
-          <p className="status"><span className="status-dot" aria-hidden="true" />Open to {profile.headline} roles</p>
-          <h1 id="hero-heading">
-            <span className="hero-name">{profile.name}</span>
-            <span className="hero-claim">I work with the people who use the software, build what they need, and test it before they do.</span>
-          </h1>
-          <p className="lede hero-lede">
-            {profile.headline} at {current.employer} on a VA healthcare claims platform. {profile.experienceYears} years in software development and
-            quality engineering across federal healthcare, banking and e-commerce.
+    <section className="act act--dark hero" aria-labelledby="hero-heading" data-sc-act="hero">
+      <Thread d={threads.hero} />
+      <div className="wrap hero-inner">
+        <p className="status"><span className="status-dot" aria-hidden="true" />Open to {profile.headline} roles</p>
+        <h1 id="hero-heading">
+          <span className="sr-only">{profile.name}. </span>
+          <span className="poster hero-claim">
+            <span className="line">I build what</span> <span className="line">users need</span> <span className="line">and test it</span> <span className="line">before they do.</span>
+          </span>
+        </h1>
+        <div className="hero-foot">
+          <p className="mono-lede">
+            {profile.name}. {profile.headline} at {current.employer} on a VA healthcare claims platform, with {profile.experienceYears} years
+            in software development and quality engineering.
           </p>
           <div className="actions">
             <a className="btn btn--primary btn--lg" href={roleEmail}><Mail />Email me</a>
             <ResumeMenu id="resume-menu-hero" size="lg" />
-            <span className="hero-social">
-              <a className="btn btn--quiet btn--icon btn--lg" href={linkedInUrl} aria-label="LinkedIn"><LinkedIn /></a>
-              <a className="btn btn--quiet btn--icon btn--lg" href={gitHubUrl} aria-label="GitHub"><GitHub /></a>
-            </span>
+            <a className="btn btn--quiet btn--icon btn--lg" href={linkedInUrl} aria-label="LinkedIn"><LinkedIn /></a>
+            <a className="btn btn--quiet btn--icon btn--lg" href={gitHubUrl} aria-label="GitHub"><GitHub /></a>
           </div>
-          <ul className="proof" aria-label="Results">
-            {featured.map((project) => project.metric && (
-              <li key={project.slug}>
-                <a href={`#entry-${project.slug}`}>
-                  <span className="proof-value">{project.metric.value}</span>
-                  <span className="proof-name">{shortName(project)}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** The bridge: what the work is about, in one large sentence, on the light ground. */
+function Statement({ profile }: { profile: Profile }) {
+  return (
+    <section className="act act--light statement" aria-labelledby="statement-heading" data-sc-act="statement">
+      <Thread d={threads.statement} />
+      <div className="wrap statement-inner">
+        <h2 id="statement-heading" className="poster poster--md">
+          <span className="line">From the people</span> <span className="line">who use it</span> <span className="line">to the system</span> <span className="line">behind it.</span>
+        </h2>
+        <p className="mono-lede">
+          {profile.experienceYears} years across federal healthcare, banking and e-commerce. I sit with the people who have the problem,
+          find the real one, build the fix and prove it with tests.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/** The system he works on every day: the schematic, now its own act on the dark ground. */
+function System() {
+  return (
+    <section className="act act--dark system" aria-labelledby="system-heading" data-sc-act="system">
+      <Thread d={threads.system} />
+      <div className="wrap system-grid">
+        <div className="system-copy">
+          <p className="label label--accent">The system I work on</p>
+          <h2 id="system-heading" className="poster poster--sm">Live claim status for every role.</h2>
+          <p className="mono-lede">Health-provider APIs feed a VA claims platform that VA staff, providers and veterans use every day. Pick a part to read what it does.</p>
         </div>
         <Schematic />
       </div>
@@ -69,55 +101,85 @@ function Hero({ profile, featured }: { profile: Profile; featured: Project[] }) 
   );
 }
 
-/** One figure per project, each restating its documented result (the metric label) as a diagram. Decorative: the text says it all. */
-function TileFigure({ slug }: { slug: string }) {
+/**
+ * The word set behind each project: a descriptive label for the scene, not a product name (the real name is the
+ * heading). Lengths drive the fitted size in site.css ([data-len]).
+ */
+const sceneWord: Record<string, string> = {
+  "federal-quality-delivery-system": "Claims",
+  "ccrs-test-data-tooling": "Generator",
+  "claims-document-assistant": "Documents",
+  "portfolio-career-content-system": "Resumes",
+  "ecommerce-feedback-platform": "Checks",
+  "banking-risk-validation": "Releases",
+};
+
+/** Paper cards drawn over each scene word, each restating the project's documented result. Decorative: the text below says it all. */
+function ScenePapers({ slug }: { slug: string }) {
   switch (slug) {
     // metric: "VA staff, providers, and veterans now see live claim status"
     case "federal-quality-delivery-system":
       return (
-        <div className="fig fig-roles" aria-hidden="true">
-          <span className="fig-src">Claims platform</span>
-          <ul>{["VA staff", "Providers", "Veterans"].map((role) => <li key={role}><span className="live" />{role}<span className="fig-tag">live status</span></li>)}</ul>
+        <div className="papers" aria-hidden="true">
+          {["VA staff", "Providers", "Veterans"].map((role, i) => (
+            <div className={`paper paper--${i + 1}`} key={role}>
+              <p className="paper-head"><span>Claim status</span><span>{String(i + 1).padStart(2, "0")}</span></p>
+              <p className="paper-title">{role}</p>
+              <p className="paper-row"><span className="live" />Live</p>
+            </div>
+          ))}
         </div>
       );
-    // flows.ts ccrs-test-data-tooling steps, shortened
+    // flows.ts ccrs-test-data-tooling steps and packaging (one master JSON, gzipped, SHA-256 manifest); metric: under 5 min
     case "ccrs-test-data-tooling":
       return (
-        <div className="fig fig-run" aria-hidden="true">
-          <ol>{["Template", "Generate", "Validate", "Package", "Upload"].map((step, i) => <li key={step}><span>{String(i + 1).padStart(2, "0")}</span>{step}</li>)}</ol>
-          <p className="fig-bar"><span /><em>one run</em></p>
+        <div className="papers" aria-hidden="true">
+          <div className="paper paper--1 paper--wide">
+            <p className="paper-head"><span>One run</span><span>Under 5 min</span></p>
+            <ol className="paper-steps">{["Template", "Generate", "Validate", "Package", "Upload"].map((step) => <li key={step}>{step}</li>)}</ol>
+          </div>
+          <div className="paper paper--2"><p className="paper-head"><span>Output</span></p><p className="paper-title paper-mono">master.json.gz</p></div>
+          <div className="paper paper--3"><p className="paper-head"><span>Manifest</span></p><p className="paper-title paper-mono">SHA-256</p></div>
         </div>
       );
-    // metric: 17 fields per claim PDF; flows.ts: rules, a person reviews, outbox
+    // metric: 17 fields per claim PDF; flows.ts: rules, a person reviews (approve, escalate or reject)
     case "claims-document-assistant":
       return (
-        <div className="fig fig-fields" aria-hidden="true">
-          <ol className="fig-cells">{Array.from({ length: 17 }, (_, i) => <li key={i} />)}</ol>
-          <p className="fig-chain"><span>Rules</span><span>Person reviews</span><span>Outbox</span></p>
+        <div className="papers" aria-hidden="true">
+          <div className="paper paper--1 paper--wide">
+            <p className="paper-head"><span>Claim PDF</span><span>17 fields</span></p>
+            <ol className="paper-cells">{Array.from({ length: 17 }, (_, i) => <li key={i} />)}</ol>
+          </div>
+          <div className="paper paper--2"><p className="paper-head"><span>Rules</span></p><p className="paper-title">Checked</p></div>
+          <div className="paper paper--3"><p className="paper-head"><span>Person reviews</span></p><p className="paper-chips"><span>Approve</span><span>Escalate</span><span>Reject</span></p></div>
         </div>
       );
     // metric: one-page and full, in PDF, Word and text, from one validated record
     case "portfolio-career-content-system":
       return (
-        <div className="fig fig-outputs" aria-hidden="true">
-          <span className="fig-src">career.json</span>
-          <ul>{["Website", "PDF", "Word", "Text"].map((item) => <li key={item}>{item}</li>)}</ul>
+        <div className="papers" aria-hidden="true">
+          <div className="paper paper--1"><p className="paper-head"><span>Source</span></p><p className="paper-title paper-mono">career.json</p></div>
+          {["Website", "PDF", "Word", "Text"].map((item, i) => (
+            <div className={`paper paper--sheet paper--${i + 2}`} key={item}><p className="paper-head"><span>Output</span></p><p className="paper-title">{item}</p></div>
+          ))}
         </div>
       );
     // metric: browser, API, visual and SSO login checks, run through GitHub Actions
     case "ecommerce-feedback-platform":
       return (
-        <div className="fig fig-checks" aria-hidden="true">
-          <ul>{["Browser", "API", "Visual", "SSO login"].map((item) => <li key={item}>{item}</li>)}</ul>
-          <p className="fig-rail">GitHub Actions</p>
+        <div className="papers" aria-hidden="true">
+          <div className="paper paper--1 paper--wide">
+            <p className="paper-head"><span>GitHub Actions</span><span>4 check types</span></p>
+            <ul className="paper-chips">{["Browser", "API", "Visual", "SSO login"].map((item) => <li key={item}>{item}</li>)}</ul>
+          </div>
         </div>
       );
     // metric: Chrome, Firefox, Safari and Edge; release checks across development, QA, UAT and staging
     case "banking-risk-validation":
       return (
-        <div className="fig fig-envs" aria-hidden="true">
-          <ul>{["Chrome", "Firefox", "Safari", "Edge"].map((item) => <li key={item}>{item}</li>)}</ul>
-          <ol>{["Dev", "QA", "UAT", "Staging"].map((item) => <li key={item}>{item}</li>)}</ol>
+        <div className="papers" aria-hidden="true">
+          <div className="paper paper--1"><p className="paper-head"><span>Browsers</span></p><ul className="paper-chips">{["Chrome", "Firefox", "Safari", "Edge"].map((item) => <li key={item}>{item}</li>)}</ul></div>
+          <div className="paper paper--2 paper--wide"><p className="paper-head"><span>Release path</span></p><ol className="paper-steps">{["Dev", "QA", "UAT", "Staging"].map((item) => <li key={item}>{item}</li>)}</ol></div>
         </div>
       );
     default:
@@ -127,42 +189,50 @@ function TileFigure({ slug }: { slug: string }) {
 
 function Work({ projects }: { projects: Project[] }) {
   return (
-    <section className="section work" id="work" aria-labelledby="work-heading" data-sc-act="work">
-      <div className="wrap">
-        <div className="section-head section-head--split">
-          <h2 id="work-heading">Work that people use every day.</h2>
-          <p className="lede">Six projects, each with a case study: the problem, my part, the design and what changed. Every result says where its evidence comes from.</p>
+    <div id="work" className="work">
+      <section className="act act--light work-head" aria-labelledby="work-heading" data-sc-act="work">
+        <Thread d={threads.workHead} />
+        <div className="wrap work-head-inner">
+          <h2 id="work-heading" className="poster poster--md"><span className="line">Six projects.</span> <span className="line">Every result</span> <span className="line">sourced.</span></h2>
+          <p className="mono-lede">Each one has a case study: the problem, my part, the design and what changed. Every result says where its evidence comes from.</p>
         </div>
-        <ul className="bento">
-          {projects.map((project, i) => {
-            const name = projectDisplayName(project);
-            return (
-              <li className={`tile${i < 3 ? " tile--featured" : ""}`} key={project.slug} id={`entry-${project.slug}`}>
-                <article aria-labelledby={`${project.slug}-title`}>
-                  <p className="meta"><span className="num">{projectNumber(project)}</span><span>{project.period}</span><span>{project.kind === "career" ? "Work" : "Independent"}</span></p>
+      </section>
+      {projects.map((project, i) => {
+        const name = projectDisplayName(project);
+        const word = sceneWord[project.slug] ?? name;
+        return (
+          <section className={`act ${i % 2 ? "act--light" : "act--dark"} scene`} key={project.slug} id={`entry-${project.slug}`} aria-labelledby={`${project.slug}-title`} data-sc-act={`scene-${i + 1}`}>
+            <Thread d={threads.scene[i % 2]!} />
+            <div className="wrap scene-inner">
+              <div className="scene-top">
+                <p className="meta"><span className="num">{projectNumber(project)}</span><span>{project.period}</span><span>{project.kind === "career" ? "Work" : "Independent"}</span></p>
+                <div className="scene-intro">
                   <h3 id={`${project.slug}-title`}><a href={caseStudyHref(project)}>{name}</a></h3>
-                  <p className="tile-desc">{project.description}</p>
-                  <TileFigure slug={project.slug} />
-                  {project.metric && (
-                    <div className="result">
-                      <p className="result-value">{project.metric.value}</p>
-                      <p className="result-label">{metricLabel(project)}</p>
-                    </div>
-                  )}
-                  <p className="tile-foot">
-                    <EvidenceTag project={project} />
-                    <span className="tile-links">
-                      {project.repository && <a className="tile-src" href={project.repository} aria-label={`Source for ${name}`}><GitHub /></a>}
-                      <a className="link-arrow" href={caseStudyHref(project)}>Case study<span className="sr-only">: {name}</span><ArrowRight /></a>
-                    </span>
-                  </p>
-                </article>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </section>
+                  <p>{project.description}</p>
+                </div>
+              </div>
+              <div className="scene-stage">
+                <p className="scene-word" data-len={word.length} aria-hidden="true">{word}</p>
+                <ScenePapers slug={project.slug} />
+              </div>
+              <div className="scene-foot">
+                {project.metric && (
+                  <div className="result">
+                    <p className="result-value">{project.metric.value}</p>
+                    <p className="result-label">{metricLabel(project)}</p>
+                  </div>
+                )}
+                <p className="scene-links">
+                  <EvidenceTag project={project} />
+                  {project.repository && <a className="tile-src" href={project.repository} aria-label={`Source for ${name}`}><GitHub /></a>}
+                  <a className="explore" href={caseStudyHref(project)}>Case study<span className="sr-only">: {name}</span><ArrowUpRight /></a>
+                </p>
+              </div>
+            </div>
+          </section>
+        );
+      })}
+    </div>
   );
 }
 
@@ -194,11 +264,12 @@ function Career({ profile }: { profile: Profile }) {
     .map((year) => ({ year, at: (months(first, `${year}-01`) / total) * 100 }))
     .filter((tick) => tick.at >= 0 && tick.at <= 100);
   return (
-    <section className="section section--tint career" id="career" aria-labelledby="career-heading" data-sc-act="career">
+    <section className="act act--dark career" id="career" aria-labelledby="career-heading" data-sc-act="career">
+      <Thread d={threads.career} />
       <div className="wrap">
-        <div className="section-head section-head--split">
-          <h2 id="career-heading">{profile.experienceYears} years, three teams, one habit: find the real problem first.</h2>
-          <p><a className="link-arrow" href={href("experience/")}>Every role, skill and credential<ArrowRight /></a></p>
+        <div className="act-head">
+          <h2 id="career-heading" className="poster poster--md"><span className="line">{profile.experienceYears} years.</span> <span className="line">Three teams.</span></h2>
+          <p><a className="explore" href={href("experience/")}>Every role, skill and credential<ArrowUpRight /></a></p>
         </div>
         <figure className="span-bar">
           <svg className="span-svg" width="100%" height="64" aria-hidden="true" focusable="false">
@@ -209,7 +280,7 @@ function Career({ profile }: { profile: Profile }) {
               </g>
             ))}
             {spans.map(({ role, x: at, width }, i) => (
-              <rect key={role.id} className={`span-seg${i === spans.length - 1 ? " is-current" : ""}`} x={`${at}%`} y="8" width={`${width}%`} height="20" rx="4" />
+              <rect key={role.id} className={`span-seg${i === spans.length - 1 ? " is-current" : ""}`} x={`${at}%`} y="8" width={`${width}%`} height="20" rx="2" />
             ))}
           </svg>
           <figcaption className="sr-only">Roles to scale since {formatCareerDate(first)}.</figcaption>
@@ -256,13 +327,14 @@ function Capabilities({ profile }: { profile: Profile }) {
   const issuers = [...new Set(profile.verifiedCredentials.map((c) => c.issuer))];
   const education = profile.education[0];
   return (
-    <section className="section capabilities" id="approach" aria-labelledby="approach-heading" data-sc-act="capabilities">
+    <section className="act act--light capabilities" id="approach" aria-labelledby="approach-heading" data-sc-act="capabilities">
+      <Thread d={threads.approach} />
       <div className="wrap">
-        <div className="section-head section-head--split">
-          <h2 id="approach-heading">What I bring to a team.</h2>
-          <p className="lede">Forward deployed work on top of eleven years of quality engineering: I find the problem with the people who have it, then build and prove the fix.</p>
+        <div className="act-head">
+          <h2 id="approach-heading" className="poster poster--md"><span className="line">What I bring</span> <span className="line">to a team.</span></h2>
+          <p className="mono-lede">Forward deployed work on top of eleven years of quality engineering: I find the problem with the people who have it, then build and prove the fix.</p>
         </div>
-        <ol className="cap-grid">
+        <ol className="cap-list">
           {capabilities.map(([title, text], i) => (
             <li key={title}><span className="num">{String(i + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{text}</p></li>
           ))}
@@ -275,7 +347,7 @@ function Capabilities({ profile }: { profile: Profile }) {
           <p className="toolkit-foot">
             {profile.verifiedCredentials.length} verified credentials from {issuers.slice(0, -1).join(", ")} and {issuers.at(-1)}.{" "}
             {education && <>{education.credential} in {education.field}. </>}
-            <a className="link-arrow" href={href("experience/#learning")}>See the credentials<ArrowUpRight /></a>
+            <a className="explore" href={href("experience/#learning")}>See the credentials<ArrowUpRight /></a>
           </p>
         </div>
       </div>

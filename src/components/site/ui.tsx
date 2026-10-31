@@ -195,6 +195,18 @@ export function Schematic() {
 }
 
 /**
+ * One segment of the page thread: a path in a 100 by 100 box stretched over its section, drawn as the section scrolls
+ * into view (site.css). The stroke keeps its width however the box stretches. Decorative.
+ */
+export function Thread({ d, className }: { d: string; className?: string }) {
+  return (
+    <svg className={`thread${className ? ` ${className}` : ""}`} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path d={d} vectorEffect="non-scaling-stroke" />
+    </svg>
+  );
+}
+
+/**
  * A project's documented design as a pipeline: numbered stations on one rail, then the parts that run alongside it.
  * Every station restates a documented field (see src/content/flows.ts); it is a diagram of the design, not a capture.
  */

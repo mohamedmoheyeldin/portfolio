@@ -35,13 +35,17 @@ flowchart TB
 - Without JavaScript every page is complete: content, links, the resume and phone menus (native `popover`), `<details>` disclosures and the contact links all work. JS-only controls (`.js-only`: theme toggle, copy buttons, the self-test button) are hidden; every part of the hero schematic is listed with its text; the self-test states that it needs JavaScript.
 - The theme is applied before first paint by an inline script in `index.html` (`html.dark-mode`, saved in `localStorage` as `theme`).
 
-## The schematic (signature move)
+## The acts and the thread (signature move)
+
+Every home section is an `.act`: `.act--dark` (near-black) or `.act--light` (bone), each redefining the colour tokens on itself, so every component reads correctly on either ground. In the dark theme the bone acts are dimmed (`.dark-mode .act--light`) rather than turned dark, so the alternation holds. `Thread` in `ui.tsx` draws one segment of the teal thread per act: a path in a 100 by 100 box stretched over the act (`preserveAspectRatio="none"`, `vector-effect: non-scaling-stroke`), entering and leaving at x = 82 so the segments join. Where scroll-driven animation is supported, a `clip-path` inset on a `view()` timeline draws each segment so its tip stays near the middle of the screen; otherwise, and with reduced motion, the whole thread is shown. The close draws it into a check mark.
+
+## The schematic
 
 `Schematic` in `ui.tsx` draws the six documented parts of VA Claims Workflows (the three steps and three "alongside" entries in `flows.ts`) as two inline SVGs from one geometry table: a wide layout beside the hero copy and a tall one below 560px. Each part is a `g.sn[data-node]`; the paths carry a second, `pathLength="100"` copy (`.sn-signal`) that is invisible at rest. The SVGs are `aria-hidden`; the ordered list under them carries every part as a button and its text, so the content is complete without JavaScript. `initSchematic` in `enhance.ts` turns the list into a disclosure picker: one button `aria-expanded`, the other texts `hidden`, and the matching `.sn` groups get `.is-on` in both layouts; click, keyboard focus and `pointerenter` on a part of the diagram all select. Where motion is welcome it advances every 2.6s for two rounds (in time with the CSS signal, which runs twelve times) and stops for good on the first interaction.
 
-## Work tiles and the career bar
+## Project scenes and the career bar
 
-`Work` in `home.tsx` renders the six projects as tiles on a CSS grid (six columns on wide screens: 4 + 2, then pairs). `TileFigure` draws one HTML figure per project from its documented metric label or flow (the source is commented per case); figures are `aria-hidden` because the result text carries the facts. `Career` computes each role's share of the months since the first role started (to `experienceAsOf`) at build time and writes it as SVG `x` and `width` percentages, so the bar is to scale with no inline style.
+`Work` in `home.tsx` renders each project as its own act: a descriptive word (`sceneWord`, a label rather than a product name) fitted to the width by its length through `data-len` rules, and `ScenePapers`, paper cards placed over the word on wide screens and stacked under it on phones, each restating the documented metric or flow (the source is commented per case); papers are `aria-hidden` because the result text carries the facts. `Career` computes each role's share of the months since the first role started (to `experienceAsOf`) at build time and writes it as SVG `x` and `width` percentages, so the bar is to scale with no inline style.
 
 ## The page self-test
 
