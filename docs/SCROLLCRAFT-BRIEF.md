@@ -19,7 +19,7 @@ Full-bleed acts alternate ink and bone; headlines are capitals at poster scale; 
 
 ## Signature move: the thread
 
-One teal path per act, joined at every edge at x = 82, drawn with a `clip-path` on a `view()` timeline so its tip stays near the middle of the screen, ending as a check mark at the close. The schematic stays as its own act.
+One coral string over the whole home page in page coordinates (`initString`), drawn with the scroll with a ring on its tip, wrapping heading blocks and swinging through scene words, arriving at the close as a knot that pulls into a check mark. It opens on the intro signature. Without JavaScript the per-act segments stand in. The schematic stays as its own act.
 
 ## Fingerprint gate
 

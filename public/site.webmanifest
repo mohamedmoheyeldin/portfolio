@@ -4,7 +4,7 @@
   "description": "Forward Deployed Engineer portfolio: practical software, APIs, integrations, and delivery systems.",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#efece5",
-  "theme_color": "#efece5",
+  "background_color": "#f0eee6",
+  "theme_color": "#f0eee6",
   "icons": []
 }

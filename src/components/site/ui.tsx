@@ -85,8 +85,9 @@ export function EvidenceTag({ project }: { project: Project }) {
 /*
  * The signature: a working diagram of the VA Claims Workflows design. The six parts are the documented steps and
  * "alongside" entries in flows.ts (the source fields are noted there). Two SVG layouts share one geometry table: wide
- * (beside the hero copy) and tall (phones). The SVGs are decorative; the list under them carries every part as text,
- * and enhance.ts turns it into a picker that lights the matching part and runs a signal along the paths.
+ * (beside the copy) and tall (phones). The SVGs are decorative; the list under them carries every part as text,
+ * and enhance.ts turns it into a picker that lights the matching part. site.css assembles the diagram as it scrolls
+ * in, runs pulses along the paths with the scroll (.sn-flow) and a timed signal (.sn-signal).
  */
 type Box = { n: number; x: number; y: number; w: number; h: number; lines: string[] };
 type Layout = {
@@ -128,7 +129,8 @@ function SchematicSvg({ layout }: { layout: "wide" | "tall" }) {
   return (
     <svg className={`schematic-svg schematic-svg--${layout}`} viewBox={`0 0 ${l.view[0]} ${l.view[1]}`} aria-hidden="true" focusable="false">
       <path className="sn-trunk" d={l.trunk} />
-      {l.signal.map((d) => <path key={d} className="sn-path" d={d} />)}
+      {l.signal.map((d) => <path key={d} className="sn-path" d={d} pathLength={1} />)}
+      {l.signal.map((d, i) => <path key={`f${d}`} className={`sn-flow sn-flow--${i === 0 ? "in" : "out"}`} d={d} pathLength={100} />)}
       {l.signal.map((d, i) => <path key={`s${d}`} className={`sn-signal sn-signal--${i === 0 ? "in" : "out"}`} d={d} pathLength={100} />)}
       {l.boxes.map((box) => (
         <g key={box.n} className="sn" data-node={box.n}>

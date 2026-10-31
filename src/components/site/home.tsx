@@ -1,3 +1,4 @@
+import { signature } from "@/content/signature";
 import { formatCareerDate } from "@/lib/career";
 import { Page } from "./layout";
 import { type Profile, type Project, caseStudyHref, gitHubUrl, href, linkedInUrl, metricLabel, projectDisplayName, projectNumber, roleEmail } from "./shared";
@@ -25,6 +26,7 @@ export function Home({ profile }: { profile: Profile }) {
   const projects = order.map((slug) => profile.projects.find((p) => p.slug === slug)!);
   return (
     <Page place="home">
+      <Intro />
       <Hero profile={profile} />
       <Statement profile={profile} />
       <System />
@@ -32,6 +34,45 @@ export function Home({ profile }: { profile: Profile }) {
       <Career profile={profile} />
       <Capabilities profile={profile} />
     </Page>
+  );
+}
+
+/**
+ * The intro: the signature writes itself over a dark screen, stroke by stroke in writing order, in about 2.8 seconds
+ * with a ring on the pen tip, then lifts away. SMIL times each stroke; site.css shows the overlay only when the
+ * inline script in index.html has marked a first visit this session with motion welcome, so it never runs with
+ * reduced motion or without JavaScript. It never takes pointer events, and any key, click or scroll skips it.
+ */
+function Intro() {
+  // A fixed budget: the lead-in, the letters in writing order (each stroke's share follows its curve count), then the
+  // slash and the exit flourish; strokes overlap slightly so the pen never seems to stop. A ring rides the pen tip.
+  const paths = signature.paths;
+  const fixed: Record<number, number> = { 0: 0.4, [paths.length - 2]: 0.22, [paths.length - 1]: 0.75 };
+  const weight = paths.map((d, i) => (i in fixed ? 0 : (d.match(/C/g)?.length ?? 1)));
+  const total = weight.reduce((sum, w) => sum + w, 0);
+  let t = 0.2;
+  const strokes = paths.map((d, i) => {
+    const dur = fixed[i] ?? Math.max(0.03, (weight[i]! / total) * 1.5);
+    const stroke = { d, id: `sig-${i}`, begin: t.toFixed(2), dur: dur.toFixed(2) };
+    t += dur * 0.92;
+    return stroke;
+  });
+  return (
+    <div className="intro" aria-hidden="true" data-intro>
+      <svg className="intro-sig" viewBox={signature.viewBox} focusable="false">
+        {strokes.map(({ d, id, begin, dur }) => (
+          <path key={id} id={id} d={d} pathLength={1} strokeDasharray="1 2" strokeDashoffset="1.05">
+            <animate attributeName="stroke-dashoffset" from="1.05" to="0" begin={`${begin}s`} dur={`${dur}s`} fill="freeze" />
+          </path>
+        ))}
+        <circle className="intro-tip" r="3.4" cx="0" cy="0" opacity="0">
+          <set attributeName="opacity" to="1" begin={`${strokes[0]!.begin}s`} />
+          {strokes.map(({ id, begin, dur }) => (
+            <animateMotion key={id} begin={`${begin}s`} dur={`${dur}s`} fill="freeze"><mpath href={`#${id}`} /></animateMotion>
+          ))}
+        </circle>
+      </svg>
+    </div>
   );
 }
 
@@ -71,7 +112,7 @@ function Statement({ profile }: { profile: Profile }) {
   return (
     <section className="act act--light statement" aria-labelledby="statement-heading" data-sc-act="statement">
       <Thread d={threads.statement} />
-      <div className="wrap statement-inner">
+      <div className="wrap statement-inner" data-string-wrap>
         <h2 id="statement-heading" className="poster poster--md">
           <span className="line">From the people</span> <span className="line">who use it</span> <span className="line">to the system</span> <span className="line">behind it.</span>
         </h2>
@@ -192,7 +233,7 @@ function Work({ projects }: { projects: Project[] }) {
     <div id="work" className="work">
       <section className="act act--light work-head" aria-labelledby="work-heading" data-sc-act="work">
         <Thread d={threads.workHead} />
-        <div className="wrap work-head-inner">
+        <div className="wrap work-head-inner" data-string-wrap>
           <h2 id="work-heading" className="poster poster--md"><span className="line">Six projects.</span> <span className="line">Every result</span> <span className="line">sourced.</span></h2>
           <p className="mono-lede">Each one has a case study: the problem, my part, the design and what changed. Every result says where its evidence comes from.</p>
         </div>
@@ -267,7 +308,7 @@ function Career({ profile }: { profile: Profile }) {
     <section className="act act--dark career" id="career" aria-labelledby="career-heading" data-sc-act="career">
       <Thread d={threads.career} />
       <div className="wrap">
-        <div className="act-head">
+        <div className="act-head" data-string-wrap>
           <h2 id="career-heading" className="poster poster--md"><span className="line">{profile.experienceYears} years.</span> <span className="line">Three teams.</span></h2>
           <p><a className="explore" href={href("experience/")}>Every role, skill and credential<ArrowUpRight /></a></p>
         </div>
@@ -323,6 +364,28 @@ const capabilities = [
   ["Demos and enablement", "The stakeholder demo at the end of every release cycle since 2022, and Tableau set up so any user can build a dashboard."],
 ] as const;
 
+/** The two groups on the arc: forward deployed practice on the left, engineering and quality on the right. */
+const arcSides = [
+  { key: "left", label: "Forward deployed", items: [0, 1, 5] },
+  { key: "right", label: "Engineering and quality", items: [2, 3, 4] },
+] as const;
+
+/**
+ * The arc between them: two cubic curves from a top node down to each side, with a node on each curve level with each
+ * capability (found by bisection on the curve at build time, so the markup carries plain numbers).
+ */
+const arc = (() => {
+  const left = [[200, 40], [110, 40], [40, 250], [40, 590]] as const;
+  const at = (c: readonly (readonly [number, number])[], t: number) => {
+    const u = 1 - t;
+    return [0, 1].map((k) => u * u * u * c[0]![k]! + 3 * u * u * t * c[1]![k]! + 3 * u * t * t * c[2]![k]! + t * t * t * c[3]![k]!) as [number, number];
+  };
+  const xAt = (y: number) => { let lo = 0, hi = 1; for (let n = 0; n < 30; n++) { const mid = (lo + hi) / 2; if (at(left, mid)[1] < y) lo = mid; else hi = mid; } return at(left, lo)[0]; };
+  const ys = [150, 330, 510];
+  const nodes = [...ys.map((y) => [Math.round(xAt(y)), y]), ...ys.map((y) => [400 - Math.round(xAt(y)), y])] as [number, number][];
+  return { left: "C110,40 40,250 40,590", right: "C290,40 360,250 360,590", nodes };
+})();
+
 function Capabilities({ profile }: { profile: Profile }) {
   const issuers = [...new Set(profile.verifiedCredentials.map((c) => c.issuer))];
   const education = profile.education[0];
@@ -330,15 +393,28 @@ function Capabilities({ profile }: { profile: Profile }) {
     <section className="act act--light capabilities" id="approach" aria-labelledby="approach-heading" data-sc-act="capabilities">
       <Thread d={threads.approach} />
       <div className="wrap">
-        <div className="act-head">
+        <div className="act-head" data-string-wrap>
           <h2 id="approach-heading" className="poster poster--md"><span className="line">What I bring</span> <span className="line">to a team.</span></h2>
           <p className="mono-lede">Forward deployed work on top of eleven years of quality engineering: I find the problem with the people who have it, then build and prove the fix.</p>
         </div>
-        <ol className="cap-list">
-          {capabilities.map(([title, text], i) => (
-            <li key={title}><span className="num">{String(i + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{text}</p></li>
+        <div className="cap-arc">
+          {arcSides.map((side) => (
+            <div className={`cap-side cap-side--${side.key}`} key={side.key}>
+              <h3 className="label label--accent">{side.label}</h3>
+              <ol className="cap-list">
+                {side.items.map((i) => {
+                  const [title, text] = capabilities[i]!;
+                  return <li key={title}><span className="num">{String(i + 1).padStart(2, "0")}</span><h4>{title}</h4><p>{text}</p></li>;
+                })}
+              </ol>
+            </div>
           ))}
-        </ol>
+          <svg className="cap-arc-svg" viewBox="0 0 400 600" aria-hidden="true" focusable="false">
+            <path className="cap-arc-path" d={`M200,0 V40 ${arc.left} M200,40 ${arc.right}`} pathLength={1} />
+            <circle className="cap-node cap-node--top" cx="200" cy="40" r="6" />
+            {arc.nodes.map(([x, y], i) => <g className="cap-node" key={i}><circle cx={x} cy={y} r="9" /><circle className="cap-node-dot" cx={x} cy={y} r="3.5" /></g>)}
+          </svg>
+        </div>
         <div className="toolkit">
           <h3 className="label">Tools I use</h3>
           <dl className="toolkit-grid">

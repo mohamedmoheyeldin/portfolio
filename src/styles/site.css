@@ -2,7 +2,7 @@
  * The thread system (October 30, 2026 redesign, ninth Scrollcraft build). One stylesheet, no framework.
  *
  * The page is a run of full-bleed acts that alternate a near-black ground and a warm bone ground, each act setting
- * its own tokens. Headlines are set in capitals at poster scale; small type is Geist Mono. One teal thread runs down
+ * its own tokens. Headlines are set in capitals at poster scale; small type is Geist Mono. One coral thread runs down
  * the whole page, a segment per act, drawing itself as the page is read, and ends in a check mark at the close. In
  * the dark theme the bone acts are dimmed, so the alternation holds. Green and red appear only in self-test results.
  *
@@ -19,51 +19,60 @@
 @font-face { font-family: "Geist Mono Fallback"; src: local("Consolas"), local("Menlo"), local("Courier New"); size-adjust: 109%; ascent-override: 92%; descent-override: 24%; line-gap-override: 0%; }
 
 @layer tokens {
-  /* Bone: the light acts, and the page ground in the light theme */
+  /*
+   * The Claude palette (the user's choice, 2026-10-30): near-black #141413, warm cream #faf9f5 and #f0eee6, and the
+   * coral #d97757 as the signal (the thread, primary buttons, live dots). Coral is too light for text on cream, so text
+   * accents use a deep clay that clears 4.5:1 on every light ground.
+   */
+  /* Cream: the light acts, and the page ground in the light theme */
   :root, .act--light, .paper {
     color-scheme: light;
-    --paper: #efece5;
-    --grid: #e7e3da;
-    --surface: #f8f6f1;
-    --surface-2: #e4e0d6;
-    --ink: #0c0c0b;
-    --ink-2: #3b3934;
-    --ink-3: #5b584f;
-    --line: #d6d1c5;
-    --line-strong: #b9b3a5;
-    --dot: #d3cec2;
-    --accent: #0a6b5d;
-    --accent-hover: #075246;
-    --accent-ink: #ffffff;
-    --accent-soft: #dcebe4;
-    --accent-line: #8fc3b5;
+    --paper: #f0eee6;
+    --grid: #e8e6dc;
+    --surface: #faf9f5;
+    --surface-2: #e3e0d4;
+    --ink: #141413;
+    --ink-2: #3d3d3a;
+    --ink-3: #5e5d59;
+    --line: #d9d6ca;
+    --line-strong: #b0aea5;
+    --dot: #d5d2c6;
+    --accent: #9c4128;
+    --accent-hover: #7d3420;
+    --accent-ink: #141413;
+    --accent-soft: #f2dfd5;
+    --accent-line: #dca58f;
+    --signal: #d97757;
+    --signal-hover: #e48b6f;
     --pass: #17693f;
     --pass-soft: #e0efe4;
     --fail: #a8261c;
     --fail-soft: #f7e4e0;
-    --e1: 0 1px 2px rgb(12 12 11 / 0.06);
-    --e2: 0 18px 40px -22px rgb(12 12 11 / 0.3);
-    --e3: 0 34px 70px -30px rgb(12 12 11 / 0.4);
+    --e1: 0 1px 2px rgb(20 20 19 / 0.06);
+    --e2: 0 18px 40px -22px rgb(20 20 19 / 0.3);
+    --e3: 0 34px 70px -30px rgb(20 20 19 / 0.4);
   }
 
   /* Ink: the dark acts, the bar, page heads and the footer, and the page ground in the dark theme */
   :root.dark-mode, .act--dark, .topbar, .page-head, .site-footer {
     color-scheme: dark;
-    --paper: #0b0b0a;
-    --grid: #121210;
-    --surface: #171715;
-    --surface-2: #1f1f1c;
-    --ink: #f1eee6;
-    --ink-2: #c9c5bb;
-    --ink-3: #9a968c;
-    --line: #2a2a26;
-    --line-strong: #45443e;
-    --dot: #262622;
-    --accent: #46d4b8;
-    --accent-hover: #7fe6d2;
-    --accent-ink: #04201a;
-    --accent-soft: #10241f;
-    --accent-line: #22685a;
+    --paper: #141413;
+    --grid: #1a1a18;
+    --surface: #1f1e1d;
+    --surface-2: #262624;
+    --ink: #faf9f5;
+    --ink-2: #c8c6bd;
+    --ink-3: #9d9b94;
+    --line: #30302e;
+    --line-strong: #4a4945;
+    --dot: #2c2c2a;
+    --accent: #d97757;
+    --accent-hover: #e8957a;
+    --accent-ink: #141413;
+    --accent-soft: #3a2219;
+    --accent-line: #7a3f2a;
+    --signal: #d97757;
+    --signal-hover: #e48b6f;
     --pass: #6fd49a;
     --pass-soft: #13261b;
     --fail: #ff8f86;
@@ -76,21 +85,21 @@
   /* Dusk: the light acts in the dark theme keep the alternation, dimmed */
   .dark-mode .act--light {
     color-scheme: light;
-    --paper: #cdc8bc;
-    --grid: #c6c1b4;
-    --surface: #d8d3c8;
-    --surface-2: #c2bcae;
-    --ink: #0c0c0b;
-    --ink-2: #2f2d29;
-    --ink-3: #47443d;
-    --line: #b5afa1;
-    --line-strong: #9c9587;
-    --dot: #bab4a6;
-    --accent: #064d42;
-    --accent-hover: #043a32;
-    --accent-ink: #ffffff;
-    --accent-soft: #b9cfc6;
-    --accent-line: #5f9a8b;
+    --paper: #d8d5ca;
+    --grid: #d1cec2;
+    --surface: #e2dfd5;
+    --surface-2: #cbc7ba;
+    --ink: #141413;
+    --ink-2: #33332f;
+    --ink-3: #4a4945;
+    --line: #bdb9ac;
+    --line-strong: #a19e93;
+    --dot: #c2beb1;
+    --accent: #843722;
+    --accent-hover: #6a2b1a;
+    --accent-ink: #141413;
+    --accent-soft: #e4c9bc;
+    --accent-line: #b97a63;
   }
 
   :root {
@@ -167,7 +176,7 @@
   a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
   a:hover { color: var(--accent); }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: var(--r-1); }
-  ::selection { background: var(--accent); color: var(--accent-ink); }
+  ::selection { background: var(--signal); color: var(--accent-ink); }
   time { font-variant-numeric: tabular-nums; }
   hr { border: 0; border-top: 1px solid var(--line); }
   main:focus { outline: none; }
@@ -232,8 +241,8 @@
   .btn svg { width: 1.05em; height: 1.05em; flex: none; }
   .btn:hover { color: var(--ink); border-color: var(--ink); background: var(--surface-2); }
   .btn:active { transform: translateY(1px); }
-  .btn--primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-  .btn--primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: var(--accent-ink); }
+  .btn--primary { background: var(--signal); border-color: var(--signal); color: var(--accent-ink); }
+  .btn--primary:hover { background: var(--signal-hover); border-color: var(--signal-hover); color: var(--accent-ink); }
   .btn--quiet { border-color: transparent; }
   .btn--quiet:hover { background: var(--surface-2); border-color: var(--line); }
   .btn--sm { --btn-h: 2.25rem; padding: 0 var(--s-4); }
@@ -262,7 +271,7 @@
 
   /* Status line */
   .status { display: inline-flex; align-items: center; gap: var(--s-2); font-family: var(--font-mono); font-size: var(--t-xs); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-2); }
-  .status-dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .status-dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--signal); box-shadow: 0 0 0 3px var(--accent-soft); }
 
   /* Menus: native popovers placed under their buttons */
   .menu-anchor { position: relative; display: inline-flex; }
@@ -300,7 +309,7 @@
   .nav-links a[aria-current] { color: var(--accent); }
   .topbar-tools { display: flex; align-items: center; gap: var(--s-2); margin-left: auto; }
   .topbar-nav + .topbar-tools { margin-left: 0; }
-  .topbar-progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; display: none; }
+  .topbar-progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--signal); transform: scaleX(0); transform-origin: left; display: none; }
   .nav-narrow { display: none; }
   @media (max-width: 1059px) { .wordmark-role { display: none; } }
   @media (max-width: 859px) {
@@ -308,9 +317,19 @@
     .nav-narrow { display: inline-flex; }
   }
 
-  /* The thread: a segment per act, under the content */
+  /* The string (enhance.ts): one line over the whole home page in page coordinates, with a ring on its tip */
+  body:has(> .string) { position: relative; }
+  .string { position: absolute; top: 0; left: 0; z-index: 40; overflow: visible; pointer-events: none; }
+  .string path { fill: none; stroke: var(--signal); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .string path + path { stroke-width: 2.5; }
+  /* Room for the knot above the routes and files, beside the question */
+  @media (min-width: 1000px) { .js .close-side { margin-top: clamp(16rem, 24vw, 24rem); } }
+  .string-tip { fill: var(--paper); stroke: var(--signal); stroke-width: 2; }
+  .has-string .thread { display: none; }
+
+  /* The thread: a segment per act, under the content (without JavaScript, the string's stand-in) */
   .thread { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-  .thread path { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .thread path { fill: none; stroke: var(--signal); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
   /* Results */
   .result { display: grid; gap: var(--s-2); align-content: start; }
@@ -326,7 +345,7 @@
   .pipe-cap { display: grid; gap: var(--s-1); font-size: var(--t-sm); color: var(--ink-3); }
   .pipe-cap .label { color: var(--accent); }
   .pipe-steps { position: relative; display: grid; gap: var(--s-4); }
-  .pipe-steps::before { content: ""; position: absolute; left: calc(1.125rem - 1px); top: 1.25rem; bottom: 1.25rem; width: 2px; background: var(--accent); transform-origin: top; }
+  .pipe-steps::before { content: ""; position: absolute; left: calc(1.125rem - 1px); top: 1.25rem; bottom: 1.25rem; width: 2px; background: var(--signal); transform-origin: top; }
   .pipe-step { position: relative; display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); gap: var(--s-4); align-items: start; }
   .pipe-node { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border: 2px solid var(--accent); border-radius: 50%; background: var(--surface); font-family: var(--font-mono); font-size: var(--t-xs); color: var(--accent); }
   .pipe-text { display: grid; gap: 0.125rem; padding-top: 0.375rem; }
@@ -358,6 +377,12 @@
 }
 
 @layer pages {
+  /* The intro: hidden unless the motion layer shows it */
+  .intro { position: fixed; inset: 0; z-index: 90; display: none; place-items: center; padding: var(--gutter); background: #141413; pointer-events: none; }
+  .intro-sig { width: min(84rem, 100%); height: auto; overflow: visible; }
+  .intro-sig path { fill: none; stroke: #d97757; stroke-width: 0.75; stroke-linecap: round; stroke-linejoin: round; }
+  .intro-tip { fill: none; stroke: #d97757; stroke-width: 0.6; }
+
   /* The opening act: the claim as large as the screen allows */
   .hero { min-height: 100svh; display: grid; padding: calc(var(--bar-h) + clamp(var(--s-8), 6vh, var(--s-16))) 0 clamp(var(--s-8), 5vh, var(--s-12)); }
   .hero-inner { display: grid; grid-template-rows: auto 1fr auto; gap: clamp(var(--s-6), 4vh, var(--s-12)); }
@@ -376,9 +401,17 @@
   @media (min-width: 1100px) { .system-grid { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); } }
   .system-copy { display: grid; gap: var(--s-6); justify-items: start; }
 
-  /* The schematic: a card holding the diagram, its caption and the part picker */
-  .schematic { display: grid; gap: var(--s-5); min-width: 0; padding: clamp(var(--s-4), 1.8vw, var(--s-6)); border: 1px solid var(--line-strong); border-radius: var(--r-4); background: var(--surface); }
-  .schematic-stage { position: relative; padding: clamp(var(--s-3), 1.6vw, var(--s-5)); border: 1px solid var(--line); border-radius: var(--r-3); background: radial-gradient(var(--dot) 1px, transparent 1.4px) 0 0 / 16px 16px, var(--paper); }
+  /* The schematic: the diagram on a lit stage, its caption, then the parts as tabs with one readout */
+  .schematic { display: grid; gap: var(--s-6); min-width: 0; }
+  .schematic-stage {
+    position: relative; isolation: isolate; padding: clamp(var(--s-4), 2.4vw, var(--s-8));
+    border: 1px solid var(--line); border-radius: var(--r-4);
+    background: radial-gradient(60% 70% at 50% 45%, var(--accent-soft), transparent 75%), radial-gradient(var(--dot) 1px, transparent 1.4px) 0 0 / 18px 18px, var(--paper);
+  }
+  /* Corner ticks, like a plotted figure */
+  .schematic-stage::before, .schematic-stage::after { content: ""; position: absolute; width: 14px; height: 14px; border-color: var(--line-strong); border-style: solid; pointer-events: none; }
+  .schematic-stage::before { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
+  .schematic-stage::after { right: 10px; bottom: 10px; border-width: 0 1px 1px 0; }
   .schematic-svg { width: 100%; height: auto; overflow: visible; }
   .schematic-svg--tall { display: none; }
   @media (max-width: 559px) {
@@ -392,27 +425,32 @@
   .sn-mono { font-size: 10.5px; }
   .sn-title { font-family: var(--font-text); font-size: 14.5px; font-weight: 600; fill: var(--ink); letter-spacing: -0.01em; }
   .sn-label { font-family: var(--font-text); font-size: 13px; font-weight: 550; fill: var(--ink-2); }
-  .sn-live { fill: var(--accent); }
+  .sn-live { fill: var(--signal); }
   .sn-path { fill: none; stroke: var(--line-strong); stroke-width: 1.5; }
   .sn-trunk { fill: none; stroke: var(--line-strong); stroke-width: 1.25; stroke-dasharray: 3 5; }
-  .sn-signal { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; opacity: 0; }
-  .sn.is-on .sn-box { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.75; }
+  .sn-flow, .sn-signal { fill: none; stroke: var(--signal); stroke-linecap: round; }
+  .sn-flow { stroke-width: 2.5; stroke-dasharray: 3 97; stroke-dashoffset: 100; opacity: 0; }
+  .sn-signal { stroke-width: 3; opacity: 0; }
+  .sn.is-on .sn-box { fill: var(--accent-soft); stroke: var(--signal); stroke-width: 1.75; filter: drop-shadow(0 0 14px rgb(217 119 87 / 0.35)); }
   .sn.is-on .sn-num { fill: var(--accent); }
   .sn.is-on .sn-chip { stroke: var(--accent-line); }
   .sn[data-node] { cursor: default; }
   .schematic-cap { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-3); align-items: baseline; font-size: var(--t-sm); color: var(--ink-3); }
   .schematic-key { display: grid; gap: var(--s-3); }
   .schematic-key li { display: grid; gap: var(--s-1); }
-  .node-btn { display: flex; align-items: center; gap: var(--s-2); width: 100%; min-height: 2.5rem; padding: 0 var(--s-3); border: 1px solid var(--line); border-radius: var(--r-2); background: var(--surface); font-size: var(--t-sm); font-weight: 600; text-align: left; line-height: 1.2; }
-  .node-btn:hover { border-color: var(--line-strong); background: var(--surface-2); }
-  .node-btn[aria-expanded="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+  .node-btn { position: relative; display: flex; align-items: center; gap: var(--s-2); width: 100%; min-height: 2.75rem; padding: var(--s-3) 0 0; border: 0; border-top: 1px solid var(--line-strong); background: transparent; font-size: var(--t-sm); font-weight: 600; text-align: left; line-height: 1.25; color: var(--ink-2); }
+  .node-btn:hover { color: var(--ink); }
+  .node-btn[aria-expanded="true"] { color: var(--ink); }
   .node-btn[aria-expanded="true"] .num { color: var(--accent); }
+  /* The current tab's top rule turns coral; while the picker steps on its own it fills like a progress line. */
+  .node-btn::after { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--signal); transform: scaleX(0); transform-origin: left; }
+  .node-btn[aria-expanded="true"]::after { transform: scaleX(1); }
   .node-text { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.55; }
-  /* With the picker running, the parts are a grid of buttons and the chosen part's text sits in one place under it. */
-  .schematic.is-picker .schematic-key { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-2); position: relative; padding-bottom: 5.25rem; }
-  @media (min-width: 560px) { .schematic.is-picker .schematic-key { grid-template-columns: repeat(3, minmax(0, 1fr)); padding-bottom: 4.25rem; } }
-  .schematic.is-picker .node-text { position: absolute; left: 0; right: 0; bottom: 0; min-height: 4.25rem; padding-top: var(--s-3); border-top: 1px solid var(--line); }
-  .schematic.is-picker .node-btn { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding-top: 0.7rem; }
+  /* With the picker running, the parts are tabs and the chosen part's text sits in one place under them, larger. */
+  .schematic.is-picker .schematic-key { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--s-4); position: relative; padding-bottom: 6rem; }
+  @media (min-width: 560px) { .schematic.is-picker .schematic-key { grid-template-columns: repeat(3, minmax(0, 1fr)); padding-bottom: 5rem; } }
+  .schematic.is-picker .node-text { position: absolute; left: 0; right: 0; bottom: 0; min-height: 4.5rem; padding-top: var(--s-4); font-size: var(--t-lg); line-height: 1.45; color: var(--ink); }
+  .schematic.is-picker .node-btn { display: block; padding-bottom: var(--s-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .schematic.is-picker .node-btn .num { margin-right: var(--s-2); }
 
   /* Work: a scene per project. The word behind is fitted to the width by its length. */
@@ -444,7 +482,7 @@
   .paper-title { font-family: var(--font-text); font-size: var(--t-lg); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
   .paper-title.paper-mono { font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 500; letter-spacing: 0; }
   .paper-row { display: flex; align-items: center; gap: var(--s-2); text-transform: uppercase; letter-spacing: var(--track-label); color: var(--accent); }
-  .live { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); flex: none; }
+  .live { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--signal); box-shadow: 0 0 0 3px var(--accent-soft); flex: none; }
   .paper-steps { display: grid; gap: var(--s-1); counter-reset: paper; }
   .paper-steps li { display: flex; align-items: center; gap: var(--s-3); counter-increment: paper; padding-block: 0.15rem; }
   .paper-steps li::before { content: counter(paper, decimal-leading-zero); color: var(--accent); }
@@ -469,7 +507,7 @@
   .span-bar { display: grid; gap: var(--s-8); }
   .span-svg { overflow: visible; }
   .span-seg { fill: var(--line-strong); stroke: var(--paper); stroke-width: 4; }
-  .span-seg.is-current { fill: var(--accent); }
+  .span-seg.is-current { fill: var(--signal); }
   .span-tick line { stroke: var(--line-strong); }
   .span-tick text { font-family: var(--font-mono); font-size: 11px; fill: var(--ink-3); text-anchor: middle; }
   .span-roles { display: grid; gap: var(--s-8); }
@@ -485,10 +523,25 @@
 
   /* Capabilities: a numbered list on hairlines */
   .cap-list { display: grid; border-top: 1px solid var(--line-strong); }
-  @media (min-width: 760px) { .cap-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--s-12); } }
   .cap-list li { display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: var(--s-2) var(--s-4); padding-block: var(--s-6); border-bottom: 1px solid var(--line-strong); }
   .cap-list .num { grid-row: span 2; padding-top: 0.45rem; color: var(--accent); }
-  .cap-list h3 { font-size: var(--t-xl); font-weight: 700; text-transform: uppercase; letter-spacing: -0.03em; }
+  .cap-list h4 { font-size: var(--t-xl); font-weight: 700; text-transform: uppercase; letter-spacing: -0.03em; }
+  /* The arc: on wide screens the two groups sit either side of an arch with a node level with each capability. */
+  .cap-arc { display: grid; gap: var(--s-12); }
+  .cap-side { display: grid; gap: var(--s-4); align-content: start; }
+  .cap-arc-svg { display: none; }
+  @media (min-width: 1100px) {
+    .cap-arc { grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem) minmax(0, 1fr); gap: var(--s-8); align-items: stretch; }
+    .cap-side--left { grid-column: 1; grid-row: 1; }
+    .cap-side--right { grid-column: 3; grid-row: 1; }
+    .cap-arc-svg { display: block; grid-column: 2; grid-row: 1; width: 100%; height: auto; overflow: visible; }
+    .cap-side { grid-template-rows: 2.5rem repeat(3, minmax(0, 1fr)); }
+    .cap-side .cap-list { display: contents; }
+    .cap-side .cap-list li { border-top: 0; align-content: start; }
+  }
+  .cap-arc-path { fill: none; stroke: var(--signal); stroke-width: 2; vector-effect: non-scaling-stroke; }
+  .cap-node circle { fill: var(--paper); stroke: var(--signal); stroke-width: 2; vector-effect: non-scaling-stroke; }
+  .cap-node .cap-node-dot, .cap-node--top { fill: var(--signal); stroke: none; }
   .cap-list p { color: var(--ink-2); font-size: var(--t-sm); line-height: 1.65; }
   .toolkit { display: grid; gap: var(--s-6); margin-top: var(--s-16); }
   .toolkit-grid { display: grid; gap: var(--s-6) var(--s-8); }
@@ -646,12 +699,16 @@
     @keyframes signal { 0% { stroke-dashoffset: 14; opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { stroke-dashoffset: -86; opacity: 0; } }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 
+    /* The intro writes the signature, then lifts away; the claim waits for it. */
+    @keyframes intro-out { to { transform: translateY(-100%); visibility: hidden; } }
+    html.intro-play .intro { display: grid; animation: intro-out 0.8s 3.1s var(--ease-in-out) both; }
+    html.intro-play { --intro: 3.4s; }
     /* The opening: the claim arrives a line at a time, then the rest. */
-    .js .hero-claim .line { animation: line-up 0.9s var(--ease-out) both; }
-    .js .hero-claim .line:nth-child(2) { animation-delay: 90ms; }
-    .js .hero-claim .line:nth-child(3) { animation-delay: 180ms; }
-    .js .hero-claim .line:nth-child(4) { animation-delay: 270ms; }
-    .js .hero .status, .js .hero-foot { animation: rise 0.9s 380ms var(--ease-out) both; }
+    .js .hero-claim .line { animation: line-up 0.9s calc(var(--intro, 0s) + 0ms) var(--ease-out) both; }
+    .js .hero-claim .line:nth-child(2) { animation-delay: calc(var(--intro, 0s) + 90ms); }
+    .js .hero-claim .line:nth-child(3) { animation-delay: calc(var(--intro, 0s) + 180ms); }
+    .js .hero-claim .line:nth-child(4) { animation-delay: calc(var(--intro, 0s) + 270ms); }
+    .js .hero .status, .js .hero-foot { animation: rise 0.9s calc(var(--intro, 0s) + 380ms) var(--ease-out) both; }
     .status-dot { animation: pulse 2.4s var(--ease-in-out) 3; }
     /* The schematic signal runs into the platform, then out to the three roles, in time with the picker (two rounds of six). */
     .js .sn-signal { stroke-dasharray: 14 86; animation: signal 2.6s 1s linear 12; }
@@ -662,15 +719,19 @@
     .link-arrow:hover .up, .explore:hover .up, .route-list a:hover .up { transform: translate(2px, -2px); }
     .route-list .up { transition: transform var(--t-fast) var(--ease-out); }
     /* The picker eases between parts only when motion is welcome; otherwise a part lights at once. */
-    .sn-box, .sn-num { transition: fill var(--t-ui), stroke var(--t-ui); }
-    .node-btn { transition: background-color var(--t-fast), border-color var(--t-fast), color var(--t-fast); }
+    @keyframes tab-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    .sn-box, .sn-num { transition: fill var(--t-ui), stroke var(--t-ui), filter var(--t-ui); }
+    .node-btn { transition: color var(--t-fast); }
+    .node-btn::after { transition: transform var(--t-ui) var(--ease-out); }
+    .schematic.is-auto .node-btn[aria-expanded="true"]::after { animation: tab-fill 2.6s linear both; }
+    .js .schematic.is-picker .node-text:not([hidden]) { animation: rise 0.5s var(--ease-out) both; }
 
     @supports (animation-timeline: view()) {
       .topbar-progress { display: block; animation: draw-x linear both; animation-timeline: scroll(root); }
       /* The thread draws down each act as it is read: its tip sits near the middle of the screen. */
       .thread { animation: draw-down linear both; animation-timeline: view(); animation-range: cover 50vh cover calc(100% - 50vh); }
       /* Poster lines rise as they enter; scene words drift against the scroll; papers drop onto them. */
-      .act:not(.hero) .poster .line, .section-head, .act-head > :not(h2), .cap-list li, .toolkit, .span-roles > li, .close-main > :not(h2), .close-side, .audit, .case-body, .cred, .timeline-item, .scene-top, .scene-foot, .system-copy > :not(h2), .schematic {
+      .act:not(.hero) .poster .line, .section-head, .act-head > :not(h2), .cap-list li, .toolkit, .span-roles > li, .close-main > :not(h2), .close-side, .audit, .case-body, .cred, .timeline-item, .scene-top, .scene-foot, .system-copy > :not(h2), .schematic-cap, .schematic-key {
         animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 60%;
       }
       .scene-word { animation: drift linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
@@ -678,6 +739,22 @@
       .paper--2 { animation-range: entry 20% cover 50%; }
       .paper--3, .paper--4 { animation-range: entry 30% cover 55%; }
       .paper--5 { animation-range: entry 40% cover 60%; }
+      /* The diagram assembles as it scrolls in: parts in order, then the paths draw between them. */
+      @keyframes pop { from { opacity: 0; transform: translateY(10px) scale(0.96); } to { opacity: 1; transform: none; } }
+      @keyframes draw-path { from { stroke-dasharray: 1; stroke-dashoffset: 1; } to { stroke-dasharray: 1; stroke-dashoffset: 0; } }
+      @keyframes flow { 0% { stroke-dashoffset: 100; opacity: 0; } 6%, 94% { opacity: 1; } 100% { stroke-dashoffset: -500; opacity: 0; } }
+      .schematic .sn { transform-box: fill-box; transform-origin: center; animation: pop linear both; animation-timeline: view(); }
+      .schematic .sn[data-node="1"] { animation-range: entry 10% entry 45%; }
+      .schematic .sn[data-node="2"] { animation-range: entry 20% entry 55%; }
+      .schematic .sn[data-node="3"] { animation-range: entry 35% entry 70%; }
+      .schematic .sn--beside { animation-range: entry 50% entry 85%; }
+      .schematic .sn-path { animation: draw-path linear both; animation-timeline: view(); animation-range: entry 25% entry 80%; }
+      .schematic .sn-trunk { animation: rise linear both; animation-timeline: view(); animation-range: entry 50% entry 90%; }
+      /* Pulses run along the paths as the page scrolls past the diagram. */
+      .schematic .sn-flow { animation: flow linear both; animation-timeline: view(); animation-range: entry 60% exit 40%; }
+      .schematic .sn-flow--out { animation-range: entry 75% exit 30%; }
+      .cap-arc-path { animation: draw-path linear both; animation-timeline: view(); animation-range: entry 10% cover 50%; }
+      .cap-node { transform-box: fill-box; transform-origin: center; animation: pop linear both; animation-timeline: view(); animation-range: entry 30% cover 50%; }
       .span-svg { animation: draw-x linear both; animation-timeline: view(); animation-range: entry 20% cover 45%; transform-origin: left; }
       .pipe-steps::before, .timeline::before { animation: draw-y linear both; animation-timeline: view(); animation-range: entry 10% cover 50%; }
     }
@@ -685,6 +762,6 @@
 }
 
 @media print {
-  .topbar, .close-band, .site-footer details, .skip-link, .js-only, .schematic-key, .thread, .papers { display: none !important; }
+  .string, .intro, .topbar, .close-band, .site-footer details, .skip-link, .js-only, .schematic-key, .thread, .papers { display: none !important; }
   body, .act, .page-head { background: #fff; color: #000; }
 }
