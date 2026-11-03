@@ -9,7 +9,7 @@ Professional profile
 
 Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal healthcare, banking, and e-commerce. Integrate health-provider claim-status APIs, write React features, and built Data Generator & File Processing, which replaced hours of daily test-data prep with a 5-minute run. Work directly with stakeholders from first requirements conversations through demos and adoption.
 
-Bring a customer-facing engineering approach to any industry, with the deepest experience in federal healthcare, where production data is off-limits and environments are restricted. Work with stakeholders to clarify requirements and acceptance criteria, weigh technical constraints, demo changes, and help teams adopt the tools I build. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST APIs, Tableau dashboards, and CI workflows. Built a Claude-based claims document assistant with human review, and use AI coding assistants for development, debugging, and refactoring.
+Bring a customer-facing engineering approach to any industry, with the deepest experience in federal healthcare, where production data is off-limits and environments are restricted. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST APIs, Tableau, and CI workflows, and with generative AI: Claude API, OpenAI and Azure OpenAI, LangChain, LlamaIndex, embeddings, vector databases, prompt engineering, agentic workflows with MCP, and RAG evaluation for answer accuracy and hallucinations. Built Claims Document Assistant, a Claude-based claims PDF assistant with structured outputs, rule-based checks, human review, and an evaluation harness scored against labelled ground truth.
 
 Professional experience
 
@@ -32,7 +32,7 @@ Work directly with VA stakeholders on a healthcare claims platform with two fron
 - Join working sessions with health-provider claims processors and, at times, VA end users on issues reported in production, to see the full picture and keep future work pointed in the right direction.
 - Investigate defects and data discrepancies across frontend, backend, and MySQL data; coordinate with developers and stakeholders to resolve delivery dependencies, and document progress, blockers, and operational impact in Jira.
 - Evaluated alternatives to legacy automation and helped select Playwright, weighing maintainability, reuse, authentication, and restricted environment access; developed a reusable smoke and regression framework that helps QA and developers reduce production bugs and deliver stakeholder requests faster.
-- Use GitHub Copilot in VS Code for development, debugging, refactoring, and test creation; use Gemini, GPT models, and Claude to explore implementation approaches.
+- Apply prompt engineering with GitHub Copilot in VS Code for development, debugging, refactoring, and test creation; use Gemini, GPT models, and Claude to compare implementation approaches, and review and test every generated change before it ships.
 
 Chick-fil-A Corporate — Atlanta, GA
 
@@ -60,7 +60,7 @@ Worked with developers, analysts, and product owners to turn banking requirement
 
 Selected projects
 
-Claims Document Assistant: Claude API assistant that extracts 17 fields from claim PDFs, flags gaps with fixed rules, and drafts replies a reviewer approves; 26 tests.
+Claims Document Assistant: Claude API assistant: prompt-engineered extraction of 17 claim-PDF fields, rule checks, human review, and an eval harness.
 https://github.com/mohamedmoheyeldin/claims-document-assistant
 
 Portfolio & Career Content System: Built a React/Untitled UI portfolio from validated JSON, with shared PDF/Word generation and static deployment packaging for Cloudflare.
@@ -70,7 +70,7 @@ Technical skills
 Application development: React, TypeScript, JavaScript, Java, Reusable components
 Data and integration: SQL, MySQL, JSON, REST APIs, Postman, Tableau, SQL Server, Oracle, MongoDB
 Delivery and quality: Playwright, GitHub Actions, Git, Jira, Jenkins, AWS EC2/S3/Aurora test environments
-AI-assisted engineering: Claude API, GitHub Copilot, VS Code, GPT models, Claude, Gemini
+Generative AI & agents: Claude API, OpenAI API, Azure OpenAI, LangChain, LlamaIndex, RAG, Embeddings, Vector databases, Prompt engineering, RAG evaluation (accuracy, hallucinations), Agentic AI, MCP, Claude Code, GitHub Copilot, VS Code, GPT models, Claude, Gemini
 
 Education
 Bachelor's degree in Computer Science | American College of Commerce and Technology | May 2014

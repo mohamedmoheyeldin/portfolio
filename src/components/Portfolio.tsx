@@ -382,6 +382,12 @@ export function Home({ profile }: { profile: Profile }) {
             problem through the whole system, from what a user sees to the data
             behind it.
           </p>
+          <p>
+            When AI fits the problem, I build it the same way: prompt
+            engineering, retrieval over the documents people already use, a
+            person in review, and evaluation for answer accuracy and
+            hallucinations before anyone relies on it.
+          </p>
         </div>
       </section>
       <EngineeringToolkit profile={profile} />
@@ -461,7 +467,7 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
     "Application development": Code02,
     "Data and integration": GitBranch01,
     "Delivery and quality": ShieldTick,
-    "AI-assisted engineering": Code02,
+    "Generative AI & agents": Code02,
     "Internal tools & file workflows": File06,
     "Web platforms & deployment": GitBranch01,
     "Troubleshooting & team enablement": LayersTwo01,
@@ -470,7 +476,7 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
     "Application development": "I build interfaces and reusable features around the problem a team is trying to solve.",
     "Data and integration": "Connecting workflows, checking API behavior, and digging into the data behind what the application shows.",
     "Delivery and quality": "Making changes repeatable and giving teams feedback before release.",
-    "AI-assisted engineering": "I use coding assistants to explore options, write and debug code, and refactor, then review and test what they produce.",
+    "Generative AI & agents": "LLM features built with the Claude and OpenAI APIs: prompt engineering, RAG with embeddings and vector databases, agentic workflows with MCP, and evaluation for answer accuracy and hallucinations. I also use coding assistants daily, then review and test what they produce.",
   };
   const groups = [
     {
@@ -481,7 +487,7 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
     ...profile.skillGroups.map(group => ({
       ...group,
       description: descriptions[group.label],
-      items: group.label === "AI-assisted engineering" ? [...group.items, "Code review", "Debugging & refactoring"] : group.items,
+      items: group.label === "Generative AI & agents" ? [...group.items, "Code review", "Debugging & refactoring"] : group.items,
     })),
     {
       label: "Internal tools & file workflows",
@@ -500,11 +506,11 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
     },
   ];
   const additionalSkills: Record<string, string[]> = {
-    "Customer discovery & delivery": ["Healthcare claims workflow mapping", "Stakeholder demonstrations", "Working sessions with end users", "Production issue triage", "Feedback-driven improvements", "Operational constraints"],
+    "Customer discovery & delivery": ["Rapid prototyping", "Solution design", "Healthcare claims workflow mapping", "Stakeholder demonstrations", "Working sessions with end users", "Production issue triage", "Feedback-driven improvements", "Operational constraints"],
     "Application development": ["Frontend feature implementation", "Workflow and status interfaces", "Responsive behavior", "Cross-browser validation"],
     "Data and integration": ["DataGrip", "API schema validation", "Service contract checks", "Provider API integration", "Live claim status", "Tableau dashboards", "System health monitoring", "Application-to-database reconciliation", "Referral-data uploads", "Network stubbing"],
     "Delivery and quality": ["Reusable smoke & regression frameworks", "Parallel and headless execution", "Applitools Eyes", "Diagnostic artifacts"],
-    "AI-assisted engineering": ["Implementation exploration", "Test creation", "Review and validation of generated changes"],
+    "Generative AI & agents": ["Retrieval-augmented generation", "Structured outputs", "AI agents & tool use", "Human-in-the-loop review", "LLM evaluation against ground truth", "Implementation exploration", "Test creation", "Review and validation of generated changes"],
     "Troubleshooting & team enablement": ["Reproducible defect reports", "Screenshots and execution evidence", "Developer coordination", "Single and bulk upload guidance"],
   };
   const businessGroups = [
@@ -556,12 +562,12 @@ function EngineeringToolkit({ profile, detailed = false }: { profile: Profile; d
         ...group,
         items: [...new Set([...group.items, ...(additionalSkills[group.label] ?? [])])].filter(item =>
           !(group.label === "Delivery and quality" && ["Git", "Jira", "GitHub Actions", "Jenkins"].includes(item)) &&
-          !(group.label === "AI-assisted engineering" && item === "VS Code")),
+          !(group.label === "Generative AI & agents" && item === "VS Code")),
       }))
     : groups;
   const areas = [
     { label: "Customer & Business", summary: "Discovery, requirements & decisions", categories: [0, 1, 2] },
-    { label: "Application Engineering", summary: "Development, internal tools & AI", categories: [3, 6, 7] },
+    { label: "Application Engineering", summary: "Development, generative AI & internal tools", categories: [3, 6, 7] },
     { label: "Data & Integration", summary: "Data, identity & troubleshooting", categories: [4, 9, 14] },
     { label: "Quality & Delivery", summary: "Validation, builds & releases", categories: [5, 12, 15] },
     { label: "Platforms & Tools", summary: "Web, repositories & environments", categories: [8, 10, 11, 13] },
@@ -776,6 +782,15 @@ export function Work({ profile }: { profile: Profile }) {
             built and support Data Generator &amp; File Processing, a desktop
             app that creates referral test data, packages files, and uploads
             them for internal use.
+          </p>
+          <p>
+            When a team wants AI in a workflow, I treat it like any other
+            feature: prompt engineering, retrieval-augmented generation over
+            the documents they already rely on, agentic steps only where a
+            tool call saves real work, and an evaluation of answer accuracy
+            and hallucinations before anyone depends on it. A person stays in
+            review, and accuracy claims come from measured results. Claims
+            Document Assistant shows this approach on synthetic claims.
           </p>
           <p>
             After {profile.experienceYears} years in software development and

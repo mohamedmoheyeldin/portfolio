@@ -7,7 +7,7 @@ mohamedmoheyeldin.jobs@gmail.com | https://www.linkedin.com/in/moheyeldin/ | htt
 
 ## Professional profile
 
-Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal healthcare, banking, and e-commerce. Integrate health-provider claim-status APIs, write React features, and built Data Generator & File Processing, which replaced hours of daily test-data prep with a 5-minute run. Work directly with stakeholders from first requirements conversations through demos and adoption.
+Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software and quality engineering across federal healthcare, banking, and e-commerce. Integrate claim-status APIs, ship React features, and build human-reviewed generative AI workflows with prompt engineering, RAG, and LLM evaluation for accuracy and hallucinations. Work with stakeholders from first requirements through demos and adoption.
 
 ## Professional experience
 
@@ -20,7 +20,7 @@ Customer: U.S. Department of Veterans Affairs (VA)
 - Integrate claim-status APIs with health providers so VA staff, providers, and veterans see live status by role; created a claims framework that notifies the right party so claims keep moving.
 - Built Data Generator & File Processing, used daily by the team: a full dev database or 10,000 records in under 5 minutes instead of hours; also built a Playwright framework.
 - Work directly with VA stakeholders: define requirements, lead demos each release cycle since 2022, and join working sessions with claims processors and VA users on production issues.
-- Enabled the team to use Tableau and built custom VA and internal dashboards, now the main view of server health and system status.
+- Enabled team-wide Tableau use; built VA and internal dashboards, now the main view of server and system health.
 - Contribute React, TypeScript, and JavaScript features; trace data issues across frontend, backend, MySQL.
 
 ### Chick-fil-A Corporate — Atlanta, GA
@@ -28,7 +28,7 @@ Customer: U.S. Department of Veterans Affairs (VA)
 Software Engineer in Test | Nov 2018 – Dec 2020
 
 - Investigated REST contracts, schemas, and data integration with Postman and reusable JavaScript tooling.
-- Connected GitHub Actions with AWS EC2, S3, and Aurora test environments; troubleshot OIDC/Okta authentication and application failures.
+- Connected GitHub Actions to AWS EC2, S3, and Aurora test environments; troubleshot OIDC/Okta sign-in failures.
 
 ### Ally Bank — Sandy, UT
 
@@ -38,14 +38,14 @@ Software QA Engineer | Sep 2015 – Nov 2018
 
 ## Selected projects
 
-Claims Document Assistant: Claude API assistant that extracts 17 fields from claim PDFs, flags gaps with fixed rules, and drafts replies a reviewer approves; 26 tests.
+Claims Document Assistant: Claude API assistant: prompt-engineered extraction of 17 claim-PDF fields, rule checks, human review, and an eval harness.
 https://github.com/mohamedmoheyeldin/claims-document-assistant
 
 ## Technical skills
 Application development: React, TypeScript, JavaScript, Java, Reusable components
 Data and integration: SQL, MySQL, JSON, REST APIs, Postman, Tableau, SQL Server, Oracle, MongoDB
 Delivery and quality: Playwright, GitHub Actions, Git, Jira, Jenkins, AWS EC2/S3/Aurora test environments
-AI-assisted engineering: Claude API, GitHub Copilot, VS Code, GPT models, Claude, Gemini
+Generative AI & agents: Claude API, OpenAI API, Azure OpenAI, LangChain, LlamaIndex, RAG, Embeddings, Vector databases, Prompt engineering, RAG evaluation (accuracy, hallucinations), Agentic AI, MCP, Claude Code, GitHub Copilot, VS Code, GPT models, Claude, Gemini
 
 ## Education
 Bachelor's degree in Computer Science | American College of Commerce and Technology | May 2014
