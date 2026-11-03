@@ -485,7 +485,7 @@ h1 > span {
 .resume-summary p { line-height: 1.7; }
 .profile-centered { text-align: center; }
 .profile-centered .resume-summary { margin-inline: auto; }
-.profile-centered .resume-summary p + p { margin-top: 20px; }
+.resume-summary p + p { margin-top: 20px; }
 .case-hero {
   padding-block: 48px 44px;
   text-align: center;

@@ -7,10 +7,10 @@
     "experienceYears": 11,
     "experienceAsOf": "2026-09",
     "heroTitle": "Forward Deployed Engineer building software with the people who use it.",
-    "summary": "Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal healthcare, banking, and e-commerce. Integrate health-provider claim-status APIs, write React features, and built Data Generator & File Processing, which replaced hours of daily test-data prep with a 5-minute run. Work directly with stakeholders from first requirements conversations through demos and adoption.",
+    "summary": "Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software and quality engineering across federal healthcare, banking, and e-commerce. Integrate claim-status APIs, ship React features, and build human-reviewed generative AI workflows with prompt engineering, RAG, and LLM evaluation for accuracy and hallucinations. Work with stakeholders from first requirements through demos and adoption.",
     "detailedSummary": [
       "Forward Deployed Engineer on a VA healthcare claims platform, with 11 years in software development and quality engineering across federal healthcare, banking, and e-commerce. Integrate health-provider claim-status APIs, write React features, and built Data Generator & File Processing, which replaced hours of daily test-data prep with a 5-minute run. Work directly with stakeholders from first requirements conversations through demos and adoption.",
-      "Bring a customer-facing engineering approach to any industry, with the deepest experience in federal healthcare, where production data is off-limits and environments are restricted. Work with stakeholders to clarify requirements and acceptance criteria, weigh technical constraints, demo changes, and help teams adopt the tools I build. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST APIs, Tableau dashboards, and CI workflows. Built a Claude-based claims document assistant with human review, and use AI coding assistants for development, debugging, and refactoring."
+      "Bring a customer-facing engineering approach to any industry, with the deepest experience in federal healthcare, where production data is off-limits and environments are restricted. Hands-on with React, TypeScript, JavaScript, Java, SQL, REST APIs, Tableau, and CI workflows, and with generative AI: Claude API, OpenAI and Azure OpenAI, LangChain, LlamaIndex, embeddings, vector databases, prompt engineering, agentic workflows with MCP, and RAG evaluation for answer accuracy and hallucinations. Built Claims Document Assistant, a Claude-based claims PDF assistant with structured outputs, rule-based checks, human review, and an evaluation harness scored against labelled ground truth."
     ],
     "links": [
       {
@@ -71,9 +71,21 @@
         ]
       },
       {
-        "label": "AI-assisted engineering",
+        "label": "Generative AI & agents",
         "items": [
           "Claude API",
+          "OpenAI API",
+          "Azure OpenAI",
+          "LangChain",
+          "LlamaIndex",
+          "RAG",
+          "Embeddings",
+          "Vector databases",
+          "Prompt engineering",
+          "RAG evaluation (accuracy, hallucinations)",
+          "Agentic AI",
+          "MCP",
+          "Claude Code",
           "GitHub Copilot",
           "VS Code",
           "GPT models",
@@ -103,14 +115,14 @@
           "Join working sessions with health-provider claims processors and, at times, VA end users on issues reported in production, to see the full picture and keep future work pointed in the right direction.",
           "Investigate defects and data discrepancies across frontend, backend, and MySQL data; coordinate with developers and stakeholders to resolve delivery dependencies, and document progress, blockers, and operational impact in Jira.",
           "Evaluated alternatives to legacy automation and helped select Playwright, weighing maintainability, reuse, authentication, and restricted environment access; developed a reusable smoke and regression framework that helps QA and developers reduce production bugs and deliver stakeholder requests faster.",
-          "Use GitHub Copilot in VS Code for development, debugging, refactoring, and test creation; use Gemini, GPT models, and Claude to explore implementation approaches."
+          "Apply prompt engineering with GitHub Copilot in VS Code for development, debugging, refactoring, and test creation; use Gemini, GPT models, and Claude to compare implementation approaches, and review and test every generated change before it ships."
         ],
         "customer": "U.S. Department of Veterans Affairs (VA)",
         "compactHighlights": [
           "Integrate claim-status APIs with health providers so VA staff, providers, and veterans see live status by role; created a claims framework that notifies the right party so claims keep moving.",
           "Built Data Generator & File Processing, used daily by the team: a full dev database or 10,000 records in under 5 minutes instead of hours; also built a Playwright framework.",
           "Work directly with VA stakeholders: define requirements, lead demos each release cycle since 2022, and join working sessions with claims processors and VA users on production issues.",
-          "Enabled the team to use Tableau and built custom VA and internal dashboards, now the main view of server health and system status.",
+          "Enabled team-wide Tableau use; built VA and internal dashboards, now the main view of server and system health.",
           "Contribute React, TypeScript, and JavaScript features; trace data issues across frontend, backend, MySQL."
         ],
         "id": "booz-allen-hamilton"
@@ -133,7 +145,7 @@
         "customer": null,
         "compactHighlights": [
           "Investigated REST contracts, schemas, and data integration with Postman and reusable JavaScript tooling.",
-          "Connected GitHub Actions with AWS EC2, S3, and Aurora test environments; troubleshot OIDC/Okta authentication and application failures."
+          "Connected GitHub Actions to AWS EC2, S3, and Aurora test environments; troubleshot OIDC/Okta sign-in failures."
         ],
         "id": "chick-fil-a"
       },
@@ -287,6 +299,7 @@
           "Contribute React, JavaScript, and TypeScript frontend features supporting claim submission, provider updates, and status visibility.",
           "Use MySQL to investigate discrepancies between application behavior and stored data across frontend and backend workflows.",
           "Develop a reusable Playwright smoke and regression framework to validate claims workflows, reduce production bugs, and speed delivery of stakeholder requests.",
+          "Use AI coding assistants (GitHub Copilot, Claude, GPT models, Gemini) with prompt engineering to explore implementations, write tests, and refactor, reviewing every generated change before it ships.",
           "Lead demonstrations at the end of each release cycle and program increment since 2022, incorporate stakeholder feedback, and coordinate defect investigations with developers."
         ],
         "outcome": "User-reported: live claim status now displays in the VA system for staff, providers, and veterans by role, where it was not continuously updated before; a claims framework notifies the right party so claims keep moving and are easier to track; and Tableau dashboards give VA internal staff a full view of system and server health. The Playwright framework helps QA and developers reduce production bugs and deliver stakeholder requests faster. These are not independently measured benchmarks.",
@@ -298,7 +311,8 @@
           "Tableau",
           "JavaScript",
           "MySQL",
-          "Playwright"
+          "Playwright",
+          "AI-assisted development"
         ],
         "highlights": [
           "Live claim status through health-provider API integration",
@@ -307,7 +321,8 @@
           "React, TypeScript, and MySQL delivery",
           "Stakeholder discovery, working sessions, and acceptance criteria",
           "Demonstrations every release cycle and program increment",
-          "Playwright smoke and regression framework"
+          "Playwright smoke and regression framework",
+          "AI-assisted development with review of every generated change"
         ],
         "audience": "VA staff, health-provider claims processors, veterans, and the engineering teams supporting healthcare claims workflows.",
         "systems": [
@@ -322,7 +337,8 @@
           "Changes must account for shared data across two frontends; a visible UI issue can require investigation beyond the affected screen.",
           "Stakeholder acceptance criteria guide implementation and validation within restricted environments.",
           "Tableau became the main monitoring view because VA stakeholders repeatedly asked for one place to see system status, and self-service dashboards let users build views without waiting on developers.",
-          "The claims framework routes work to the right party instead of relying on people noticing a stalled claim."
+          "The claims framework routes work to the right party instead of relying on people noticing a stalled claim.",
+          "AI goes only where the data rules allow. Claims records include protected health information and the environments are restricted, so any AI assistant on this workflow would need approved data, a provider agreement, and a measured evaluation of answer accuracy and hallucinations first. I prototype that kind of work on synthetic data instead, in Claims Document Assistant."
         ],
         "relevance": "This is the core of forward deployed engineering for me: work with stakeholders and end users to find the real problem, build and integrate the fix, demo it, and make sure people can use it.",
         "evidence": [
@@ -342,6 +358,10 @@
           {
             "slug": "ccrs-test-data-tooling",
             "label": "Data Generator & File Processing: the separate test-data tool"
+          },
+          {
+            "slug": "claims-document-assistant",
+            "label": "Claims Document Assistant: an independent AI prototype for claims document review"
           }
         ],
         "experienceId": "booz-allen-hamilton",
@@ -397,7 +417,7 @@
           "A desktop app keeps file selection, processing, and packaging local; the cost is Windows installation and update handling, solved with versioned installers and in-app release notes.",
           "The upload queue tries each target once per run, keeps going after a failure, and offers explicit retries; completion checks the remote file size rather than trusting the transfer."
         ],
-        "relevance": "This is how I handle a recurring team need: find where people lose time, build a tool for it, connect it to the systems it touches, and keep supporting it as the team relies on it.",
+        "relevance": "This is how I handle a recurring team need: find where people lose time, build a tool for it, connect it to the systems it touches, and keep supporting it as the team relies on it. Synthetic data like this is also what lets AI work be evaluated safely: Claims Document Assistant builds its labelled test set on the same referral fields.",
         "evidence": [
           {
             "label": "Browse the source",
@@ -433,24 +453,26 @@
         "role": "Designer and engineer",
         "period": "2026",
         "name": "Claims Document Assistant",
-        "description": "An AI assistant that reads claim PDFs with Claude, pulls out 17 fields, flags missing or invalid information with fixed rules, and drafts the status reply for a person to review and approve.",
+        "description": "An AI assistant that reads claim PDFs with Claude, uses prompt engineering and structured outputs to pull out 17 fields, flags missing or invalid information with fixed rules, and drafts the status reply for a person to review and approve.",
         "challenge": "Claims examiners read every submitted document by hand to find the fields they need, check what is missing or wrong, and write back to the billing office. Documents arrive as forms, cover letters, and shorthand notes, so template-based extraction breaks as soon as the layout changes.",
         "audience": "Claims-processing teams that review submitted documents and reply to billing offices, and the engineers who would evaluate an assistant like this before using it on real data.",
         "approach": [
-          "Send each claim PDF to Claude as a document block, with structured outputs constraining the answer to a fixed 17-field claim schema and an instruction to return null rather than guess.",
+          "Send each claim PDF to Claude as a document block, with structured outputs constraining the answer to a fixed 17-field claim schema and a prompt that tells the model to return null rather than guess, a guard against hallucinated values.",
           "Validate the extracted fields with deterministic rules, not the model: required fields, NPI check digits, ICD-10 and CPT formats, date order, expired referrals, and non-positive amounts.",
           "Draft a short status reply from the rule findings, with a template fallback when no API key is set or the model call fails.",
           "Queue every result for a person: the reviewer sees the PDF beside the fields, edits fields or the draft, then approves, escalates, or rejects. Corrections are re-validated and every decision is logged.",
           "Route declined requests to manual review instead of returning an empty result.",
-          "Generate 60 labelled synthetic claim PDFs in three layouts, using the referral fields from Data Generator & File Processing, and score extractors against that ground truth."
+          "Generate 60 labelled synthetic claim PDFs in three layouts, using the referral fields from Data Generator & File Processing, and score extractors with an evaluation harness: accuracy on all 17 fields (including fields left blank on purpose, so an invented value counts as an error), issue-flag precision and recall, routing accuracy, latency, and token usage."
         ],
         "outcome": "The assistant extracts, checks, and drafts replies end to end on synthetic data, and nothing goes out until a reviewer approves it. A 26-test suite covers the validation rules, the exact request sent to Claude, refusal handling, reply drafts, and the review queue. Claude's extraction accuracy has not been measured yet; the repository includes the evaluation command that will produce it.",
         "repository": "https://github.com/mohamedmoheyeldin/claims-document-assistant",
         "repositoryVisibility": "public",
         "technologies": [
           "Claude API",
-          "TypeScript",
+          "Prompt engineering",
           "Structured outputs",
+          "LLM evaluation",
+          "TypeScript",
           "Node.js",
           "Zod",
           "Human-in-the-loop review"
@@ -461,6 +483,7 @@
           "Status reply drafted for review, never sent automatically",
           "Review queue with audit log of every correction",
           "60 synthetic claims in three layouts with ground truth",
+          "Evaluation harness scores every field against ground truth, so invented values count as errors",
           "26 automated tests that run without an API key"
         ],
         "systems": [
@@ -473,7 +496,8 @@
           "The model extracts and drafts, but rules decide whether a claim is complete, so the outcome is predictable and testable.",
           "A person approves every reply; the assistant never sends anything itself.",
           "Synthetic data only. Using real claims would also need a provider agreement covering protected health information, access control on the review queue, retention rules, and an evaluation on a labelled sample of real documents.",
-          "Accuracy is reported only from the evaluation against ground truth. The rules baseline is published; Claude's results will be added once the evaluation runs with an API key."
+          "Accuracy is reported only from the evaluation against ground truth. The rules baseline is published; Claude's results will be added once the evaluation runs with an API key.",
+          "No retrieval layer yet, because each claim is a self-contained document. If replies had to cite payer rules or policy text, the next step would be retrieval-augmented generation (embeddings and a vector database over that text), evaluated the same way for answer accuracy and hallucinations."
         ],
         "relevance": "This is the kind of AI build I would bring to a healthcare or government team: the model handles messy documents, rules and a person stay in control, and every claim about accuracy comes from a measured evaluation.",
         "evidence": [
@@ -499,7 +523,7 @@
           "value": "17 fields",
           "label": "extracted from each claim PDF, with every reply held for human approval; tested on 60 synthetic claims."
         },
-        "resumeSummary": "Claude API assistant that extracts 17 fields from claim PDFs, flags gaps with fixed rules, and drafts replies a reviewer approves; 26 tests."
+        "resumeSummary": "Claude API assistant: prompt-engineered extraction of 17 claim-PDF fields, rule checks, human review, and an eval harness."
       },
       {
         "slug": "portfolio-career-content-system",
@@ -515,7 +539,7 @@
           "Rebuilt the portfolio on the official Untitled UI React and Vite stack, preserving static pages, content validation, and resume downloads.",
           "Generated separate PDF and DOCX formats from the same factual source while preserving channel-appropriate layout.",
           "Added strict diagnostics, static production builds, subpath packaging checks, and explicit deployment configuration.",
-          "Maintain the codebase with Claude Code, a Graphify knowledge graph rebuilt on every commit, and linked Obsidian project notes, so each change starts from a current map of the code and a record of earlier decisions."
+          "Maintain the codebase with Claude Code as an agentic coding workflow, connected through the Model Context Protocol (MCP) to the Untitled UI component server, with a Graphify knowledge graph rebuilt on every commit and linked Obsidian project notes, so each change starts from a current map of the code and a record of earlier decisions."
         ],
         "outcome": "One publishing workflow keeps the site and every resume format in sync.",
         "repository": "https://github.com/mohamedmoheyeldin/portfolio",
@@ -528,6 +552,7 @@
           "GitHub Actions",
           "Cloudflare",
           "Claude Code",
+          "MCP",
           "Graphify",
           "Obsidian"
         ],
@@ -674,7 +699,7 @@
           "Risk-based coverage focused investigation on customer and business impact; exploratory work supplemented repeatable regression scenarios.",
           "Reproducible defect reports connected a symptom to its environment and data, giving developers enough context to investigate and verify a fix."
         ],
-        "relevance": "Gathering requirements, checking data with SQL, and writing clear handoffs are what I use now to take a customer problem to a working solution.",
+        "relevance": "Gathering requirements, checking data with SQL, and writing clear handoffs are what I use now to take a customer problem to a working solution, and the same test-planning habits carry into evaluating AI output.",
         "evidence": [
           {
             "label": "Documented delivery responsibilities",
