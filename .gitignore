@@ -12,3 +12,7 @@ tmp/
 workers/studio/worker-configuration.d.ts
 __pycache__/
 graphify-out/
+
+# Local editor and Claude launch settings
+.claude/launch.json
+.vscode/
